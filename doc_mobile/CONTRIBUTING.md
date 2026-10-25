@@ -3,12 +3,15 @@
 ## Code Contributions
 Only changes that fall within the scope of the [project goals](../README.md#project-goals) will be accepted.
 
-If you want to implement a major feature or a semantical change, please open an issue for discussion first. For minor fixes, feel free to just open a pull request.
+If you want to implement a major feature or a semantical change, please open an issue for discussion first. For minor
+fixes, feel free to just open a pull request.
 
 ### Commit guidelines
-Please ensure that commits messages adhere to the [Node.js commit message guidelines](https://github.com/nodejs/node/blob/master/CONTRIBUTING.md#commit-message-guidelines).
+Please ensure that commits messages adhere to the [Node.js commit message
+guidelines](https://github.com/nodejs/node/blob/master/CONTRIBUTING.md#commit-message-guidelines).
 
-Platform-specific fixes for Android or iOS should be implemented in separate commits, and the titles of those commits should include `android` or `ios` in the list of affected subsystems.
+Platform-specific fixes for Android or iOS should be implemented in separate commits, and the titles of those commits
+should include `android` or `ios` in the list of affected subsystems.
 
 <a id="developers-certificate-of-origin"></a>
 
@@ -27,7 +30,8 @@ To update the version of node.js used in this project, carefully follow these st
     4.5. `git commit -m "Update node.js to vX.y.z"` to create a single commit with all changes
 5. `git format-patch -1 HEAD -o ../` which will create a patch file in the parent directory
 6. `cd` into the nodejs-mobile repository
-7. Apply the patch file with `git am --3way --ignore-space-change ../0001-Node.js-vA.b.c.patch` (sometimes it may be useful to use the flag `--reject`)
+7. Apply the patch file with `git am --3way --ignore-space-change ../0001-Node.js-vA.b.c.patch` (sometimes it may be useful
+  to use the flag `--reject`)
 8. Manually resolve git conflicts that may arise
 
 ## Developer's Certificate of Origin 1.1

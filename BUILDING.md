@@ -45,7 +45,10 @@ git checkout mobile-master
 
 ### 2a) Using the Android helper script:
 
-The `tools/android_build.sh` script takes as first argument the Android NDK path (in our case is `~/AndroidSDK/ndk/24.0.8215888`). The second argument must be the Android SDK version as a two-digit number. The third argument is the target architecture, which can be one of the following: `arm`, `x86`, `arm64` or `x86_64`. You can omit the third argument, and it will build all available architectures.
+The `tools/android_build.sh` script takes as first argument the Android NDK path (in our case is
+`~/AndroidSDK/ndk/24.0.8215888`). The second argument must be the Android SDK version as a two-digit number. The third
+argument is the target architecture, which can be one of the following: `arm`, `x86`, `arm64` or `x86_64`. You can omit the
+third argument, and it will build all available architectures.
 
 Run (example arguments):
 
@@ -56,7 +59,8 @@ Run (example arguments):
 When done, each built shared library will be placed in `out_android/$(ARCHITECTURE)/libnode.so`.
 
 ### 2b) Configure and build manually:
-Run the `android-configure` script to configure the build with the path to the downloaded NDK and the desired target architecture.
+Run the `android-configure` script to configure the build with the path to the downloaded NDK and the desired target
+architecture.
 
 ```sh
 source ./android-configure ../AndroidSDK/ndk/24.0.8215888 arm
@@ -121,7 +125,11 @@ git checkout main
 ./tools/ios_framework_prepare.sh
 ```
 
-That will configure `gyp` to build Node.js and its dependencies as static libraries for iOS on the arm64 and x64 architectures, using the `v8` engine configured to start with JIT disabled. The script copies those libraries to `tools/ios-framework/bin/arm64` and `tools/ios-framework/bin/x64`, respectively. It also merges them into static libraries that contain strips for both architectures, which will be placed in `tools/ios-framework/bin` and used by the `tools/ios-framework/NodeMobile.xcodeproj` Xcode project.
+That will configure `gyp` to build Node.js and its dependencies as static libraries for iOS on the arm64 and x64
+architectures, using the `v8` engine configured to start with JIT disabled. The script copies those libraries to
+`tools/ios-framework/bin/arm64` and `tools/ios-framework/bin/x64`, respectively. It also merges them into static libraries
+that contain strips for both architectures, which will be placed in `tools/ios-framework/bin` and used by the
+`tools/ios-framework/NodeMobile.xcodeproj` Xcode project.
 
 The helper script builds the `tools/ios-framework/NodeMobile.xcodeproj` Xcode project into three frameworks:
   - The framework to run on iOS devices: `out_ios/Release-iphoneos/NodeMobile.framework`

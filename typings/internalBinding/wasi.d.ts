@@ -11,4 +11,3 @@ declare namespace InternalWASIBinding {
 export interface WASIBinding {
   WASI: typeof InternalWASIBinding.WASI;
 }
-
