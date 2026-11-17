@@ -1,5 +1,132 @@
+# 默认:所有文本文件统一 LF;Windows 专有脚本另行覆盖
+* text=auto eol=lf
+
+# 路径模式一律用正斜杠 /;Git 在所有平台按 / 解析,Windows 下写反斜杠无效
+
+# 文档
+*.md text eol=lf
+*.markdown text eol=lf
+*.rst text eol=lf
+*.txt text eol=lf
+*.adoc text eol=lf
+
+# Web 与配置
+*.js text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.jsonc text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.xml text eol=lf
+
+# C / C++ 与构建描述
+*.c text eol=lf
+*.cc text eol=lf
+*.cpp text eol=lf
+*.cxx text eol=lf
+*.h text eol=lf
+*.hh text eol=lf
+*.hpp text eol=lf
+*.hxx text eol=lf
+*.inl text eol=lf
+*.gyp text eol=lf
+*.gypi text eol=lf
+*.gn text eol=lf
+*.gni text eol=lf
+Makefile text eol=lf
+GNUmakefile text eol=lf
+CMakeLists.txt text eol=lf
+*.cmake text eol=lf
+
+# Unix shell 脚本
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# 版本控制与工具配置
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.npmignore text eol=lf
+.editorconfig text eol=lf
+.eslintignore text eol=lf
+.npmrc text eol=lf
+.nycrc text eol=lf
+
+# Windows 专有脚本:CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+*.vbs text eol=crlf
+
+# 二进制:不做换行符转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.ogg binary
+*.webm binary
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+*.obj binary
+*.pdb binary
+*.ilk binary
+*.idb binary
+*.exp binary
+*.lib binary
+*.res binary
+*.tlog binary
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+*.a binary
+*.o binary
+*.node binary
+*.jar binary
+*.zip binary
+*.tgz binary
+*.gz binary
+*.tar binary
+*.7z binary
+*.rar binary
+*.bin binary
+*.dat binary
+*.pyc binary
+*.wasm binary
+*.keystore binary
+*.jks binary
+*.p12 binary
+*.mobileprovision binary
+*.pem binary
+*.der binary
+*.crl binary
+*.pfx binary
+
+# 本项目特例
 test/fixtures/* -text
-vcbuild.bat text eol=crlf
 deps/npm/bin/npm text eol=lf
 deps/npm/bin/npx text eol=lf
 deps/corepack/shims/corepack text eol=lf
