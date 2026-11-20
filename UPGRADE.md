@@ -50,7 +50,7 @@
 │   ├── out_android/                   # 最终产物目录
 │   │   └── libnode.zip                # ★ 唯一发布物(完整包:bin + include,约 88M)
 │   └── ... (其他官方源码)
-└── nodejs-mobile-build-backup/        # 备份目录(可选)
+└── nodejs-mobile-v22/                  # v22 及更早版本的源码与产物备份
 ```
 
 ### 1.2 你的测试项目端(以使用 `@flun/node-mobile-app`包为例)
@@ -170,7 +170,7 @@ make -j2
 - **4.9 trap-handler.h**:查 `V8_TRAP_HANDLER_SUPPORTED` 默认值是否已对 Android 关闭;
 - **4.10 handles.h**:搜 `__clang_major__ >= 17` 是否仍在;该块移除则跳过;
 - **4.11 CPU_FEATURES**:报 `arm_cpu_enable_pmull` 等重复符号时,查 `common.gypi` 是否加回该宏;
-- **4.12 V8 源文件**:搜 `RegisterDefaultTrapHandler` 调用点;4.8 的 `defines` 生效则跳过;
+- **4.12 V8 源文件**:搜 `RegisterDefaultTrapHandler` 调用点;v24 必须完整执行,host 工具不受 4.8 的 `defines` 影响,见 4.19;
 - **4.13 CJS loader**:搜 `Module._load` 是否仍在;`rn-bridge` 专项检查见 10.4;
 
 ### 4.1 下载并解压 v22.23.2 源码
@@ -185,17 +185,17 @@ tar -xzf node-v22.23.2.tar.gz
 
 ### 4.2 重命名旧项目并创建新目录
 ```bash
-mv nodejs-mobile nodejs-mobile-v18
+mv nodejs-mobile nodejs-mobile-v22
 mv node-v22.23.2 nodejs-mobile
 cd nodejs-mobile
 ```
 
 ### 4.3 复制 nodejs-mobile 特有文件
 ```bash
-cp -r ../nodejs-mobile-v18/android-configure .
-cp -r ../nodejs-mobile-v18/android_configure.py .
-cp -r ../nodejs-mobile-v18/android-patches .
-cp -r ../nodejs-mobile-v18/doc_mobile .
+cp -r ../nodejs-mobile-v22/android-configure .
+cp -r ../nodejs-mobile-v22/android_configure.py .
+cp -r ../nodejs-mobile-v22/android-patches .
+cp -r ../nodejs-mobile-v22/doc_mobile .
 ```
 
 > **4.4–4.13 为版本专属补丁**:依赖具体文件与行号,仅适用于 v22.23.2;
@@ -558,6 +558,69 @@ unzip -l libnode.zip | grep -c "\\.bak$"          # 应为 0
 # 确认 full-icu 数据已编入(icu 数据文件名随版本变化,先查实际名称)
 unzip -p libnode.zip libnode/bin/arm64-v8a/libnode.so | strings | grep -c "icudt"
 ```
+
+### 4.19 v24 的 host 工具链接约束(实测)
+
+**4.19.1 现象**
+
+```
+LINK(host) out/Release/mksnapshot
+undefined reference to `v8::internal::trap_handler::TryHandleSignal(int, siginfo_t*, void*)'
+undefined reference to `v8::internal::trap_handler::RegisterDefaultTrapHandler()'
+```
+
+**4.19.2 根因**
+
+- host 工具 `mksnapshot` 按 x64 Linux 编译;`trap-handler.h` 第一分支
+  (`V8_HOST_ARCH_X64 && V8_TARGET_ARCH_X64 && V8_OS_LINUX`)把 `V8_TRAP_HANDLER_SUPPORTED` 设为 `true`;
+- `handler-outside.cc` 的 `RegisterDefaultTrapHandler()` 定义在 `#if !V8_TRAP_HANDLER_SUPPORTED` 内,
+  因此被条件编译排除,而 `EnableTrapHandler` 仍调用它;
+- `node.gyp` 中 `V8_TRAP_HANDLER_SUPPORTED=0` 只作用于 Android target,**不作用于 host 工具**,挡不住本问题;
+
+**4.19.3 必须完成的修改**
+
+v24 文件末尾是 `}  // namespace v8::internal::trap_handler`,4.12.1 第三条 `sed` 锚定短名
+`namespace trap_handler`,在 v24 不匹配;按以下命令执行(已实测通过):
+
+```bash
+cd /mnt/d/nodejs-mobile-build/nodejs-mobile
+T='bool TryHandleSignal(int, siginfo_t*, void*) { return false; }'
+sed -i '1i #include <signal.h>' deps/v8/src/trap-handler/handler-outside.cc
+sed -i 's/g_is_trap_handler_enabled = RegisterDefaultTrapHandler();/g_is_trap_handler_enabled = false;/' \
+  deps/v8/src/trap-handler/handler-outside.cc
+sed -i "/^}  \/\/ namespace v8::internal::trap_handler\$/i $T" \
+  deps/v8/src/trap-handler/handler-outside.cc
+grep -n 'TryHandleSignal\|g_is_trap_handler_enabled = \|#include <signal.h>' \
+  deps/v8/src/trap-handler/handler-outside.cc
+```
+
+预期输出:
+
+```
+1:#include <signal.h>
+312:    g_is_trap_handler_enabled = false;
+315:  g_is_trap_handler_enabled = true;
+327:bool TryHandleSignal(int, siginfo_t*, void*) { return false; }
+```
+
+三处缺一不可:缺 `= false` 则 `RegisterDefaultTrapHandler` 未定义;缺桩则 `TryHandleSignal` 未定义;
+缺头文件则 `siginfo_t` 未声明;
+
+**4.19.4 v24 相对 v22 的其它实测差异**
+
+| 项目 | v22 | v24 |
+| --- | --- | --- |
+| `trap-handler.h` Android 关闭段 | 需手动替换(4.9) | 源码已内置 `#if V8_OS_ANDROID` 段,4.9 只需核对 |
+| `NODE_MODULE_VERSION` | 127 | 137,原生模块必须重编 |
+| 原生模块编译标准 | C++17 | 需 C++20,`binding.gyp` 加 `-std=c++20` |
+
+**4.19.5 判定**
+
+若执行后 host `mksnapshot` 仍报上述两个 undefined symbol,按以下顺序只读排查:
+
+1. `grep -n 'V8_TRAP_HANDLER_SUPPORTED' deps/v8/src/trap-handler/trap-handler.h`;确认 x64 Linux 分支是否为 false;
+2. `grep -n 'RegisterDefaultTrapHandler' deps/v8/src/trap-handler/handler-outside.cc`;确认调用行已替换;
+3. `grep -n 'TryHandleSignal' deps/v8/src/trap-handler/handler-outside.cc`;确认桩在 namespace 内、未被 `#if` 包裹;
 
 ---
 
@@ -944,7 +1007,7 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
   - 修改阶段:编译前
   - 谁做:编译者
 - `deps/v8/src/trap-handler/handler-outside.cc`
-  - 修改内容:禁用 trap handler 桩函数
+  - 修改内容:禁用 trap handler 桩函数;v24 必须完整执行,缺一即 host 链接失败(见 4.19)
   - 修改阶段:编译前
   - 谁做:编译者
 - `deps/v8/src/execution/arm64/simulator-arm64.cc`
@@ -1015,6 +1078,10 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
 
 8. **测试运行**:应用启动后,`main.js` 中 `require('rn-bridge')` 应返回包含 `channel` 和 `app` 属性的对象;
 
+9. **host 工具链接**:v24 的 `mksnapshot` 按 x64 Linux 编译,`V8_TRAP_HANDLER_SUPPORTED` 不受 `node.gyp` 控制;见 4.19;
+
+10. **v24 原生模块**:`NODE_MODULE_VERSION` 为 137;带 C++ 代码的包需以 `-std=c++20` 重编,纯 JS 项目不受影响;
+
 ### 10.5 长期优化方向
 
 **当前方案**:发布完整 `libnode.zip`,用户下载后直接替换整个 `libnode/` 目录;
@@ -1028,7 +1095,7 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
 
 ## 十一、总结
 
-本指南基于实际成功升级过程编写,涵盖 v18→v22 的完整路径;关键点:
+本指南基于实际成功升级过程编写,涵盖 v18→v22→v24 的完整路径;关键点:
 
 1. 保留 nodejs-mobile 特有文件;
 2. 修改构建配置以支持 Python 3.14;
@@ -1046,10 +1113,12 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
 14. 用户下载后直接替换插件 `android/libnode/` 整个目录,无需再手动改头文件;
 15. **官方源码包与 headers 包解压后目录同名**,必须先解压 headers 并改名(`node-v22.23.2-headers/`),避免与源码目录冲突;
 16. 将补丁固化,每次升级重新应用,并按 10.4 节清单逐项检查;
+17. v24 的 host 工具链接约束(4.19)是相对 v22 唯一新增的源码修改;其余补丁相同;
 
 ---
 
-**文档版本**:16.1(9.15 + 9.16 合并为一条"CLI 已自动"提示;10.2 表格新增"谁做"列,标注 `rn-bridge.cpp` / `build.gradle` 为 
+**文档版本**:17.0(9.15 + 9.16 合并为一条"CLI 已自动"提示;10.2 表格新增"谁做"列,标注 `rn-bridge.cpp` / `build.gradle` 为 
 CLI 自动)
-**最后更新**:2026-09-19
+v24 增补:4.19、10.2/10.4/11 章对应条目;备份目录改为 `nodejs-mobile-v22/`;
+**最后更新**:2026-11-20
 **作者**:根据实际升级过程整理
