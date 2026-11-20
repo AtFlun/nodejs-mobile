@@ -35,6 +35,7 @@ using errors::TryCatchScope;
 using v8::Array;
 using v8::ArrayBuffer;
 using v8::BackingStore;
+using v8::BackingStoreInitializationMode;
 using v8::Boolean;
 using v8::Context;
 using v8::DontDelete;
@@ -56,7 +57,7 @@ using v8::Value;
 namespace {
 template <int (*fn)(uv_udp_t*, int)>
 void SetLibuvInt32(const FunctionCallbackInfo<Value>& args) {
-  UDPWrap* wrap = Unwrap<UDPWrap>(args.This());
+  UDPWrap* wrap = BaseObject::Unwrap<UDPWrap>(args.This());
   if (wrap == nullptr) {
     args.GetReturnValue().Set(UV_EBADF);
     return;
@@ -223,9 +224,7 @@ void UDPWrap::Initialize(Local<Object> target,
   env->set_udp_constructor_function(t->GetFunction(context).ToLocalChecked());
 
   // Create FunctionTemplate for SendWrap
-  Local<FunctionTemplate> swt =
-      BaseObject::MakeLazilyInitializedJSTemplate(env);
-  swt->Inherit(AsyncWrap::GetConstructorTemplate(env));
+  Local<FunctionTemplate> swt = AsyncWrap::MakeLazilyInitializedJSTemplate(env);
   SetConstructorFunction(context, target, "SendWrap", swt);
 
   Local<Object> constants = Object::New(isolate);
@@ -759,7 +758,8 @@ void UDPWrap::OnRecv(ssize_t nread,
   } else if (static_cast<size_t>(nread) != bs->ByteLength()) {
     CHECK_LE(static_cast<size_t>(nread), bs->ByteLength());
     std::unique_ptr<BackingStore> old_bs = std::move(bs);
-    bs = ArrayBuffer::NewBackingStore(isolate, nread);
+    bs = ArrayBuffer::NewBackingStore(
+        isolate, nread, BackingStoreInitializationMode::kUninitialized);
     memcpy(bs->Data(), old_bs->Data(), nread);
   }
 

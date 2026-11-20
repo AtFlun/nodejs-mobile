@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Console | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Console | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="console" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -361,7 +361,7 @@
         <h2>Console<span><a class="mark" href="#console" id="console">#</a></span><a aria-hidden="true" class="legacy" id="console_console"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/console.js">lib/console.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/console.js">lib/console.js</a></p>
 <p>The <code>node:console</code> module provides a simple debugging console that is similar to
 the JavaScript console mechanism provided by web browsers.</p>
 <p>The module exports two specific components:</p>
@@ -439,6 +439,8 @@ or <code>console.Console</code> (or their destructured counterparts):</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.10.0</td>
+<td><p>The <code>inspectOptions</code> option can be a <code>Map</code> from stream to options.</p></td></tr>
 <tr><td>v14.2.0, v12.17.0</td>
 <td><p>The <code>groupIndentation</code> option was introduced.</p></td></tr>
 <tr><td>v11.7.0</td>
@@ -464,8 +466,9 @@ Setting to <code>true</code> enables coloring while inspecting values. Setting t
 and the value returned by <code>getColorDepth()</code> on the respective stream. This
 option can not be used, if <code>inspectOptions.colors</code> is set as well.
 <strong>Default:</strong> <code>'auto'</code>.</li>
-<li><code>inspectOptions</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Specifies options that are passed along to
-<a href="util.html#utilinspectobject-options"><code>util.inspect()</code></a>.</li>
+<li><code>inspectOptions</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" class="type">&#x3C;Map></a> Specifies options that are passed along to
+<a href="util.html#utilinspectobject-options"><code>util.inspect()</code></a>. Can be an options object or, if different options
+for stdout and stderr are desired, a <code>Map</code> from stream objects to options.</li>
 <li><code>groupIndentation</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Set group indentation.
 <strong>Default:</strong> <code>2</code>.</li>
 </ul>
@@ -554,26 +557,25 @@ binary.</p>
 </ul>
 <p>Maintains an internal counter specific to <code>label</code> and outputs to <code>stdout</code> the
 number of times <code>console.count()</code> has been called with the given <code>label</code>.</p>
-<!-- eslint-skip -->
-<pre><code class="language-js">> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>()
-<span class="hljs-attr">default</span>: <span class="hljs-number">1</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'default'</span>)
-<span class="hljs-attr">default</span>: <span class="hljs-number">2</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'abc'</span>)
-<span class="hljs-attr">abc</span>: <span class="hljs-number">1</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'xyz'</span>)
-<span class="hljs-attr">xyz</span>: <span class="hljs-number">1</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'abc'</span>)
-<span class="hljs-attr">abc</span>: <span class="hljs-number">2</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>()
-<span class="hljs-attr">default</span>: <span class="hljs-number">3</span>
-<span class="hljs-literal">undefined</span>
-></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-console"><span class="hljs-meta prompt_">> </span><span class="language-bash">console.count()</span>
+default: 1
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'default'</span>)</span>
+default: 2
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'abc'</span>)</span>
+abc: 1
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'xyz'</span>)</span>
+xyz: 1
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'abc'</span>)</span>
+abc: 2
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count()</span>
+default: 3
+undefined
+<span class="hljs-meta prompt_">></span></code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>console.countReset([label])</code><span><a class="mark" href="#consolecountresetlabel" id="consolecountresetlabel">#</a></span><a aria-hidden="true" class="legacy" id="console_console_countreset_label"></a></h4>
 <div class="api_metadata">
@@ -583,16 +585,15 @@ number of times <code>console.count()</code> has been called with the given <cod
 <li><code>label</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The display label for the counter. <strong>Default:</strong> <code>'default'</code>.</li>
 </ul>
 <p>Resets the internal counter specific to <code>label</code>.</p>
-<!-- eslint-skip -->
-<pre><code class="language-js">> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'abc'</span>);
-<span class="hljs-attr">abc</span>: <span class="hljs-number">1</span>
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">countReset</span>(<span class="hljs-string">'abc'</span>);
-<span class="hljs-literal">undefined</span>
-> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">count</span>(<span class="hljs-string">'abc'</span>);
-<span class="hljs-attr">abc</span>: <span class="hljs-number">1</span>
-<span class="hljs-literal">undefined</span>
-></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-console"><span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'abc'</span>);</span>
+abc: 1
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.countReset(<span class="hljs-string">'abc'</span>);</span>
+undefined
+<span class="hljs-meta prompt_">> </span><span class="language-bash">console.count(<span class="hljs-string">'abc'</span>);</span>
+abc: 1
+undefined
+<span class="hljs-meta prompt_">></span></code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>console.debug(data[, ...args])</code><span><a class="mark" href="#consoledebugdata-args" id="consoledebugdata-args">#</a></span><a aria-hidden="true" class="legacy" id="console_console_debug_data_args"></a></h4>
 <div class="api_metadata">

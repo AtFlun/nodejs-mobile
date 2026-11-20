@@ -6,7 +6,7 @@ const assert = require('assert');
 const prefix = "Failed to execute 'structuredClone'";
 const key = 'transfer';
 const context = 'Options';
-const memberConverterError = `${prefix}: ${key} in ${context} can not be converted to sequence.`;
+const memberConverterError = `${prefix}: ${key} in ${context} cannot be converted to sequence.`;
 const dictionaryConverterError = `${prefix}: ${context} cannot be converted to a dictionary`;
 
 assert.throws(() => structuredClone(), { code: 'ERR_MISSING_ARGS' });
@@ -39,6 +39,40 @@ for (const StreamClass of [ReadableStream, WritableStream, TransformStream]) {
   const extendedTransfer = structuredClone(extendedOriginal, { transfer: [extendedOriginal] });
   assert.strictEqual(Object.getPrototypeOf(extendedTransfer), StreamClass.prototype);
   assert.ok(extendedTransfer instanceof StreamClass);
+}
+
+for (const Transferrable of [File, Blob]) {
+  const a2 = Transferrable === File ? '' : {};
+  const original = new Transferrable([], a2);
+  const transfer = structuredClone(original);
+  assert.strictEqual(Object.getPrototypeOf(transfer), Transferrable.prototype);
+  assert.ok(transfer instanceof Transferrable);
+
+  const extendedOriginal = new (class extends Transferrable {})([], a2);
+  const extendedTransfer = structuredClone(extendedOriginal);
+  assert.strictEqual(Object.getPrototypeOf(extendedTransfer), Transferrable.prototype);
+  assert.ok(extendedTransfer instanceof Transferrable);
+}
+
+// Transfer can be iterable
+{
+  const value = {
+    a: new ReadableStream(),
+    b: new WritableStream(),
+  };
+  const cloned = structuredClone(value, {
+    transfer: {
+      *[Symbol.iterator]() {
+        for (const key in value) {
+          yield value[key];
+        }
+      }
+    }
+  });
+  for (const key in value) {
+    assert.ok(value[key].locked);
+    assert.ok(!cloned[key].locked);
+  }
 }
 
 {

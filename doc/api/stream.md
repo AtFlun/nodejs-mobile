@@ -70,6 +70,11 @@ or `require('node:stream').promises`.
 added: v15.0.0
 changes:
   - version:
+      - v19.7.0
+      - v18.16.0
+    pr-url: https://github.com/nodejs/node/pull/46307
+    description: Added support for webstreams.
+  - version:
       - v18.0.0
       - v17.2.0
       - v16.14.0
@@ -79,13 +84,14 @@ changes:
                  ends.
 -->
 
-* `streams` {Stream\[]|Iterable\[]|AsyncIterable\[]|Function\[]}
-* `source` {Stream|Iterable|AsyncIterable|Function}
+* `streams` {Stream\[]|Iterable\[]|AsyncIterable\[]|Function\[]|
+  ReadableStream\[]|WritableStream\[]|TransformStream\[]}
+* `source` {Stream|Iterable|AsyncIterable|Function|ReadableStream}
   * Returns: {Promise|AsyncIterable}
-* `...transforms` {Stream|Function}
+* `...transforms` {Stream|Function|TransformStream}
   * `source` {AsyncIterable}
   * Returns: {Promise|AsyncIterable}
-* `destination` {Stream|Function}
+* `destination` {Stream|Function|WritableStream}
   * `source` {AsyncIterable}
   * Returns: {Promise|AsyncIterable}
 * `options` {Object} Pipeline options
@@ -761,7 +767,9 @@ console.log(myStream.destroyed); // true
 <!-- YAML
 added: v0.9.4
 changes:
-  - version: v22.0.0
+  - version:
+    - v22.0.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/51866
     description: The `chunk` argument can now be a `TypedArray` or `DataView` instance.
   - version: v15.0.0
@@ -876,7 +884,7 @@ added:
   - v18.0.0
   - v16.17.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -978,10 +986,14 @@ Getter for the property `objectMode` of a given `Writable` stream.
 ##### `writable[Symbol.asyncDispose]()`
 
 <!-- YAML
-added: v22.4.0
+added:
+- v22.4.0
+- v20.16.0
+changes:
+ - version: v24.2.0
+   pr-url: https://github.com/nodejs/node/pull/58467
+   description: No longer experimental.
 -->
-
-> Stability: 1 - Experimental
 
 Calls [`writable.destroy()`][writable-destroy] with an `AbortError` and returns
 a promise that fulfills when the stream is finished.
@@ -991,7 +1003,9 @@ a promise that fulfills when the stream is finished.
 <!-- YAML
 added: v0.9.4
 changes:
-  - version: v22.0.0
+  - version:
+    - v22.0.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/51866
     description: The `chunk` argument can now be a `TypedArray` or `DataView` instance.
   - version: v8.0.0
@@ -1638,7 +1652,7 @@ the stream has not been destroyed or emitted `'error'` or `'end'`.
 <!-- YAML
 added: v16.8.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -1654,7 +1668,7 @@ added:
   - v16.7.0
   - v14.18.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -1838,7 +1852,9 @@ setTimeout(() => {
 <!-- YAML
 added: v0.9.11
 changes:
-  - version: v22.0.0
+  - version:
+    - v22.0.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/51866
     description: The `chunk` argument can now be a `TypedArray` or `DataView` instance.
   - version: v8.0.0
@@ -1988,9 +2004,11 @@ has less then 64 KiB of data because no `highWaterMark` option is provided to
 added:
  - v20.4.0
  - v18.18.0
+changes:
+ - version: v24.2.0
+   pr-url: https://github.com/nodejs/node/pull/58467
+   description: No longer experimental.
 -->
-
-> Stability: 1 - Experimental
 
 Calls [`readable.destroy()`][readable-destroy] with an `AbortError` and returns
 a promise that fulfills when the stream is finished.
@@ -2002,12 +2020,12 @@ added:
   - v19.1.0
   - v18.13.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
 
-* `stream` {Stream|Iterable|AsyncIterable|Function}
+* `stream` {Writable|Duplex|WritableStream|TransformStream|Function}
 * `options` {Object}
   * `signal` {AbortSignal} allows destroying the stream if the signal is
     aborted.
@@ -2026,20 +2044,25 @@ async function* splitToWords(source) {
   }
 }
 
-const wordsStream = Readable.from(['this is', 'compose as operator']).compose(splitToWords);
+const wordsStream = Readable.from(['text passed through', 'composed stream']).compose(splitToWords);
 const words = await wordsStream.toArray();
 
-console.log(words); // prints ['this', 'is', 'compose', 'as', 'operator']
+console.log(words); // prints ['text', 'passed', 'through', 'composed', 'stream']
 ```
 
-See [`stream.compose`][] for more information.
+`readable.compose(s)` is equivalent to `stream.compose(readable, s)`.
+
+This method also allows for an {AbortSignal} to be provided, which will destroy
+the composed stream when aborted.
+
+See [`stream.compose(...streams)`][] for more information.
 
 ##### `readable.iterator([options])`
 
 <!-- YAML
 added: v16.3.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -2711,7 +2734,9 @@ further errors except from `_destroy()` may be emitted as `'error'`.
 #### `stream.duplexPair([options])`
 
 <!-- YAML
-added: v22.6.0
+added:
+  - v22.6.0
+  - v20.17.0
 -->
 
 * `options` {Object} A value to pass to both [`Duplex`][] constructors,
@@ -2929,6 +2954,9 @@ const server = http.createServer((req, res) => {
 <!-- YAML
 added: v16.9.0
 changes:
+  - version: v24.19.0
+    pr-url: https://github.com/nodejs/node/pull/62562
+    description: Marking the API stable.
   - version:
     - v21.1.0
     - v20.10.0
@@ -2940,8 +2968,6 @@ changes:
     pr-url: https://github.com/nodejs/node/pull/46675
     description: Added support for webstreams.
 -->
-
-> Stability: 1 - `stream.compose` is experimental.
 
 * `streams` {Stream\[]|Iterable\[]|AsyncIterable\[]|Function\[]|
   ReadableStream\[]|WritableStream\[]|TransformStream\[]|Duplex\[]|Function}
@@ -3026,7 +3052,8 @@ await finished(compose(s1, s2, s3));
 console.log(res); // prints 'HELLOWORLD'
 ```
 
-See [`readable.compose(stream)`][] for `stream.compose` as operator.
+For convenience, the [`readable.compose(stream)`][] method is available on
+{Readable} and {Duplex} streams as a wrapper for this function.
 
 ### `stream.isErrored(stream)`
 
@@ -3035,7 +3062,9 @@ added:
   - v17.3.0
   - v16.14.0
 changes:
-  - version: v22.17.0
+  - version:
+      - v24.0.0
+      - v22.17.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3052,7 +3081,9 @@ added:
   - v17.4.0
   - v16.14.0
 changes:
-  - version: v22.17.0
+  - version:
+      - v24.0.0
+      - v22.17.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3123,7 +3154,7 @@ Readable.from([
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3141,7 +3172,7 @@ changes:
 <!-- YAML
 added: v16.8.0
 changes:
-  - version: v22.17.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3156,7 +3187,10 @@ Returns whether the stream has been read from or cancelled.
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.14.0
+    pr-url: https://github.com/nodejs/node/pull/58664
+    description: Add 'type' option to specify 'bytes'.
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
   - version:
@@ -3176,6 +3210,8 @@ changes:
       If no value is provided, the size will be `1` for all the chunks.
       * `chunk` {any}
       * Returns: {number}
+  * `type` {string} Specifies the type of the created `ReadableStream`. Must be
+    `'bytes'` or undefined.
 * Returns: {ReadableStream}
 
 ### `stream.Writable.fromWeb(writableStream[, options])`
@@ -3183,7 +3219,7 @@ changes:
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3201,7 +3237,7 @@ changes:
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3265,7 +3301,7 @@ Duplex.from([
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
@@ -3343,17 +3379,28 @@ duplex.write('hello');
 duplex.once('readable', () => console.log('readable', duplex.read()));
 ```
 
-### `stream.Duplex.toWeb(streamDuplex)`
+### `stream.Duplex.toWeb(streamDuplex[, options])`
 
 <!-- YAML
 added: v17.0.0
 changes:
-  - version: v22.17.0
+  - version: v24.15.0
+    pr-url: https://github.com/nodejs/node/pull/61632
+    description: Added the 'readableType' option to specify the ReadableStream
+                 type. The 'type' option is deprecated.
+  - version: v24.14.0
+    pr-url: https://github.com/nodejs/node/pull/58664
+    description: Added the 'type' option to specify the ReadableStream type.
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57513
     description: Marking the API stable.
 -->
 
 * `streamDuplex` {stream.Duplex}
+* `options` {Object}
+  * `readableType` {string} Specifies the type of the `ReadableStream` half of
+    the created readable-writable pair. Must be `'bytes'` or undefined.
+    (`options.type` is a deprecated alias for this option.)
 * Returns: {Object}
   * `readable` {ReadableStream}
   * `writable` {WritableStream}
@@ -3532,8 +3579,6 @@ First, a stream developer would declare a new JavaScript class that extends one
 of the four basic stream classes (`stream.Writable`, `stream.Readable`,
 `stream.Duplex`, or `stream.Transform`), making sure they call the appropriate
 parent class constructor:
-
-<!-- eslint-disable no-useless-constructor -->
 
 ```js
 const { Writable } = require('node:stream');
@@ -4201,7 +4246,9 @@ It can be overridden by child classes but it **must not** be called directly.
 
 <!-- YAML
 changes:
-  - version: v22.0.0
+  - version:
+    - v22.0.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/51866
     description: The `chunk` argument can now be a `TypedArray` or `DataView` instance.
   - version: v8.0.0
@@ -4945,7 +4992,7 @@ contain multi-byte characters.
 [`readable.setEncoding()`]: #readablesetencodingencoding
 [`stream.Readable.from()`]: #streamreadablefromiterable-options
 [`stream.addAbortSignal()`]: #streamaddabortsignalsignal-stream
-[`stream.compose`]: #streamcomposestreams
+[`stream.compose(...streams)`]: #streamcomposestreams
 [`stream.cork()`]: #writablecork
 [`stream.duplexPair()`]: #streamduplexpairoptions
 [`stream.finished()`]: #streamfinishedstream-options-callback

@@ -220,18 +220,27 @@ try {
 ## Class: `assert.Assert`
 
 <!-- YAML
-added: v22.19.0
+added: v24.6.0
 -->
 
 The `Assert` class allows creating independent assertion instances with custom options.
 
 ### `new assert.Assert([options])`
 
+<!-- YAML
+changes:
+  - version: v24.9.0
+    pr-url: https://github.com/nodejs/node/pull/59762
+    description: Added `skipPrototype` option.
+-->
+
 * `options` {Object}
   * `diff` {string} If set to `'full'`, shows the full diff in assertion errors. Defaults to `'simple'`.
     Accepted values: `'simple'`, `'full'`.
   * `strict` {boolean} If set to `true`, non-strict methods behave like their
     corresponding strict methods. Defaults to `true`.
+  * `skipPrototype` {boolean} If set to `true`, skips prototype and constructor
+    comparison in deep equality checks. Defaults to `false`.
 
 Creates a new assertion instance. The `diff` option controls the verbosity of diffs in assertion error messages.
 
@@ -243,7 +252,8 @@ assertInstance.deepStrictEqual({ a: 1 }, { a: 2 });
 ```
 
 **Important**: When destructuring assertion methods from an `Assert` instance,
-the methods lose their connection to the instance's configuration options (such as `diff` and `strict` settings).
+the methods lose their connection to the instance's configuration options (such
+as `diff`, `strict`, and `skipPrototype` settings).
 The destructured methods will fall back to default behavior instead.
 
 ```js
@@ -255,6 +265,33 @@ myAssert.strictEqual({ a: 1 }, { b: { c: 1 } });
 // This loses the 'full' diff setting - falls back to default 'simple' diff
 const { strictEqual } = myAssert;
 strictEqual({ a: 1 }, { b: { c: 1 } });
+```
+
+The `skipPrototype` option affects all deep equality methods:
+
+```js
+class Foo {
+  constructor(a) {
+    this.a = a;
+  }
+}
+
+class Bar {
+  constructor(a) {
+    this.a = a;
+  }
+}
+
+const foo = new Foo(1);
+const bar = new Bar(1);
+
+// Default behavior - fails due to different constructors
+const assert1 = new Assert();
+assert1.deepStrictEqual(foo, bar); // AssertionError
+
+// Skip prototype comparison - passes if properties are equal
+const assert2 = new Assert({ skipPrototype: true });
+assert2.deepStrictEqual(foo, bar); // OK
 ```
 
 When destructured, methods lose access to the instance's `this` context and revert to default assertion behavior
@@ -316,7 +353,6 @@ process.on('exit', () => {
 
 ```cjs
 const assert = require('node:assert');
-const process = require('node:process');
 
 const tracker = new assert.CallTracker();
 
@@ -603,7 +639,13 @@ An alias of [`assert.ok()`][].
 <!-- YAML
 added: v0.1.21
 changes:
-  - version: v22.2.0
+  - version: v24.0.0
+    pr-url: https://github.com/nodejs/node/pull/57622
+    description: Recursion now stops when either side encounters a circular
+                 reference.
+  - version:
+      - v22.2.0
+      - v20.15.0
     pr-url: https://github.com/nodejs/node/pull/51805
     description: Error cause and errors properties are now compared as well.
   - version: v18.0.0
@@ -678,12 +720,13 @@ are also recursively evaluated by the following rules.
 * [Object wrappers][] are compared both as objects and unwrapped values.
 * `Object` properties are compared unordered.
 * {Map} keys and {Set} items are compared unordered.
-* Recursion stops when both sides differ or both sides encounter a circular
+* Recursion stops when both sides differ or either side encounters a circular
   reference.
 * Implementation does not test the [`[[Prototype]]`][prototype-spec] of
   objects.
 * {Symbol} properties are not compared.
-* {WeakMap} and {WeakSet} comparison does not rely on their values.
+* {WeakMap} and {WeakSet} comparison does not rely on their values
+  but only on their instances.
 * {RegExp} lastIndex, flags, and source are always compared, even if these
   are not enumerable properties.
 
@@ -788,7 +831,13 @@ parameter is an instance of {Error} then it will be thrown instead of the
 <!-- YAML
 added: v1.2.0
 changes:
-  - version: v22.2.0
+  - version: v24.0.0
+    pr-url: https://github.com/nodejs/node/pull/57622
+    description: Recursion now stops when either side encounters a circular
+                 reference.
+  - version:
+    - v22.2.0
+    - v20.15.0
     pr-url: https://github.com/nodejs/node/pull/51805
     description: Error cause and errors properties are now compared as well.
   - version: v18.0.0
@@ -845,7 +894,7 @@ are recursively evaluated also by the following rules.
 * [Object wrappers][] are compared both as objects and unwrapped values.
 * `Object` properties are compared unordered.
 * {Map} keys and {Set} items are compared unordered.
-* Recursion stops when both sides differ or both sides encounter a circular
+* Recursion stops when both sides differ or either side encounters a circular
   reference.
 * {WeakMap} and {WeakSet} instances are **not** compared structurally.
   They are only equal if they reference the same object. Any comparison between
@@ -923,7 +972,7 @@ assert.deepStrictEqual({ [symbol1]: 1 }, { [symbol2]: 1 });
 // AssertionError [ERR_ASSERTION]: Inputs identical but not reference equal:
 //
 // {
-//   [Symbol()]: 1
+//   Symbol(): 1
 // }
 
 const weakMap1 = new WeakMap();
@@ -1033,7 +1082,7 @@ assert.deepStrictEqual({ [symbol1]: 1 }, { [symbol2]: 1 });
 // AssertionError [ERR_ASSERTION]: Inputs identical but not reference equal:
 //
 // {
-//   [Symbol()]: 1
+//   Symbol(): 1
 // }
 
 const weakMap1 = new WeakMap();
@@ -1986,6 +2035,8 @@ If no arguments are passed in at all `message` will be set to the string:
 Be aware that in the `repl` the error message will be different to the one
 thrown in a file! See below for further details.
 
+<!-- eslint-disable no-restricted-syntax -->
+
 ```mjs
 import assert from 'node:assert/strict';
 
@@ -2020,6 +2071,8 @@ assert.ok(0);
 //
 //   assert.ok(0)
 ```
+
+<!-- eslint-disable no-restricted-syntax -->
 
 ```cjs
 const assert = require('node:assert/strict');
@@ -2060,20 +2113,20 @@ assert.ok(0);
 import assert from 'node:assert/strict';
 
 // Using `assert()` works the same:
-assert(0);
+assert(2 + 2 > 5);
 // AssertionError: The expression evaluated to a falsy value:
 //
-//   assert(0)
+//   assert(2 + 2 > 5)
 ```
 
 ```cjs
 const assert = require('node:assert');
 
 // Using `assert()` works the same:
-assert(0);
+assert(2 + 2 > 5);
 // AssertionError: The expression evaluated to a falsy value:
 //
-//   assert(0)
+//   assert(2 + 2 > 5)
 ```
 
 ## `assert.rejects(asyncFn[, error][, message])`
@@ -2634,9 +2687,11 @@ argument.
 ## `assert.partialDeepStrictEqual(actual, expected[, message])`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57370
    description: partialDeepStrictEqual is now Stable. Previously, it had been Experimental.
 -->

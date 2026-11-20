@@ -415,6 +415,21 @@ function:
 * [`Buffer.from(arrayBuffer[, byteOffset[, length]])`][`Buffer.from(arrayBuf)`]
 * [`Buffer.from(string[, encoding])`][`Buffer.from(string)`]
 
+### Buffer methods are callable with `Uint8Array` instances
+
+All methods on the Buffer prototype are callable with a `Uint8Array` instance.
+
+```js
+const { toString, write } = Buffer.prototype;
+
+const uint8array = new Uint8Array(5);
+
+write.call(uint8array, 'hello', 0, 5, 'utf8'); // 5
+// <Uint8Array 68 65 6c 6c 6f>
+
+toString.call(uint8array, 'utf8'); // 'hello'
+```
+
 ## Buffers and iteration
 
 `Buffer` instances can be iterated over using `for..of` syntax:
@@ -518,6 +533,7 @@ the `Blob` data.
 <!-- YAML
 added:
   - v22.3.0
+  - v20.16.0
 -->
 
 The `blob.bytes()` method returns the byte of the `Blob` object as a `Promise<Uint8Array>`.
@@ -576,6 +592,18 @@ added:
 
 Returns a promise that fulfills with the contents of the `Blob` decoded as a
 UTF-8 string.
+
+### `blob.textStream()`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+* Returns: {ReadableStream}
+
+Returns a new `ReadableStream` that allows the content of the `Blob` to be read
+as a stream of UTF-8 decoded strings. It is equivalent to piping
+[`blob.stream()`][] through a [`TextDecoderStream`][] set up with UTF-8.
 
 ### `blob.type`
 
@@ -865,7 +893,7 @@ _may contain sensitive data_. Use [`buf.fill(0)`][`buf.fill()`] to initialize
 such `Buffer` instances with zeroes.
 
 When using [`Buffer.allocUnsafe()`][] to allocate new `Buffer` instances,
-allocations less than `Buffer.poolSize >>> 1` (4KiB when default poolSize is used) are sliced
+allocations less than `Buffer.poolSize >>> 1` (32KiB when default poolSize is used) are sliced
 from a single pre-allocated `Buffer`. This allows applications to avoid the
 garbage collection overhead of creating many individually allocated `Buffer`
 instances. This approach improves both performance and memory usage by
@@ -1038,7 +1066,7 @@ If the list has no items, or if the `totalLength` is 0, then a new zero-length
 If `totalLength` is not provided, it is calculated from the `Buffer` instances
 in `list` by adding their lengths.
 
-If `totalLength` is provided, it is coerced to an unsigned integer. If the
+If `totalLength` is provided, it must be an unsigned integer. If the
 combined length of the `Buffer`s in `list` exceeds `totalLength`, the result is
 truncated to `totalLength`. If the combined length of the `Buffer`s in `list` is
 less than `totalLength`, the remaining space is filled with zeros.
@@ -1497,9 +1525,13 @@ console.log(Buffer.isEncoding(''));
 
 <!-- YAML
 added: v0.11.3
+changes:
+  - version: v24.18.0
+    pr-url: https://github.com/nodejs/node/pull/63597
+    description: Default raised from 8192 to 65536.
 -->
 
-* Type: {integer} **Default:** `8192`
+* Type: {integer} **Default:** `65536`
 
 This is the size (in bytes) of pre-allocated internal `Buffer` instances used
 for pooling. This value may be modified.
@@ -2057,6 +2089,10 @@ console.log(buf.fill('zz', 'hex'));
 
 <!-- YAML
 added: v5.3.0
+changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
 -->
 
 * `value` {string|Buffer|Uint8Array|integer} What to search for.
@@ -2944,10 +2980,14 @@ console.log(buf.readInt32LE(1));
 <!-- YAML
 added: v0.11.15
 changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
   - version: v10.0.0
     pr-url: https://github.com/nodejs/node/pull/18395
     description: Removed `noAssert` and no implicit coercion of the offset
                  and `byteLength` to `uint32` anymore.
+
 -->
 
 * `offset` {integer} Number of bytes to skip before starting to read. Must
@@ -2991,10 +3031,14 @@ console.log(buf.readIntBE(1, 0).toString(16));
 <!-- YAML
 added: v0.11.15
 changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
   - version: v10.0.0
     pr-url: https://github.com/nodejs/node/pull/18395
     description: Removed `noAssert` and no implicit coercion of the offset
                  and `byteLength` to `uint32` anymore.
+
 -->
 
 * `offset` {integer} Number of bytes to skip before starting to read. Must
@@ -3268,6 +3312,9 @@ console.log(buf.readUInt32LE(1).toString(16));
 <!-- YAML
 added: v0.11.15
 changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
   - version:
     - v14.9.0
     - v12.19.0
@@ -3318,6 +3365,9 @@ console.log(buf.readUIntBE(1, 6).toString(16));
 <!-- YAML
 added: v0.11.15
 changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
   - version:
     - v14.9.0
     - v12.19.0
@@ -3490,12 +3540,12 @@ changes:
                  calculations with them.
 -->
 
+> Stability: 0 - Deprecated: Use [`buf.subarray`][] instead.
+
 * `start` {integer} Where the new `Buffer` will start. **Default:** `0`.
 * `end` {integer} Where the new `Buffer` will end (not inclusive).
   **Default:** [`buf.length`][].
 * Returns: {Buffer}
-
-> Stability: 0 - Deprecated: Use [`buf.subarray`][] instead.
 
 Returns a new `Buffer` that references the same memory as the original, but
 offset and cropped by the `start` and `end` indexes.
@@ -3770,6 +3820,10 @@ console.log(copy);
 
 <!-- YAML
 added: v0.1.90
+changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
 -->
 
 * `encoding` {string} The character encoding to use. **Default:** `'utf8'`.
@@ -3908,6 +3962,10 @@ for (const value of buf) {
 
 <!-- YAML
 added: v0.1.90
+changes:
+  - version: v24.13.1
+    pr-url: https://github.com/nodejs/node/pull/56578
+    description: supports Uint8Array as `this` value.
 -->
 
 * `string` {string} String to write to `buf`.
@@ -5102,6 +5160,9 @@ added:
   - v19.2.0
   - v18.13.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/47613
+    description: Makes File instances cloneable.
   - version: v20.0.0
     pr-url: https://github.com/nodejs/node/pull/47153
     description: No longer experimental.
@@ -5185,6 +5246,12 @@ For code running using Node.js APIs, converting between base64-encoded strings
 and binary data should be performed using `Buffer.from(str, 'base64')` and
 `buf.toString('base64')`.**
 
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa):
+
+```bash
+npx codemod@latest @nodejs/buffer-atob-btoa
+```
+
 ### `buffer.btoa(data)`
 
 <!-- YAML
@@ -5208,6 +5275,12 @@ binary data and predate the introduction of typed arrays in JavaScript.
 For code running using Node.js APIs, converting between base64-encoded strings
 and binary data should be performed using `Buffer.from(str, 'base64')` and
 `buf.toString('base64')`.**
+
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa):
+
+```bash
+npx codemod@latest @nodejs/buffer-atob-btoa
+```
 
 ### `buffer.isAscii(input)`
 
@@ -5278,7 +5351,7 @@ An alias for [`buffer.constants.MAX_STRING_LENGTH`][].
 <!-- YAML
 added: v16.7.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -5540,10 +5613,12 @@ introducing security vulnerabilities into an application.
 [`String.prototype.indexOf()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
 [`String.prototype.lastIndexOf()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf
 [`String.prototype.length`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length
+[`TextDecoderStream`]: webstreams.md#class-textdecoderstream
 [`TypedArray.from()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/from
 [`TypedArray.prototype.set()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/set
 [`TypedArray.prototype.slice()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/slice
 [`TypedArray.prototype.subarray()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/subarray
+[`blob.stream()`]: #blobstream
 [`buf.buffer`]: #bufbuffer
 [`buf.compare()`]: #bufcomparetarget-targetstart-targetend-sourcestart-sourceend
 [`buf.entries()`]: #bufentries

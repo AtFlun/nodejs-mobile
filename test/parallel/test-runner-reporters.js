@@ -16,10 +16,10 @@ describe('node:test reporters', { concurrency: true }, () => {
   it('should default to outputing TAP to stdout', async () => {
     const child = spawnSync(process.execPath, ['--test', testFile]);
     assert.strictEqual(child.stderr.toString(), '');
-    assert.match(child.stdout.toString(), /TAP version 13/);
-    assert.match(child.stdout.toString(), /ok 1 - ok/);
-    assert.match(child.stdout.toString(), /not ok 2 - failing/);
-    assert.match(child.stdout.toString(), /ok 2 - top level/);
+    assert.match(child.stdout.toString(), /✖ failing tests:/);
+    assert.match(child.stdout.toString(), /✔ ok/);
+    assert.match(child.stdout.toString(), /✖ failing/);
+    assert.match(child.stdout.toString(), /✔ top level/);
   });
 
   it('should default destination to stdout when passing a single reporter', async () => {
@@ -200,6 +200,12 @@ describe('node:test reporters', { concurrency: true }, () => {
     assert.strictEqual(child.stdout.toString(), '');
     const fileContents = fs.readFileSync(file, 'utf8');
     assert.match(fileContents, /<testsuite .*name="nested".*tests="2".*failures="1".*skipped="0".*>/);
+    // The exact timestamp format is intentionally not pinned here (still under
+    // discussion); assert only that the value is present and a real date.
+    const { 1: timestamp } = fileContents.match(/<testsuite [^>]*timestamp="([^"]+)"/) ?? [];
+    assert.ok(timestamp, 'testsuite should have a timestamp attribute');
+    assert.match(timestamp, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    assert.ok(!Number.isNaN(Date.parse(timestamp)), `expected a valid date, got ${timestamp}`);
     assert.match(fileContents, /<testcase .*name="failing".*>\s*<failure .*type="testCodeFailure".*message="error".*>/);
     assert.match(fileContents, /<testcase .*name="ok".*classname="test".*\/>/);
     assert.match(fileContents, /<testcase .*name="top level".*classname="test".*\/>/);

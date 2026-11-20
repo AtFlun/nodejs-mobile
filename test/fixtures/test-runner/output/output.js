@@ -5,6 +5,30 @@ const assert = require('node:assert');
 const test = require('node:test');
 const util = require('util');
 
+test.expectFailure('sync expect fail (method)', () => {
+  throw new Error('should pass');
+});
+
+test('sync expect fail (options)', { expectFailure: true }, () => {
+  throw new Error('should pass');
+});
+
+test.expectFailure('async expect fail (method)', async () => {
+  throw new Error('should pass');
+});
+
+test('async expect fail (options)', { expectFailure: true }, async () => {
+  throw new Error('should pass');
+});
+
+test.todo('sync todo with expect fail', { expectFailure: true }, () => {
+  throw new Error('should not count as an expected failure');
+});
+
+test.skip('sync skip expect fail', { expectFailure: true }, () => {
+  throw new Error('should not fail');
+});
+
 test('sync pass todo', (t) => {
   t.todo();
 });
@@ -274,7 +298,7 @@ test('callback async throw after done', (t, done) => {
   done();
 });
 
-test('only is set but not in only mode', { only: true }, async (t) => {
+test('only is set on subtests but not in only mode', async (t) => {
   // All of these subtests should run.
   await t.test('running subtest 1');
   t.runOnly(true);

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>OS | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>OS | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="os" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -371,7 +371,7 @@
         <h2>OS<span><a class="mark" href="#os" id="os">#</a></span><a aria-hidden="true" class="legacy" id="os_os"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/os.js">lib/os.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/os.js">lib/os.js</a></p>
 <p>The <code>node:os</code> module provides operating system-related utility methods and
 properties. It can be accessed using:</p>
 
@@ -407,8 +407,7 @@ Always returns a value greater than zero.</p>
 </ul>
 <p>Returns the operating system CPU architecture for which the Node.js binary was
 compiled. Possible values are <code>'arm'</code>, <code>'arm64'</code>, <code>'ia32'</code>, <code>'loong64'</code>,
-<code>'mips'</code>, <code>'mipsel'</code>, <code>'ppc'</code>, <code>'ppc64'</code>, <code>'riscv64'</code>, <code>'s390'</code>, <code>'s390x'</code>,
-and <code>'x64'</code>.</p>
+<code>'mips'</code>, <code>'mipsel'</code>, <code>'ppc64'</code>, <code>'riscv64'</code>, <code>'s390x'</code>, and <code>'x64'</code>.</p>
 <p>The return value is equivalent to <a href="process.html#processarch"><code>process.arch</code></a>.</p>
 </section><section><h3><code>os.constants</code><span><a class="mark" href="#osconstants" id="osconstants">#</a></span><a aria-hidden="true" class="legacy" id="os_os_constants"></a></h3>
 <div class="api_metadata">
@@ -444,7 +443,6 @@ The array will be empty if no CPU information is available, such as if the
 </ul>
 </li>
 </ul>
-<!-- eslint-disable @stylistic/js/semi -->
 <pre><code class="language-js">[
   {
     <span class="hljs-attr">model</span>: <span class="hljs-string">'Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz'</span>,
@@ -490,7 +488,7 @@ The array will be empty if no CPU information is available, such as if the
       <span class="hljs-attr">irq</span>: <span class="hljs-number">20</span>,
     },
   },
-]</code> <button class="copy-button">copy</button></pre>
+];</code> <button class="copy-button">copy</button></pre>
 <p><code>nice</code> values are POSIX-only. On Windows, the <code>nice</code> values of all processors
 are always 0.</p>
 <p><code>os.cpus().length</code> should not be used to calculate the amount of parallelism
@@ -577,7 +575,7 @@ always <code>[0, 0, 0]</code>.</p>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
 </ul>
 <p>Returns the machine type as a string, such as <code>arm</code>, <code>arm64</code>, <code>aarch64</code>,
-<code>mips</code>, <code>mips64</code>, <code>ppc64</code>, <code>ppc64le</code>, <code>s390</code>, <code>s390x</code>, <code>i386</code>, <code>i686</code>, <code>x86_64</code>.</p>
+<code>mips</code>, <code>mips64</code>, <code>ppc64</code>, <code>ppc64le</code>, <code>s390x</code>, <code>i386</code>, <code>i686</code>, <code>x86_64</code>.</p>
 <p>On POSIX systems, the machine type is determined by calling
 <a href="https://linux.die.net/man/3/uname"><code>uname(3)</code></a>. On Windows, <code>RtlGetVersion()</code> is used, and if it is not
 available, <code>GetVersionExW()</code> will be used. See
@@ -617,47 +615,46 @@ is <code>IPv6</code>)</li>
 in CIDR notation. If the <code>netmask</code> is invalid, this property is set
 to <code>null</code>.</li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
-  <span class="hljs-attr">lo</span>: [
-    {
-      <span class="hljs-attr">address</span>: <span class="hljs-string">'127.0.0.1'</span>,
-      <span class="hljs-attr">netmask</span>: <span class="hljs-string">'255.0.0.0'</span>,
-      <span class="hljs-attr">family</span>: <span class="hljs-string">'IPv4'</span>,
-      <span class="hljs-attr">mac</span>: <span class="hljs-string">'00:00:00:00:00:00'</span>,
-      <span class="hljs-attr">internal</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">cidr</span>: <span class="hljs-string">'127.0.0.1/8'</span>
-    },
-    {
-      <span class="hljs-attr">address</span>: <span class="hljs-string">'::1'</span>,
-      <span class="hljs-attr">netmask</span>: <span class="hljs-string">'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff'</span>,
-      <span class="hljs-attr">family</span>: <span class="hljs-string">'IPv6'</span>,
-      <span class="hljs-attr">mac</span>: <span class="hljs-string">'00:00:00:00:00:00'</span>,
-      <span class="hljs-attr">scopeid</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">internal</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">cidr</span>: <span class="hljs-string">'::1/128'</span>
-    }
-  ],
-  <span class="hljs-attr">eth0</span>: [
-    {
-      <span class="hljs-attr">address</span>: <span class="hljs-string">'192.168.1.108'</span>,
-      <span class="hljs-attr">netmask</span>: <span class="hljs-string">'255.255.255.0'</span>,
-      <span class="hljs-attr">family</span>: <span class="hljs-string">'IPv4'</span>,
-      <span class="hljs-attr">mac</span>: <span class="hljs-string">'01:02:03:0a:0b:0c'</span>,
-      <span class="hljs-attr">internal</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">cidr</span>: <span class="hljs-string">'192.168.1.108/24'</span>
-    },
-    {
-      <span class="hljs-attr">address</span>: <span class="hljs-string">'fe80::a00:27ff:fe4e:66a1'</span>,
-      <span class="hljs-attr">netmask</span>: <span class="hljs-string">'ffff:ffff:ffff:ffff::'</span>,
-      <span class="hljs-attr">family</span>: <span class="hljs-string">'IPv6'</span>,
-      <span class="hljs-attr">mac</span>: <span class="hljs-string">'01:02:03:0a:0b:0c'</span>,
-      <span class="hljs-attr">scopeid</span>: <span class="hljs-number">1</span>,
-      <span class="hljs-attr">internal</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">cidr</span>: <span class="hljs-string">'fe80::a00:27ff:fe4e:66a1/64'</span>
-    }
-  ]
-}</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"lo:"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"address:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"127.0.0.1"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"netmask:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"255.0.0.0"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"family:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"IPv4"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"mac:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"00:00:00:00:00:00"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"internal:"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"cidr:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"127.0.0.1/8"</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"address:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"::1"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"netmask:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"family:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"IPv6"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"mac:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"00:00:00:00:00:00"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"scopeid:"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"internal:"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"cidr:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"::1/128"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"eth0:"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"address:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"192.168.1.108"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"netmask:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"255.255.255.0"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"family:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"IPv4"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"mac:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"01:02:03:0a:0b:0c"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"internal:"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"cidr:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"192.168.1.108/24"</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"address:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"fe80::a00:27ff:fe4e:66a1"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"netmask:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"ffff:ffff:ffff:ffff::"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"family:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"IPv6"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"mac:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"01:02:03:0a:0b:0c"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"scopeid:"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"internal:"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"cidr:"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"fe80::a00:27ff:fe4e:66a1/64"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>os.platform()</code><span><a class="mark" href="#osplatform" id="osplatform">#</a></span><a aria-hidden="true" class="legacy" id="os_os_platform"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.5.0</span>

@@ -25,23 +25,42 @@ object. The invoked code treats any property in the context like a
 global variable. Any changes to global variables caused by the invoked
 code are reflected in the context object.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext } from 'node:vm';
 
 const x = 1;
 
 const context = { x: 2 };
-vm.createContext(context); // Contextify the object.
+createContext(context); // Contextify the object.
 
 const code = 'x += 40; var y = 17;';
 // `x` and `y` are global variables in the context.
 // Initially, x has the value 2 because that is the value of context.x.
-vm.runInContext(code, context);
+runInContext(code, context);
 
 console.log(context.x); // 42
 console.log(context.y); // 17
 
-console.log(x); // 1; y is not defined.
+console.log(x); // 1; y is not defined
+```
+
+```cjs
+const { createContext, runInContext } = require('node:vm');
+
+const x = 1;
+
+const context = { x: 2 };
+createContext(context); // Contextify the object.
+
+const code = 'x += 40; var y = 17;';
+// `x` and `y` are global variables in the context.
+// Initially, x has the value 2 because that is the value of context.x.
+runInContext(code, context);
+
+console.log(context.x); // 42
+console.log(context.y); // 17
+
+console.log(x); // 1; y is not defined
 ```
 
 ## Class: `vm.Script`
@@ -201,17 +220,36 @@ The following example compiles code that increments a global variable, sets
 the value of another global variable, then execute the code multiple times.
 The globals are contained in the `context` object.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, Script } from 'node:vm';
 
 const context = {
   animal: 'cat',
   count: 2,
 };
 
-const script = new vm.Script('count += 1; name = "kitty";');
+const script = new Script('count += 1; name = "kitty";');
 
-vm.createContext(context);
+createContext(context);
+for (let i = 0; i < 10; ++i) {
+  script.runInContext(context);
+}
+
+console.log(context);
+// Prints: { animal: 'cat', count: 12, name: 'kitty' }
+```
+
+```cjs
+const { createContext, Script } = require('node:vm');
+
+const context = {
+  animal: 'cat',
+  count: 2,
+};
+
+const script = new Script('count += 1; name = "kitty";');
+
+createContext(context);
 for (let i = 0; i < 10; ++i) {
   script.runInContext(context);
 }
@@ -229,7 +267,9 @@ overhead.
 <!-- YAML
 added: v0.3.1
 changes:
-  - version: v22.8.0
+  - version:
+    - v22.8.0
+    - v20.18.0
     pr-url: https://github.com/nodejs/node/pull/54394
     description: The `contextObject` argument now accepts `vm.constants.DONT_CONTEXTIFY`.
   - version: v14.6.0
@@ -294,10 +334,10 @@ The following example compiles code that sets a global variable, then executes
 the code multiple times in different contexts. The globals are set on and
 contained within each individual `context`.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { constants, Script } from 'node:vm';
 
-const script = new vm.Script('globalVar = "set"');
+const script = new Script('globalVar = "set"');
 
 const contexts = [{}, {}, {}];
 contexts.forEach((context) => {
@@ -308,10 +348,30 @@ console.log(contexts);
 // Prints: [{ globalVar: 'set' }, { globalVar: 'set' }, { globalVar: 'set' }]
 
 // This would throw if the context is created from a contextified object.
-// vm.constants.DONT_CONTEXTIFY allows creating contexts with ordinary
+// constants.DONT_CONTEXTIFY allows creating contexts with ordinary
 // global objects that can be frozen.
-const freezeScript = new vm.Script('Object.freeze(globalThis); globalThis;');
-const frozenContext = freezeScript.runInNewContext(vm.constants.DONT_CONTEXTIFY);
+const freezeScript = new Script('Object.freeze(globalThis); globalThis;');
+const frozenContext = freezeScript.runInNewContext(constants.DONT_CONTEXTIFY);
+```
+
+```cjs
+const { constants, Script } = require('node:vm');
+
+const script = new Script('globalVar = "set"');
+
+const contexts = [{}, {}, {}];
+contexts.forEach((context) => {
+  script.runInNewContext(context);
+});
+
+console.log(contexts);
+// Prints: [{ globalVar: 'set' }, { globalVar: 'set' }, { globalVar: 'set' }]
+
+// This would throw if the context is created from a contextified object.
+// constants.DONT_CONTEXTIFY allows creating contexts with ordinary
+// global objects that can be frozen.
+const freezeScript = new Script('Object.freeze(globalThis); globalThis;');
+const frozenContext = freezeScript.runInNewContext(constants.DONT_CONTEXTIFY);
 ```
 
 ### `script.runInThisContext([options])`
@@ -345,12 +405,28 @@ _does_ have access to the current `global` object.
 The following example compiles code that increments a `global` variable then
 executes that code multiple times:
 
-```js
-const vm = require('node:vm');
+```mjs
+import { Script } from 'node:vm';
 
 global.globalVar = 0;
 
-const script = new vm.Script('globalVar += 1', { filename: 'myfile.vm' });
+const script = new Script('globalVar += 1', { filename: 'myfile.vm' });
+
+for (let i = 0; i < 1000; ++i) {
+  script.runInThisContext();
+}
+
+console.log(globalVar);
+
+// 1000
+```
+
+```cjs
+const { Script } = require('node:vm');
+
+global.globalVar = 0;
+
+const script = new Script('globalVar += 1', { filename: 'myfile.vm' });
 
 for (let i = 0; i < 1000; ++i) {
   script.runInThisContext();
@@ -616,7 +692,7 @@ in the ECMAScript specification.
     work after that. **Default:** `false`.
 * Returns: {Promise} Fulfills with `undefined` upon success.
 
-Evaluate the module and its depenendencies. Corresponds to the [Evaluate() concrete method][] field of
+Evaluate the module and its dependencies. Corresponds to the [Evaluate() concrete method][] field of
 [Cyclic Module Record][]s in the ECMAScript specification.
 
 If the module is a `vm.SourceTextModule`, `evaluate()` must be called after the module has been instantiated;
@@ -931,14 +1007,14 @@ const module2 = new vm.SourceTextModule('const a = 1;', { cachedData });
 
 <!-- YAML
 changes:
-  - version: v22.20.0
+  - version: v24.4.0
     pr-url: https://github.com/nodejs/node/pull/20300
     description: This is deprecated in favour of `sourceTextModule.moduleRequests`.
 -->
 
 > Stability: 0 - Deprecated: Use [`sourceTextModule.moduleRequests`][] instead.
 
-* {string\[]}
+* Type: {string\[]}
 
 The specifiers of all dependencies of this module. The returned array is frozen
 to disallow any changes to it.
@@ -946,10 +1022,40 @@ to disallow any changes to it.
 Corresponds to the `[[RequestedModules]]` field of [Cyclic Module Record][]s in
 the ECMAScript specification.
 
+### `sourceTextModule.hasAsyncGraph()`
+
+<!-- YAML
+added: v24.9.0
+-->
+
+* Returns: {boolean}
+
+Iterates over the dependency graph and returns `true` if any module in its
+dependencies or this module itself contains top-level `await` expressions,
+otherwise returns `false`.
+
+The search may be slow if the graph is big enough.
+
+This requires the module to be instantiated first. If the module is not
+instantiated yet, an error will be thrown.
+
+### `sourceTextModule.hasTopLevelAwait()`
+
+<!-- YAML
+added: v24.9.0
+-->
+
+* Returns: {boolean}
+
+Returns whether the module itself contains any top-level `await` expressions.
+
+This corresponds to the field `[[HasTLA]]` in [Cyclic Module Record][] in the
+ECMAScript specification.
+
 ### `sourceTextModule.instantiate()`
 
 <!-- YAML
-added: v22.21.0
+added: v24.8.0
 -->
 
 * Returns: {undefined}
@@ -967,7 +1073,7 @@ modules in the cycle before calling this method.
 ### `sourceTextModule.linkRequests(modules)`
 
 <!-- YAML
-added: v22.21.0
+added: v24.8.0
 -->
 
 * `modules` {vm.Module\[]} Array of `vm.Module` objects that this module depends on.
@@ -991,8 +1097,6 @@ import foo from 'foo';
 import source Foo from 'foo';
 ```
 
-<!-- eslint-enable no-duplicate-imports -->
-
 The `modules` array must contain two references to the same instance, because the two
 module requests are identical but in two phases.
 
@@ -1012,10 +1116,10 @@ After each module in the `modules` array is linked, call
 ### `sourceTextModule.moduleRequests`
 
 <!-- YAML
-added: v22.20.0
+added: v24.4.0
 -->
 
-* {ModuleRequest\[]} Dependencies of this module.
+* Type: {ModuleRequest\[]} Dependencies of this module.
 
 The requested import dependencies of this module. The returned array is frozen
 to disallow any changes to it.
@@ -1029,9 +1133,8 @@ import foo from 'foo';
 import fooAlias from 'foo';
 import bar from './bar.js';
 import withAttrs from '../with-attrs.ts' with { arbitraryAttr: 'attr-val' };
+import source Module from 'wasm-mod.wasm';
 ```
-
-<!-- eslint-enable no-duplicate-imports -->
 
 The value of the `sourceTextModule.moduleRequests` will be:
 
@@ -1040,18 +1143,27 @@ The value of the `sourceTextModule.moduleRequests` will be:
   {
     specifier: 'foo',
     attributes: {},
+    phase: 'evaluation',
   },
   {
     specifier: 'foo',
     attributes: {},
+    phase: 'evaluation',
   },
   {
     specifier: './bar.js',
     attributes: {},
+    phase: 'evaluation',
   },
   {
     specifier: '../with-attrs.ts',
     attributes: { arbitraryAttr: 'attr-val' },
+    phase: 'evaluation',
+  },
+  {
+    specifier: 'wasm-mod.wasm',
+    attributes: {},
+    phase: 'source',
   },
 ];
 ```
@@ -1076,16 +1188,40 @@ defined in the WebIDL specification. The purpose of synthetic modules is to
 provide a generic interface for exposing non-JavaScript sources to ECMAScript
 module graphs.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { SyntheticModule } from 'node:vm';
 
 const source = '{ "a": 1 }';
-const module = new vm.SyntheticModule(['default'], function() {
+const syntheticModule = new SyntheticModule(['default'], function() {
   const obj = JSON.parse(source);
   this.setExport('default', obj);
 });
 
-// Use `module` in linking...
+// Use `syntheticModule` in linking
+(async () => {
+  await syntheticModule.link(() => {});
+  await syntheticModule.evaluate();
+
+  console.log('Default export:', syntheticModule.namespace.default);
+})();
+```
+
+```cjs
+const { SyntheticModule } = require('node:vm');
+
+const source = '{ "a": 1 }';
+const syntheticModule = new SyntheticModule(['default'], function() {
+  const obj = JSON.parse(source);
+  this.setExport('default', obj);
+});
+
+// Use `syntheticModule` in linking
+(async () => {
+  await syntheticModule.link(() => {});
+  await syntheticModule.evaluate();
+
+  console.log('Default export:', syntheticModule.namespace.default);
+})();
 ```
 
 ### `new vm.SyntheticModule(exportNames, evaluateCallback[, options])`
@@ -1119,7 +1255,7 @@ added:
  - v13.0.0
  - v12.16.0
 changes:
-  - version: v22.21.0
+  - version: v24.8.0
     pr-url: https://github.com/nodejs/node/pull/59000
     description: No longer need to call `syntheticModule.link()` before
                  calling this method.
@@ -1156,14 +1292,15 @@ const vm = require('node:vm');
 ## Type: `ModuleRequest`
 
 <!-- YAML
-added: v22.20.0
+added: v24.4.0
 -->
 
-* {Object}
+* Type: {Object}
   * `specifier` {string} The specifier of the requested module.
   * `attributes` {Object} The `"with"` value passed to the
     [WithClause][] in a [ImportDeclaration][], or an empty object if no value was
     provided.
+  * `phase` {string} The phase of the requested module (`"source"` or `"evaluation"`).
 
 A `ModuleRequest` represents the request to import a module with given import attributes and phase.
 
@@ -1275,6 +1412,7 @@ added: v0.3.1
 changes:
   - version:
     - v22.8.0
+    - v20.18.0
     pr-url: https://github.com/nodejs/node/pull/54394
     description: The `contextObject` argument now accepts `vm.constants.DONT_CONTEXTIFY`.
   - version:
@@ -1339,15 +1477,32 @@ existing properties but also having the built-in objects and functions any
 standard [global object][] has. Outside of scripts run by the vm module, global
 variables will remain unchanged.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext } from 'node:vm';
 
 global.globalVar = 3;
 
 const context = { globalVar: 1 };
-vm.createContext(context);
+createContext(context);
 
-vm.runInContext('globalVar *= 2;', context);
+runInContext('globalVar *= 2;', context);
+
+console.log(context);
+// Prints: { globalVar: 2 }
+
+console.log(global.globalVar);
+// Prints: 3
+```
+
+```cjs
+const { createContext, runInContext } = require('node:vm');
+
+global.globalVar = 3;
+
+const context = { globalVar: 1 };
+createContext(context);
+
+runInContext('globalVar *= 2;', context);
 
 console.log(context);
 // Prints: { globalVar: 2 }
@@ -1422,45 +1577,62 @@ memory reachable by each V8 specific contexts in the current instance of
 the V8 engine, while the result of `v8.getHeapSpaceStatistics()` measure
 the memory occupied by each heap space in the current V8 instance.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, measureMemory } from 'node:vm';
 // Measure the memory used by the main context.
-vm.measureMemory({ mode: 'summary' })
+measureMemory({ mode: 'summary' })
   // This is the same as vm.measureMemory()
   .then((result) => {
     // The current format is:
     // {
-    //   total: {
-    //      jsMemoryEstimate: 2418479, jsMemoryRange: [ 2418479, 2745799 ]
-    //    }
+    //   total: { jsMemoryEstimate: 1601828, jsMemoryRange: [1601828, 5275288] },
+    //   WebAssembly: { code: 0, metadata: 33962 },
     // }
     console.log(result);
   });
 
-const context = vm.createContext({ a: 1 });
-vm.measureMemory({ mode: 'detailed', execution: 'eager' })
+const context = createContext({ a: 1 });
+measureMemory({ mode: 'detailed', execution: 'eager' }).then((result) => {
+  // Reference the context here so that it won't be GC'ed
+  // until the measurement is complete.
+  console.log('Context:', context.a);
+  // {
+  //   total: { jsMemoryEstimate: 1767100, jsMemoryRange: [1767100, 5440560] },
+  //   WebAssembly: { code: 0, metadata: 33962 },
+  //   current: { jsMemoryEstimate: 1601828, jsMemoryRange: [1601828, 5275288] },
+  //   other: [{ jsMemoryEstimate: 165272, jsMemoryRange: [Array] }],
+  // }
+  console.log(result);
+});
+```
+
+```cjs
+const { createContext, measureMemory } = require('node:vm');
+// Measure the memory used by the main context.
+measureMemory({ mode: 'summary' })
+  // This is the same as vm.measureMemory()
   .then((result) => {
-    // Reference the context here so that it won't be GC'ed
-    // until the measurement is complete.
-    console.log(context.a);
+    // The current format is:
     // {
-    //   total: {
-    //     jsMemoryEstimate: 2574732,
-    //     jsMemoryRange: [ 2574732, 2904372 ]
-    //   },
-    //   current: {
-    //     jsMemoryEstimate: 2438996,
-    //     jsMemoryRange: [ 2438996, 2768636 ]
-    //   },
-    //   other: [
-    //     {
-    //       jsMemoryEstimate: 135736,
-    //       jsMemoryRange: [ 135736, 465376 ]
-    //     }
-    //   ]
+    //   total: { jsMemoryEstimate: 1601828, jsMemoryRange: [1601828, 5275288] },
+    //   WebAssembly: { code: 0, metadata: 33962 },
     // }
     console.log(result);
   });
+
+const context = createContext({ a: 1 });
+measureMemory({ mode: 'detailed', execution: 'eager' }).then((result) => {
+  // Reference the context here so that it won't be GC'ed
+  // until the measurement is complete.
+  console.log('Context:', context.a);
+  // {
+  //   total: { jsMemoryEstimate: 1767100, jsMemoryRange: [1767100, 5440560] },
+  //   WebAssembly: { code: 0, metadata: 33962 },
+  //   current: { jsMemoryEstimate: 1601828, jsMemoryRange: [1601828, 5275288] },
+  //   other: [{ jsMemoryEstimate: 165272, jsMemoryRange: [Array] }],
+  // }
+  console.log(result);
+});
 ```
 
 ## `vm.runInContext(code, contextifiedObject[, options])`
@@ -1527,14 +1699,27 @@ If `options` is a string, then it specifies the filename.
 The following example compiles and executes different scripts using a single
 [contextified][] object:
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext } from 'node:vm';
 
 const contextObject = { globalVar: 1 };
-vm.createContext(contextObject);
+createContext(contextObject);
 
 for (let i = 0; i < 10; ++i) {
-  vm.runInContext('globalVar *= 2;', contextObject);
+  runInContext('globalVar *= 2;', contextObject);
+}
+console.log(contextObject);
+// Prints: { globalVar: 1024 }
+```
+
+```cjs
+const { createContext, runInContext } = require('node:vm');
+
+const contextObject = { globalVar: 1 };
+createContext(contextObject);
+
+for (let i = 0; i < 10; ++i) {
+  runInContext('globalVar *= 2;', contextObject);
 }
 console.log(contextObject);
 // Prints: { globalVar: 1024 }
@@ -1547,6 +1732,7 @@ added: v0.3.1
 changes:
   - version:
     - v22.8.0
+    - v20.18.0
     pr-url: https://github.com/nodejs/node/pull/54394
     description: The `contextObject` argument now accepts `vm.constants.DONT_CONTEXTIFY`.
   - version:
@@ -1633,32 +1819,56 @@ It does several things at once:
 
 1. Creates a new context.
 2. If `contextObject` is an object, [contextifies][contextified] it with the new context.
-   If  `contextObject` is undefined, creates a new object and [contextifies][contextified] it.
+   If `contextObject` is undefined, creates a new object and [contextifies][contextified] it.
    If `contextObject` is [`vm.constants.DONT_CONTEXTIFY`][], don't [contextify][contextified] anything.
-3. Compiles the code as a`vm.Script`
-4. Runs the compield code within the created context. The code does not have access to the scope in
+3. Compiles the code as a `vm.Script`
+4. Runs the compiled code within the created context. The code does not have access to the scope in
    which this method is called.
 5. Returns the result.
 
 The following example compiles and executes code that increments a global
 variable and sets a new one. These globals are contained in the `contextObject`.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { runInNewContext, constants } from 'node:vm';
 
 const contextObject = {
   animal: 'cat',
   count: 2,
 };
 
-vm.runInNewContext('count += 1; name = "kitty"', contextObject);
+runInNewContext('count += 1; name = "kitty"', contextObject);
 console.log(contextObject);
 // Prints: { animal: 'cat', count: 3, name: 'kitty' }
 
 // This would throw if the context is created from a contextified object.
 // vm.constants.DONT_CONTEXTIFY allows creating contexts with ordinary global objects that
 // can be frozen.
-const frozenContext = vm.runInNewContext('Object.freeze(globalThis); globalThis;', vm.constants.DONT_CONTEXTIFY);
+const frozenContext = runInNewContext(
+  'Object.freeze(globalThis); globalThis;',
+  constants.DONT_CONTEXTIFY,
+);
+```
+
+```cjs
+const { runInNewContext, constants } = require('node:vm');
+
+const contextObject = {
+  animal: 'cat',
+  count: 2,
+};
+
+runInNewContext('count += 1; name = "kitty"', contextObject);
+console.log(contextObject);
+// Prints: { animal: 'cat', count: 3, name: 'kitty' }
+
+// This would throw if the context is created from a contextified object.
+// vm.constants.DONT_CONTEXTIFY allows creating contexts with ordinary global objects that
+// can be frozen.
+const frozenContext = runInNewContext(
+  'Object.freeze(globalThis); globalThis;',
+  constants.DONT_CONTEXTIFY,
+);
 ```
 
 ## `vm.runInThisContext(code[, options])`
@@ -1725,11 +1935,26 @@ the JavaScript [`eval()`][] function to run the same code:
 
 <!-- eslint-disable prefer-const -->
 
-```js
-const vm = require('node:vm');
+```mjs
+import { runInThisContext } from 'node:vm';
 let localVar = 'initial value';
 
-const vmResult = vm.runInThisContext('localVar = "vm";');
+const vmResult = runInThisContext('localVar = "vm";');
+console.log(`vmResult: '${vmResult}', localVar: '${localVar}'`);
+// Prints: vmResult: 'vm', localVar: 'initial value'
+
+const evalResult = eval('localVar = "eval";');
+console.log(`evalResult: '${evalResult}', localVar: '${localVar}'`);
+// Prints: evalResult: 'eval', localVar: 'eval'
+```
+
+<!-- eslint-disable prefer-const -->
+
+```cjs
+const { runInThisContext } = require('node:vm');
+let localVar = 'initial value';
+
+const vmResult = runInThisContext('localVar = "vm";');
 console.log(`vmResult: '${vmResult}', localVar: '${localVar}'`);
 // Prints: vmResult: 'vm', localVar: 'initial value'
 
@@ -1754,15 +1979,17 @@ In order to run a simple web server using the `node:http` module the code passed
 to the context must either call `require('node:http')` on its own, or have a
 reference to the `node:http` module passed to it. For instance:
 
-```js
-'use strict';
-const vm = require('node:vm');
+```mjs
+import { runInThisContext } from 'node:vm';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const code = `
 ((require) => {
-  const http = require('node:http');
+  const { createServer } = require('node:http');
 
-  http.createServer((request, response) => {
+  createServer((request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/plain' });
     response.end('Hello World\\n');
   }).listen(8124);
@@ -1770,7 +1997,25 @@ const code = `
   console.log('Server running at http://127.0.0.1:8124/');
 })`;
 
-vm.runInThisContext(code)(require);
+runInThisContext(code)(require);
+```
+
+```cjs
+const { runInThisContext } = require('node:vm');
+
+const code = `
+((require) => {
+  const { createServer } = require('node:http');
+
+  createServer((request, response) => {
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.end('Hello World\\n');
+  }).listen(8124);
+
+  console.log('Server running at http://127.0.0.1:8124/');
+})`;
+
+runInThisContext(code)(require);
 ```
 
 The `require()` in the above case shares the state with the context it is
@@ -1798,19 +2043,34 @@ The contextifying would introduce some quirks to the `globalThis` value in the c
 For example, it cannot be frozen, and it is not reference equal to the `contextObject`
 in the outer context.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext } from 'node:vm';
 
 // An undefined `contextObject` option makes the global object contextified.
-const context = vm.createContext();
-console.log(vm.runInContext('globalThis', context) === context);  // false
+const context = createContext();
+console.log(runInContext('globalThis', context) === context);  // false
 // A contextified global object cannot be frozen.
 try {
-  vm.runInContext('Object.freeze(globalThis);', context);
+  runInContext('Object.freeze(globalThis);', context);
 } catch (e) {
-  console.log(e); // TypeError: Cannot freeze
+  console.log(`${e.constructor.name}: ${e.message}`); // TypeError: Cannot freeze
 }
-console.log(vm.runInContext('globalThis.foo = 1; foo;', context));  // 1
+console.log(runInContext('globalThis.foo = 1; foo;', context));  // 1
+```
+
+```cjs
+const { createContext, runInContext } = require('node:vm');
+
+// An undefined `contextObject` option makes the global object contextified.
+const context = createContext();
+console.log(runInContext('globalThis', context) === context);  // false
+// A contextified global object cannot be frozen.
+try {
+  runInContext('Object.freeze(globalThis);', context);
+} catch (e) {
+  console.log(`${e.constructor.name}: ${e.message}`); // TypeError: Cannot freeze
+}
+console.log(runInContext('globalThis.foo = 1; foo;', context));  // 1
 ```
 
 To create a context with an ordinary global object and get access to a global proxy in
@@ -1824,16 +2084,29 @@ a context without wrapping its global object with another object in a Node.js-sp
 As a result, the `globalThis` value inside the new context would behave more closely to an ordinary
 one.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext, constants } from 'node:vm';
 
 // Use vm.constants.DONT_CONTEXTIFY to freeze the global object.
-const context = vm.createContext(vm.constants.DONT_CONTEXTIFY);
-vm.runInContext('Object.freeze(globalThis);', context);
+const context = createContext(constants.DONT_CONTEXTIFY);
+runInContext('Object.freeze(globalThis);', context);
 try {
-  vm.runInContext('bar = 1; bar;', context);
+  runInContext('bar = 1; bar;', context);
 } catch (e) {
-  console.log(e); // Uncaught ReferenceError: bar is not defined
+  console.log(`${e.constructor.name}: ${e.message}`); // ReferenceError: bar is not defined
+}
+```
+
+```cjs
+const { createContext, runInContext, constants } = require('node:vm');
+
+// Use vm.constants.DONT_CONTEXTIFY to freeze the global object.
+const context = createContext(constants.DONT_CONTEXTIFY);
+runInContext('Object.freeze(globalThis);', context);
+try {
+  runInContext('bar = 1; bar;', context);
+} catch (e) {
+  console.log(`${e.constructor.name}: ${e.message}`); // ReferenceError: bar is not defined
 }
 ```
 
@@ -1842,27 +2115,51 @@ the returned object is a proxy-like object to the global object in the newly cre
 fewer Node.js-specific quirks. It is reference equal to the `globalThis` value in the new context,
 can be modified from outside the context, and can be used to access built-ins in the new context directly.
 
-```js
-const vm = require('node:vm');
+```mjs
+import { createContext, runInContext, constants } from 'node:vm';
 
-const context = vm.createContext(vm.constants.DONT_CONTEXTIFY);
+const context = createContext(constants.DONT_CONTEXTIFY);
 
 // Returned object is reference equal to globalThis in the new context.
-console.log(vm.runInContext('globalThis', context) === context);  // true
+console.log(runInContext('globalThis', context) === context);  // true
 
 // Can be used to access globals in the new context directly.
 console.log(context.Array);  // [Function: Array]
-vm.runInContext('foo = 1;', context);
+runInContext('foo = 1;', context);
 console.log(context.foo);  // 1
 context.bar = 1;
-console.log(vm.runInContext('bar;', context));  // 1
+console.log(runInContext('bar;', context));  // 1
 
 // Can be frozen and it affects the inner context.
 Object.freeze(context);
 try {
-  vm.runInContext('baz = 1; baz;', context);
+  runInContext('baz = 1; baz;', context);
 } catch (e) {
-  console.log(e); // Uncaught ReferenceError: baz is not defined
+  console.log(`${e.constructor.name}: ${e.message}`); // ReferenceError: baz is not defined
+}
+```
+
+```cjs
+const { createContext, runInContext, constants } = require('node:vm');
+
+const context = createContext(constants.DONT_CONTEXTIFY);
+
+// Returned object is reference equal to globalThis in the new context.
+console.log(runInContext('globalThis', context) === context);  // true
+
+// Can be used to access globals in the new context directly.
+console.log(context.Array);  // [Function: Array]
+runInContext('foo = 1;', context);
+console.log(context.foo);  // 1
+context.bar = 1;
+console.log(runInContext('bar;', context));  // 1
+
+// Can be frozen and it affects the inner context.
+Object.freeze(context);
+try {
+  runInContext('baz = 1; baz;', context);
+} catch (e) {
+  console.log(`${e.constructor.name}: ${e.message}`); // ReferenceError: baz is not defined
 }
 ```
 
@@ -1878,34 +2175,65 @@ For example, the following code executed by `vm.runInNewContext()` with a
 timeout of 5 milliseconds schedules an infinite loop to run after a promise
 resolves. The scheduled loop is never interrupted by the timeout:
 
-```js
-const vm = require('node:vm');
+```mjs
+import { runInNewContext } from 'node:vm';
 
 function loop() {
   console.log('entering loop');
   while (1) console.log(Date.now());
 }
 
-vm.runInNewContext(
+runInNewContext(
   'Promise.resolve().then(() => loop());',
   { loop, console },
   { timeout: 5 },
 );
-// This is printed *before* 'entering loop' (!)
+// This is printed *before* 'entering infinite loop' (!)
+console.log('done executing');
+```
+
+```cjs
+const { runInNewContext } = require('node:vm');
+
+function loop() {
+  console.log('entering loop');
+  while (1) console.log(Date.now());
+}
+
+runInNewContext(
+  'Promise.resolve().then(() => loop());',
+  { loop, console },
+  { timeout: 5 },
+);
+// This is printed *before* 'entering infinite loop' (!)
 console.log('done executing');
 ```
 
 This can be addressed by passing `microtaskMode: 'afterEvaluate'` to the code
 that creates the `Context`:
 
-```js
-const vm = require('node:vm');
+```mjs
+import { runInNewContext } from 'node:vm';
 
 function loop() {
   while (1) console.log(Date.now());
 }
 
-vm.runInNewContext(
+runInNewContext(
+  'Promise.resolve().then(() => loop());',
+  { loop, console },
+  { timeout: 5, microtaskMode: 'afterEvaluate' },
+);
+```
+
+```cjs
+const { runInNewContext } = require('node:vm');
+
+function loop() {
+  while (1) console.log(Date.now());
+}
+
+runInNewContext(
   'Promise.resolve().then(() => loop());',
   { loop, console },
   { timeout: 5, microtaskMode: 'afterEvaluate' },
@@ -1942,15 +2270,12 @@ flow of the outer context is disrupted in a surprising way: the log statement
 is never executed.
 
 ```mjs
-import * as vm from 'node:vm';
+import { createContext, runInContext } from 'node:vm';
 
-const inner_context = vm.createContext({}, { microtaskMode: 'afterEvaluate' });
+const inner_context = createContext({}, { microtaskMode: 'afterEvaluate' });
 
 // runInContext() returns a Promise created in the inner context.
-const inner_promise = vm.runInContext(
-  'Promise.resolve()',
-  context,
-);
+const inner_promise = runInContext('Promise.resolve()', inner_context);
 
 // As part of performing `await`, the JavaScript runtime must enqueue a task
 // on the microtask queue of the context where `inner_promise` was created.
@@ -1962,6 +2287,28 @@ const inner_promise = vm.runInContext(
 await inner_promise;
 
 console.log('this will NOT be printed');
+```
+
+```cjs
+const { createContext, runInContext } = require('node:vm');
+
+// runInContext() returns a Promise created in the inner context.
+const inner_context = createContext({}, { microtaskMode: 'afterEvaluate' });
+
+(async () => {
+  const inner_promise = runInContext('Promise.resolve()', inner_context);
+
+  // As part of performing `await`, the JavaScript runtime must enqueue a task
+  // on the microtask queue of the context where `inner_promise` was created.
+  // A task is added on the inner microtask queue, but **it will not be run
+  // automatically**: this task will remain pending indefinitely.
+  //
+  // Since the outer microtask queue is empty, execution in the outer module
+  // falls through, and the log statement below is never executed.
+  await inner_promise;
+
+  console.log('this will NOT be printed');
+})();
 ```
 
 To successfully share promises between contexts with different microtask queues,
@@ -2150,6 +2497,7 @@ has the following signature:
 * `importAttributes` {Object} The `"with"` value passed to the
   [`optionsExpression`][] optional parameter, or an empty object if no value was
   provided.
+* `phase` {string} The phase of the dynamic import (`"source"` or `"evaluation"`).
 * Returns: {Module Namespace Object|vm.Module} Returning a `vm.Module` is
   recommended in order to take advantage of error tracking, and to avoid issues
   with namespaces that contain `then` function exports.

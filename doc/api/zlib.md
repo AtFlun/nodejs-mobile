@@ -51,7 +51,6 @@ const {
   createReadStream,
   createWriteStream,
 } = require('node:fs');
-const process = require('node:process');
 const { createGzip } = require('node:zlib');
 const { pipeline } = require('node:stream');
 
@@ -92,7 +91,6 @@ const {
   createReadStream,
   createWriteStream,
 } = require('node:fs');
-const process = require('node:process');
 const { createGzip } = require('node:zlib');
 const { pipeline } = require('node:stream/promises');
 
@@ -454,10 +452,8 @@ From `zlib/zconf.h`, modified for Node.js usage:
 
 The memory requirements for deflate are (in bytes):
 
-<!-- eslint-disable @stylistic/js/semi -->
-
 ```js
-(1 << (windowBits + 2)) + (1 << (memLevel + 9))
+(1 << (windowBits + 2)) + (1 << (memLevel + 9));
 ```
 
 That is: 128K for `windowBits` = 15 + 128K for `memLevel` = 8
@@ -729,7 +725,9 @@ These advanced options are available for controlling decompression:
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 There are several options and other constants available for Zstd-based
@@ -803,6 +801,9 @@ These advanced options are available for controlling decompression:
 <!-- YAML
 added: v0.11.1
 changes:
+  - version: v24.19.0
+    pr-url: https://github.com/nodejs/node/pull/64023
+    description: The `rejectGarbageAfterEnd` option was added.
   - version:
     - v14.5.0
     - v12.19.0
@@ -838,6 +839,10 @@ ignored by the decompression classes.
 * `info` {boolean} (If `true`, returns an object with `buffer` and `engine`.)
 * `maxOutputLength` {integer} Limits output size when using
   [convenience methods][]. **Default:** [`buffer.kMaxLength`][]
+* `rejectGarbageAfterEnd` {boolean} If `true`, decompression fails when
+  trailing input is detected after the end of the compressed stream. This
+  includes unreadable bytes and, when decompressing gzip, additional gzip
+  members following the first member. **Default:** `false`
 
 See the [`deflateInit2` and `inflateInit2`][] documentation for more
 information.
@@ -847,6 +852,9 @@ information.
 <!-- YAML
 added: v11.7.0
 changes:
+  - version: v24.19.0
+    pr-url: https://github.com/nodejs/node/pull/64023
+    description: The `rejectGarbageAfterEnd` option was added.
   - version:
     - v14.5.0
     - v12.19.0
@@ -865,6 +873,8 @@ Each Brotli-based class takes an `options` object. All options are optional.
 * `maxOutputLength` {integer} Limits output size when using
   [convenience methods][]. **Default:** [`buffer.kMaxLength`][]
 * `info` {boolean} If `true`, returns an object with `buffer` and `engine`. **Default:** `false`
+* `rejectGarbageAfterEnd` {boolean} If `true`, decompression fails when
+  input remains after the first complete compressed stream. **Default:** `false`
 
 For example:
 
@@ -1016,22 +1026,6 @@ base class of the compressor/decompressor classes.
 This class inherits from [`stream.Transform`][], allowing `node:zlib` objects to
 be used in pipes and similar stream operations.
 
-### `zlib.bytesRead`
-
-<!-- YAML
-added: v8.1.0
-deprecated: v10.0.0
--->
-
-> Stability: 0 - Deprecated: Use [`zlib.bytesWritten`][] instead.
-
-* {number}
-
-Deprecated alias for [`zlib.bytesWritten`][]. This original name was chosen
-because it also made sense to interpret the value as the number of bytes
-read by the engine, but is inconsistent with other streams in Node.js that
-expose values under these names.
-
 ### `zlib.bytesWritten`
 
 <!-- YAML
@@ -1101,7 +1095,13 @@ the inflate and deflate algorithms.
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
+changes:
+  - version: v24.19.0
+    pr-url: https://github.com/nodejs/node/pull/64023
+    description: The `rejectGarbageAfterEnd` option was added.
 -->
 
 <!--type=misc-->
@@ -1118,6 +1118,8 @@ Each Zstd-based class takes an `options` object. All options are optional.
 * `dictionary` {Buffer} Optional dictionary used to
   improve compression efficiency when compressing or decompressing data that
   shares common patterns with the dictionary.
+* `rejectGarbageAfterEnd` {boolean} If `true`, decompression fails when
+  input remains after the first complete compressed stream. **Default:** `false`
 
 For example:
 
@@ -1136,7 +1138,9 @@ const stream = zlib.createZstdCompress({
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 Compress data using the Zstd algorithm.
@@ -1146,7 +1150,9 @@ Compress data using the Zstd algorithm.
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 Decompress data using the Zstd algorithm.
@@ -1162,7 +1168,9 @@ Provides an object enumerating Zlib-related constants.
 ## `zlib.crc32(data[, value])`
 
 <!-- YAML
-added: v22.2.0
+added:
+  - v22.2.0
+  - v20.15.0
 -->
 
 * `data` {string|Buffer|TypedArray|DataView} When `data` is a string,
@@ -1327,7 +1335,9 @@ Creates and returns a new [`Unzip`][] object.
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `options` {zstd options}
@@ -1339,7 +1349,9 @@ Creates and returns a new [`ZstdCompress`][] object.
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `options` {zstd options}
@@ -1697,7 +1709,9 @@ Decompress a chunk of data with [`Unzip`][].
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `buffer` {Buffer|TypedArray|DataView|ArrayBuffer|string}
@@ -1709,7 +1723,9 @@ added: v22.15.0
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `buffer` {Buffer|TypedArray|DataView|ArrayBuffer|string}
@@ -1720,7 +1736,9 @@ Compress a chunk of data with [`ZstdCompress`][].
 ### `zlib.zstdDecompress(buffer[, options], callback)`
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `buffer` {Buffer|TypedArray|DataView|ArrayBuffer|string}
@@ -1732,7 +1750,9 @@ added: v22.15.0
 > Stability: 1 - Experimental
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.8.0
+  - v22.15.0
 -->
 
 * `buffer` {Buffer|TypedArray|DataView|ArrayBuffer|string}
@@ -1764,7 +1784,6 @@ Decompress a chunk of data with [`ZstdDecompress`][].
 [`buffer.kMaxLength`]: buffer.md#bufferkmaxlength
 [`deflateInit2` and `inflateInit2`]: https://zlib.net/manual.html#Advanced
 [`stream.Transform`]: stream.md#class-streamtransform
-[`zlib.bytesWritten`]: #zlibbyteswritten
 [convenience methods]: #convenience-methods
 [zlib documentation]: https://zlib.net/manual.html#Constants
 [zlib.createGzip example]: #zlib

@@ -2,19 +2,24 @@ import { AsyncContextFrameBinding } from './internalBinding/async_context_frame'
 import { AsyncWrapBinding } from './internalBinding/async_wrap';
 import { BlobBinding } from './internalBinding/blob';
 import { BufferBinding } from './internalBinding/buffer';
+import { CJSLexerBinding } from './internalBinding/cjs_lexer';
 import { ConfigBinding } from './internalBinding/config';
 import { ConstantsBinding } from './internalBinding/constants';
+import { CryptoBinding } from './internalBinding/crypto';
 import { DebugBinding } from './internalBinding/debug';
 import { EncodingBinding } from './internalBinding/encoding_binding';
 import { HttpParserBinding } from './internalBinding/http_parser';
 import { InspectorBinding } from './internalBinding/inspector';
+import { IPCSerdesBinding } from './internalBinding/ipc_serdes';
 import { FsBinding } from './internalBinding/fs';
 import { FsDirBinding } from './internalBinding/fs_dir';
 import { ICUBinding } from './internalBinding/icu';
+import { LocksBinding } from './internalBinding/locks';
 import { MessagingBinding } from './internalBinding/messaging';
 import { OptionsBinding } from './internalBinding/options';
 import { OSBinding } from './internalBinding/os';
 import { ProcessBinding } from './internalBinding/process';
+import { ProcessWrapBinding } from './internalBinding/process_wrap';
 import { SeaBinding } from './internalBinding/sea';
 import { SerdesBinding } from './internalBinding/serdes';
 import { StringDecoderBinding } from './internalBinding/string_decoder';
@@ -22,6 +27,7 @@ import { SymbolsBinding } from './internalBinding/symbols';
 import { TimersBinding } from './internalBinding/timers';
 import { TypesBinding } from './internalBinding/types';
 import { URLBinding } from './internalBinding/url';
+import { URLPatternBinding } from "./internalBinding/url_pattern";
 import { UtilBinding } from './internalBinding/util';
 import { UVBinding } from './internalBinding/uv';
 import { WASIBinding } from './internalBinding/wasi';
@@ -34,8 +40,10 @@ interface InternalBindingMap {
   async_wrap: AsyncWrapBinding;
   blob: BlobBinding;
   buffer: BufferBinding;
+  cjs_lexer: CJSLexerBinding;
   config: ConfigBinding;
   constants: ConstantsBinding;
+  crypto: CryptoBinding;
   debug: DebugBinding;
   encoding_binding: EncodingBinding;
   fs: FsBinding;
@@ -43,11 +51,14 @@ interface InternalBindingMap {
   http_parser: HttpParserBinding;
   icu: ICUBinding;
   inspector: InspectorBinding;
+  ipc_serdes: IPCSerdesBinding;
+  locks: LocksBinding;
   messaging: MessagingBinding;
   modules: ModulesBinding;
   options: OptionsBinding;
   os: OSBinding;
   process: ProcessBinding;
+  process_wrap: ProcessWrapBinding;
   sea: SeaBinding;
   serdes: SerdesBinding;
   string_decoder: StringDecoderBinding;
@@ -55,6 +66,7 @@ interface InternalBindingMap {
   timers: TimersBinding;
   types: TypesBinding;
   url: URLBinding;
+  url_pattern: URLPatternBinding;
   util: UtilBinding;
   uv: UVBinding;
   wasi: WASIBinding;
@@ -80,6 +92,20 @@ declare global {
     | Float64Array
     | BigUint64Array
     | BigInt64Array;
+
+  type TypedArrayConstructor =
+    | typeof Uint8Array
+    | typeof Uint8ClampedArray
+    | typeof Uint16Array
+    | typeof Uint32Array
+    | typeof Int8Array
+    | typeof Int16Array
+    | typeof Int32Array
+    | typeof Float16Array
+    | typeof Float32Array
+    | typeof Float64Array
+    | typeof BigUint64Array
+    | typeof BigInt64Array;
 
   namespace NodeJS {
     interface Global {

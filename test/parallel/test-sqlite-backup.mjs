@@ -1,8 +1,10 @@
+// Flags: --expose-gc
 import { isWindows, skipIfSQLiteMissing } from '../common/index.mjs';
 import tmpdir from '../common/tmpdir.js';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { writeFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 skipIfSQLiteMissing();
 const { backup, DatabaseSync } = await import('node:sqlite');
 
@@ -16,8 +18,8 @@ function nextDb() {
   return join(tmpdir.path, `database-${cnt++}.db`);
 }
 
-function makeSourceDb() {
-  const database = new DatabaseSync(':memory:');
+function makeSourceDb(dbPath = ':memory:') {
+  const database = new DatabaseSync(dbPath);
 
   database.exec(`
     CREATE TABLE data(
@@ -45,21 +47,39 @@ describe('backup()', () => {
     });
   });
 
-  test('throws if path is not a string', (t) => {
+  test('throws if path is not a string, URL, or Buffer', (t) => {
     const database = makeSourceDb();
 
     t.assert.throws(() => {
       backup(database);
     }, {
       code: 'ERR_INVALID_ARG_TYPE',
-      message: 'The "destination" argument must be a string.'
+      message: 'The "path" argument must be a string, Uint8Array, or URL without null bytes.'
     });
 
     t.assert.throws(() => {
       backup(database, {});
     }, {
       code: 'ERR_INVALID_ARG_TYPE',
-      message: 'The "destination" argument must be a string.'
+      message: 'The "path" argument must be a string, Uint8Array, or URL without null bytes.'
+    });
+  });
+
+  test('throws if the database path contains null bytes', (t) => {
+    const database = makeSourceDb();
+
+    t.assert.throws(() => {
+      backup(database, Buffer.from('l\0cation'));
+    }, {
+      code: 'ERR_INVALID_ARG_TYPE',
+      message: 'The "path" argument must be a string, Uint8Array, or URL without null bytes.'
+    });
+
+    t.assert.throws(() => {
+      backup(database, 'l\0cation');
+    }, {
+      code: 'ERR_INVALID_ARG_TYPE',
+      message: 'The "path" argument must be a string, Uint8Array, or URL without null bytes.'
     });
   });
 
@@ -144,6 +164,46 @@ test('database backup', async (t) => {
   });
 });
 
+test('backup database using location as URL', async (t) => {
+  const database = makeSourceDb();
+  const destDb = pathToFileURL(nextDb());
+
+  t.after(() => { database.close(); });
+
+  await backup(database, destDb);
+
+  const backupDb = new DatabaseSync(destDb);
+
+  t.after(() => { backupDb.close(); });
+
+  const rows = backupDb.prepare('SELECT * FROM data').all();
+
+  t.assert.deepStrictEqual(rows, [
+    { __proto__: null, key: 1, value: 'value-1' },
+    { __proto__: null, key: 2, value: 'value-2' },
+  ]);
+});
+
+test('backup database using location as Buffer', async (t) => {
+  const database = makeSourceDb();
+  const destDb = Buffer.from(nextDb());
+
+  t.after(() => { database.close(); });
+
+  await backup(database, destDb);
+
+  const backupDb = new DatabaseSync(destDb);
+
+  t.after(() => { backupDb.close(); });
+
+  const rows = backupDb.prepare('SELECT * FROM data').all();
+
+  t.assert.deepStrictEqual(rows, [
+    { __proto__: null, key: 1, value: 'value-1' },
+    { __proto__: null, key: 2, value: 'value-2' },
+  ]);
+});
+
 test('database backup in a single call', async (t) => {
   const progressFn = t.mock.fn();
   const database = makeSourceDb();
@@ -179,6 +239,19 @@ test('throws exception when trying to start backup from a closed database', (t) 
   }, {
     code: 'ERR_INVALID_STATE',
     message: 'database is not open'
+  });
+});
+
+test('throws if URL is not file: scheme', (t) => {
+  const database = new DatabaseSync(':memory:');
+
+  t.after(() => { database.close(); });
+
+  t.assert.throws(() => {
+    backup(database, new URL('http://example.com/backup.db'));
+  }, {
+    code: 'ERR_INVALID_URL_SCHEME',
+    message: 'The URL must be of scheme file:',
   });
 });
 
@@ -228,7 +301,7 @@ test('backup fails when source db is invalid', async (t) => {
   });
 });
 
-test('backup fails when destination cannot be opened', async (t) => {
+test('backup fails when path cannot be opened', async (t) => {
   const database = makeSourceDb();
 
   await t.assert.rejects(async () => {
@@ -241,4 +314,44 @@ test('backup fails when destination cannot be opened', async (t) => {
 test('backup has correct name and length', (t) => {
   t.assert.strictEqual(backup.name, 'backup');
   t.assert.strictEqual(backup.length, 2);
+});
+
+test('source database is kept alive while a backup is in flight', async (t) => {
+  // Regression test: previously, BackupJob stored a raw DatabaseSync* and the
+  // source could be garbage-collected while the backup was still running,
+  // leading to a use-after-free when BackupJob::Finalize() dereferenced the
+  // stale pointer via source_->RemoveBackup(this).
+  const destDb = nextDb();
+
+  let database = makeSourceDb();
+  // Insert enough rows to ensure the backup takes multiple steps.
+  const insert = database.prepare('INSERT INTO data (key, value) VALUES (?, ?)');
+  for (let i = 3; i <= 500; i++) {
+    insert.run(i, 'A'.repeat(1024) + i);
+  }
+
+  const p = backup(database, destDb, {
+    rate: 1,
+    progress() {},
+  });
+  // Drop the last strong JS reference to the source database. With the bug,
+  // the DatabaseSync could be collected here and the in-flight backup would
+  // later crash while accessing the freed source.
+  database = null;
+
+  // Nudge the GC aggressively, but the backup must keep the source alive
+  // regardless. Without the fix, the source DatabaseSync would be collected
+  // and BackupJob::Finalize() would crash the process.
+  for (let i = 0; i < 5; i++) {
+    global.gc();
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+
+  const totalPages = await p;
+  t.assert.ok(totalPages > 0);
+
+  const backupDb = new DatabaseSync(destDb);
+  t.after(() => { backupDb.close(); });
+  const rows = backupDb.prepare('SELECT COUNT(*) AS n FROM data').get();
+  t.assert.strictEqual(rows.n, 500);
 });

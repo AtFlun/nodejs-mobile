@@ -707,6 +707,13 @@ by the `node:assert` module.
 An attempt was made to register something that is not a function as an
 `AsyncHooks` callback.
 
+<a id="ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED"></a>
+
+### `ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED`
+
+An operation related to module loading is customized by an asynchronous loader
+hook that never settled the promise before the loader thread exits.
+
 <a id="ERR_ASYNC_TYPE"></a>
 
 ### `ERR_ASYNC_TYPE`
@@ -835,7 +842,7 @@ size is reached when the context is created.
 ### `ERR_CPU_PROFILE_ALREADY_STARTED`
 
 <!-- YAML
-added: v22.20.0
+added: v24.8.0
 -->
 
 The CPU profile with the given name is already started.
@@ -845,7 +852,7 @@ The CPU profile with the given name is already started.
 ### `ERR_CPU_PROFILE_NOT_STARTED`
 
 <!-- YAML
-added: v22.20.0
+added: v24.8.0
 -->
 
 The CPU profile with the given name is not started.
@@ -855,10 +862,16 @@ The CPU profile with the given name is not started.
 ### `ERR_CPU_PROFILE_TOO_MANY`
 
 <!-- YAML
-added: v22.20.0
+added: v24.8.0
 -->
 
 There are too many CPU profiles being collected.
+
+<a id="ERR_CRYPTO_ARGON2_NOT_SUPPORTED"></a>
+
+### `ERR_CRYPTO_ARGON2_NOT_SUPPORTED`
+
+Argon2 is not supported by the current version of OpenSSL being used.
 
 <a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a>
 
@@ -1049,7 +1062,8 @@ An invalid message length was provided.
 added: v15.0.0
 -->
 
-Invalid scrypt algorithm parameters were provided.
+One or more [`crypto.scrypt()`][] or [`crypto.scryptSync()`][] parameters are
+outside their legal range.
 
 <a id="ERR_CRYPTO_INVALID_STATE"></a>
 
@@ -1092,6 +1106,17 @@ Key's Elliptic Curve is not registered for use in the
 Key's Asymmetric Key Type is not registered for use in the
 [JSON Web Key Types Registry][].
 
+<a id="ERR_CRYPTO_KEM_NOT_SUPPORTED"></a>
+
+### `ERR_CRYPTO_KEM_NOT_SUPPORTED`
+
+<!-- YAML
+added: v24.7.0
+-->
+
+Attempted to use KEM operations while Node.js was not compiled with
+OpenSSL with KEM support.
+
 <a id="ERR_CRYPTO_OPERATION_FAILED"></a>
 
 ### `ERR_CRYPTO_OPERATION_FAILED`
@@ -1108,13 +1133,6 @@ A crypto operation failed for an otherwise unspecified reason.
 
 The PBKDF2 algorithm failed for unspecified reasons. OpenSSL does not provide
 more details and therefore neither does Node.js.
-
-<a id="ERR_CRYPTO_SCRYPT_INVALID_PARAMETER"></a>
-
-### `ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`
-
-One or more [`crypto.scrypt()`][] or [`crypto.scryptSync()`][] parameters are
-outside their legal range.
 
 <a id="ERR_CRYPTO_SCRYPT_NOT_SUPPORTED"></a>
 
@@ -1406,13 +1424,6 @@ An attempt was made to read a file larger than the supported 2 GiB limit for
 `fs.readFile()`. This is not a limitation of `Buffer`, but an internal I/O constraint.
 For handling larger files, consider using `fs.createReadStream()` to read the
 file in chunks.
-
-<a id="ERR_FS_INVALID_SYMLINK_TYPE"></a>
-
-### `ERR_FS_INVALID_SYMLINK_TYPE`
-
-An invalid symlink type was passed to the [`fs.symlink()`][] or
-[`fs.symlinkSync()`][] methods.
 
 <a id="ERR_FS_WATCH_QUEUE_OVERFLOW"></a>
 
@@ -1726,7 +1737,7 @@ as specified through the `maxSessionInvalidFrames` option, has been exceeded.
 ### `ERR_HTTP2_TOO_MANY_ORIGINS`
 
 <!-- YAML
-added: v22.23.0
+added: v24.17.0
 -->
 
 The number of uniq origin sent by the server has exceeded the value defined in
@@ -2165,9 +2176,13 @@ does not consist of exactly two elements.
 ### `ERR_INVALID_TYPESCRIPT_SYNTAX`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
 changes:
-    - version: v22.14.0
+    - version:
+      - v23.7.0
+      - v22.14.0
       pr-url: https://github.com/nodejs/node/pull/56610
       description: This error is no longer thrown on valid yet unsupported syntax.
 -->
@@ -2188,6 +2203,13 @@ An invalid URL was passed to the [WHATWG][WHATWG URL API] [`URL`
 constructor][`new URL(input)`] or the legacy [`url.parse()`][] to be parsed.
 The thrown error object typically has an additional property `'input'` that
 contains the URL that failed to parse.
+
+<a id="ERR_INVALID_URL_PATTERN"></a>
+
+### `ERR_INVALID_URL_PATTERN`
+
+An invalid URLPattern was passed to the [WHATWG][WHATWG URL API]
+[`URLPattern` constructor][`new URLPattern(input)`] to be parsed.
 
 <a id="ERR_INVALID_URL_SCHEME"></a>
 
@@ -2252,7 +2274,9 @@ signaling a short circuit.
 ### `ERR_LOAD_SQLITE_EXTENSION`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.5.0
+  - v22.13.0
 -->
 
 An error occurred while loading a SQLite extension.
@@ -2433,7 +2457,9 @@ compiled with ICU support.
 ### `ERR_NO_TYPESCRIPT`
 
 <!-- YAML
-added: v22.12.0
+added:
+  - v23.0.0
+  - v22.12.0
 -->
 
 An attempt was made to use features that require [Native TypeScript support][], but Node.js was not
@@ -2455,7 +2481,7 @@ of an asynchronous operation.
 ### `ERR_OPTIONS_BEFORE_BOOTSTRAPPING`
 
 <!-- YAML
-added: v22.16.0
+added: v23.10.0
 -->
 
 An attempt was made to get options before the bootstrapping was completed.
@@ -2559,7 +2585,9 @@ Failed to establish proxy tunnel when `NODE_USE_ENV_PROXY` or `--use-env-proxy` 
 ### `ERR_QUIC_APPLICATION_ERROR`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 1 - Experimental
@@ -2571,7 +2599,9 @@ A QUIC application error occurred.
 ### `ERR_QUIC_CONNECTION_FAILED`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
 -->
 
 > Stability: 1 - Experimental
@@ -2583,7 +2613,9 @@ Establishing a QUIC connection failed.
 ### `ERR_QUIC_ENDPOINT_CLOSED`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
 -->
 
 > Stability: 1 - Experimental
@@ -2595,7 +2627,9 @@ A QUIC Endpoint closed with an error.
 ### `ERR_QUIC_OPEN_STREAM_FAILED`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
 -->
 
 > Stability: 1 - Experimental
@@ -2607,7 +2641,9 @@ Opening a QUIC stream failed.
 ### `ERR_QUIC_TRANSPORT_ERROR`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 1 - Experimental
@@ -2619,7 +2655,9 @@ A QUIC transport error occurred.
 ### `ERR_QUIC_VERSION_NEGOTIATION_ERROR`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 1 - Experimental
@@ -2629,8 +2667,6 @@ A QUIC session failed because version negotiation is required.
 <a id="ERR_REQUIRE_ASYNC_MODULE"></a>
 
 ### `ERR_REQUIRE_ASYNC_MODULE`
-
-> Stability: 1 - Experimental
 
 When trying to `require()` a [ES Module][], the module turns out to be asynchronous.
 That is, it contains top-level await.
@@ -2642,8 +2678,6 @@ before looking for the top-level awaits).
 <a id="ERR_REQUIRE_CYCLE_MODULE"></a>
 
 ### `ERR_REQUIRE_CYCLE_MODULE`
-
-> Stability: 1 - Experimental
 
 When trying to `require()` a [ES Module][], a CommonJS to ESM or ESM to CommonJS edge
 participates in an immediate cycle.
@@ -2660,7 +2694,10 @@ module, and should be done lazily in an inner function.
 
 <!-- YAML
 changes:
-  - version: v22.12.0
+  - version:
+    - v23.0.0
+    - v22.12.0
+    - v20.19.0
     pr-url: https://github.com/nodejs/node/pull/55085
     description: require() now supports loading synchronous ES modules by default.
 -->
@@ -2672,6 +2709,19 @@ An attempt was made to `require()` an [ES Module][].
 This error has been deprecated since `require()` now supports loading synchronous
 ES modules. When `require()` encounters an ES module that contains top-level
 `await`, it will throw [`ERR_REQUIRE_ASYNC_MODULE`][] instead.
+
+<a id="ERR_REQUIRE_ESM_RACE_CONDITION"></a>
+
+### `ERR_REQUIRE_ESM_RACE_CONDITION`
+
+<!-- YAML
+added: v24.16.0
+-->
+
+> Stability: 1 - Experimental.
+
+An attempt was made to `require()` an [ES Module][] while another `import()` call
+was already in progress to load it asynchronously.
 
 <a id="ERR_SCRIPT_EXECUTION_INTERRUPTED"></a>
 
@@ -2787,6 +2837,14 @@ disconnected socket.
 
 A call was made and the UDP subsystem was not running.
 
+<a id="ERR_SOCKET_HANDLE_ADOPTED"></a>
+
+### `ERR_SOCKET_HANDLE_ADOPTED`
+
+An operation was attempted on a [`BoundSocket`][] that had already been adopted
+by a [`net.Server`][] or [`net.Socket`][]. Once a bound socket is adopted, its
+`address()` and `close()` methods can no longer be used.
+
 <a id="ERR_SOURCE_MAP_CORRUPT"></a>
 
 ### `ERR_SOURCE_MAP_CORRUPT`
@@ -2798,6 +2856,17 @@ The source map could not be parsed because it does not exist, or is corrupt.
 ### `ERR_SOURCE_MAP_MISSING_SOURCE`
 
 A file imported from a source map was not found.
+
+<a id="ERR_SOURCE_PHASE_NOT_DEFINED"></a>
+
+### `ERR_SOURCE_PHASE_NOT_DEFINED`
+
+<!-- YAML
+added: v24.0.0
+-->
+
+The provided module import does not provide a source phase imports representation for source phase
+import syntax `import source x from 'x'` or `import.source(x)`.
 
 <a id="ERR_SQLITE_ERROR"></a>
 
@@ -2856,6 +2925,12 @@ or a pipeline ends non gracefully with no explicit error.
 
 An attempt was made to call [`stream.push()`][] after a `null`(EOF) had been
 pushed to the stream.
+
+<a id="ERR_STREAM_UNABLE_TO_PIPE"></a>
+
+### `ERR_STREAM_UNABLE_TO_PIPE`
+
+An attempt was made to pipe to a closed or destroyed stream in a pipeline.
 
 <a id="ERR_STREAM_UNSHIFT_AFTER_END_EVENT"></a>
 
@@ -2975,7 +3050,7 @@ The context must be a `SecureContext`.
 
 ### `ERR_TLS_INVALID_PROTOCOL_METHOD`
 
-The specified  `secureProtocol` method is invalid. It is  either unknown, or
+The specified `secureProtocol` method is invalid. It is either unknown, or
 disabled because it is insecure.
 
 <a id="ERR_TLS_INVALID_PROTOCOL_VERSION"></a>
@@ -3004,9 +3079,9 @@ event is emitted before continuing.
 Attempting to set a TLS protocol `minVersion` or `maxVersion` conflicts with an
 attempt to set the `secureProtocol` explicitly. Use one mechanism or the other.
 
-<a id="ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED"></a>
+<a id="ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED"></a>
 
-### `ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED`
+### `ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED`
 
 Failed to set PSK identity hint. Hint may be too long.
 
@@ -3016,6 +3091,13 @@ Failed to set PSK identity hint. Hint may be too long.
 
 An attempt was made to renegotiate TLS on a socket instance with renegotiation
 disabled.
+
+<a id="ERR_TLS_RENEGOTIATION_UNSUPPORTED"></a>
+
+### `ERR_TLS_RENEGOTIATION_UNSUPPORTED`
+
+An attempt was made to renegotiate TLS, but the TLS implementation does not
+support caller-initiated renegotiation.
 
 <a id="ERR_TLS_REQUIRED_SERVER_NAME"></a>
 
@@ -3204,7 +3286,9 @@ try {
 ### `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`
 
 <!-- YAML
-added: v22.14.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 The provided TypeScript syntax is unsupported.
@@ -3521,6 +3605,29 @@ The UTF-16 encoding was used with [`hash.digest()`][]. While the
 causing the method to return a string rather than a `Buffer`, the UTF-16
 encoding (e.g. `ucs` or `utf16le`) is not supported.
 
+<a id="ERR_CRYPTO_SCRYPT_INVALID_PARAMETER"></a>
+
+### `ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`
+
+<!-- YAML
+removed: v23.0.0
+-->
+
+An incompatible combination of options was passed to [`crypto.scrypt()`][] or
+[`crypto.scryptSync()`][]. New versions of Node.js use the error code
+[`ERR_INCOMPATIBLE_OPTION_PAIR`][] instead, which is consistent with other APIs.
+
+<a id="ERR_FS_INVALID_SYMLINK_TYPE"></a>
+
+### `ERR_FS_INVALID_SYMLINK_TYPE`
+
+<!-- YAML
+removed: v23.0.0
+-->
+
+An invalid symlink type was passed to the [`fs.symlink()`][] or
+[`fs.symlinkSync()`][] methods.
+
 <a id="ERR_HTTP2_FRAME_ERROR"></a>
 
 ### `ERR_HTTP2_FRAME_ERROR`
@@ -3792,7 +3899,7 @@ removed: v15.0.0
 -->
 
 This error code was replaced by [`ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST`][]
-in Node.js v15.0.0, because it is no longer accurate as other types of
+in Node.js 15.0.0, because it is no longer accurate as other types of
 transferable objects also exist now.
 
 <a id="ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST"></a>
@@ -4311,7 +4418,9 @@ An error occurred trying to allocate memory. This should never happen.
 [`--force-fips`]: cli.md#--force-fips
 [`--no-addons`]: cli.md#--no-addons
 [`--unhandled-rejections`]: cli.md#--unhandled-rejectionsmode
+[`BoundSocket`]: net.md#class-netboundsocket
 [`Class: assert.AssertionError`]: assert.md#class-assertassertionerror
+[`ERR_INCOMPATIBLE_OPTION_PAIR`]: #err_incompatible_option_pair
 [`ERR_INVALID_ARG_TYPE`]: #err_invalid_arg_type
 [`ERR_MISSING_MESSAGE_PORT_IN_TRANSFER_LIST`]: #err_missing_message_port_in_transfer_list
 [`ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST`]: #err_missing_transferable_in_transfer_list
@@ -4351,13 +4460,16 @@ An error occurred trying to allocate memory. This should never happen.
 [`http`]: http.md
 [`https`]: https.md
 [`libuv Error handling`]: https://docs.libuv.org/en/v1.x/errors.html
+[`net.Server`]: net.md#class-netserver
 [`net.Socket.write()`]: net.md#socketwritedata-encoding-callback
+[`net.Socket`]: net.md#class-netsocket
 [`net`]: net.md
 [`new URL(input)`]: url.md#new-urlinput-base
+[`new URLPattern(input)`]: url.md#new-urlpatternstring-baseurl-options
 [`new URLSearchParams(iterable)`]: url.md#new-urlsearchparamsiterable
 [`package.json`]: packages.md#nodejs-packagejson-field-definitions
 [`postMessage()`]: worker_threads.md#portpostmessagevalue-transferlist
-[`postMessageToThread()`]: worker_threads.md#workerpostmessagetothreadthreadid-value-transferlist-timeout
+[`postMessageToThread()`]: worker_threads.md#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout
 [`process.on('exit')`]: process.md#event-exit
 [`process.send()`]: process.md#processsendmessage-sendhandle-options-callback
 [`process.setUncaughtExceptionCaptureCallback()`]: process.md#processsetuncaughtexceptioncapturecallbackfn

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Util | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Util | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:494px){.with-34-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:558px){.with-42-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:566px){.with-43-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:550px){.with-41-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:718px){.with-62-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:494px){.with-34-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:734px){.with-64-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:558px){.with-42-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:566px){.with-43-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:550px){.with-41-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:718px){.with-62-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-util">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="util" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -139,13 +139,14 @@
 <li><span class="stability_2"><a href="#util">Util</a></span>
 <ul>
 <li><a href="#utilcallbackifyoriginal"><code>util.callbackify(original)</code></a></li>
+<li><a href="#utilconvertprocesssignaltoexitcodesignal"><code>util.convertProcessSignalToExitCode(signal)</code></a></li>
 <li><a href="#utildebuglogsection-callback"><code>util.debuglog(section[, callback])</code></a>
 <ul>
 <li><a href="#debuglogenabled"><code>debuglog().enabled</code></a></li>
 </ul>
 </li>
 <li><a href="#utildebugsection"><code>util.debug(section)</code></a></li>
-<li><a href="#utildeprecatefn-msg-code"><code>util.deprecate(fn, msg[, code])</code></a></li>
+<li><a href="#utildeprecatefn-msg-code-options"><code>util.deprecate(fn, msg[, code[, options]])</code></a></li>
 <li><span class="stability_1"><a href="#utildiffactual-expected"><code>util.diff(actual, expected)</code></a></span></li>
 <li><a href="#utilformatformat-args"><code>util.format(format[, ...args])</code></a></li>
 <li><a href="#utilformatwithoptionsinspectoptions-format-args"><code>util.formatWithOptions(inspectOptions, format[, ...args])</code></a></li>
@@ -170,7 +171,7 @@
 <li><a href="#utilinspectdefaultoptions"><code>util.inspect.defaultOptions</code></a></li>
 </ul>
 </li>
-<li><a href="#utilisdeepstrictequalval1-val2"><code>util.isDeepStrictEqual(val1, val2)</code></a></li>
+<li><a href="#utilisdeepstrictequalval1-val2-options"><code>util.isDeepStrictEqual(val1, val2[, options])</code></a></li>
 <li><a href="#class-utilmimetype">Class: <code>util.MIMEType</code></a>
 <ul>
 <li><a href="#new-mimetypeinput"><code>new MIMEType(input)</code></a></li>
@@ -264,7 +265,7 @@
 <li><a href="#utiltypesismapvalue"><code>util.types.isMap(value)</code></a></li>
 <li><a href="#utiltypesismapiteratorvalue"><code>util.types.isMapIterator(value)</code></a></li>
 <li><a href="#utiltypesismodulenamespaceobjectvalue"><code>util.types.isModuleNamespaceObject(value)</code></a></li>
-<li><a href="#utiltypesisnativeerrorvalue"><code>util.types.isNativeError(value)</code></a></li>
+<li><span class="stability_0"><a href="#utiltypesisnativeerrorvalue"><code>util.types.isNativeError(value)</code></a></span></li>
 <li><a href="#utiltypesisnumberobjectvalue"><code>util.types.isNumberObject(value)</code></a></li>
 <li><a href="#utiltypesispromisevalue"><code>util.types.isPromise(value)</code></a></li>
 <li><a href="#utiltypesisproxyvalue"><code>util.types.isProxy(value)</code></a></li>
@@ -287,21 +288,6 @@
 <ul>
 <li><span class="stability_0"><a href="#util_extendtarget-source"><code>util._extend(target, source)</code></a></span></li>
 <li><span class="stability_0"><a href="#utilisarrayobject"><code>util.isArray(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisbooleanobject"><code>util.isBoolean(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisbufferobject"><code>util.isBuffer(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisdateobject"><code>util.isDate(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utiliserrorobject"><code>util.isError(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisfunctionobject"><code>util.isFunction(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnullobject"><code>util.isNull(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnullorundefinedobject"><code>util.isNullOrUndefined(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnumberobject"><code>util.isNumber(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisobjectobject"><code>util.isObject(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisprimitiveobject"><code>util.isPrimitive(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisregexpobject"><code>util.isRegExp(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisstringobject"><code>util.isString(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilissymbolobject"><code>util.isSymbol(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisundefinedobject"><code>util.isUndefined(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utillogstring"><code>util.log(string)</code></a></span></li>
 </ul>
 </li>
 </ul>
@@ -456,13 +442,14 @@
 <li><span class="stability_2"><a href="#util">Util</a></span>
 <ul>
 <li><a href="#utilcallbackifyoriginal"><code>util.callbackify(original)</code></a></li>
+<li><a href="#utilconvertprocesssignaltoexitcodesignal"><code>util.convertProcessSignalToExitCode(signal)</code></a></li>
 <li><a href="#utildebuglogsection-callback"><code>util.debuglog(section[, callback])</code></a>
 <ul>
 <li><a href="#debuglogenabled"><code>debuglog().enabled</code></a></li>
 </ul>
 </li>
 <li><a href="#utildebugsection"><code>util.debug(section)</code></a></li>
-<li><a href="#utildeprecatefn-msg-code"><code>util.deprecate(fn, msg[, code])</code></a></li>
+<li><a href="#utildeprecatefn-msg-code-options"><code>util.deprecate(fn, msg[, code[, options]])</code></a></li>
 <li><span class="stability_1"><a href="#utildiffactual-expected"><code>util.diff(actual, expected)</code></a></span></li>
 <li><a href="#utilformatformat-args"><code>util.format(format[, ...args])</code></a></li>
 <li><a href="#utilformatwithoptionsinspectoptions-format-args"><code>util.formatWithOptions(inspectOptions, format[, ...args])</code></a></li>
@@ -487,7 +474,7 @@
 <li><a href="#utilinspectdefaultoptions"><code>util.inspect.defaultOptions</code></a></li>
 </ul>
 </li>
-<li><a href="#utilisdeepstrictequalval1-val2"><code>util.isDeepStrictEqual(val1, val2)</code></a></li>
+<li><a href="#utilisdeepstrictequalval1-val2-options"><code>util.isDeepStrictEqual(val1, val2[, options])</code></a></li>
 <li><a href="#class-utilmimetype">Class: <code>util.MIMEType</code></a>
 <ul>
 <li><a href="#new-mimetypeinput"><code>new MIMEType(input)</code></a></li>
@@ -581,7 +568,7 @@
 <li><a href="#utiltypesismapvalue"><code>util.types.isMap(value)</code></a></li>
 <li><a href="#utiltypesismapiteratorvalue"><code>util.types.isMapIterator(value)</code></a></li>
 <li><a href="#utiltypesismodulenamespaceobjectvalue"><code>util.types.isModuleNamespaceObject(value)</code></a></li>
-<li><a href="#utiltypesisnativeerrorvalue"><code>util.types.isNativeError(value)</code></a></li>
+<li><span class="stability_0"><a href="#utiltypesisnativeerrorvalue"><code>util.types.isNativeError(value)</code></a></span></li>
 <li><a href="#utiltypesisnumberobjectvalue"><code>util.types.isNumberObject(value)</code></a></li>
 <li><a href="#utiltypesispromisevalue"><code>util.types.isPromise(value)</code></a></li>
 <li><a href="#utiltypesisproxyvalue"><code>util.types.isProxy(value)</code></a></li>
@@ -604,21 +591,6 @@
 <ul>
 <li><span class="stability_0"><a href="#util_extendtarget-source"><code>util._extend(target, source)</code></a></span></li>
 <li><span class="stability_0"><a href="#utilisarrayobject"><code>util.isArray(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisbooleanobject"><code>util.isBoolean(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisbufferobject"><code>util.isBuffer(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisdateobject"><code>util.isDate(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utiliserrorobject"><code>util.isError(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisfunctionobject"><code>util.isFunction(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnullobject"><code>util.isNull(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnullorundefinedobject"><code>util.isNullOrUndefined(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisnumberobject"><code>util.isNumber(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisobjectobject"><code>util.isObject(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisprimitiveobject"><code>util.isPrimitive(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisregexpobject"><code>util.isRegExp(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisstringobject"><code>util.isString(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilissymbolobject"><code>util.isSymbol(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utilisundefinedobject"><code>util.isUndefined(object)</code></a></span></li>
-<li><span class="stability_0"><a href="#utillogstring"><code>util.log(string)</code></a></span></li>
 </ul>
 </li>
 </ul>
@@ -629,7 +601,7 @@
         <h2>Util<span><a class="mark" href="#util" id="util">#</a></span><a aria-hidden="true" class="legacy" id="util_util"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/util.js">lib/util.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/util.js">lib/util.js</a></p>
 <p>The <code>node:util</code> module supports the needs of Node.js internal APIs. Many of the
 utilities are useful for application and module developers as well. To access
 it:</p>
@@ -679,7 +651,10 @@ event, and if not handled will exit.</p>
 wrapped function rejects a <code>Promise</code> with a falsy value as a reason, the value
 is wrapped in an <code>Error</code> with the original value stored in a field named
 <code>reason</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> util <span class="hljs-keyword">from</span> <span class="hljs-string">'node:util'</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(<span class="hljs-literal">null</span>);
 }
 <span class="hljs-keyword">const</span> callbackFunction = util.<span class="hljs-title function_">callbackify</span>(fn);
@@ -688,7 +663,41 @@ is wrapped in an <code>Error</code> with the original value stored in a field na
   <span class="hljs-comment">// When the Promise was rejected with `null` it is wrapped with an Error and</span>
   <span class="hljs-comment">// the original value is stored in `reason`.</span>
   err &#x26;&#x26; <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">hasOwn</span>(err, <span class="hljs-string">'reason'</span>) &#x26;&#x26; err.<span class="hljs-property">reason</span> === <span class="hljs-literal">null</span>;  <span class="hljs-comment">// true</span>
-});</code> <button class="copy-button">copy</button></pre>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(<span class="hljs-literal">null</span>);
+}
+<span class="hljs-keyword">const</span> callbackFunction = util.<span class="hljs-title function_">callbackify</span>(fn);
+
+<span class="hljs-title function_">callbackFunction</span>(<span class="hljs-function">(<span class="hljs-params">err, ret</span>) =></span> {
+  <span class="hljs-comment">// When the Promise was rejected with `null` it is wrapped with an Error and</span>
+  <span class="hljs-comment">// the original value is stored in `reason`.</span>
+  err &#x26;&#x26; <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">hasOwn</span>(err, <span class="hljs-string">'reason'</span>) &#x26;&#x26; err.<span class="hljs-property">reason</span> === <span class="hljs-literal">null</span>;  <span class="hljs-comment">// true</span>
+});</code><button class="copy-button">copy</button></pre>
+</section><section><h3><code>util.convertProcessSignalToExitCode(signal)</code><span><a class="mark" href="#utilconvertprocesssignaltoexitcodesignal" id="utilconvertprocesssignaltoexitcodesignal">#</a></span><a aria-hidden="true" class="legacy" id="util_util_convertprocesssignaltoexitcode_signal"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.14.0</span>
+</div>
+<ul>
+<li><code>signal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A signal name (e.g. <code>'SIGTERM'</code>)</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The exit code corresponding to <code>signal</code></li>
+</ul>
+<p>The <code>util.convertProcessSignalToExitCode()</code> method converts a signal name to its
+corresponding POSIX exit code. Following the POSIX standard, the exit code
+for a process terminated by a signal is calculated as <code>128 + signal number</code>.</p>
+<p>If <code>signal</code> is not a valid signal name, then an error will be thrown. See
+<a href="https://man7.org/linux/man-pages/man7/signal.7.html"><code>signal(7)</code></a> for a list of valid signals.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { convertProcessSignalToExitCode } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:util'</span>;
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">convertProcessSignalToExitCode</span>(<span class="hljs-string">'SIGTERM'</span>)); <span class="hljs-comment">// 143 (128 + 15)</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">convertProcessSignalToExitCode</span>(<span class="hljs-string">'SIGKILL'</span>)); <span class="hljs-comment">// 137 (128 + 9)</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { convertProcessSignalToExitCode } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">convertProcessSignalToExitCode</span>(<span class="hljs-string">'SIGTERM'</span>)); <span class="hljs-comment">// 143 (128 + 15)</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">convertProcessSignalToExitCode</span>(<span class="hljs-string">'SIGKILL'</span>)); <span class="hljs-comment">// 137 (128 + 9)</span></code><button class="copy-button">copy</button></pre>
+<p>This is particularly useful when working with processes to determine
+the exit code based on the signal that terminated the process.</p>
 </section><section><h3><code>util.debuglog(section[, callback])</code><span><a class="mark" href="#utildebuglogsection-callback" id="utildebuglogsection-callback">#</a></span><a aria-hidden="true" class="legacy" id="util_util_debuglog_section_callback"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.11.3</span>
@@ -780,11 +789,13 @@ output something like:</p>
 </div>
 <p>Alias for <code>util.debuglog</code>. Usage allows for readability of that doesn't imply
 logging when only using <code>util.debuglog().enabled</code>.</p>
-</section><section><h3><code>util.deprecate(fn, msg[, code])</code><span><a class="mark" href="#utildeprecatefn-msg-code" id="utildeprecatefn-msg-code">#</a></span><a aria-hidden="true" class="legacy" id="util_util_deprecate_fn_msg_code"></a></h3>
+</section><section><h3><code>util.deprecate(fn, msg[, code[, options]])</code><span><a class="mark" href="#utildeprecatefn-msg-code-options" id="utildeprecatefn-msg-code-options">#</a></span><a aria-hidden="true" class="legacy" id="util_util_deprecate_fn_msg_code_options"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.12.0</td>
+<td><p>Add options object with modifyPrototype to conditionally modify the prototype of the deprecated object.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Deprecation warnings are only emitted once for each code.</p></td></tr>
 <tr><td>v0.8.0</td>
@@ -798,6 +809,13 @@ logging when only using <code>util.debuglog().enabled</code>.</p>
 invoked.</li>
 <li><code>code</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A deprecation code. See the <a href="deprecations.html#list-of-deprecated-apis">list of deprecated APIs</a> for a
 list of codes.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>modifyPrototype</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When false do not change the prototype of object
+while emitting the deprecation warning.
+<strong>Default:</strong> <code>true</code>.</li>
+</ul>
+</li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The deprecated function wrapped to emit a warning.</li>
 </ul>
 <p>The <code>util.deprecate()</code> method wraps <code>fn</code> (which may be a function or class) in
@@ -866,7 +884,7 @@ property take precedence over <code>--trace-deprecation</code> and
 <code>process.traceDeprecation</code>.</p>
 </section><section><h3><code>util.diff(actual, expected)</code><span><a class="mark" href="#utildiffactual-expected" id="utildiffactual-expected">#</a></span><a aria-hidden="true" class="legacy" id="util_util_diff_actual_expected"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.11.0, v22.15.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <ul>
@@ -972,7 +990,7 @@ with options <code>{ depth: 0, colors: false, compact: 3 }</code>.</li>
 <code>Symbol</code>.</li>
 <li><code>%i</code>: <code>parseInt(value, 10)</code> is used for all values except <code>BigInt</code> and
 <code>Symbol</code>.</li>
-<li><code>%f</code>: <code>parseFloat(value)</code> is used for all values expect <code>Symbol</code>.</li>
+<li><code>%f</code>: <code>parseFloat(value)</code> is used for all values except <code>Symbol</code>.</li>
 <li><code>%j</code>: JSON. Replaced with the string <code>'[Circular]'</code> if the argument contains
 circular references.</li>
 <li><code>%o</code>: <code>Object</code>. A string representation of an object with generic JavaScript
@@ -1026,11 +1044,11 @@ an <code>inspectOptions</code> argument which specifies options that are passed 
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Property <code>column</code> is deprecated in favor of <code>columnNumber</code>.</p></td></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Property <code>CallSite.scriptId</code> is exposed.</p></td></tr>
-<tr><td>v22.12.0</td>
+<tr><td>v23.3.0, v22.12.0</td>
 <td><p>The API is renamed from <code>util.getCallSite</code> to <code>util.getCallSites()</code>.</p></td></tr>
 <tr><td>v22.9.0</td>
 <td><p><span>Added in: v22.9.0</span></p></td></tr>
@@ -1039,7 +1057,7 @@ an <code>inspectOptions</code> argument which specifies options that are passed 
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
 <ul>
-<li><code>frameCount</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Optional number of frames to capture as call site objects.
+<li><code>frameCount</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> Optional number of frames to capture as call site objects.
 <strong>Default:</strong> <code>10</code>. Allowable range is between 1 and 200.</li>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Optional
 <ul>
@@ -1200,7 +1218,7 @@ See <a href="errors.html#common-system-errors">Common System Errors</a> for the 
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>util.getSystemErrorMessage(err)</code><span><a class="mark" href="#utilgetsystemerrormessageerr" id="utilgetsystemerrormessageerr">#</a></span><a aria-hidden="true" class="legacy" id="util_util_getsystemerrormessage_err"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.1.0, v22.12.0</span>
 </div>
 <ul>
 <li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
@@ -1215,7 +1233,7 @@ The mapping between error codes and string messages is platform-dependent.</p>
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>util.setTraceSigInt(enable)</code><span><a class="mark" href="#utilsettracesigintenable" id="utilsettracesigintenable">#</a></span><a aria-hidden="true" class="legacy" id="util_util_settracesigint_enable"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.19.0</span>
+<span>Added in: v24.6.0</span>
 </div>
 <ul>
 <li><code>enable</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
@@ -1860,7 +1878,7 @@ obj[inspect.<span class="hljs-property">custom</span>] = <span class="hljs-funct
 symbol is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for">registered globally</a> and can be
 accessed in any environment as <code>Symbol.for('nodejs.util.inspect.custom')</code>.</p>
 <p>Using this allows code to be written in a portable fashion, so that the custom
-inspect function is used in an Node.js environment and ignored in the browser.
+inspect function is used in a Node.js environment and ignored in the browser.
 The <code>util.inspect()</code> function itself is passed as third argument to the custom
 inspect function to allow further portability.</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> customInspectSymbol = <span class="hljs-title class_">Symbol</span>.<span class="hljs-title function_">for</span>(<span class="hljs-string">'nodejs.util.inspect.custom'</span>);
@@ -1906,17 +1924,54 @@ inspect.<span class="hljs-property">defaultOptions</span>.<span class="hljs-prop
 inspect.<span class="hljs-property">defaultOptions</span>.<span class="hljs-property">maxArrayLength</span> = <span class="hljs-literal">null</span>;
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arr); <span class="hljs-comment">// logs the full array</span></code><button class="copy-button">copy</button></pre>
 </div>
-</section><section><h3><code>util.isDeepStrictEqual(val1, val2)</code><span><a class="mark" href="#utilisdeepstrictequalval1-val2" id="utilisdeepstrictequalval1-val2">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isdeepstrictequal_val1_val2"></a></h3>
+</section><section><h3><code>util.isDeepStrictEqual(val1, val2[, options])</code><span><a class="mark" href="#utilisdeepstrictequalval1-val2-options" id="utilisdeepstrictequalval1-val2-options">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isdeepstrictequal_val1_val2_options"></a></h3>
 <div class="api_metadata">
-<span>Added in: v9.0.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.9.0</td>
+<td><p>Added <code>options</code> parameter to allow skipping prototype comparison.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p><span>Added in: v9.0.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>val1</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
 <li><code>val2</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li><code>skipPrototype</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, prototype and constructor
+comparison is skipped during deep strict equality check. <strong>Default:</strong> <code>false</code>.</li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
 </ul>
 <p>Returns <code>true</code> if there is deep strict equality between <code>val1</code> and <code>val2</code>.
 Otherwise, returns <code>false</code>.</p>
+<p>By default, deep strict equality includes comparison of object prototypes and
+constructors. When <code>skipPrototype</code> is <code>true</code>, objects with
+different prototypes or constructors can still be considered equal if their
+enumerable properties are deeply strictly equal.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">a</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = a;
+  }
+}
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Bar</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">a</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = a;
+  }
+}
+
+<span class="hljs-keyword">const</span> foo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Foo</span>(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">const</span> bar = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Bar</span>(<span class="hljs-number">1</span>);
+
+<span class="hljs-comment">// Different constructors, same properties</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(util.<span class="hljs-title function_">isDeepStrictEqual</span>(foo, bar));
+<span class="hljs-comment">// false</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(util.<span class="hljs-title function_">isDeepStrictEqual</span>(foo, bar, <span class="hljs-literal">true</span>));
+<span class="hljs-comment">// true</span></code> <button class="copy-button">copy</button></pre>
 <p>See <a href="assert.html#assertdeepstrictequalactual-expected-message"><code>assert.deepStrictEqual()</code></a> for more information about deep strict
 equality.</p>
 </section><section><h3>Class: <code>util.MIMEType</code><span><a class="mark" href="#class-utilmimetype" id="class-utilmimetype">#</a></span><a aria-hidden="true" class="legacy" id="util_class_util_mimetype"></a></h3>
@@ -1924,7 +1979,7 @@ equality.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v19.1.0, v18.13.0</td>
 <td><p><span>Added in: v19.1.0, v18.13.0</span></p></td></tr>
@@ -2209,7 +2264,7 @@ params.<span class="hljs-title function_">set</span>(<span class="hljs-string">'
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>add support for allowing negative options in input <code>config</code>.</p></td></tr>
 <tr><td>v20.0.0</td>
 <td><p>The API is no longer experimental.</p></td></tr>
@@ -2421,7 +2476,7 @@ multiple ways then last one wins.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.10.0</td>
 <td><p>This API is no longer experimental.</p></td></tr>
 <tr><td>v21.7.0, v20.12.0</td>
 <td><p><span>Added in: v21.7.0, v20.12.0</span></p></td></tr>
@@ -2644,9 +2699,11 @@ doSomething[kCustomPromisifiedSymbol] = <span class="hljs-function">(<span class
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.16.0</td>
+<td><p>Add support for hexadecimal colors.</p></td></tr>
+<tr><td>v24.2.0</td>
 <td><p>Added the <code>'none'</code> format as a non-op format.</p></td></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.5.0, v22.13.0</td>
 <td><p>styleText is now stable.</p></td></tr>
 <tr><td>v22.8.0, v20.18.0</td>
 <td><p>Respect isTTY and environment variables such as NO_COLOR, NODE_DISABLE_COLORS, and FORCE_COLOR.</p></td></tr>
@@ -2657,8 +2714,9 @@ doSomething[kCustomPromisifiedSymbol] = <span class="hljs-function">(<span class
 </div>
 <ul>
 <li><code>format</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> A text format or an Array
-of text formats defined in <code>util.inspect.colors</code>.</li>
-<li><code>text</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The text to to be formatted.</li>
+of text formats defined in <code>util.inspect.colors</code>, or a hex color in <code>#RGB</code>
+or <code>#RRGGBB</code> form.</li>
+<li><code>text</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The text to be formatted.</li>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
 <ul>
 <li><code>validateStream</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When true, <code>stream</code> is checked to see if it can handle colors. <strong>Default:</strong> <code>true</code>.</li>
@@ -2707,6 +2765,23 @@ is left to right so the following style might overwrite the previous one.</p>
   util.<span class="hljs-title function_">styleText</span>([<span class="hljs-string">'red'</span>, <span class="hljs-string">'green'</span>], <span class="hljs-string">'text'</span>), <span class="hljs-comment">// green</span>
 );</code> <button class="copy-button">copy</button></pre>
 <p>The special format value <code>none</code> applies no additional styling to the text.</p>
+<p>In addition to predefined color names, <code>util.styleText()</code> supports hex color
+strings using ANSI TrueColor (24-bit) escape sequences. Hex colors can be
+specified in either 3-digit (<code>#RGB</code>) or 6-digit (<code>#RRGGBB</code>) format:</p>
+
+<pre class="with-43-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { styleText } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:util'</span>;
+
+<span class="hljs-comment">// 6-digit hex color</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">styleText</span>(<span class="hljs-string">'#ff5733'</span>, <span class="hljs-string">'Orange text'</span>));
+
+<span class="hljs-comment">// 3-digit hex color (shorthand)</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">styleText</span>(<span class="hljs-string">'#f00'</span>, <span class="hljs-string">'Red text'</span>));</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { styleText } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
+
+<span class="hljs-comment">// 6-digit hex color</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">styleText</span>(<span class="hljs-string">'#ff5733'</span>, <span class="hljs-string">'Orange text'</span>));
+
+<span class="hljs-comment">// 3-digit hex color (shorthand)</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">styleText</span>(<span class="hljs-string">'#f00'</span>, <span class="hljs-string">'Red text'</span>));</code><button class="copy-button">copy</button></pre>
 <p>The full list of formats can be found in <a href="#modifiers">modifiers</a>.</p>
 </section><section><h3>Class: <code>util.TextDecoder</code><span><a class="mark" href="#class-utiltextdecoder" id="class-utiltextdecoder">#</a></span><a aria-hidden="true" class="legacy" id="util_class_util_textdecoder"></a></h3>
 <div class="api_metadata">
@@ -3052,7 +3127,7 @@ Unicode "replacement character" U+FFFD.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.11.0</td>
 <td><p><span>Added in: v18.11.0</span></p></td></tr>
@@ -3066,7 +3141,7 @@ as transferable and can be used with <code>structuredClone()</code> or <code>pos
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.11.0</td>
 <td><p><span>Added in: v18.11.0</span></p></td></tr>
@@ -3087,7 +3162,7 @@ channel.<span class="hljs-property">port2</span>.<span class="hljs-title functio
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.16.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Change stability index for this feature from Experimental to Stable.</p></td></tr>
 <tr><td>v19.7.0, v18.16.0</td>
 <td><p><span>Added in: v19.7.0, v18.16.0</span></p></td></tr>
@@ -3391,7 +3466,7 @@ types.<span class="hljs-title function_">isExternal</span>(<span class="hljs-key
 </div><div>
 <h4><code>util.types.isFloat16Array(value)</code><span><a class="mark" href="#utiltypesisfloat16arrayvalue" id="utiltypesisfloat16arrayvalue">#</a></span><a aria-hidden="true" class="legacy" id="util_util_types_isfloat16array_value"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <ul>
 <li><code>value</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
@@ -3551,8 +3626,11 @@ util.<span class="hljs-property">types</span>.<span class="hljs-title function_"
 </div><div>
 <h4><code>util.types.isNativeError(value)</code><span><a class="mark" href="#utiltypesisnativeerrorvalue" id="utiltypesisnativeerrorvalue">#</a></span><a aria-hidden="true" class="legacy" id="util_util_types_isnativeerror_value"></a></h4>
 <div class="api_metadata">
-<span>Added in: v10.0.0</span>
+<span>Added in: v10.0.0</span><span>Deprecated since: v24.2.0</span>
 </div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/isError"><code>Error.isError</code></a> instead.</div><p></p>
+<p><strong>Note:</strong> As of Node.js 24, <code>Error.isError()</code> is currently slower than <code>util.types.isNativeError()</code>.
+If performance is critical, consider benchmarking both in your environment.</p>
 <ul>
 <li><code>value</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
@@ -3813,6 +3891,8 @@ applications and modules should be updated to find alternative approaches.</p>
 Node.js modules. The community found and used it anyway.</p>
 <p>It is deprecated and should not be used in new code. JavaScript comes with very
 similar built-in functionality through <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><code>Object.assign()</code></a>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-extend-to-object-assign">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-extend-to-object-assign</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>util.isArray(object)</code><span><a class="mark" href="#utilisarrayobject" id="utilisarrayobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isarray_object"></a></h4>
 <div class="api_metadata">
@@ -3833,330 +3913,8 @@ util.<span class="hljs-title function_">isArray</span>(<span class="hljs-keyword
 <span class="hljs-comment">// Returns: true</span>
 util.<span class="hljs-title function_">isArray</span>({});
 <span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isBoolean(object)</code><span><a class="mark" href="#utilisbooleanobject" id="utilisbooleanobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isboolean_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>typeof value === 'boolean'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Boolean</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isBoolean</span>(<span class="hljs-number">1</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isBoolean</span>(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isBoolean</span>(<span class="hljs-literal">false</span>);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isBuffer(object)</code><span><a class="mark" href="#utilisbufferobject" id="utilisbufferobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isbuffer_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="buffer.html#static-method-bufferisbufferobj"><code>Buffer.isBuffer()</code></a> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Buffer</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isBuffer</span>({ <span class="hljs-attr">length</span>: <span class="hljs-number">0</span> });
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isBuffer</span>([]);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isBuffer</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'hello world'</span>));
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isDate(object)</code><span><a class="mark" href="#utilisdateobject" id="utilisdateobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isdate_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.6.0</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#utiltypesisdatevalue"><code>util.types.isDate()</code></a> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Date</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isDate</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isDate</span>(<span class="hljs-title class_">Date</span>());
-<span class="hljs-comment">// false (without 'new' returns a String)</span>
-util.<span class="hljs-title function_">isDate</span>({});
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isError(object)</code><span><a class="mark" href="#utiliserrorobject" id="utiliserrorobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_iserror_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.6.0</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#utiltypesisnativeerrorvalue"><code>util.types.isNativeError()</code></a> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a>. Otherwise, returns
-<code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isError</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>());
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isError</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">TypeError</span>());
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isError</span>({ <span class="hljs-attr">name</span>: <span class="hljs-string">'Error'</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">'an error occurred'</span> });
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-<p>This method relies on <code>Object.prototype.toString()</code> behavior. It is
-possible to obtain an incorrect result when the <code>object</code> argument manipulates
-<code>@@toStringTag</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-<span class="hljs-keyword">const</span> obj = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Error'</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">'an error occurred'</span> };
-
-util.<span class="hljs-title function_">isError</span>(obj);
-<span class="hljs-comment">// Returns: false</span>
-obj[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">toStringTag</span>] = <span class="hljs-string">'Error'</span>;
-util.<span class="hljs-title function_">isError</span>(obj);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isFunction(object)</code><span><a class="mark" href="#utilisfunctionobject" id="utilisfunctionobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isfunction_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>typeof value === 'function'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Function</code>. Otherwise, returns
-<code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">Foo</span>(<span class="hljs-params"></span>) {}
-<span class="hljs-keyword">const</span> <span class="hljs-title function_">Bar</span> = (<span class="hljs-params"></span>) => {};
-
-util.<span class="hljs-title function_">isFunction</span>({});
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isFunction</span>(<span class="hljs-title class_">Foo</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isFunction</span>(<span class="hljs-title class_">Bar</span>);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isNull(object)</code><span><a class="mark" href="#utilisnullobject" id="utilisnullobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isnull_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>value === null</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is strictly <code>null</code>. Otherwise, returns
-<code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isNull</span>(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isNull</span>(<span class="hljs-literal">undefined</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isNull</span>(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isNullOrUndefined(object)</code><span><a class="mark" href="#utilisnullorundefinedobject" id="utilisnullorundefinedobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isnullorundefined_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use
-<code>value === undefined || value === null</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is <code>null</code> or <code>undefined</code>. Otherwise,
-returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isNullOrUndefined</span>(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isNullOrUndefined</span>(<span class="hljs-literal">undefined</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isNullOrUndefined</span>(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isNumber(object)</code><span><a class="mark" href="#utilisnumberobject" id="utilisnumberobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isnumber_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>typeof value === 'number'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Number</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isNumber</span>(<span class="hljs-literal">false</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isNumber</span>(<span class="hljs-title class_">Infinity</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isNumber</span>(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isNumber</span>(<span class="hljs-title class_">NaN</span>);
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isObject(object)</code><span><a class="mark" href="#utilisobjectobject" id="utilisobjectobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isobject_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated:
-Use <code>value !== null &#x26;&#x26; typeof value === 'object'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is strictly an <code>Object</code> <strong>and</strong> not a
-<code>Function</code> (even though functions are objects in JavaScript).
-Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isObject</span>(<span class="hljs-number">5</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isObject</span>(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isObject</span>({});
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isObject</span>(<span class="hljs-function">() =></span> {});
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isPrimitive(object)</code><span><a class="mark" href="#utilisprimitiveobject" id="utilisprimitiveobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isprimitive_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use
-<code>(typeof value !== 'object' &#x26;&#x26; typeof value !== 'function') || value === null</code>
-instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a primitive type. Otherwise, returns
-<code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-number">5</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-string">'foo'</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-literal">false</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-literal">undefined</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isPrimitive</span>({});
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-function">() =></span> {});
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-regexp">/^$/</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isPrimitive</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isRegExp(object)</code><span><a class="mark" href="#utilisregexpobject" id="utilisregexpobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isregexp_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.6.0</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>RegExp</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isRegExp</span>(<span class="hljs-regexp">/some regexp/</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isRegExp</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">'another regexp'</span>));
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isRegExp</span>({});
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isString(object)</code><span><a class="mark" href="#utilisstringobject" id="utilisstringobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isstring_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>typeof value === 'string'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>string</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isString</span>(<span class="hljs-string">''</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isString</span>(<span class="hljs-string">'foo'</span>);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isString</span>(<span class="hljs-title class_">String</span>(<span class="hljs-string">'foo'</span>));
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isString</span>(<span class="hljs-number">5</span>);
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isSymbol(object)</code><span><a class="mark" href="#utilissymbolobject" id="utilissymbolobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_issymbol_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>typeof value === 'symbol'</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is a <code>Symbol</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">isSymbol</span>(<span class="hljs-number">5</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isSymbol</span>(<span class="hljs-string">'foo'</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isSymbol</span>(<span class="hljs-title class_">Symbol</span>(<span class="hljs-string">'foo'</span>));
-<span class="hljs-comment">// Returns: true</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.isUndefined(object)</code><span><a class="mark" href="#utilisundefinedobject" id="utilisundefinedobject">#</a></span><a aria-hidden="true" class="legacy" id="util_util_isundefined_object"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.11.5</span><span>Deprecated since: v4.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <code>value === undefined</code> instead.</div><p></p>
-<ul>
-<li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
-<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
-</ul>
-<p>Returns <code>true</code> if the given <code>object</code> is <code>undefined</code>. Otherwise, returns <code>false</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-<span class="hljs-keyword">const</span> foo = <span class="hljs-literal">undefined</span>;
-util.<span class="hljs-title function_">isUndefined</span>(<span class="hljs-number">5</span>);
-<span class="hljs-comment">// Returns: false</span>
-util.<span class="hljs-title function_">isUndefined</span>(foo);
-<span class="hljs-comment">// Returns: true</span>
-util.<span class="hljs-title function_">isUndefined</span>(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// Returns: false</span></code> <button class="copy-button">copy</button></pre>
-</div><div>
-<h4><code>util.log(string)</code><span><a class="mark" href="#utillogstring" id="utillogstring">#</a></span><a aria-hidden="true" class="legacy" id="util_util_log_string"></a></h4>
-<div class="api_metadata">
-<span>Added in: v0.3.0</span><span>Deprecated since: v6.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use a third party module instead.</div><p></p>
-<ul>
-<li><code>string</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
-</ul>
-<p>The <code>util.log()</code> method prints the given <code>string</code> to <code>stdout</code> with an included
-timestamp.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
-
-util.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Timestamped message.'</span>);</code> <button class="copy-button">copy</button></pre></div></section>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre></div></section>
         <!-- API END -->
       </div>
     </div>

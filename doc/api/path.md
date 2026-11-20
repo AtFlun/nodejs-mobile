@@ -286,9 +286,11 @@ path.format({
 ## `path.matchesGlob(path, pattern)`
 
 <!-- YAML
-added: v22.5.0
+added:
+  - v22.5.0
+  - v20.17.0
 changes:
-  - version: v22.20.0
+  - version: v24.8.0
     pr-url: https://github.com/nodejs/node/pull/59572
     description: Marking the API stable.
 -->

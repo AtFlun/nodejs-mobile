@@ -629,7 +629,7 @@ console.log(JSON.stringify(myURLs));
 <!-- YAML
 added: v16.7.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -667,7 +667,7 @@ to other workers or the main thread.
 <!-- YAML
 added: v16.7.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -717,6 +717,129 @@ added: v22.1.0
 Parses a string as a URL. If `base` is provided, it will be used as the base
 URL for the purpose of resolving non-absolute `input` URLs. Returns `null`
 if the parameters can't be resolved to a valid URL.
+
+### Class: `URLPattern`
+
+<!-- YAML
+added: v23.8.0
+-->
+
+> Stability: 1 - Experimental
+
+The `URLPattern` API provides an interface to match URLs or parts of URLs
+against a pattern.
+
+```js
+const myPattern = new URLPattern('https://nodejs.org/docs/latest/api/*.html');
+console.log(myPattern.exec('https://nodejs.org/docs/latest/api/dns.html'));
+// Prints:
+// {
+//  "hash": { "groups": {  "0": "" },  "input": "" },
+//  "hostname": { "groups": {}, "input": "nodejs.org" },
+//  "inputs": [
+//    "https://nodejs.org/docs/latest/api/dns.html"
+//  ],
+//  "password": { "groups": { "0": "" }, "input": "" },
+//  "pathname": { "groups": { "0": "dns" }, "input": "/docs/latest/api/dns.html" },
+//  "port": { "groups": {}, "input": "" },
+//  "protocol": { "groups": {}, "input": "https" },
+//  "search": { "groups": { "0": "" }, "input": "" },
+//  "username": { "groups": { "0": "" }, "input": "" }
+// }
+
+console.log(myPattern.test('https://nodejs.org/docs/latest/api/dns.html'));
+// Prints: true
+```
+
+#### `new URLPattern()`
+
+Instantiate a new empty `URLPattern` object.
+
+#### `new URLPattern(string[, baseURL][, options])`
+
+* `string` {string} A URL string
+* `baseURL` {string | undefined} A base URL string
+* `options` {Object} Options
+
+Parse the `string` as a URL, and use it to instantiate a new
+`URLPattern` object.
+
+If `baseURL` is not specified, it defaults to `undefined`.
+
+An option can have `ignoreCase` boolean attribute which enables
+case-insensitive matching if set to true.
+
+The constructor can throw a `TypeError` to indicate parsing failure.
+
+#### `new URLPattern(obj[, baseURL][, options])`
+
+* `obj` {Object} An input pattern
+* `baseURL` {string | undefined} A base URL string
+* `options` {Object} Options
+
+Parse the `Object` as an input pattern, and use it to instantiate a new
+`URLPattern` object. The object members can be any of `protocol`, `username`,
+`password`, `hostname`, `port`, `pathname`, `search`, `hash` or `baseURL`.
+
+If `baseURL` is not specified, it defaults to `undefined`.
+
+An option can have `ignoreCase` boolean attribute which enables
+case-insensitive matching if set to true.
+
+The constructor can throw a `TypeError` to indicate parsing failure.
+
+#### `urlPattern.exec(input[, baseURL])`
+
+* `input` {string | Object} A URL or URL parts
+* `baseURL` {string | undefined} A base URL string
+
+Input can be a string or an object providing the individual URL parts. The
+object members can be any of `protocol`, `username`, `password`, `hostname`,
+`port`, `pathname`, `search`, `hash` or `baseURL`.
+
+If `baseURL` is not specified, it will default to `undefined`.
+
+Returns an object with an `inputs` key containing the array of arguments
+passed into the function and keys of the URL components which contains the
+matched input and matched groups.
+
+```js
+const myPattern = new URLPattern('https://nodejs.org/docs/latest/api/*.html');
+console.log(myPattern.exec('https://nodejs.org/docs/latest/api/dns.html'));
+// Prints:
+// {
+//  "hash": { "groups": {  "0": "" },  "input": "" },
+//  "hostname": { "groups": {}, "input": "nodejs.org" },
+//  "inputs": [
+//    "https://nodejs.org/docs/latest/api/dns.html"
+//  ],
+//  "password": { "groups": { "0": "" }, "input": "" },
+//  "pathname": { "groups": { "0": "dns" }, "input": "/docs/latest/api/dns.html" },
+//  "port": { "groups": {}, "input": "" },
+//  "protocol": { "groups": {}, "input": "https" },
+//  "search": { "groups": { "0": "" }, "input": "" },
+//  "username": { "groups": { "0": "" }, "input": "" }
+// }
+```
+
+#### `urlPattern.test(input[, baseURL])`
+
+* `input` {string | Object} A URL or URL parts
+* `baseURL` {string | undefined} A base URL string
+
+Input can be a string or an object providing the individual URL parts. The
+object members can be any of `protocol`, `username`, `password`, `hostname`,
+`port`, `pathname`, `search`, `hash` or `baseURL`.
+
+If `baseURL` is not specified, it will default to `undefined`.
+
+Returns a boolean indicating if the input matches the current pattern.
+
+```js
+const myPattern = new URLPattern('https://nodejs.org/docs/latest/api/*.html');
+console.log(myPattern.test('https://nodejs.org/docs/latest/api/dns.html'));
+// Prints: true
+```
 
 ### Class: `URLSearchParams`
 
@@ -1183,7 +1306,9 @@ console.log(url.domainToUnicode('xn--iñvalid.com'));
 <!-- YAML
 added: v10.12.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52509
     description: The `options` argument can now be used to
                  determine how to parse the `path` argument.
@@ -1249,7 +1374,7 @@ fileURLToPath('file:///hello world');      // Correct:   /hello world (POSIX)
 ### `url.fileURLToPathBuffer(url[, options])`
 
 <!--
-added: v22.18.0
+added: v24.3.0
 -->
 
 * `url` {URL | string} The file URL string or URL object to convert to a path.
@@ -1335,7 +1460,9 @@ console.log(url.format(myURL, { fragment: false, unicode: true, auth: false }));
 <!-- YAML
 added: v10.12.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52509
     description: The `options` argument can now be used to
                  determine how to return the `path` value.
@@ -1606,9 +1733,8 @@ changes:
                  times.
 -->
 
-* `urlObject` {Object|string} A URL object (as returned by `url.parse()` or
-  constructed otherwise). If a string, it is converted to an object by passing
-  it to `url.parse()`.
+* `urlObject` {Object} A URL object (as returned by `url.parse()` or
+  constructed otherwise).
 
 The `url.format()` method returns a formatted URL string derived from
 `urlObject`.
@@ -1682,6 +1808,54 @@ The formatting process operates as follows:
 * Otherwise, if the `urlObject.hash` property is not `undefined` and is not a
   string, an [`Error`][] is thrown.
 * `result` is returned.
+
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/node-url-to-whatwg-url)).
+
+```bash
+npx codemod@latest @nodejs/node-url-to-whatwg-url
+```
+
+### `url.format(urlString)`
+
+<!-- YAML
+added: v0.1.25
+changes:
+  - version:
+      - v24.0.0
+    pr-url: https://github.com/nodejs/node/pull/55017
+    description: Application deprecation.
+-->
+
+> Stability: 0 - Deprecated: Use the WHATWG URL API instead.
+
+* `urlString` {string} A string that will be passed to `url.parse()` and then
+  formatted.
+
+`url.format(urlString)` is shorthand for `url.format(url.parse(urlString))`.
+
+Because it invokes the deprecated [`url.parse()`][] internally, passing a string argument
+to `url.format()` is itself deprecated.
+
+Canonicalizing a URL string can be performed using the WHATWG URL API, by
+constructing a new URL object and calling [`url.toString()`][].
+
+```mjs
+import { URL } from 'node:url';
+
+const unformatted = 'http://[fe80:0:0:0:0:0:0:1]:/a/b?a=b#abc';
+const formatted = new URL(unformatted).toString();
+
+console.log(formatted); // Prints: http://[fe80::1]/a/b?a=b#abc
+```
+
+```cjs
+const { URL } = require('node:url');
+
+const unformatted = 'http://[fe80:0:0:0:0:0:0:1]:/a/b?a=b#abc';
+const formatted = new URL(unformatted).toString();
+
+console.log(formatted); // Prints: http://[fe80::1]/a/b?a=b#abc
+```
 
 ### `url.parse(urlString[, parseQueryString[, slashesDenoteHost]])`
 
@@ -1765,11 +1939,21 @@ function getURL(req) {
 }
 ```
 
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/node-url-to-whatwg-url)).
+
+```bash
+npx codemod@latest @nodejs/node-url-to-whatwg-url
+```
+
 ### `url.resolve(from, to)`
 
 <!-- YAML
 added: v0.1.25
 changes:
+  - version:
+      - v24.0.0
+    pr-url: https://github.com/nodejs/node/pull/55017
+    description: Deprecated again through DEP0169.
   - version:
       - v15.13.0
       - v14.17.0
@@ -1793,6 +1977,8 @@ changes:
                  contains a hostname.
 -->
 
+> Stability: 0 - Deprecated: Use the WHATWG URL API instead.
+
 * `from` {string} The base URL to use if `to` is a relative URL.
 * `to` {string} The target URL to resolve.
 
@@ -1805,6 +1991,8 @@ url.resolve('/one/two/three', 'four');         // '/one/two/four'
 url.resolve('http://example.com/', '/one');    // 'http://example.com/one'
 url.resolve('http://example.com/one', '/two'); // 'http://example.com/two'
 ```
+
+Because it invokes the deprecated [`url.parse()`][] internally, `url.resolve()` is itself deprecated.
 
 To achieve the same result using the WHATWG URL API:
 

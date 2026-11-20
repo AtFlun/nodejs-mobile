@@ -26,7 +26,6 @@
         # is able to create a malicious DLL in one of the default search paths.
         'OPENSSL_NO_HW',
         'OPENSSL_API_COMPAT=0x10100001L',
-        'OPENSSL_TLS_SECURITY_LEVEL=1',
         'STATIC_LEGACY',
         #'OPENSSL_NO_DEPRECATED',
       ],
@@ -50,6 +49,15 @@
             'MODULESDIR="<(modules_dir)"',
           ]
         }],
+        ['node_shared_zlib=="false"', {
+          'dependencies': [ '../zlib/zlib.gyp:zlib' ],
+        }],
+        ['node_shared_brotli=="false"', {
+          'dependencies': [ '../brotli/brotli.gyp:brotli' ],
+        }],
+        ['node_shared_zstd=="false"', {
+          'dependencies': [ '../zstd/zstd.gyp:zstd' ],
+        }],
       ],
       'direct_dependent_settings': {
         'include_dirs': [ 'openssl/include', 'openssl/crypto/include']
@@ -63,7 +71,6 @@
       'include_dirs+': ['openssl/apps/include'],
       'defines': [
         'OPENSSL_API_COMPAT=0x10100001L',
-        'OPENSSL_TLS_SECURITY_LEVEL=1',
         #'OPENSSL_NO_DEPRECATED',
       ],
       'conditions': [
@@ -78,6 +85,16 @@
         # Avoid excessive LTO
         ['enable_lto=="true"', {
           'ldflags': [ '-fno-lto' ],
+        }],
+        ['node_with_ltcg=="true" or enable_lto=="true" or enable_thin_lto=="true"', {
+          'msvs_settings': {
+            'VCCLCompilerTool': {
+              'AdditionalOptions': ['-fno-lto'],
+            },
+            'VCLinkerTool': {
+              'AdditionalOptions': ['-fno-lto'],
+            },
+          },
         }],
      ]
     }, {

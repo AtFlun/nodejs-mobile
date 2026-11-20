@@ -2,7 +2,6 @@
 
 require('../common');
 const assert = require('assert');
-const { isNativeError } = require('util/types');
 
 class MyDOMException extends DOMException {
   ownProp;
@@ -25,7 +24,7 @@ assert(myException instanceof MyDOMException);
 assert(myException instanceof DOMException);
 assert(myException instanceof Error);
 // Verifies [[ErrorData]]
-assert(isNativeError(myException));
+assert(Error.isError(myException));
 
 // Verifies subclass properties
 assert(Object.hasOwn(myException, 'ownProp'));
@@ -43,7 +42,7 @@ const cloned = structuredClone(myException);
 assert(!(cloned instanceof MyDOMException));
 assert(cloned instanceof DOMException);
 assert(cloned instanceof Error);
-assert(isNativeError(cloned));
+assert(Error.isError(cloned));
 
 // Verify custom properties
 assert(!Object.hasOwn(cloned, 'ownProp'));

@@ -162,14 +162,23 @@ static void Cwd(const FunctionCallbackInfo<Value>& args) {
   char buf[PATH_MAX_BYTES];
   size_t cwd_len = sizeof(buf);
   int err = uv_cwd(buf, &cwd_len);
-  if (err)
-    return env->ThrowUVException(err, "uv_cwd");
-
-  Local<String> cwd = String::NewFromUtf8(env->isolate(),
-                                          buf,
-                                          NewStringType::kNormal,
-                                          cwd_len).ToLocalChecked();
-  args.GetReturnValue().Set(cwd);
+  if (err) {
+    std::string err_msg =
+        std::string("process.cwd failed with error ") + uv_strerror(err);
+    if (err == UV_ENOENT) {
+      // If err == UV_ENOENT it is necessary to notice the user
+      // that the current working dir was likely removed.
+      err_msg = err_msg +
+                ", the current working directory was likely removed " +
+                "without changing the working directory";
+    }
+    return env->ThrowUVException(err, "uv_cwd", err_msg.c_str());
+  }
+  Local<String> cwd;
+  if (String::NewFromUtf8(env->isolate(), buf, NewStringType::kNormal, cwd_len)
+          .ToLocal(&cwd)) {
+    args.GetReturnValue().Set(cwd);
+  }
 }
 
 static void Kill(const FunctionCallbackInfo<Value>& args) {
@@ -612,7 +621,7 @@ static void LoadEnvFile(const v8::FunctionCallbackInfo<v8::Value>& args) {
     }
     case dotenv.ParseResult::InvalidContent: {
       THROW_ERR_INVALID_ARG_TYPE(
-          env, "Contents of '%s' should be a valid string.", path.c_str());
+          env, "Contents of '%s' should be a valid string.", path);
       break;
     }
     case dotenv.ParseResult::FileError: {

@@ -42,12 +42,14 @@
 #include "node_main_instance.h"
 #include "node_options.h"
 #include "node_perf_common.h"
+#include "node_profiling.h"
 #include "node_realm.h"
 #include "node_snapshotable.h"
 #include "permission/permission.h"
 #include "req_wrap.h"
 #include "util.h"
 #include "uv.h"
+#include "v8-external-memory-accounter.h"
 #include "v8-profiler.h"
 #include "v8.h"
 
@@ -68,10 +70,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-
-namespace v8 {
-class CppHeap;
-}
 
 namespace node {
 
@@ -113,19 +111,6 @@ class ModuleWrap;
 
 class Environment;
 class Realm;
-
-// Disables zero-filling for ArrayBuffer allocations in this scope. This is
-// similar to how we implement Buffer.allocUnsafe() in JS land.
-class NoArrayBufferZeroFillScope {
- public:
-  inline explicit NoArrayBufferZeroFillScope(IsolateData* isolate_data);
-  inline ~NoArrayBufferZeroFillScope();
-
- private:
-  NodeArrayBufferAllocator* node_allocator_;
-
-  friend class Environment;
-};
 
 struct IsolateDataSerializeInfo {
   std::vector<SnapshotIndex> primitive_values;
@@ -176,10 +161,6 @@ class NODE_EXTERN_PRIVATE IsolateData : public MemoryRetainer {
 
   uint16_t* embedder_id_for_cppgc() const;
   uint16_t* embedder_id_for_non_cppgc() const;
-
-  static inline void SetCppgcReference(v8::Isolate* isolate,
-                                       v8::Local<v8::Object> object,
-                                       void* wrappable);
 
   inline uv_loop_t* event_loop() const;
   inline MultiIsolatePlatform* platform() const;
@@ -264,7 +245,6 @@ class NODE_EXTERN_PRIVATE IsolateData : public MemoryRetainer {
   const SnapshotData* snapshot_data_;
   std::optional<SnapshotConfig> snapshot_config_;
 
-  std::unique_ptr<v8::CppHeap> cpp_heap_;
   std::shared_ptr<PerIsolateOptions> options_;
   worker::Worker* worker_context_ = nullptr;
   PerIsolateWrapperData* wrapper_data_;
@@ -276,6 +256,8 @@ class NODE_EXTERN_PRIVATE IsolateData : public MemoryRetainer {
 
 struct ContextInfo {
   explicit ContextInfo(const std::string& name) : name(name) {}
+  ContextInfo(const std::string& name, const std::string& origin)
+      : name(name), origin(origin) {}
   const std::string name;
   std::string origin;
   bool is_default = false;
@@ -710,6 +692,8 @@ class Environment final : public MemoryRetainer {
   void StartProfilerIdleNotifier();
 
   inline v8::Isolate* isolate() const;
+  inline cppgc::AllocationHandle& cppgc_allocation_handle() const;
+  inline v8::ExternalMemoryAccounter* external_memory_accounter() const;
   inline uv_loop_t* event_loop() const;
   void TryLoadAddon(const char* filename,
                     int flags,
@@ -1042,7 +1026,8 @@ class Environment final : public MemoryRetainer {
   void InitializeCompileCache();
   // Enable built-in compile cache if it has not yet been enabled.
   // The cache will be persisted to disk on exit.
-  CompileCacheEnableResult EnableCompileCache(const std::string& cache_dir);
+  CompileCacheEnableResult EnableCompileCache(const std::string& cache_dir,
+                                              EnableOption option);
   void FlushCompileCache();
 
   void RunAndClearNativeImmediates(bool only_refed = false);
@@ -1066,8 +1051,8 @@ class Environment final : public MemoryRetainer {
 
   inline void RemoveHeapSnapshotNearHeapLimitCallback(size_t heap_limit);
 
-  v8::CpuProfilingResult StartCpuProfile(std::string_view name);
-  v8::CpuProfile* StopCpuProfile(std::string_view name);
+  v8::CpuProfilingResult StartCpuProfile();
+  v8::CpuProfile* StopCpuProfile(v8::ProfilerId profile_id);
 
   // Field identifiers for exit_info_
   enum ExitInfoField {
@@ -1089,23 +1074,17 @@ class Environment final : public MemoryRetainer {
 
   v8::Global<v8::Module> temporary_required_module_facade_original;
 
-  void SetAsyncResourceContextFrame(std::uintptr_t async_resource_handle,
-                                    v8::Global<v8::Value>&&);
-
-  const v8::Global<v8::Value>& GetAsyncResourceContextFrame(
-      std::uintptr_t async_resource_handle);
-
-  void RemoveAsyncResourceContextFrame(std::uintptr_t async_resource_handle);
-
  private:
   inline void ThrowError(v8::Local<v8::Value> (*fun)(v8::Local<v8::String>,
                                                      v8::Local<v8::Value>),
                          const char* errmsg);
   void TrackContext(v8::Local<v8::Context> context);
   void UntrackContext(v8::Local<v8::Context> context);
+  void PurgeTrackedEmptyContexts();
 
   std::list<binding::DLib> loaded_addons_;
   v8::Isolate* const isolate_;
+  v8::ExternalMemoryAccounter* const external_memory_accounter_;
   IsolateData* const isolate_data_;
 
   bool env_handle_initialized_ = false;
@@ -1273,11 +1252,8 @@ class Environment final : public MemoryRetainer {
   std::unordered_map<char*, std::unique_ptr<v8::BackingStore>>
       released_allocated_buffers_;
 
-  std::unordered_map<std::uintptr_t, v8::Global<v8::Value>>
-      async_resource_context_frames_;
-
   v8::CpuProfiler* cpu_profiler_ = nullptr;
-  std::unordered_map<std::string, v8::ProfilerId> pending_profiles_;
+  std::vector<v8::ProfilerId> pending_profiles_;
 };
 
 }  // namespace node

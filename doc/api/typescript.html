@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Modules: TypeScript | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Modules: TypeScript | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="typescript" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -136,7 +136,7 @@
       </a>
 
       <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
-<li><span class="stability_1.2"><a href="#modules-typescript">Modules: TypeScript</a></span>
+<li><span class="stability_2"><a href="#modules-typescript">Modules: TypeScript</a></span>
 <ul>
 <li><a href="#enabling">Enabling</a></li>
 <li><a href="#full-typescript-support">Full TypeScript support</a></li>
@@ -280,7 +280,7 @@
       </header>
 
       <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
-<li><span class="stability_1.2"><a href="#modules-typescript">Modules: TypeScript</a></span>
+<li><span class="stability_2"><a href="#modules-typescript">Modules: TypeScript</a></span>
 <ul>
 <li><a href="#enabling">Enabling</a></li>
 <li><a href="#full-typescript-support">Full TypeScript support</a></li>
@@ -305,9 +305,11 @@
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v24.12.0</td>
+<td><p>Type stripping is now stable.</p></td></tr>
+<tr><td>v24.3.0</td>
 <td><p>Type stripping no longer emits an experimental warning.</p></td></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v23.6.0</td>
 <td><p>Type stripping is enabled by default.</p></td></tr>
 <tr><td>v22.7.0</td>
 <td><p>Added <code>--experimental-transform-types</code> flag.</p></td></tr>
@@ -315,7 +317,7 @@
 </details>
 </div>
 
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.2</a> - Release candidate</div><p></p>
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
 <section><h3>Enabling<span><a class="mark" href="#enabling" id="enabling">#</a></span><a aria-hidden="true" class="legacy" id="typescript_enabling"></a></h3>
 <p>There are two ways to enable runtime TypeScript support in Node.js:</p>
 <ol>
@@ -331,7 +333,7 @@ using any version of TypeScript, use a third-party package.</p>
 </section><section><h3>Full TypeScript support<span><a class="mark" href="#full-typescript-support" id="full-typescript-support">#</a></span><a aria-hidden="true" class="legacy" id="typescript_full_typescript_support"></a></h3>
 <p>To use TypeScript with full support for all TypeScript features, including
 <code>tsconfig.json</code>, you can use a third-party package. These instructions use
-<a href="https://tsx.is/"><code>tsx</code></a> as an example but there are many other similar libraries available.</p>
+<a href="https://tsx.hirok.io/"><code>tsx</code></a> as an example but there are many other similar libraries available.</p>
 <ol>
 <li>
 <p>Install the package as a development dependency using whatever package
@@ -347,16 +349,25 @@ manager you're using for your project. For example, with <code>npm</code>:</p>
 </ol>
 </section><section><h3>Type stripping<span><a class="mark" href="#type-stripping" id="type-stripping">#</a></span><a aria-hidden="true" class="legacy" id="typescript_type_stripping"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.6.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.12.0</td>
+<td><p>Type stripping is now stable.</p></td></tr>
+<tr><td>v22.6.0</td>
+<td><p><span>Added in: v22.6.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p>The flag <a href="cli.html#--no-experimental-strip-types"><code>--no-experimental-strip-types</code></a> prevents Node.js from running TypeScript
-files. By default Node.js will execute only files that contain no
-TypeScript features that require transformation, such as enums.
-Node.js will replace inline type annotations with whitespace,
+<p>By default Node.js will execute TypeScript files that contains only
+erasable TypeScript syntax.
+Node.js will replace TypeScript syntax with whitespace,
 and no type checking is performed.
-To enable the transformation of such features
-use the flag <a href="cli.html#--experimental-transform-types"><code>--experimental-transform-types</code></a>.
-TypeScript features that depend on settings within <code>tsconfig.json</code>,
+To enable the transformation of non erasable TypeScript syntax, which requires JavaScript code generation,
+such as <code>enum</code> declarations, parameter properties use the flag <a href="cli.html#--experimental-transform-types"><code>--experimental-transform-types</code></a>.
+To disable this feature, use the flag <a href="cli.html#--no-strip-types"><code>--no-strip-types</code></a>.</p>
+<p>Node.js ignores <code>tsconfig.json</code> files and therefore
+features that depend on settings within <code>tsconfig.json</code>,
 such as paths or converting newer JavaScript syntax to older standards, are
 intentionally unsupported. To get full TypeScript support, see <a href="#full-typescript-support">Full TypeScript support</a>.</p>
 <p>The type stripping feature is designed to be lightweight.

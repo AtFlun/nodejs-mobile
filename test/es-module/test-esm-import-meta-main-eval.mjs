@@ -1,5 +1,5 @@
 import { spawnPromisified } from '../common/index.mjs';
-import * as fixtures from '../common/fixtures.js';
+import * as fixtures from '../common/fixtures.mjs';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -90,10 +90,7 @@ assert.strictEqual(importedModuleIsMain, false, 'import.meta.main should evaluat
   it('should evaluate true in evaluated script', onlyWithAmaro, async () => {
     const result = await spawnPromisified(
       process.execPath,
-      ['--experimental-strip-types',
-       '--input-type=module-typescript',
-       '--disable-warning=ExperimentalWarning',
-       '--eval', importMetaMainTSScript],
+      ['--input-type=module-typescript', '--disable-warning=ExperimentalWarning', '--eval', importMetaMainTSScript],
     );
     assert.deepStrictEqual(result, {
       stderr: '',
@@ -106,10 +103,10 @@ assert.strictEqual(importedModuleIsMain, false, 'import.meta.main should evaluat
   it('should evaluate true in worker instantiated with module source by evaluated script', onlyWithAmaro, async () => {
     const result = await spawnPromisified(
       process.execPath,
-      ['--experimental-strip-types',
-       '--input-type=module-typescript',
+      ['--input-type=module-typescript',
        '--disable-warning=ExperimentalWarning',
-       '--eval', wrapScriptInEvalWorker(importMetaMainTSScript)],
+       '--eval',
+       wrapScriptInEvalWorker(importMetaMainTSScript)],
     );
     assert.deepStrictEqual(result, {
       stderr: '',
@@ -123,7 +120,6 @@ assert.strictEqual(importedModuleIsMain, false, 'import.meta.main should evaluat
     const result = await spawnPromisified(
       process.execPath,
       ['--input-type=module',
-       '--experimental-strip-types',
        '--input-type=module-typescript',
        '--disable-warning=ExperimentalWarning',
        '--eval', wrapScriptInUrlWorker(importMetaMainTSScript)],

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>HTTPS | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>HTTPS | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="https" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -151,7 +151,7 @@
 <li><a href="#class-httpsserver">Class: <code>https.Server</code></a>
 <ul>
 <li><a href="#serverclosecallback"><code>server.close([callback])</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#servercloseallconnections"><code>server.closeAllConnections()</code></a></li>
 <li><a href="#servercloseidleconnections"><code>server.closeIdleConnections()</code></a></li>
 <li><a href="#serverheaderstimeout"><code>server.headersTimeout</code></a></li>
@@ -333,7 +333,7 @@
 <li><a href="#class-httpsserver">Class: <code>https.Server</code></a>
 <ul>
 <li><a href="#serverclosecallback"><code>server.close([callback])</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#servercloseallconnections"><code>server.closeAllConnections()</code></a></li>
 <li><a href="#servercloseidleconnections"><code>server.closeIdleConnections()</code></a></li>
 <li><a href="#serverheaderstimeout"><code>server.headersTimeout</code></a></li>
@@ -359,7 +359,7 @@
         <h2>HTTPS<span><a class="mark" href="#https" id="https">#</a></span><a aria-hidden="true" class="legacy" id="https_https"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/https.js">lib/https.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/https.js">lib/https.js</a></p>
 <p>HTTPS is the HTTP protocol over TLS/SSL. In Node.js this is implemented as a
 separate module.</p>
 <section><h3>Determining if crypto support is unavailable<span><a class="mark" href="#determining-if-crypto-support-is-unavailable" id="determining-if-crypto-support-is-unavailable">#</a></span><a aria-hidden="true" class="legacy" id="https_determining_if_crypto_support_is_unavailable"></a></h3>
@@ -414,9 +414,9 @@ including asynchronous socket creation with a callback.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.5.0</td>
 <td><p>Add support for <code>proxyEnv</code>.</p></td></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.5.0</td>
 <td><p>Add support for <code>defaultPort</code> and <code>protocol</code>.</p></td></tr>
 <tr><td>v12.5.0</td>
 <td><p>do not automatically set servername if the target host was specified using an IP address.</p></td></tr>
@@ -489,9 +489,16 @@ https.<span class="hljs-property">globalAgent</span>.<span class="hljs-title fun
 </div><div>
 <h4><code>server[Symbol.asyncDispose]()</code><span><a class="mark" href="#serversymbolasyncdispose" id="serversymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="https_server_symbol_asyncdispose"></a></h4>
 <div class="api_metadata">
-<span>Added in: v20.4.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.4.0</td>
+<td><p><span>Added in: v20.4.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#serverclosecallback"><code>server.close()</code></a> and returns a promise that
 fulfills when the server has closed.</p>
 </div><div>
@@ -721,7 +728,7 @@ a <code>timeout</code> of 5 seconds.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>clientCertEngine</code> option depends on custom engine support in OpenSSL which is deprecated in OpenSSL 3.</p></td></tr>
 <tr><td>v16.7.0, v14.18.0</td>
 <td><p>When using a <code>URL</code> object parsed username and password will now be properly URI decoded.</p></td></tr>

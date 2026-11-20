@@ -12,10 +12,10 @@ const cliMd = path.join(rootDir, 'doc', 'api', 'cli.md');
 const cliText = fs.readFileSync(cliMd, { encoding: 'utf8' });
 
 const parseSection = (text, startMarker, endMarker) => {
-  const regExp = new RegExp(`${startMarker}\r?\n([^]*)\r?\n${endMarker}`);
+  const regExp = new RegExp(`${RegExp.escape(startMarker)}\r?\n([^]*)\r?\n${RegExp.escape(endMarker)}`);
   const match = text.match(regExp);
-  assert(match,
-         `Unable to locate text between '${startMarker}' and '${endMarker}'.`);
+  if (!match)
+    assert.fail(`Unable to locate text between '${startMarker}' and '${endMarker}'.`);
   return match[1]
          .split(/\r?\n/)
          .filter((val) => val.trim() !== '');
@@ -122,9 +122,12 @@ const undocumented = difference(process.allowedNodeEnvironmentFlags,
 assert(undocumented.delete('--debug-arraybuffer-allocations'));
 assert(undocumented.delete('--no-debug-arraybuffer-allocations'));
 assert(undocumented.delete('--es-module-specifier-resolution'));
+assert(undocumented.delete('--experimental-fetch'));
+assert(undocumented.delete('--experimental-wasm-modules'));
+assert(undocumented.delete('--experimental-global-customevent'));
+assert(undocumented.delete('--experimental-global-webcrypto'));
 assert(undocumented.delete('--experimental-report'));
 assert(undocumented.delete('--experimental-worker'));
-assert(undocumented.delete('--experimental-wasm-modules'));
 assert(undocumented.delete('--node-snapshot'));
 assert(undocumented.delete('--no-node-snapshot'));
 assert(undocumented.delete('--loader'));

@@ -23,6 +23,7 @@
 #include "util-inl.h"
 #include "v8-cppgc.h"
 #include "v8-profiler.h"
+#include "v8-sandbox.h"  // v8::Object::Wrap(), v8::Object::Unwrap()
 
 #include <algorithm>
 #include <atomic>
@@ -38,12 +39,14 @@ namespace node {
 
 using errors::TryCatchScope;
 using v8::Array;
+using v8::ArrayBuffer;
+using v8::BackingStore;
+using v8::BackingStoreInitializationMode;
 using v8::Boolean;
 using v8::Context;
-using v8::CppHeap;
-using v8::CppHeapCreateParams;
 using v8::EmbedderGraph;
 using v8::EscapableHandleScope;
+using v8::ExternalMemoryAccounter;
 using v8::Function;
 using v8::HandleScope;
 using v8::HeapProfiler;
@@ -67,12 +70,10 @@ using v8::SnapshotCreator;
 using v8::StackTrace;
 using v8::String;
 using v8::Symbol;
-using v8::TracingController;
 using v8::TryCatch;
 using v8::Uint32;
 using v8::Undefined;
 using v8::Value;
-using v8::WrapperDescriptor;
 using worker::Worker;
 
 int const ContextEmbedderTag::kNodeContextTag = 0x6e6f64;
@@ -122,8 +123,7 @@ void AsyncHooks::push_async_context(double async_id,
                                     double trigger_async_id,
                                     Local<Object>* resource) {
   CHECK_IMPLIES(resource != nullptr, !resource->IsEmpty());
-  // Since async_hooks is experimental, do only perform the check
-  // when async_hooks is enabled.
+
   if (fields_[kCheck] > 0) {
     CHECK_GE(async_id, -1);
     CHECK_GE(trigger_async_id, -1);
@@ -226,7 +226,12 @@ void AsyncHooks::InstallPromiseHooks(Local<Context> ctx) {
                            : PersistentToLocal::Strong(js_promise_hooks_[3]));
 }
 
+void Environment::PurgeTrackedEmptyContexts() {
+  std::erase_if(contexts_, [&](auto&& el) { return el.IsEmpty(); });
+}
+
 void Environment::TrackContext(Local<Context> context) {
+  PurgeTrackedEmptyContexts();
   size_t id = contexts_.size();
   contexts_.resize(id + 1);
   contexts_[id].Reset(isolate_, context);
@@ -235,7 +240,7 @@ void Environment::TrackContext(Local<Context> context) {
 
 void Environment::UntrackContext(Local<Context> context) {
   HandleScope handle_scope(isolate_);
-  std::erase_if(contexts_, [&](auto&& el) { return el.IsEmpty(); });
+  PurgeTrackedEmptyContexts();
   for (auto it = contexts_.begin(); it != contexts_.end(); it++) {
     if (Local<Context> saved_context = PersistentToLocal::Weak(isolate_, *it);
         saved_context == context) {
@@ -530,6 +535,14 @@ void IsolateData::CreateProperties() {
   CreateEnvProxyTemplate(this);
 }
 
+// Previously, the general convention of the wrappable layout for cppgc in
+// the ecosystem is:
+// [  0  ] -> embedder id
+// [  1  ] -> wrappable instance
+// Now V8 has deprecated this layout-based tracing enablement, embedders
+// should simply use v8::Object::Wrap() and v8::Object::Unwrap(). We preserve
+// this layout only to distinguish internally how the memory of a Node.js
+// wrapper is managed or whether a wrapper is managed by Node.js.
 constexpr uint16_t kDefaultCppGCEmbedderID = 0x90de;
 Mutex IsolateData::isolate_data_mutex_;
 std::unordered_map<uint16_t, std::unique_ptr<PerIsolateWrapperData>>
@@ -564,36 +577,7 @@ IsolateData::IsolateData(Isolate* isolate,
       platform_(platform),
       snapshot_data_(snapshot_data),
       options_(std::move(options)) {
-  v8::CppHeap* cpp_heap = isolate->GetCppHeap();
-
   uint16_t cppgc_id = kDefaultCppGCEmbedderID;
-  if (cpp_heap != nullptr) {
-    // The general convention of the wrappable layout for cppgc in the
-    // ecosystem is:
-    // [  0  ] -> embedder id
-    // [  1  ] -> wrappable instance
-    // If the Isolate includes a CppHeap attached by another embedder,
-    // And if they also use the field 0 for the ID, we DCHECK that
-    // the layout matches our layout, and record the embedder ID for cppgc
-    // to avoid accidentally enabling cppgc on non-cppgc-managed wrappers .
-    v8::WrapperDescriptor descriptor = cpp_heap->wrapper_descriptor();
-    if (descriptor.wrappable_type_index == BaseObject::kEmbedderType) {
-      cppgc_id = descriptor.embedder_id_for_garbage_collected;
-      DCHECK_EQ(descriptor.wrappable_instance_index, BaseObject::kSlot);
-    }
-    // If the CppHeap uses the slot we use to put non-cppgc-traced BaseObject
-    // for embedder ID, V8 could accidentally enable cppgc on them. So
-    // safe guard against this.
-    DCHECK_NE(descriptor.wrappable_type_index, BaseObject::kSlot);
-  } else {
-    cpp_heap_ = CppHeap::Create(
-        platform,
-        CppHeapCreateParams{
-            {},
-            WrapperDescriptor(
-                BaseObject::kEmbedderType, BaseObject::kSlot, cppgc_id)});
-    isolate->AttachCppHeap(cpp_heap_.get());
-  }
   // We do not care about overflow since we just want this to be different
   // from the cppgc id.
   uint16_t non_cppgc_id = cppgc_id + 1;
@@ -620,20 +604,14 @@ IsolateData::IsolateData(Isolate* isolate,
   }
 }
 
-IsolateData::~IsolateData() {
-  if (cpp_heap_ != nullptr) {
-    v8::Locker locker(isolate_);
-    // The CppHeap must be detached before being terminated.
-    isolate_->DetachCppHeap();
-    cpp_heap_->Terminate();
-  }
-}
+IsolateData::~IsolateData() {}
 
-// Public API
+// Deprecated API, embedders should use v8::Object::Wrap() directly instead.
 void SetCppgcReference(Isolate* isolate,
                        Local<Object> object,
                        void* wrappable) {
-  IsolateData::SetCppgcReference(isolate, object, wrappable);
+  v8::Object::Wrap<v8::CppHeapPointerTag::kDefaultTag>(
+      isolate, object, wrappable);
 }
 
 void IsolateData::MemoryInfo(MemoryTracker* tracker) const {
@@ -752,17 +730,18 @@ void Environment::add_refs(int64_t diff) {
 }
 
 uv_buf_t Environment::allocate_managed_buffer(const size_t suggested_size) {
-  NoArrayBufferZeroFillScope no_zero_fill_scope(isolate_data());
-  std::unique_ptr<v8::BackingStore> bs =
-      v8::ArrayBuffer::NewBackingStore(isolate(), suggested_size);
+  std::unique_ptr<BackingStore> bs = ArrayBuffer::NewBackingStore(
+      isolate(),
+      suggested_size,
+      BackingStoreInitializationMode::kUninitialized);
   uv_buf_t buf = uv_buf_init(static_cast<char*>(bs->Data()), bs->ByteLength());
   released_allocated_buffers_.emplace(buf.base, std::move(bs));
   return buf;
 }
 
-std::unique_ptr<v8::BackingStore> Environment::release_managed_buffer(
+std::unique_ptr<BackingStore> Environment::release_managed_buffer(
     const uv_buf_t& buf) {
-  std::unique_ptr<v8::BackingStore> bs;
+  std::unique_ptr<BackingStore> bs;
   if (buf.base != nullptr) {
     auto it = released_allocated_buffers_.find(buf.base);
     CHECK_NE(it, released_allocated_buffers_.end());
@@ -807,6 +786,7 @@ Environment::Environment(IsolateData* isolate_data,
                          ThreadId thread_id,
                          std::string_view thread_name)
     : isolate_(isolate),
+      external_memory_accounter_(new ExternalMemoryAccounter()),
       isolate_data_(isolate_data),
       async_hooks_(isolate, MAYBE_FIELD_PTR(env_info, async_hooks)),
       immediate_info_(isolate, MAYBE_FIELD_PTR(env_info, immediate_info)),
@@ -833,15 +813,9 @@ Environment::Environment(IsolateData* isolate_data,
                      ? AllocateEnvironmentThreadId().id
                      : thread_id.id),
       thread_name_(thread_name) {
-  constexpr bool is_shared_ro_heap =
-#ifdef NODE_V8_SHARED_RO_HEAP
-      true;
-#else
-      false;
-#endif
-  if (is_shared_ro_heap && !is_main_thread()) {
-    // If this is a Worker thread and we are in shared-readonly-heap mode,
-    // we can always safely use the parent's Isolate's code cache.
+  if (!is_main_thread()) {
+    // If this is a Worker thread, we can always safely use the parent's
+    // Isolate's code cache because of the shared read-only heap.
     CHECK_NOT_NULL(isolate_data->worker_context());
     builtin_loader()->CopySourceAndCodeCacheReferenceFrom(
         isolate_data->worker_context()->env()->builtin_loader());
@@ -903,10 +877,9 @@ Environment::Environment(IsolateData* isolate_data,
   inspector_agent_ = std::make_unique<inspector::Agent>(this);
 #endif
 
-  if (tracing::AgentWriterHandle* writer = GetTracingAgentWriter()) {
+  if (tracing::Agent* agent = tracing::Agent::GetInstance()) {
     trace_state_observer_ = std::make_unique<TrackingTraceStateObserver>(this);
-    if (TracingController* tracing_controller = writer->GetTracingController())
-      tracing_controller->AddTraceStateObserver(trace_state_observer_.get());
+    agent->AddTraceStateObserver(trace_state_observer_.get());
   }
 
   destroy_async_id_list_.reserve(512);
@@ -936,8 +909,10 @@ Environment::Environment(IsolateData* isolate_data,
       options_->allow_native_addons = false;
       permission()->Apply(this, {"*"}, permission::PermissionScope::kAddon);
     }
-    flags_ = flags_ | EnvironmentFlags::kNoCreateInspector;
-    permission()->Apply(this, {"*"}, permission::PermissionScope::kInspector);
+    if (!options_->allow_inspector) {
+      flags_ = flags_ | EnvironmentFlags::kNoCreateInspector;
+      permission()->Apply(this, {"*"}, permission::PermissionScope::kInspector);
+    }
     if (!options_->allow_child_process) {
       permission()->Apply(
           this, {"*"}, permission::PermissionScope::kChildProcess);
@@ -1061,10 +1036,8 @@ Environment::~Environment() {
   principal_realm_.reset();
 
   if (trace_state_observer_) {
-    tracing::AgentWriterHandle* writer = GetTracingAgentWriter();
-    CHECK_NOT_NULL(writer);
-    if (TracingController* tracing_controller = writer->GetTracingController())
-      tracing_controller->RemoveTraceStateObserver(trace_state_observer_.get());
+    if (tracing::Agent* agent = tracing::Agent::GetInstance())
+      agent->RemoveTraceStateObserver(trace_state_observer_.get());
   }
 
   TRACE_EVENT_NESTABLE_ASYNC_END0(
@@ -1082,9 +1055,10 @@ Environment::~Environment() {
     }
   }
 
+  delete external_memory_accounter_;
   if (cpu_profiler_) {
     for (auto& it : pending_profiles_) {
-      cpu_profiler_->Stop(it.second);
+      cpu_profiler_->Stop(it);
     }
     cpu_profiler_->Dispose();
     cpu_profiler_ = nullptr;
@@ -1145,11 +1119,21 @@ void Environment::InitializeCompileCache() {
       dir_from_env.empty()) {
     return;
   }
-  EnableCompileCache(dir_from_env);
+  std::string portable_env;
+  bool portable = credentials::SafeGetenv(
+                      "NODE_COMPILE_CACHE_PORTABLE", &portable_env, this) &&
+                  !portable_env.empty() && portable_env == "1";
+  if (portable) {
+    Debug(this,
+          DebugCategory::COMPILE_CACHE,
+          "[compile cache] using relative path\n");
+  }
+  EnableCompileCache(dir_from_env,
+                     portable ? EnableOption::PORTABLE : EnableOption::DEFAULT);
 }
 
 CompileCacheEnableResult Environment::EnableCompileCache(
-    const std::string& cache_dir) {
+    const std::string& cache_dir, EnableOption option) {
   CompileCacheEnableResult result;
   std::string disable_env;
   if (credentials::SafeGetenv(
@@ -1166,7 +1150,7 @@ CompileCacheEnableResult Environment::EnableCompileCache(
   if (!compile_cache_handler_) {
     std::unique_ptr<CompileCacheHandler> handler =
         std::make_unique<CompileCacheHandler>(this);
-    result = handler->Enable(this, cache_dir);
+    result = handler->Enable(this, cache_dir, option);
     if (result.status == CompileCacheEnableStatus::ENABLED) {
       compile_cache_handler_ = std::move(handler);
       AtExit(
@@ -1747,7 +1731,7 @@ AsyncHooks::AsyncHooks(Isolate* isolate, const SerializeInfo* info)
     clear_async_id_stack();
 
     // Always perform async_hooks checks, not just when async_hooks is enabled.
-    // TODO(AndreasMadsen): Consider removing this for LTS releases.
+    // Can be disabled via CLI option --no-force-async-hooks-checks
     // See discussion in https://github.com/nodejs/node/pull/15454
     // When removing this, do it by reverting the commit. Otherwise the test
     // and flag changes won't be included.
@@ -2193,7 +2177,7 @@ size_t Environment::NearHeapLimitCallback(void* data,
     env->RemoveHeapSnapshotNearHeapLimitCallback(0);
   }
 
-  FPrintF(stderr, "Wrote snapshot to %s\n", filename.c_str());
+  FPrintF(stderr, "Wrote snapshot to %s\n", filename);
   // Tell V8 to reset the heap limit once the heap usage falls down to
   // 95% of the initial limit.
   env->isolate()->AutomaticallyRestoreInitialHeapLimit(0.95);
@@ -2251,30 +2235,30 @@ void Environment::RunWeakRefCleanup() {
   isolate()->ClearKeptObjects();
 }
 
-v8::CpuProfilingResult Environment::StartCpuProfile(std::string_view name) {
+v8::CpuProfilingResult Environment::StartCpuProfile() {
   HandleScope handle_scope(isolate());
   if (!cpu_profiler_) {
     cpu_profiler_ = v8::CpuProfiler::New(isolate());
   }
-  Local<Value> title =
-      node::ToV8Value(context(), name, isolate()).ToLocalChecked();
-  v8::CpuProfilingResult result =
-      cpu_profiler_->Start(title.As<String>(), true);
+  v8::CpuProfilingResult result = cpu_profiler_->Start(
+      v8::CpuProfilingOptions{v8::CpuProfilingMode::kLeafNodeLineNumbers,
+                              v8::CpuProfilingOptions::kNoSampleLimit});
   if (result.status == v8::CpuProfilingStatus::kStarted) {
-    pending_profiles_.emplace(name, result.id);
+    pending_profiles_.push_back(result.id);
   }
   return result;
 }
 
-v8::CpuProfile* Environment::StopCpuProfile(std::string_view name) {
+v8::CpuProfile* Environment::StopCpuProfile(v8::ProfilerId profile_id) {
   if (!cpu_profiler_) {
     return nullptr;
   }
-  auto it = pending_profiles_.find(std::string(name));
+  auto it =
+      std::find(pending_profiles_.begin(), pending_profiles_.end(), profile_id);
   if (it == pending_profiles_.end()) {
     return nullptr;
   }
-  v8::CpuProfile* profile = cpu_profiler_->Stop(it->second);
+  v8::CpuProfile* profile = cpu_profiler_->Stop(*it);
   pending_profiles_.erase(it);
   return profile;
 }

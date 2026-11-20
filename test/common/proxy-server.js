@@ -3,6 +3,8 @@
 const net = require('net');
 const http = require('http');
 const assert = require('assert');
+const { once } = require('events');
+const fixtures = require('./fixtures');
 
 function logRequest(logs, req) {
   logs.push({
@@ -14,7 +16,7 @@ function logRequest(logs, req) {
 
 // This creates a minimal proxy server that logs the requests it gets
 // to an array before performing proxying.
-exports.createProxyServer = function(options = {}) {
+function createProxyServer(options = {}) {
   const logs = [];
 
   let proxy;
@@ -32,13 +34,11 @@ exports.createProxyServer = function(options = {}) {
   }
   proxy.on('request', (req, res) => {
     logRequest(logs, req);
-    const [hostname, port] = req.headers.host.split(':');
-    const targetPort = port || 80;
-
+    // Route based on the absolute-form request-target.
     const url = new URL(req.url);
     const options = {
-      hostname: hostname,
-      port: targetPort,
+      hostname: url.hostname.startsWith('[') ? url.hostname.slice(1, -1) : url.hostname,
+      port: url.port || 80,
       path: url.pathname + url.search,  // Convert back to relative URL.
       method: req.method,
       headers: {
@@ -63,7 +63,7 @@ exports.createProxyServer = function(options = {}) {
     });
 
     res.on('error', (err) => {
-      logs.push({ error: err, source: 'proxy response' });
+      logs.push({ error: err, source: 'client response for request' });
     });
 
     req.pipe(proxyReq, { end: true });
@@ -72,13 +72,15 @@ exports.createProxyServer = function(options = {}) {
   proxy.on('connect', (req, res, head) => {
     logRequest(logs, req);
 
-    const [hostname, port] = req.url.split(':');
+    const { hostname, port } = new URL(`https://${req.url}`);
 
     res.on('error', (err) => {
-      logs.push({ error: err, source: 'proxy response' });
+      logs.push({ error: err, source: 'client response for connect' });
     });
 
-    const proxyReq = net.connect(port, hostname, () => {
+    const normalizedHostname = hostname.startsWith('[') && hostname.endsWith(']') ?
+      hostname.slice(1, -1) : hostname;
+    const proxyReq = net.connect(port, normalizedHostname, () => {
       res.write(
         'HTTP/1.1 200 Connection Established\r\n' +
         'Proxy-agent: Node.js-Proxy\r\n' +
@@ -90,9 +92,13 @@ exports.createProxyServer = function(options = {}) {
     });
 
     proxyReq.on('error', (err) => {
-      logs.push({ error: err, source: 'proxy request' });
-      res.write('HTTP/1.1 500 Connection Error\r\n\r\n');
-      res.end('Proxy error: ' + err.message);
+      logs.push({ error: err, source: 'proxy connect' });
+      // The proxy client might have already closed the connection
+      // when the upstream connection fails.
+      if (!res.writableEnded) {
+        res.write('HTTP/1.1 500 Connection Error\r\n\r\n');
+        res.end('Proxy error: ' + err.message);
+      }
     });
   });
 
@@ -101,7 +107,8 @@ exports.createProxyServer = function(options = {}) {
   });
 
   return { proxy, logs };
-};
+}
+exports.createProxyServer = createProxyServer;
 
 function spawnPromisified(...args) {
   const { spawn } = require('child_process');
@@ -142,12 +149,13 @@ function spawnPromisified(...args) {
   });
 }
 
-exports.checkProxiedFetch = async function(envExtension, expectation, cliArgsExtension = []) {
-  const fixtures = require('./fixtures');
+async function checkProxied(type, envExtension, expectation, cliArgsExtension = []) {
+  const script = type === 'fetch' ? fixtures.path('fetch-and-log.mjs') : fixtures.path('request-and-log.js');
   const { code, signal, stdout, stderr } = await spawnPromisified(
     process.execPath,
-    ['--no-warnings', ...cliArgsExtension, fixtures.path('fetch-and-log.mjs')], {
+    [...cliArgsExtension, script], {
       env: {
+        NO_LOG_REQUEST: '1',
         ...process.env,
         ...envExtension,
       },
@@ -166,11 +174,19 @@ exports.checkProxiedFetch = async function(envExtension, expectation, cliArgsExt
   });
 };
 
+exports.checkProxiedFetch = async function(...args) {
+  return checkProxied('fetch', ...args);
+};
+
+exports.checkProxiedRequest = async function(...args) {
+  return checkProxied('request', ...args);
+};
+
 exports.runProxiedRequest = async function(envExtension, cliArgsExtension = []) {
   const fixtures = require('./fixtures');
   return spawnPromisified(
     process.execPath,
-    ['--no-warnings', ...cliArgsExtension, fixtures.path('request-and-log.js')], {
+    [...cliArgsExtension, fixtures.path('request-and-log.js')], {
       env: {
         ...process.env,
         ...envExtension,
@@ -182,10 +198,62 @@ exports.runProxiedPOST = async function(envExtension) {
   const fixtures = require('./fixtures');
   return spawnPromisified(
     process.execPath,
-    ['--no-warnings', fixtures.path('post-resource-and-log.js')], {
+    [fixtures.path('post-resource-and-log.js')], {
       env: {
         ...process.env,
         ...envExtension,
       },
     });
+};
+
+exports.startTestServers = async function(options = {}) {
+  const { proxy, logs } = createProxyServer();
+  proxy.listen(0);
+  await once(proxy, 'listening');
+
+  let httpServer, httpsServer, httpEndpoint, httpsEndpoint;
+  if (options.httpsEndpoint) {
+    httpsServer = require('https').createServer({
+      cert: fixtures.readKey('agent8-cert.pem'),
+      key: fixtures.readKey('agent8-key.pem'),
+    }, (req, res) => {
+      res.end('Hello world');
+    });
+    httpsServer.listen(0);
+    await once(httpsServer, 'listening');
+    const { port } = httpsServer.address();
+    httpsEndpoint = {
+      serverHost: `localhost:${port}`,
+      requestUrl: `https://localhost:${port}/test`,
+    };
+  }
+
+  if (options.httpEndpoint) {
+    httpServer = http.createServer((req, res) => {
+      res.end('Hello world');
+    });
+    httpServer.listen(0);
+    await once(httpServer, 'listening');
+    const { port } = httpServer.address();
+    httpEndpoint = {
+      serverHost: `localhost:${port}`,
+      requestUrl: `http://localhost:${port}/test`,
+    };
+  }
+
+  return {
+    proxyLogs: logs,
+    shutdown() {
+      if (httpServer) {
+        httpServer.close();
+      }
+      if (httpsServer) {
+        httpsServer.close();
+      }
+      proxy.close();
+    },
+    proxyUrl: `http://localhost:${proxy.address().port}`,
+    httpEndpoint,
+    httpsEndpoint,
+  };
 };

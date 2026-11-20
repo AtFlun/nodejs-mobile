@@ -37,7 +37,7 @@
             {
               "textRaw": "Node.js streams interoperability",
               "name": "node.js_streams_interoperability",
-              "desc": "<p>Node.js streams can be converted to web streams and vice versa via the <code>toWeb</code> and <code>fromWeb</code> methods present on <a href=\"stream.html#class-streamreadable\"><code>stream.Readable</code></a>, <a href=\"stream.html#class-streamwritable\"><code>stream.Writable</code></a> and <a href=\"stream.html#class-streamduplex\"><code>stream.Duplex</code></a> objects.</p>\n<p>For more details refer to the relevant documentation:</p>\n<ul>\n<li><a href=\"stream.html#streamreadabletowebstreamreadable-options\"><code>stream.Readable.toWeb</code></a></li>\n<li><a href=\"stream.html#streamreadablefromwebreadablestream-options\"><code>stream.Readable.fromWeb</code></a></li>\n<li><a href=\"stream.html#streamwritabletowebstreamwritable\"><code>stream.Writable.toWeb</code></a></li>\n<li><a href=\"stream.html#streamwritablefromwebwritablestream-options\"><code>stream.Writable.fromWeb</code></a></li>\n<li><a href=\"stream.html#streamduplextowebstreamduplex\"><code>stream.Duplex.toWeb</code></a></li>\n<li><a href=\"stream.html#streamduplexfromwebpair-options\"><code>stream.Duplex.fromWeb</code></a></li>\n</ul>",
+              "desc": "<p>Node.js streams can be converted to web streams and vice versa via the <code>toWeb</code> and <code>fromWeb</code> methods present on <a href=\"stream.html#class-streamreadable\"><code>stream.Readable</code></a>, <a href=\"stream.html#class-streamwritable\"><code>stream.Writable</code></a> and <a href=\"stream.html#class-streamduplex\"><code>stream.Duplex</code></a> objects.</p>\n<p>For more details refer to the relevant documentation:</p>\n<ul>\n<li><a href=\"stream.html#streamreadabletowebstreamreadable-options\"><code>stream.Readable.toWeb</code></a></li>\n<li><a href=\"stream.html#streamreadablefromwebreadablestream-options\"><code>stream.Readable.fromWeb</code></a></li>\n<li><a href=\"stream.html#streamwritabletowebstreamwritable\"><code>stream.Writable.toWeb</code></a></li>\n<li><a href=\"stream.html#streamwritablefromwebwritablestream-options\"><code>stream.Writable.fromWeb</code></a></li>\n<li><a href=\"stream.html#streamduplextowebstreamduplex-options\"><code>stream.Duplex.toWeb</code></a></li>\n<li><a href=\"stream.html#streamduplexfromwebpair-options\"><code>stream.Duplex.fromWeb</code></a></li>\n</ul>",
               "type": "module",
               "displayName": "Node.js streams interoperability"
             }
@@ -48,6 +48,70 @@
         {
           "textRaw": "API",
           "name": "api",
+          "methods": [
+            {
+              "textRaw": "`ReadableStreamTee(stream[, cloneForBranch2])`",
+              "type": "method",
+              "name": "ReadableStreamTee",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {ReadableStream\\[]} Two {ReadableStream} branches.",
+                    "name": "return",
+                    "type": "ReadableStream\\[]",
+                    "desc": "Two {ReadableStream} branches."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`stream` {ReadableStream}",
+                      "name": "stream",
+                      "type": "ReadableStream"
+                    },
+                    {
+                      "textRaw": "`cloneForBranch2` {boolean} When `true`, chunks enqueued into the second branch are cloned from chunks enqueued into the first branch. **Default:** `false`.",
+                      "name": "cloneForBranch2",
+                      "type": "boolean",
+                      "default": "`false`",
+                      "desc": "When `true`, chunks enqueued into the second branch are cloned from chunks enqueued into the first branch."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Runs the WHATWG <code>ReadableStreamTee</code> abstract operation on <code>stream</code>.</p>\n<p>This differs from <code>readableStream.tee()</code> only when <code>cloneForBranch2</code> is\n<code>true</code>. The <code>tee()</code> method always passes <code>false</code>, while other web platform\nspecifications, such as Fetch body cloning, pass <code>true</code> so that the second\nbranch receives cloned chunks and consumption of one branch cannot mutate chunks\nseen by the other.</p>"
+            },
+            {
+              "textRaw": "`ReadableStream.from(iterable)`",
+              "type": "method",
+              "name": "from",
+              "meta": {
+                "added": [
+                  "v20.6.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`iterable` {Iterable} Object implementing the `Symbol.asyncIterator` or `Symbol.iterator` iterable protocol.",
+                      "name": "iterable",
+                      "type": "Iterable",
+                      "desc": "Object implementing the `Symbol.asyncIterator` or `Symbol.iterator` iterable protocol."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>A utility method that creates a new <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> from an iterable.</p>\n<pre><code class=\"language-mjs\">import { ReadableStream } from 'node:stream/web';\n\nasync function* asyncIterableGenerator() {\n  yield 'a';\n  yield 'b';\n  yield 'c';\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\nfor await (const chunk of stream)\n  console.log(chunk); // Prints: 'a', 'b', 'c'\n</code></pre>\n<pre><code class=\"language-cjs\">const { ReadableStream } = require('node:stream/web');\n\nasync function* asyncIterableGenerator() {\n  yield 'a';\n  yield 'b';\n  yield 'c';\n}\n\n(async () => {\n  const stream = ReadableStream.from(asyncIterableGenerator());\n\n  for await (const chunk of stream)\n    console.log(chunk); // Prints: 'a', 'b', 'c'\n})();\n</code></pre>\n<p>To pipe the resulting <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> into a <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> the <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol\" class=\"type\">&lt;Iterable&gt;</a>\nshould yield a sequence of <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a>, <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a>, or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a> objects.</p>\n<pre><code class=\"language-mjs\">import { ReadableStream } from 'node:stream/web';\nimport { Buffer } from 'node:buffer';\n\nasync function* asyncIterableGenerator() {\n  yield Buffer.from('a');\n  yield Buffer.from('b');\n  yield Buffer.from('c');\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\nawait stream.pipeTo(createWritableStreamSomehow());\n</code></pre>\n<pre><code class=\"language-cjs\">const { ReadableStream } = require('node:stream/web');\nconst { Buffer } = require('node:buffer');\n\nasync function* asyncIterableGenerator() {\n  yield Buffer.from('a');\n  yield Buffer.from('b');\n  yield Buffer.from('c');\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\n(async () => {\n  await stream.pipeTo(createWritableStreamSomehow());\n})();\n</code></pre>"
+            }
+          ],
           "classes": [
             {
               "textRaw": "Class: `ReadableStream`",
@@ -545,7 +609,10 @@
                     ],
                     "changes": [
                       {
-                        "version": "v21.7.0",
+                        "version": [
+                          "v21.7.0",
+                          "v20.17.0"
+                        ],
                         "pr-url": "https://github.com/nodejs/node/pull/50888",
                         "description": "Added `min` option."
                       }
@@ -1488,6 +1555,24 @@
                           ]
                         },
                         {
+                          "textRaw": "`cancel` {Function} A user-defined function that is called when either the readable side of the `TransformStream` is canceled or the writable side is aborted.",
+                          "name": "cancel",
+                          "type": "Function",
+                          "desc": "A user-defined function that is called when either the readable side of the `TransformStream` is canceled or the writable side is aborted.",
+                          "options": [
+                            {
+                              "textRaw": "`reason` {any}",
+                              "name": "reason",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
                           "textRaw": "`readableType` {any} the `readableType` option is reserved for future use and _must_ be `undefined`.",
                           "name": "readableType",
                           "type": "any",
@@ -2083,32 +2168,6 @@
               ]
             }
           ],
-          "methods": [
-            {
-              "textRaw": "`ReadableStream.from(iterable)`",
-              "type": "method",
-              "name": "from",
-              "meta": {
-                "added": [
-                  "v20.6.0"
-                ],
-                "changes": []
-              },
-              "signatures": [
-                {
-                  "params": [
-                    {
-                      "textRaw": "`iterable` {Iterable} Object implementing the `Symbol.asyncIterator` or `Symbol.iterator` iterable protocol.",
-                      "name": "iterable",
-                      "type": "Iterable",
-                      "desc": "Object implementing the `Symbol.asyncIterator` or `Symbol.iterator` iterable protocol."
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>A utility method that creates a new <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> from an iterable.</p>\n<pre><code class=\"language-mjs\">import { ReadableStream } from 'node:stream/web';\n\nasync function* asyncIterableGenerator() {\n  yield 'a';\n  yield 'b';\n  yield 'c';\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\nfor await (const chunk of stream)\n  console.log(chunk); // Prints: 'a', 'b', 'c'\n</code></pre>\n<pre><code class=\"language-cjs\">const { ReadableStream } = require('node:stream/web');\n\nasync function* asyncIterableGenerator() {\n  yield 'a';\n  yield 'b';\n  yield 'c';\n}\n\n(async () => {\n  const stream = ReadableStream.from(asyncIterableGenerator());\n\n  for await (const chunk of stream)\n    console.log(chunk); // Prints: 'a', 'b', 'c'\n})();\n</code></pre>\n<p>To pipe the resulting <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> into a <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> the <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol\" class=\"type\">&lt;Iterable&gt;</a>\nshould yield a sequence of <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a>, <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a>, or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a> objects.</p>\n<pre><code class=\"language-mjs\">import { ReadableStream } from 'node:stream/web';\nimport { Buffer } from 'node:buffer';\n\nasync function* asyncIterableGenerator() {\n  yield Buffer.from('a');\n  yield Buffer.from('b');\n  yield Buffer.from('c');\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\nawait stream.pipeTo(createWritableStreamSomehow());\n</code></pre>\n<pre><code class=\"language-cjs\">const { ReadableStream } = require('node:stream/web');\nconst { Buffer } = require('node:buffer');\n\nasync function* asyncIterableGenerator() {\n  yield Buffer.from('a');\n  yield Buffer.from('b');\n  yield Buffer.from('c');\n}\n\nconst stream = ReadableStream.from(asyncIterableGenerator());\n\n(async () => {\n  await stream.pipeTo(createWritableStreamSomehow());\n})();\n</code></pre>"
-            }
-          ],
           "modules": [
             {
               "textRaw": "Utility Consumers",
@@ -2207,6 +2266,35 @@
                     }
                   ],
                   "desc": "<pre><code class=\"language-mjs\">import { buffer } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\nimport { Buffer } from 'node:buffer';\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nconst data = await buffer(readable);\nconsole.log(`from readable: ${data.length}`);\n// Prints: from readable: 27\n</code></pre>\n<pre><code class=\"language-cjs\">const { buffer } = require('node:stream/consumers');\nconst { Readable } = require('node:stream');\nconst { Buffer } = require('node:buffer');\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nbuffer(readable).then((data) => {\n  console.log(`from readable: ${data.length}`);\n  // Prints: from readable: 27\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`streamConsumers.bytes(stream)`",
+                  "type": "method",
+                  "name": "bytes",
+                  "meta": {
+                    "added": [
+                      "v24.14.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with a {Uint8Array} containing the full contents of the stream.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with a {Uint8Array} containing the full contents of the stream."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { bytes } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\nimport { Buffer } from 'node:buffer';\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nconst data = await bytes(readable);\nconsole.log(`from readable: ${data.length}`);\n// Prints: from readable: 27\n</code></pre>\n<pre><code class=\"language-cjs\">const { bytes } = require('node:stream/consumers');\nconst { Readable } = require('node:stream');\nconst { Buffer } = require('node:buffer');\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nbytes(readable).then((data) => {\n  console.log(`from readable: ${data.length}`);\n  // Prints: from readable: 27\n});\n</code></pre>"
                 },
                 {
                   "textRaw": "`streamConsumers.json(stream)`",

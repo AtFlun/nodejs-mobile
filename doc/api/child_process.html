@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Child process | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Child process | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="child_process" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -177,7 +177,7 @@
 <li><a href="#subprocessdisconnect"><code>subprocess.disconnect()</code></a></li>
 <li><a href="#subprocessexitcode"><code>subprocess.exitCode</code></a></li>
 <li><a href="#subprocesskillsignal"><code>subprocess.kill([signal])</code></a></li>
-<li><span class="stability_1"><a href="#subprocesssymboldispose"><code>subprocess[Symbol.dispose]()</code></a></span></li>
+<li><a href="#subprocesssymboldispose"><code>subprocess[Symbol.dispose]()</code></a></li>
 <li><a href="#subprocesskilled"><code>subprocess.killed</code></a></li>
 <li><a href="#subprocesspid"><code>subprocess.pid</code></a></li>
 <li><a href="#subprocessref"><code>subprocess.ref()</code></a></li>
@@ -391,7 +391,7 @@
 <li><a href="#subprocessdisconnect"><code>subprocess.disconnect()</code></a></li>
 <li><a href="#subprocessexitcode"><code>subprocess.exitCode</code></a></li>
 <li><a href="#subprocesskillsignal"><code>subprocess.kill([signal])</code></a></li>
-<li><span class="stability_1"><a href="#subprocesssymboldispose"><code>subprocess[Symbol.dispose]()</code></a></span></li>
+<li><a href="#subprocesssymboldispose"><code>subprocess[Symbol.dispose]()</code></a></li>
 <li><a href="#subprocesskilled"><code>subprocess.killed</code></a></li>
 <li><a href="#subprocesspid"><code>subprocess.pid</code></a></li>
 <li><a href="#subprocessref"><code>subprocess.ref()</code></a></li>
@@ -423,7 +423,7 @@
         <h2>Child process<span><a class="mark" href="#child-process" id="child-process">#</a></span><a aria-hidden="true" class="legacy" id="child_process_child_process"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/child_process.js">lib/child_process.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/child_process.js">lib/child_process.js</a></p>
 <p>The <code>node:child_process</code> module provides the ability to spawn subprocesses in
 a manner that is similar, but not identical, to <a href="http://man7.org/linux/man-pages/man3/popen.3.html"><code>popen(3)</code></a>. This capability
 is primarily provided by the <a href="#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> function:</p>
@@ -520,46 +520,32 @@ operating systems (Unix, Linux, macOS) <a href="#child_processexecfilefile-args-
 more efficient because it does not spawn a shell by default. On Windows,
 however, <code>.bat</code> and <code>.cmd</code> files are not executable on their own without a
 terminal, and therefore cannot be launched using <a href="#child_processexecfilefile-args-options-callback"><code>child_process.execFile()</code></a>.
-When running on Windows, <code>.bat</code> and <code>.cmd</code> files can be invoked using
-<a href="#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> with the <code>shell</code> option set, with
-<a href="#child_processexeccommand-options-callback"><code>child_process.exec()</code></a>, or by spawning <code>cmd.exe</code> and passing the <code>.bat</code> or
-<code>.cmd</code> file as an argument (which is what the <code>shell</code> option and
-<a href="#child_processexeccommand-options-callback"><code>child_process.exec()</code></a> do). In any case, if the script filename contains
-spaces it needs to be quoted.</p>
+When running on Windows, <code>.bat</code> and <code>.cmd</code> files can be invoked by:</p>
+<ul>
+<li>using <a href="#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> with the <code>shell</code> option set (not recommended, see <a href="deprecations.html#dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option">DEP0190</a>), or</li>
+<li>using <a href="#child_processexeccommand-options-callback"><code>child_process.exec()</code></a>, or</li>
+<li>spawning <code>cmd.exe</code> and passing the <code>.bat</code> or <code>.cmd</code> file as an argument
+(which is what <a href="#child_processexeccommand-options-callback"><code>child_process.exec()</code></a> does internally).</li>
+</ul>
+<p>In any case, if the script filename contains spaces, it needs to be quoted.</p>
 
-<pre class="with-54-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-comment">// OR...</span>
-<span class="hljs-keyword">const</span> { exec, spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
+<pre class="with-54-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { exec, spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
 
-<span class="hljs-title function_">exec</span>(<span class="hljs-string">'my.bat'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> {
-  <span class="hljs-keyword">if</span> (err) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err);
-    <span class="hljs-keyword">return</span>;
-  }
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(stdout);
-});
+<span class="hljs-title function_">exec</span>(<span class="hljs-string">'my.bat'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> { <span class="hljs-comment">/* ... */</span> });
 
-<span class="hljs-comment">// Script with spaces in the filename:</span>
-<span class="hljs-keyword">const</span> bat = <span class="hljs-title function_">spawn</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, { <span class="hljs-attr">shell</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">// or:</span>
-<span class="hljs-title function_">exec</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> {
-  <span class="hljs-comment">// ...</span>
-});</code><code class="language-js mjs"><span class="hljs-comment">// OR...</span>
-<span class="hljs-keyword">import</span> { exec, spawn } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:child_process'</span>;
+<span class="hljs-comment">// Or, spawning cmd.exe directly:</span>
+<span class="hljs-keyword">const</span> bat = <span class="hljs-title function_">spawn</span>(<span class="hljs-string">'cmd.exe'</span>, [<span class="hljs-string">'/c'</span>, <span class="hljs-string">'my.bat'</span>]);
 
-<span class="hljs-title function_">exec</span>(<span class="hljs-string">'my.bat'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> {
-  <span class="hljs-keyword">if</span> (err) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err);
-    <span class="hljs-keyword">return</span>;
-  }
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(stdout);
-});
+<span class="hljs-comment">// If the script filename contains spaces, it needs to be quoted</span>
+<span class="hljs-title function_">exec</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> { <span class="hljs-comment">/* ... */</span> });</code><code class="language-js mjs"><span class="hljs-keyword">import</span> { exec, spawn } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:child_process'</span>;
 
-<span class="hljs-comment">// Script with spaces in the filename:</span>
-<span class="hljs-keyword">const</span> bat = <span class="hljs-title function_">spawn</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, { <span class="hljs-attr">shell</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-comment">// or:</span>
-<span class="hljs-title function_">exec</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> {
-  <span class="hljs-comment">// ...</span>
-});</code><button class="copy-button">copy</button></pre>
+<span class="hljs-title function_">exec</span>(<span class="hljs-string">'my.bat'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> { <span class="hljs-comment">/* ... */</span> });
+
+<span class="hljs-comment">// Or, spawning cmd.exe directly:</span>
+<span class="hljs-keyword">const</span> bat = <span class="hljs-title function_">spawn</span>(<span class="hljs-string">'cmd.exe'</span>, [<span class="hljs-string">'/c'</span>, <span class="hljs-string">'my.bat'</span>]);
+
+<span class="hljs-comment">// If the script filename contains spaces, it needs to be quoted</span>
+<span class="hljs-title function_">exec</span>(<span class="hljs-string">'"my script.cmd" a b'</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =></span> { <span class="hljs-comment">/* ... */</span> });</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>child_process.exec(command[, options][, callback])</code><span><a class="mark" href="#child_processexeccommand-options-callback" id="child_processexeccommand-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="child_process_child_process_exec_command_options_callback"></a></h4>
 <div class="api_metadata">
@@ -717,7 +703,7 @@ controller.<span class="hljs-title function_">abort</span>();</code><button clas
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Passing <code>args</code> when <code>shell</code> is set to <code>true</code> is deprecated.</p></td></tr>
 <tr><td>v16.4.0, v14.18.0</td>
 <td><p>The <code>cwd</code> option can be a WHATWG <code>URL</code> object using <code>file:</code> protocol.</p></td></tr>
@@ -928,7 +914,6 @@ current process.</p>
 the error passed to the callback will be an <code>AbortError</code>:</p>
 
 <pre class="with-47-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { fork } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 
 <span class="hljs-keyword">if</span> (process.<span class="hljs-property">argv</span>[<span class="hljs-number">2</span>] === <span class="hljs-string">'child'</span>) {
   <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
@@ -964,7 +949,7 @@ the error passed to the callback will be an <code>AbortError</code>:</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Passing <code>args</code> when <code>shell</code> is set to <code>true</code> is deprecated.</p></td></tr>
 <tr><td>v16.4.0, v14.18.0</td>
 <td><p>The <code>cwd</code> option can be a WHATWG <code>URL</code> object using <code>file:</code> protocol.</p></td></tr>
@@ -1205,7 +1190,6 @@ to the controlling terminal.</p>
 <code>stdio</code> file descriptors, in order to ignore the parent's termination:</p>
 
 <pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 
 <span class="hljs-keyword">const</span> subprocess = <span class="hljs-title function_">spawn</span>(process.<span class="hljs-property">argv</span>[<span class="hljs-number">0</span>], [<span class="hljs-string">'child_program.js'</span>], {
   <span class="hljs-attr">detached</span>: <span class="hljs-literal">true</span>,
@@ -1350,7 +1334,6 @@ default is <code>'ignore'</code>.</p>
 </ol>
 
 <pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 
 <span class="hljs-comment">// Child will use parent's stdios.</span>
 <span class="hljs-title function_">spawn</span>(<span class="hljs-string">'prg'</span>, [], { <span class="hljs-attr">stdio</span>: <span class="hljs-string">'inherit'</span> });
@@ -1771,6 +1754,9 @@ processes will not terminate immediately due to receipt of those signals.
 Rather, Node.js will perform a sequence of cleanup actions and then will
 re-raise the handled signal.</p>
 <p>See <a href="http://man7.org/linux/man-pages/man2/waitpid.2.html"><code>waitpid(2)</code></a>.</p>
+<p>When <code>code</code> is <code>null</code> due to signal termination, you can use
+<a href="util.html#utilconvertprocesssignaltoexitcodesignal"><code>util.convertProcessSignalToExitCode()</code></a> to convert the signal to a POSIX
+exit code.</p>
 </div><div>
 <h4>Event: <code>'message'</code><span><a class="mark" href="#event-message" id="event-message">#</a></span><a aria-hidden="true" class="legacy" id="child_process_event_message"></a></h4>
 <div class="api_metadata">
@@ -1870,6 +1856,10 @@ within the child process to close the IPC channel as well.</p>
 </ul>
 <p>The <code>subprocess.exitCode</code> property indicates the exit code of the child process.
 If the child process is still running, the field will be <code>null</code>.</p>
+<p>When the child process is terminated by a signal, <code>subprocess.exitCode</code> will be
+<code>null</code> and <a href="#subprocesssignalcode"><code>subprocess.signalCode</code></a> will be set. To get the corresponding
+POSIX exit code, use
+<a href="util.html#utilconvertprocesssignaltoexitcodesignal"><code>util.convertProcessSignalToExitCode(subprocess.signalCode)</code></a>.</p>
 </div><div>
 <h4><code>subprocess.kill([signal])</code><span><a class="mark" href="#subprocesskillsignal" id="subprocesskillsignal">#</a></span><a aria-hidden="true" class="legacy" id="child_process_subprocess_kill_signal"></a></h4>
 <div class="api_metadata">
@@ -1955,9 +1945,16 @@ new process in a shell or with the use of the <code>shell</code> option of <code
 </div><div>
 <h4><code>subprocess[Symbol.dispose]()</code><span><a class="mark" href="#subprocesssymboldispose" id="subprocesssymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="child_process_subprocess_symbol_dispose"></a></h4>
 <div class="api_metadata">
-<span>Added in: v20.5.0, v18.18.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.5.0, v18.18.0</td>
+<td><p><span>Added in: v20.5.0, v18.18.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#subprocesskillsignal"><code>subprocess.kill()</code></a> with <code>'SIGTERM'</code>.</p>
 </div><div>
 <h4><code>subprocess.killed</code><span><a class="mark" href="#subprocesskilled" id="subprocesskilled">#</a></span><a aria-hidden="true" class="legacy" id="child_process_subprocess_killed"></a></h4>
@@ -2002,7 +1999,6 @@ restore the removed reference count for the child process, forcing the parent
 process to wait for the child process to exit before exiting itself.</p>
 
 <pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 
 <span class="hljs-keyword">const</span> subprocess = <span class="hljs-title function_">spawn</span>(process.<span class="hljs-property">argv</span>[<span class="hljs-number">0</span>], [<span class="hljs-string">'child_program.js'</span>], {
   <span class="hljs-attr">detached</span>: <span class="hljs-literal">true</span>,
@@ -2224,6 +2220,9 @@ connection to the child.</p>
 </ul>
 <p>The <code>subprocess.signalCode</code> property indicates the signal received by
 the child process if any, else <code>null</code>.</p>
+<p>When the child process is terminated by a signal, <a href="#subprocessexitcode"><code>subprocess.exitCode</code></a> will be <code>null</code>.
+To get the corresponding POSIX exit code, use
+<a href="util.html#utilconvertprocesssignaltoexitcodesignal"><code>util.convertProcessSignalToExitCode(subprocess.signalCode)</code></a>.</p>
 </div><div>
 <h4><code>subprocess.spawnargs</code><span><a class="mark" href="#subprocessspawnargs" id="subprocessspawnargs">#</a></span><a aria-hidden="true" class="legacy" id="child_process_subprocess_spawnargs"></a></h4>
 <ul>
@@ -2376,7 +2375,6 @@ independently of the child, unless there is an established IPC channel between
 the child and the parent processes.</p>
 
 <pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { spawn } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 
 <span class="hljs-keyword">const</span> subprocess = <span class="hljs-title function_">spawn</span>(process.<span class="hljs-property">argv</span>[<span class="hljs-number">0</span>], [<span class="hljs-string">'child_program.js'</span>], {
   <span class="hljs-attr">detached</span>: <span class="hljs-literal">true</span>,

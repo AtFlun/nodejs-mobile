@@ -76,7 +76,9 @@ wrapped function rejects a `Promise` with a falsy value as a reason, the value
 is wrapped in an `Error` with the original value stored in a field named
 `reason`.
 
-```js
+```mjs
+import util from 'node:util';
+
 function fn() {
   return Promise.reject(null);
 }
@@ -88,6 +90,54 @@ callbackFunction((err, ret) => {
   err && Object.hasOwn(err, 'reason') && err.reason === null;  // true
 });
 ```
+
+```cjs
+const util = require('node:util');
+
+function fn() {
+  return Promise.reject(null);
+}
+const callbackFunction = util.callbackify(fn);
+
+callbackFunction((err, ret) => {
+  // When the Promise was rejected with `null` it is wrapped with an Error and
+  // the original value is stored in `reason`.
+  err && Object.hasOwn(err, 'reason') && err.reason === null;  // true
+});
+```
+
+## `util.convertProcessSignalToExitCode(signal)`
+
+<!-- YAML
+added: v24.14.0
+-->
+
+* `signal` {string} A signal name (e.g. `'SIGTERM'`)
+* Returns: {number} The exit code corresponding to `signal`
+
+The `util.convertProcessSignalToExitCode()` method converts a signal name to its
+corresponding POSIX exit code. Following the POSIX standard, the exit code
+for a process terminated by a signal is calculated as `128 + signal number`.
+
+If `signal` is not a valid signal name, then an error will be thrown. See
+[`signal(7)`][] for a list of valid signals.
+
+```mjs
+import { convertProcessSignalToExitCode } from 'node:util';
+
+console.log(convertProcessSignalToExitCode('SIGTERM')); // 143 (128 + 15)
+console.log(convertProcessSignalToExitCode('SIGKILL')); // 137 (128 + 9)
+```
+
+```cjs
+const { convertProcessSignalToExitCode } = require('node:util');
+
+console.log(convertProcessSignalToExitCode('SIGTERM')); // 143 (128 + 15)
+console.log(convertProcessSignalToExitCode('SIGKILL')); // 137 (128 + 9)
+```
+
+This is particularly useful when working with processes to determine
+the exit code based on the signal that terminated the process.
 
 ## `util.debuglog(section[, callback])`
 
@@ -225,11 +275,15 @@ added: v14.9.0
 Alias for `util.debuglog`. Usage allows for readability of that doesn't imply
 logging when only using `util.debuglog().enabled`.
 
-## `util.deprecate(fn, msg[, code])`
+## `util.deprecate(fn, msg[, code[, options]])`
 
 <!-- YAML
 added: v0.8.0
 changes:
+  - version: v24.12.0
+    pr-url: https://github.com/nodejs/node/pull/59982
+    description: Add options object with modifyPrototype to conditionally
+                 modify the prototype of the deprecated object.
   - version: v10.0.0
     pr-url: https://github.com/nodejs/node/pull/16393
     description: Deprecation warnings are only emitted once for each code.
@@ -240,6 +294,10 @@ changes:
   invoked.
 * `code` {string} A deprecation code. See the [list of deprecated APIs][] for a
   list of codes.
+* `options` {Object}
+  * `modifyPrototype` {boolean} When false do not change the prototype of object
+    while emitting the deprecation warning.
+    **Default:** `true`.
 * Returns: {Function} The deprecated function wrapped to emit a warning.
 
 The `util.deprecate()` method wraps `fn` (which may be a function or class) in
@@ -328,7 +386,9 @@ property take precedence over `--trace-deprecation` and
 ## `util.diff(actual, expected)`
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.11.0
+  - v22.15.0
 -->
 
 > Stability: 1 - Experimental
@@ -442,7 +502,7 @@ corresponding argument. Supported specifiers are:
   `Symbol`.
 * `%i`: `parseInt(value, 10)` is used for all values except `BigInt` and
   `Symbol`.
-* `%f`: `parseFloat(value)` is used for all values expect `Symbol`.
+* `%f`: `parseFloat(value)` is used for all values except `Symbol`.
 * `%j`: JSON. Replaced with the string `'[Circular]'` if the argument contains
   circular references.
 * `%o`: `Object`. A string representation of an object with generic JavaScript
@@ -519,20 +579,26 @@ util.formatWithOptions({ colors: true }, 'See object %O', { foo: 42 });
 <!-- YAML
 added: v22.9.0
 changes:
-  - version: v22.14.0
+  - version:
+    - v23.7.0
+    - v22.14.0
     pr-url: https://github.com/nodejs/node/pull/56584
     description: Property `column` is deprecated in favor of `columnNumber`.
-  - version: v22.14.0
+  - version:
+    - v23.7.0
+    - v22.14.0
     pr-url: https://github.com/nodejs/node/pull/56551
     description: Property `CallSite.scriptId` is exposed.
-  - version: v22.12.0
+  - version:
+    - v23.3.0
+    - v22.12.0
     pr-url: https://github.com/nodejs/node/pull/55626
     description: The API is renamed from `util.getCallSite` to `util.getCallSites()`.
 -->
 
 > Stability: 1.1 - Active development
 
-* `frameCount` {number} Optional number of frames to capture as call site objects.
+* `frameCount` {integer} Optional number of frames to capture as call site objects.
   **Default:** `10`. Allowable range is between 1 and 200.
 * `options` {Object} Optional
   * `sourceMap` {boolean} Reconstruct the original location in the stacktrace from the source-map.
@@ -715,7 +781,9 @@ fs.access('file/that/does/not/exist', (err) => {
 ## `util.getSystemErrorMessage(err)`
 
 <!-- YAML
-added: v22.12.0
+added:
+  - v23.1.0
+  - v22.12.0
 -->
 
 * `err` {number}
@@ -735,7 +803,7 @@ fs.access('file/that/does/not/exist', (err) => {
 ## `util.setTraceSigInt(enable)`
 
 <!-- YAML
-added: v22.19.0
+added: v24.6.0
 -->
 
 * `enable` {boolean}
@@ -1486,7 +1554,7 @@ symbol is [registered globally][global symbol registry] and can be
 accessed in any environment as `Symbol.for('nodejs.util.inspect.custom')`.
 
 Using this allows code to be written in a portable fashion, so that the custom
-inspect function is used in an Node.js environment and ignored in the browser.
+inspect function is used in a Node.js environment and ignored in the browser.
 The `util.inspect()` function itself is passed as third argument to the custom
 inspect function to allow further portability.
 
@@ -1544,18 +1612,55 @@ inspect.defaultOptions.maxArrayLength = null;
 console.log(arr); // logs the full array
 ```
 
-## `util.isDeepStrictEqual(val1, val2)`
+## `util.isDeepStrictEqual(val1, val2[, options])`
 
 <!-- YAML
 added: v9.0.0
+changes:
+  - version: v24.9.0
+    pr-url: https://github.com/nodejs/node/pull/59762
+    description: Added `options` parameter to allow skipping prototype comparison.
 -->
 
 * `val1` {any}
 * `val2` {any}
+* `skipPrototype` {boolean} If `true`, prototype and constructor
+  comparison is skipped during deep strict equality check. **Default:** `false`.
 * Returns: {boolean}
 
 Returns `true` if there is deep strict equality between `val1` and `val2`.
 Otherwise, returns `false`.
+
+By default, deep strict equality includes comparison of object prototypes and
+constructors. When `skipPrototype` is `true`, objects with
+different prototypes or constructors can still be considered equal if their
+enumerable properties are deeply strictly equal.
+
+```js
+const util = require('node:util');
+
+class Foo {
+  constructor(a) {
+    this.a = a;
+  }
+}
+
+class Bar {
+  constructor(a) {
+    this.a = a;
+  }
+}
+
+const foo = new Foo(1);
+const bar = new Bar(1);
+
+// Different constructors, same properties
+console.log(util.isDeepStrictEqual(foo, bar));
+// false
+
+console.log(util.isDeepStrictEqual(foo, bar, true));
+// true
+```
 
 See [`assert.deepStrictEqual()`][] for more information about deep strict
 equality.
@@ -1567,7 +1672,9 @@ added:
   - v19.1.0
   - v18.13.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1922,7 +2029,9 @@ added:
   - v18.3.0
   - v16.17.0
 changes:
-  - version: v22.4.0
+  - version:
+    - v22.4.0
+    - v20.16.0
     pr-url: https://github.com/nodejs/node/pull/53107
     description: add support for allowing negative options in input `config`.
   - version:
@@ -2141,7 +2250,7 @@ added:
   - v21.7.0
   - v20.12.0
 changes:
-  - version: v22.21.0
+  - version: v24.10.0
     pr-url: https://github.com/nodejs/node/pull/59925
     description: This API is no longer experimental.
 -->
@@ -2411,10 +2520,15 @@ added:
   - v21.7.0
   - v20.12.0
 changes:
-  - version: v22.17.0
+  - version: v24.16.0
+    pr-url: https://github.com/nodejs/node/pull/61556
+    description: Add support for hexadecimal colors.
+  - version: v24.2.0
     pr-url: https://github.com/nodejs/node/pull/58437
     description: Added the `'none'` format as a non-op format.
-  - version: v22.13.0
+  - version:
+    - v23.5.0
+    - v22.13.0
     pr-url: https://github.com/nodejs/node/pull/56265
     description: styleText is now stable.
   - version:
@@ -2426,8 +2540,9 @@ changes:
 -->
 
 * `format` {string | Array} A text format or an Array
-  of text formats defined in `util.inspect.colors`.
-* `text` {string} The text to to be formatted.
+  of text formats defined in `util.inspect.colors`, or a hex color in `#RGB`
+  or `#RRGGBB` form.
+* `text` {string} The text to be formatted.
 * `options` {Object}
   * `validateStream` {boolean} When true, `stream` is checked to see if it can handle colors. **Default:** `true`.
   * `stream` {Stream} A stream that will be validated if it can be colored. **Default:** `process.stdout`.
@@ -2488,6 +2603,30 @@ console.log(
 ```
 
 The special format value `none` applies no additional styling to the text.
+
+In addition to predefined color names, `util.styleText()` supports hex color
+strings using ANSI TrueColor (24-bit) escape sequences. Hex colors can be
+specified in either 3-digit (`#RGB`) or 6-digit (`#RRGGBB`) format:
+
+```mjs
+import { styleText } from 'node:util';
+
+// 6-digit hex color
+console.log(styleText('#ff5733', 'Orange text'));
+
+// 3-digit hex color (shorthand)
+console.log(styleText('#f00', 'Red text'));
+```
+
+```cjs
+const { styleText } = require('node:util');
+
+// 6-digit hex color
+console.log(styleText('#ff5733', 'Orange text'));
+
+// 3-digit hex color (shorthand)
+console.log(styleText('#f00', 'Red text'));
+```
 
 The full list of formats can be found in [modifiers][].
 
@@ -2704,7 +2843,9 @@ Unicode "replacement character" U+FFFD.
 <!-- YAML
 added: v18.11.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -2717,7 +2858,9 @@ as transferable and can be used with `structuredClone()` or `postMessage()`.
 <!-- YAML
 added: v18.11.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -2741,7 +2884,7 @@ added:
  - v19.7.0
  - v18.16.0
 changes:
- - version: v22.16.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57765
    description: Change stability index for this feature from Experimental to Stable.
 -->
@@ -3115,7 +3258,7 @@ For further information on `napi_create_external`, refer to
 ### `util.types.isFloat16Array(value)`
 
 <!-- YAML
-added: v22.16.0
+added: v24.0.0
 -->
 
 * `value` {any}
@@ -3321,7 +3464,13 @@ util.types.isModuleNamespaceObject(ns);  // Returns true
 
 <!-- YAML
 added: v10.0.0
+deprecated: v24.2.0
 -->
+
+> Stability: 0 - Deprecated: Use [`Error.isError`][] instead.
+
+**Note:** As of Node.js 24, `Error.isError()` is currently slower than `util.types.isNativeError()`.
+If performance is critical, consider benchmarking both in your environment.
 
 * `value` {any}
 * Returns: {boolean}
@@ -3671,6 +3820,12 @@ Node.js modules. The community found and used it anyway.
 It is deprecated and should not be used in new code. JavaScript comes with very
 similar built-in functionality through [`Object.assign()`][].
 
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/util-extend-to-object-assign)):
+
+```bash
+npx codemod@latest @nodejs/util-extend-to-object-assign
+```
+
 ### `util.isArray(object)`
 
 <!-- YAML
@@ -3698,422 +3853,10 @@ util.isArray({});
 // Returns: false
 ```
 
-### `util.isBoolean(object)`
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is)):
 
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `typeof value === 'boolean'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Boolean`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isBoolean(1);
-// Returns: false
-util.isBoolean(0);
-// Returns: false
-util.isBoolean(false);
-// Returns: true
-```
-
-### `util.isBuffer(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use [`Buffer.isBuffer()`][] instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Buffer`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isBuffer({ length: 0 });
-// Returns: false
-util.isBuffer([]);
-// Returns: false
-util.isBuffer(Buffer.from('hello world'));
-// Returns: true
-```
-
-### `util.isDate(object)`
-
-<!-- YAML
-added: v0.6.0
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use [`util.types.isDate()`][] instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Date`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isDate(new Date());
-// Returns: true
-util.isDate(Date());
-// false (without 'new' returns a String)
-util.isDate({});
-// Returns: false
-```
-
-### `util.isError(object)`
-
-<!-- YAML
-added: v0.6.0
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use [`util.types.isNativeError()`][] instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is an {Error}. Otherwise, returns
-`false`.
-
-```js
-const util = require('node:util');
-
-util.isError(new Error());
-// Returns: true
-util.isError(new TypeError());
-// Returns: true
-util.isError({ name: 'Error', message: 'an error occurred' });
-// Returns: false
-```
-
-This method relies on `Object.prototype.toString()` behavior. It is
-possible to obtain an incorrect result when the `object` argument manipulates
-`@@toStringTag`.
-
-```js
-const util = require('node:util');
-const obj = { name: 'Error', message: 'an error occurred' };
-
-util.isError(obj);
-// Returns: false
-obj[Symbol.toStringTag] = 'Error';
-util.isError(obj);
-// Returns: true
-```
-
-### `util.isFunction(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `typeof value === 'function'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Function`. Otherwise, returns
-`false`.
-
-```js
-const util = require('node:util');
-
-function Foo() {}
-const Bar = () => {};
-
-util.isFunction({});
-// Returns: false
-util.isFunction(Foo);
-// Returns: true
-util.isFunction(Bar);
-// Returns: true
-```
-
-### `util.isNull(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `value === null` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is strictly `null`. Otherwise, returns
-`false`.
-
-```js
-const util = require('node:util');
-
-util.isNull(0);
-// Returns: false
-util.isNull(undefined);
-// Returns: false
-util.isNull(null);
-// Returns: true
-```
-
-### `util.isNullOrUndefined(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use
-> `value === undefined || value === null` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is `null` or `undefined`. Otherwise,
-returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isNullOrUndefined(0);
-// Returns: false
-util.isNullOrUndefined(undefined);
-// Returns: true
-util.isNullOrUndefined(null);
-// Returns: true
-```
-
-### `util.isNumber(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `typeof value === 'number'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Number`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isNumber(false);
-// Returns: false
-util.isNumber(Infinity);
-// Returns: true
-util.isNumber(0);
-// Returns: true
-util.isNumber(NaN);
-// Returns: true
-```
-
-### `util.isObject(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated:
-> Use `value !== null && typeof value === 'object'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is strictly an `Object` **and** not a
-`Function` (even though functions are objects in JavaScript).
-Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isObject(5);
-// Returns: false
-util.isObject(null);
-// Returns: false
-util.isObject({});
-// Returns: true
-util.isObject(() => {});
-// Returns: false
-```
-
-### `util.isPrimitive(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use
-> `(typeof value !== 'object' && typeof value !== 'function') || value === null`
-> instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a primitive type. Otherwise, returns
-`false`.
-
-```js
-const util = require('node:util');
-
-util.isPrimitive(5);
-// Returns: true
-util.isPrimitive('foo');
-// Returns: true
-util.isPrimitive(false);
-// Returns: true
-util.isPrimitive(null);
-// Returns: true
-util.isPrimitive(undefined);
-// Returns: true
-util.isPrimitive({});
-// Returns: false
-util.isPrimitive(() => {});
-// Returns: false
-util.isPrimitive(/^$/);
-// Returns: false
-util.isPrimitive(new Date());
-// Returns: false
-```
-
-### `util.isRegExp(object)`
-
-<!-- YAML
-added: v0.6.0
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `RegExp`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isRegExp(/some regexp/);
-// Returns: true
-util.isRegExp(new RegExp('another regexp'));
-// Returns: true
-util.isRegExp({});
-// Returns: false
-```
-
-### `util.isString(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `typeof value === 'string'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `string`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isString('');
-// Returns: true
-util.isString('foo');
-// Returns: true
-util.isString(String('foo'));
-// Returns: true
-util.isString(5);
-// Returns: false
-```
-
-### `util.isSymbol(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `typeof value === 'symbol'` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is a `Symbol`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-util.isSymbol(5);
-// Returns: false
-util.isSymbol('foo');
-// Returns: false
-util.isSymbol(Symbol('foo'));
-// Returns: true
-```
-
-### `util.isUndefined(object)`
-
-<!-- YAML
-added: v0.11.5
-deprecated: v4.0.0
--->
-
-> Stability: 0 - Deprecated: Use `value === undefined` instead.
-
-* `object` {any}
-* Returns: {boolean}
-
-Returns `true` if the given `object` is `undefined`. Otherwise, returns `false`.
-
-```js
-const util = require('node:util');
-
-const foo = undefined;
-util.isUndefined(5);
-// Returns: false
-util.isUndefined(foo);
-// Returns: true
-util.isUndefined(null);
-// Returns: false
-```
-
-### `util.log(string)`
-
-<!-- YAML
-added: v0.3.0
-deprecated: v6.0.0
--->
-
-> Stability: 0 - Deprecated: Use a third party module instead.
-
-* `string` {string}
-
-The `util.log()` method prints the given `string` to `stdout` with an included
-timestamp.
-
-```js
-const util = require('node:util');
-
-util.log('Timestamped message.');
+```bash
+npx codemod@latest @nodejs/util-is
 ```
 
 [Common System Errors]: errors.md#common-system-errors
@@ -4127,7 +3870,7 @@ util.log('Timestamped message.');
 [`'warning'`]: process.md#event-warning
 [`Array.isArray()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 [`ArrayBuffer.isView()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/isView
-[`Buffer.isBuffer()`]: buffer.md#static-method-bufferisbufferobj
+[`Error.isError`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/isError
 [`JSON.stringify()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 [`MIMEparams`]: #class-utilmimeparams
 [`Object.assign()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -4138,6 +3881,7 @@ util.log('Timestamped message.');
 [`mime.toString()`]: #mimetostring
 [`mimeParams.entries()`]: #mimeparamsentries
 [`napi_create_external()`]: n-api.md#napi_create_external
+[`signal(7)`]: https://man7.org/linux/man-pages/man7/signal.7.html
 [`target` and `handler`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#terminology
 [`tty.hasColors()`]: tty.md#writestreamhascolorscount-env
 [`util.diff()`]: #utildiffactual-expected
@@ -4146,8 +3890,6 @@ util.log('Timestamped message.');
 [`util.promisify()`]: #utilpromisifyoriginal
 [`util.types.isAnyArrayBuffer()`]: #utiltypesisanyarraybuffervalue
 [`util.types.isArrayBuffer()`]: #utiltypesisarraybuffervalue
-[`util.types.isDate()`]: #utiltypesisdatevalue
-[`util.types.isNativeError()`]: #utiltypesisnativeerrorvalue
 [`util.types.isSharedArrayBuffer()`]: #utiltypesissharedarraybuffervalue
 [async function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 [built-in `Error` type]: https://tc39.es/ecma262/#sec-error-objects

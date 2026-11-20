@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>File system | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>File system | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:534px){.with-39-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:462px){.with-30-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:598px){.with-47-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:558px){.with-42-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:286px){.with-8-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:614px){.with-49-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:510px){.with-36-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:630px){.with-51-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:542px){.with-40-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:646px){.with-53-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:534px){.with-39-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:462px){.with-30-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:598px){.with-47-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:558px){.with-42-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:286px){.with-8-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:614px){.with-49-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:510px){.with-36-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:630px){.with-51-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:542px){.with-40-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:646px){.with-53-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-fs">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="fs" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -170,7 +170,7 @@
 <li><a href="#filehandlewritestring-position-encoding"><code>filehandle.write(string[, position[, encoding]])</code></a></li>
 <li><a href="#filehandlewritefiledata-options"><code>filehandle.writeFile(data, options)</code></a></li>
 <li><a href="#filehandlewritevbuffers-position"><code>filehandle.writev(buffers[, position])</code></a></li>
-<li><span class="stability_1"><a href="#filehandlesymbolasyncdispose"><code>filehandle[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#filehandlesymbolasyncdispose"><code>filehandle[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#fspromisesaccesspath-mode"><code>fsPromises.access(path[, mode])</code></a></li>
@@ -187,6 +187,7 @@
 <li><a href="#fspromiseslstatpath-options"><code>fsPromises.lstat(path[, options])</code></a></li>
 <li><a href="#fspromisesmkdirpath-options"><code>fsPromises.mkdir(path[, options])</code></a></li>
 <li><a href="#fspromisesmkdtempprefix-options"><code>fsPromises.mkdtemp(prefix[, options])</code></a></li>
+<li><a href="#fspromisesmkdtempdisposableprefix-options"><code>fsPromises.mkdtempDisposable(prefix[, options])</code></a></li>
 <li><a href="#fspromisesopenpath-flags-mode"><code>fsPromises.open(path, flags[, mode])</code></a></li>
 <li><a href="#fspromisesopendirpath-options"><code>fsPromises.opendir(path[, options])</code></a></li>
 <li><a href="#fspromisesreaddirpath-options"><code>fsPromises.readdir(path[, options])</code></a></li>
@@ -313,6 +314,7 @@
 <li><a href="#fslstatsyncpath-options"><code>fs.lstatSync(path[, options])</code></a></li>
 <li><a href="#fsmkdirsyncpath-options"><code>fs.mkdirSync(path[, options])</code></a></li>
 <li><a href="#fsmkdtempsyncprefix-options"><code>fs.mkdtempSync(prefix[, options])</code></a></li>
+<li><a href="#fsmkdtempdisposablesyncprefix-options"><code>fs.mkdtempDisposableSync(prefix[, options])</code></a></li>
 <li><a href="#fsopendirsyncpath-options"><code>fs.opendirSync(path[, options])</code></a></li>
 <li><a href="#fsopensyncpath-flags-mode"><code>fs.openSync(path[, flags[, mode]])</code></a></li>
 <li><a href="#fsreaddirsyncpath-options"><code>fs.readdirSync(path[, options])</code></a></li>
@@ -351,8 +353,8 @@
 <li><a href="#dirreadcallback"><code>dir.read(callback)</code></a></li>
 <li><a href="#dirreadsync"><code>dir.readSync()</code></a></li>
 <li><a href="#dirsymbolasynciterator"><code>dir[Symbol.asyncIterator]()</code></a></li>
-<li><span class="stability_1"><a href="#dirsymbolasyncdispose"><code>dir[Symbol.asyncDispose]()</code></a></span></li>
-<li><span class="stability_1"><a href="#dirsymboldispose"><code>dir[Symbol.Dispose]()</code></a></span></li>
+<li><a href="#dirsymbolasyncdispose"><code>dir[Symbol.asyncDispose]()</code></a></li>
+<li><a href="#dirsymboldispose"><code>dir[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-fsdirent">Class: <code>fs.Dirent</code></a>
@@ -366,7 +368,6 @@
 <li><a href="#direntissymboliclink"><code>dirent.isSymbolicLink()</code></a></li>
 <li><a href="#direntname"><code>dirent.name</code></a></li>
 <li><a href="#direntparentpath"><code>dirent.parentPath</code></a></li>
-<li><span class="stability_0"><a href="#direntpath"><code>dirent.path</code></a></span></li>
 </ul>
 </li>
 <li><a href="#class-fsfswatcher">Class: <code>fs.FSWatcher</code></a>
@@ -435,16 +436,48 @@
 <li><a href="#statfsbfree"><code>statfs.bfree</code></a></li>
 <li><a href="#statfsblocks"><code>statfs.blocks</code></a></li>
 <li><a href="#statfsbsize"><code>statfs.bsize</code></a></li>
+<li><a href="#statfsfrsize"><code>statfs.frsize</code></a></li>
 <li><a href="#statfsffree"><code>statfs.ffree</code></a></li>
 <li><a href="#statfsfiles"><code>statfs.files</code></a></li>
 <li><a href="#statfstype"><code>statfs.type</code></a></li>
 </ul>
 </li>
-<li><a href="#class-fswritestream">Class: <code>fs.WriteStream</code></a>
+<li><span class="stability_1"><a href="#class-fsutf8stream">Class: <code>fs.Utf8Stream</code></a></span>
 <ul>
 <li><a href="#event-close_3">Event: <code>'close'</code></a></li>
-<li><a href="#event-open_1">Event: <code>'open'</code></a></li>
+<li><a href="#event-drain">Event: <code>'drain'</code></a></li>
+<li><a href="#event-drop">Event: <code>'drop'</code></a></li>
+<li><a href="#event-error_1">Event: <code>'error'</code></a></li>
+<li><a href="#event-finish">Event: <code>'finish'</code></a></li>
 <li><a href="#event-ready_1">Event: <code>'ready'</code></a></li>
+<li><a href="#event-write">Event: <code>'write'</code></a></li>
+<li><a href="#new-fsutf8streamoptions"><code>new fs.Utf8Stream([options])</code></a></li>
+<li><a href="#utf8streamappend"><code>utf8Stream.append</code></a></li>
+<li><a href="#utf8streamcontentmode"><code>utf8Stream.contentMode</code></a></li>
+<li><a href="#utf8streamdestroy"><code>utf8Stream.destroy()</code></a></li>
+<li><a href="#utf8streamend"><code>utf8Stream.end()</code></a></li>
+<li><a href="#utf8streamfd"><code>utf8Stream.fd</code></a></li>
+<li><a href="#utf8streamfile"><code>utf8Stream.file</code></a></li>
+<li><a href="#utf8streamflushcallback"><code>utf8Stream.flush(callback)</code></a></li>
+<li><a href="#utf8streamflushsync"><code>utf8Stream.flushSync()</code></a></li>
+<li><a href="#utf8streamfsync"><code>utf8Stream.fsync</code></a></li>
+<li><a href="#utf8streammaxlength"><code>utf8Stream.maxLength</code></a></li>
+<li><a href="#utf8streamminlength"><code>utf8Stream.minLength</code></a></li>
+<li><a href="#utf8streammkdir"><code>utf8Stream.mkdir</code></a></li>
+<li><a href="#utf8streammode"><code>utf8Stream.mode</code></a></li>
+<li><a href="#utf8streamperiodicflush"><code>utf8Stream.periodicFlush</code></a></li>
+<li><a href="#utf8streamreopenfile"><code>utf8Stream.reopen(file)</code></a></li>
+<li><a href="#utf8streamsync"><code>utf8Stream.sync</code></a></li>
+<li><a href="#utf8streamwritedata"><code>utf8Stream.write(data)</code></a></li>
+<li><a href="#utf8streamwriting"><code>utf8Stream.writing</code></a></li>
+<li><a href="#utf8streamsymboldispose"><code>utf8Stream[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-fswritestream">Class: <code>fs.WriteStream</code></a>
+<ul>
+<li><a href="#event-close_4">Event: <code>'close'</code></a></li>
+<li><a href="#event-open_1">Event: <code>'open'</code></a></li>
+<li><a href="#event-ready_2">Event: <code>'ready'</code></a></li>
 <li><a href="#writestreambyteswritten"><code>writeStream.bytesWritten</code></a></li>
 <li><a href="#writestreamclosecallback"><code>writeStream.close([callback])</code></a></li>
 <li><a href="#writestreampath"><code>writeStream.path</code></a></li>
@@ -669,7 +702,7 @@
 <li><a href="#filehandlewritestring-position-encoding"><code>filehandle.write(string[, position[, encoding]])</code></a></li>
 <li><a href="#filehandlewritefiledata-options"><code>filehandle.writeFile(data, options)</code></a></li>
 <li><a href="#filehandlewritevbuffers-position"><code>filehandle.writev(buffers[, position])</code></a></li>
-<li><span class="stability_1"><a href="#filehandlesymbolasyncdispose"><code>filehandle[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#filehandlesymbolasyncdispose"><code>filehandle[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#fspromisesaccesspath-mode"><code>fsPromises.access(path[, mode])</code></a></li>
@@ -686,6 +719,7 @@
 <li><a href="#fspromiseslstatpath-options"><code>fsPromises.lstat(path[, options])</code></a></li>
 <li><a href="#fspromisesmkdirpath-options"><code>fsPromises.mkdir(path[, options])</code></a></li>
 <li><a href="#fspromisesmkdtempprefix-options"><code>fsPromises.mkdtemp(prefix[, options])</code></a></li>
+<li><a href="#fspromisesmkdtempdisposableprefix-options"><code>fsPromises.mkdtempDisposable(prefix[, options])</code></a></li>
 <li><a href="#fspromisesopenpath-flags-mode"><code>fsPromises.open(path, flags[, mode])</code></a></li>
 <li><a href="#fspromisesopendirpath-options"><code>fsPromises.opendir(path[, options])</code></a></li>
 <li><a href="#fspromisesreaddirpath-options"><code>fsPromises.readdir(path[, options])</code></a></li>
@@ -812,6 +846,7 @@
 <li><a href="#fslstatsyncpath-options"><code>fs.lstatSync(path[, options])</code></a></li>
 <li><a href="#fsmkdirsyncpath-options"><code>fs.mkdirSync(path[, options])</code></a></li>
 <li><a href="#fsmkdtempsyncprefix-options"><code>fs.mkdtempSync(prefix[, options])</code></a></li>
+<li><a href="#fsmkdtempdisposablesyncprefix-options"><code>fs.mkdtempDisposableSync(prefix[, options])</code></a></li>
 <li><a href="#fsopendirsyncpath-options"><code>fs.opendirSync(path[, options])</code></a></li>
 <li><a href="#fsopensyncpath-flags-mode"><code>fs.openSync(path[, flags[, mode]])</code></a></li>
 <li><a href="#fsreaddirsyncpath-options"><code>fs.readdirSync(path[, options])</code></a></li>
@@ -850,8 +885,8 @@
 <li><a href="#dirreadcallback"><code>dir.read(callback)</code></a></li>
 <li><a href="#dirreadsync"><code>dir.readSync()</code></a></li>
 <li><a href="#dirsymbolasynciterator"><code>dir[Symbol.asyncIterator]()</code></a></li>
-<li><span class="stability_1"><a href="#dirsymbolasyncdispose"><code>dir[Symbol.asyncDispose]()</code></a></span></li>
-<li><span class="stability_1"><a href="#dirsymboldispose"><code>dir[Symbol.Dispose]()</code></a></span></li>
+<li><a href="#dirsymbolasyncdispose"><code>dir[Symbol.asyncDispose]()</code></a></li>
+<li><a href="#dirsymboldispose"><code>dir[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-fsdirent">Class: <code>fs.Dirent</code></a>
@@ -865,7 +900,6 @@
 <li><a href="#direntissymboliclink"><code>dirent.isSymbolicLink()</code></a></li>
 <li><a href="#direntname"><code>dirent.name</code></a></li>
 <li><a href="#direntparentpath"><code>dirent.parentPath</code></a></li>
-<li><span class="stability_0"><a href="#direntpath"><code>dirent.path</code></a></span></li>
 </ul>
 </li>
 <li><a href="#class-fsfswatcher">Class: <code>fs.FSWatcher</code></a>
@@ -934,16 +968,48 @@
 <li><a href="#statfsbfree"><code>statfs.bfree</code></a></li>
 <li><a href="#statfsblocks"><code>statfs.blocks</code></a></li>
 <li><a href="#statfsbsize"><code>statfs.bsize</code></a></li>
+<li><a href="#statfsfrsize"><code>statfs.frsize</code></a></li>
 <li><a href="#statfsffree"><code>statfs.ffree</code></a></li>
 <li><a href="#statfsfiles"><code>statfs.files</code></a></li>
 <li><a href="#statfstype"><code>statfs.type</code></a></li>
 </ul>
 </li>
-<li><a href="#class-fswritestream">Class: <code>fs.WriteStream</code></a>
+<li><span class="stability_1"><a href="#class-fsutf8stream">Class: <code>fs.Utf8Stream</code></a></span>
 <ul>
 <li><a href="#event-close_3">Event: <code>'close'</code></a></li>
-<li><a href="#event-open_1">Event: <code>'open'</code></a></li>
+<li><a href="#event-drain">Event: <code>'drain'</code></a></li>
+<li><a href="#event-drop">Event: <code>'drop'</code></a></li>
+<li><a href="#event-error_1">Event: <code>'error'</code></a></li>
+<li><a href="#event-finish">Event: <code>'finish'</code></a></li>
 <li><a href="#event-ready_1">Event: <code>'ready'</code></a></li>
+<li><a href="#event-write">Event: <code>'write'</code></a></li>
+<li><a href="#new-fsutf8streamoptions"><code>new fs.Utf8Stream([options])</code></a></li>
+<li><a href="#utf8streamappend"><code>utf8Stream.append</code></a></li>
+<li><a href="#utf8streamcontentmode"><code>utf8Stream.contentMode</code></a></li>
+<li><a href="#utf8streamdestroy"><code>utf8Stream.destroy()</code></a></li>
+<li><a href="#utf8streamend"><code>utf8Stream.end()</code></a></li>
+<li><a href="#utf8streamfd"><code>utf8Stream.fd</code></a></li>
+<li><a href="#utf8streamfile"><code>utf8Stream.file</code></a></li>
+<li><a href="#utf8streamflushcallback"><code>utf8Stream.flush(callback)</code></a></li>
+<li><a href="#utf8streamflushsync"><code>utf8Stream.flushSync()</code></a></li>
+<li><a href="#utf8streamfsync"><code>utf8Stream.fsync</code></a></li>
+<li><a href="#utf8streammaxlength"><code>utf8Stream.maxLength</code></a></li>
+<li><a href="#utf8streamminlength"><code>utf8Stream.minLength</code></a></li>
+<li><a href="#utf8streammkdir"><code>utf8Stream.mkdir</code></a></li>
+<li><a href="#utf8streammode"><code>utf8Stream.mode</code></a></li>
+<li><a href="#utf8streamperiodicflush"><code>utf8Stream.periodicFlush</code></a></li>
+<li><a href="#utf8streamreopenfile"><code>utf8Stream.reopen(file)</code></a></li>
+<li><a href="#utf8streamsync"><code>utf8Stream.sync</code></a></li>
+<li><a href="#utf8streamwritedata"><code>utf8Stream.write(data)</code></a></li>
+<li><a href="#utf8streamwriting"><code>utf8Stream.writing</code></a></li>
+<li><a href="#utf8streamsymboldispose"><code>utf8Stream[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-fswritestream">Class: <code>fs.WriteStream</code></a>
+<ul>
+<li><a href="#event-close_4">Event: <code>'close'</code></a></li>
+<li><a href="#event-open_1">Event: <code>'open'</code></a></li>
+<li><a href="#event-ready_2">Event: <code>'ready'</code></a></li>
 <li><a href="#writestreambyteswritten"><code>writeStream.bytesWritten</code></a></li>
 <li><a href="#writestreamclosecallback"><code>writeStream.close([callback])</code></a></li>
 <li><a href="#writestreampath"><code>writeStream.path</code></a></li>
@@ -994,7 +1060,7 @@
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
 
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/fs.js">lib/fs.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/fs.js">lib/fs.js</a></p>
 <p>The <code>node:fs</code> module enables interacting with the file system in a
 way modeled on standard POSIX functions.</p>
 <p>To use the promise-based APIs:</p>
@@ -1418,11 +1484,11 @@ number of bytes read is zero.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
-<td><p>Marking the API stable.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Added the <code>autoClose</code> option.</p></td></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Marking the API stable.</p></td></tr>
+<tr><td>v23.8.0, v22.15.0</td>
 <td><p>Removed option to create a 'bytes' stream. Streams are now always 'bytes' streams.</p></td></tr>
 <tr><td>v20.0.0, v18.17.0</td>
 <td><p>Added option to create a 'bytes' stream.</p></td></tr>
@@ -1472,13 +1538,23 @@ close the <code>FileHandle</code> automatically. User code must still call the
 </div><div>
 <h5><code>filehandle.readFile(options)</code><span><a class="mark" href="#filehandlereadfileoptions" id="filehandlereadfileoptions">#</a></span><a aria-hidden="true" class="legacy" id="fs_filehandle_readfile_options"></a></h5>
 <div class="api_metadata">
-<span>Added in: v10.0.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added support for the <code>buffer</code> option.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p><span>Added in: v10.0.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a>
 <ul>
 <li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> <strong>Default:</strong> <code>null</code></li>
 <li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> allows aborting an in-progress readFile</li>
+<li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A buffer to read into, or a
+function called with the file size that returns the buffer.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills upon a successful read with the contents of the
@@ -1487,11 +1563,40 @@ returned as a <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> 
 </ul>
 <p>Asynchronously reads the entire contents of a file.</p>
 <p>If <code>options</code> is a string, then it specifies the <code>encoding</code>.</p>
+<p>If <code>buffer</code> is provided and no encoding is specified, the returned <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> is
+a view over the supplied buffer containing only the bytes read. If the
+supplied buffer is too small to contain the entire file, the operation will
+fail.</p>
 <p>The <a href="fs.html#class-filehandle" class="type">&#x3C;FileHandle></a> has to support reading.</p>
 <p>If one or more <code>filehandle.read()</code> calls are made on a file handle and then a
 <code>filehandle.readFile()</code> call is made, the data will be read from the current
 position till the end of the file. It doesn't always read from the beginning
 of the file.</p>
+<p>An example using the <code>buffer</code> option with a pre-allocated buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { open } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> <span class="hljs-title function_">open</span>(<span class="hljs-string">'./some/file/to/read'</span>);
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">16384</span>);
+  <span class="hljs-keyword">const</span> contents = <span class="hljs-keyword">await</span> file.<span class="hljs-title function_">readFile</span>({ <span class="hljs-attr">buffer</span>: buf });
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(contents); <span class="hljs-comment">// A view over `buf` containing only the bytes read</span>
+} <span class="hljs-keyword">finally</span> {
+  <span class="hljs-keyword">await</span> file.<span class="hljs-title function_">close</span>();
+}</code> <button class="copy-button">copy</button></pre>
+<p>An example using the <code>buffer</code> option with a function returning a buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { open } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> <span class="hljs-title function_">open</span>(<span class="hljs-string">'./some/file/to/read'</span>);
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">const</span> contents = <span class="hljs-keyword">await</span> file.<span class="hljs-title function_">readFile</span>({
+    <span class="hljs-attr">buffer</span>: <span class="hljs-function">(<span class="hljs-params">size</span>) =></span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(size),
+  });
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(contents);
+} <span class="hljs-keyword">finally</span> {
+  <span class="hljs-keyword">await</span> file.<span class="hljs-title function_">close</span>();
+}</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h5><code>filehandle.readLines([options])</code><span><a class="mark" href="#filehandlereadlinesoptions" id="filehandlereadlinesoptions">#</a></span><a aria-hidden="true" class="legacy" id="fs_filehandle_readlines_options"></a></h5>
 <div class="api_metadata">
@@ -1553,6 +1658,8 @@ a reference to the <code>buffers</code> input.</li>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.16.0</td>
+<td><p>Now accepts an additional <code>signal</code> property to allow aborting the operation.</p></td></tr>
 <tr><td>v10.5.0</td>
 <td><p>Accepts an additional <code>options</code> object to specify whether the numeric values returned should be bigint.</p></td></tr>
 <tr><td>v10.0.0</td>
@@ -1563,8 +1670,8 @@ a reference to the <code>buffers</code> input.</li>
 <ul>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
 <ul>
-<li><code>bigint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the numeric values in the returned
-<a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> object should be <code>bigint</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>bigint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the numeric values in the returned <a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> object should be <code>bigint</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> An AbortSignal to cancel the operation. <strong>Default:</strong> <code>undefined</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with an <a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> for the file.</li>
@@ -1774,9 +1881,16 @@ the end of the file.</p>
 </div><div>
 <h5><code>filehandle[Symbol.asyncDispose]()</code><span><a class="mark" href="#filehandlesymbolasyncdispose" id="filehandlesymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="fs_filehandle_symbol_asyncdispose"></a></h5>
 <div class="api_metadata">
-<span>Added in: v20.4.0, v18.18.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.4.0, v18.18.0</td>
+<td><p><span>Added in: v20.4.0, v18.18.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <code>filehandle.close()</code> and returns a promise that fulfills when the
 filehandle is closed.</p>
 </div></div><div>
@@ -1986,11 +2100,13 @@ behavior is similar to <code>cp dir1/ dir2/</code>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
-<td><p>Marking the API stable.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.16.0</td>
+<td><p>Add support for the <code>followSymlinks</code> option.</p></td></tr>
+<tr><td>v24.1.0</td>
 <td><p>Add support for <code>URL</code> instances for <code>cwd</code> option.</p></td></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Marking the API stable.</p></td></tr>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>exclude</code> option to accept glob patterns.</p></td></tr>
 <tr><td>v22.2.0</td>
 <td><p>Add support for <code>withFileTypes</code> as an option.</p></td></tr>
@@ -2010,6 +2126,8 @@ list of glob patterns to be excluded. If a function is provided, return
 If a string array is provided, each string should be a glob pattern that
 specifies paths to exclude. Note: Negation patterns (e.g., '!foo.js') are
 not supported.</li>
+<li><code>followSymlinks</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, symbolic links to directories are
+followed while expanding <code>**</code> patterns. <strong>Default:</strong> <code>false</code>.</li>
 <li><code>withFileTypes</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the glob should return paths as Dirents,
 <code>false</code> otherwise. <strong>Default:</strong> <code>false</code>.</li>
 </ul>
@@ -2017,6 +2135,8 @@ not supported.</li>
 <li>Returns: <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a> An AsyncIterator that yields the paths of files
 that match the pattern.</li>
 </ul>
+<p>When <code>followSymlinks</code> is enabled, detected symbolic link cycles are not
+traversed recursively.</p>
 
 <pre class="with-45-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { glob } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
 
@@ -2206,6 +2326,38 @@ characters directly to the <code>prefix</code> string. For instance, given a dir
 <code>prefix</code> must end with a trailing platform-specific path separator
 (<code>require('node:path').sep</code>).</p>
 </div><div>
+<h4><code>fsPromises.mkdtempDisposable(prefix[, options])</code><span><a class="mark" href="#fspromisesmkdtempdisposableprefix-options" id="fspromisesmkdtempdisposableprefix-options">#</a></span><a aria-hidden="true" class="legacy" id="fs_fspromises_mkdtempdisposable_prefix_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.4.0</span>
+</div>
+<ul>
+<li><code>prefix</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="url.html#the-whatwg-url-api" class="type">&#x3C;URL></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> <strong>Default:</strong> <code>'utf8'</code></li>
+</ul>
+</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with a Promise for an async-disposable Object:
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The path of the created directory.</li>
+<li><code>remove</code> <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> A function which removes the created directory.</li>
+<li><code>[Symbol.asyncDispose]</code> <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The same as <code>remove</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The resulting Promise holds an async-disposable object whose <code>path</code> property
+holds the created directory path. When the object is disposed, the directory
+and its contents will be removed asynchronously if it still exists. If the
+directory cannot be deleted, disposal will throw an error. The object has an
+async <code>remove()</code> method which will perform the same task.</p>
+<p>Both this function and the disposal function on the resulting object are
+async, so it should be used with <code>await</code> + <code>await using</code> as in
+<code>await using dir = await fsPromises.mkdtempDisposable('prefix')</code>.</p>
+<!-- TODO: link MDN docs for disposables once https://github.com/mdn/content/pull/38027 lands -->
+<p>For detailed information, see the documentation of <a href="#fspromisesmkdtempprefix-options"><code>fsPromises.mkdtemp()</code></a>.</p>
+<p>The optional <code>options</code> argument can be a string specifying an encoding, or an
+object with an <code>encoding</code> property specifying the character encoding to use.</p>
+</div><div>
 <h4><code>fsPromises.open(path, flags[, mode])</code><span><a class="mark" href="#fspromisesopenpath-flags-mode" id="fspromisesopenpath-flags-mode">#</a></span><a aria-hidden="true" class="legacy" id="fs_fspromises_open_path_flags_mode"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -2331,6 +2483,8 @@ will be passed as <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer><
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added support for the <code>buffer</code> option.</p></td></tr>
 <tr><td>v15.2.0, v14.17.0</td>
 <td><p>The options argument may include an AbortSignal to abort an ongoing readFile request.</p></td></tr>
 <tr><td>v10.0.0</td>
@@ -2345,6 +2499,8 @@ will be passed as <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer><
 <li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> <strong>Default:</strong> <code>null</code></li>
 <li><code>flag</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> See <a href="#file-system-flags">support of file system <code>flags</code></a>. <strong>Default:</strong> <code>'r'</code>.</li>
 <li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> allows aborting an in-progress readFile</li>
+<li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A buffer to read into, or a
+function called with the file size that returns the buffer.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a>  Fulfills with the contents of the file.</li>
@@ -2353,6 +2509,10 @@ will be passed as <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer><
 <p>If no encoding is specified (using <code>options.encoding</code>), the data is returned
 as a <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> object. Otherwise, the data will be a string.</p>
 <p>If <code>options</code> is a string, then it specifies the encoding.</p>
+<p>If <code>buffer</code> is provided and no encoding is specified, the returned <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> is
+a view over the supplied buffer containing only the bytes read. If the
+supplied buffer is too small to contain the entire file, the promise will be
+rejected.</p>
 <p>When the <code>path</code> is a directory, the behavior of <code>fsPromises.readFile()</code> is
 platform-specific. On macOS, Linux, and Windows, the promise will be rejected
 with an error. On FreeBSD, a representation of the directory's contents will be
@@ -2399,6 +2559,21 @@ request is aborted the promise returned is rejected with an <code>AbortError</co
 <p>Aborting an ongoing request does not abort individual operating
 system requests but rather the internal buffering <code>fs.readFile</code> performs.</p>
 <p>Any specified <a href="fs.html#class-filehandle" class="type">&#x3C;FileHandle></a> has to support reading.</p>
+<p>An example using the <code>buffer</code> option with a pre-allocated buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">16384</span>);
+<span class="hljs-keyword">const</span> contents = <span class="hljs-keyword">await</span> <span class="hljs-title function_">readFile</span>(<span class="hljs-string">'/path/to/file'</span>, { <span class="hljs-attr">buffer</span>: buf });
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(contents); <span class="hljs-comment">// A view over `buf` containing only the bytes read</span></code> <button class="copy-button">copy</button></pre>
+<p>An example using the <code>buffer</code> option with a function returning a buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> contents = <span class="hljs-keyword">await</span> <span class="hljs-title function_">readFile</span>(<span class="hljs-string">'/path/to/file'</span>, {
+  <span class="hljs-attr">buffer</span>: <span class="hljs-function">(<span class="hljs-params">size</span>) =></span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(size),
+});
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(contents);</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>fsPromises.readlink(path[, options])</code><span><a class="mark" href="#fspromisesreadlinkpath-options" id="fspromisesreadlinkpath-options">#</a></span><a aria-hidden="true" class="legacy" id="fs_fspromises_readlink_path_options"></a></h4>
 <div class="api_metadata">
@@ -2548,6 +2723,9 @@ retries. This option is ignored if the <code>recursive</code> option is not <cod
 <ul>
 <li><code>bigint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the numeric values in the returned
 <a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> object should be <code>bigint</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>throwIfNoEntry</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether an exception will be thrown
+if no file system entry exists, rather than returning <code>undefined</code>.
+<strong>Default:</strong> <code>true</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a>  Fulfills with the <a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> object for the
@@ -2590,7 +2768,7 @@ given <code>path</code>.</li>
 </ul>
 <p>Creates a symbolic link.</p>
 <p>The <code>type</code> argument is only used on Windows platforms and can be one of <code>'dir'</code>,
-<code>'file'</code>, or <code>'junction'</code>. If the <code>type</code> argument is not a string, Node.js will
+<code>'file'</code>, or <code>'junction'</code>. If the <code>type</code> argument is <code>null</code>, Node.js will
 autodetect <code>target</code> type and use <code>'file'</code> or <code>'dir'</code>. If the <code>target</code> does not
 exist, <code>'file'</code> will be used. Windows junction points require the destination
 path to be absolute. When using <code>'junction'</code>, the <code>target</code> argument will
@@ -2664,6 +2842,10 @@ of the <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" cla
 <li><code>overflow</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Either <code>'ignore'</code> or <code>'throw'</code> when there are more events to be
 queued than <code>maxQueue</code> allows. <code>'ignore'</code> means overflow events are dropped and a
 warning is emitted, while <code>'throw'</code> means to throw an exception. <strong>Default:</strong> <code>'ignore'</code>.</li>
+<li><code>ignore</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" class="type">&#x3C;RegExp></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> Pattern(s) to ignore. Strings are
+glob patterns (using <a href="https://github.com/isaacs/minimatch"><code>minimatch</code></a>), RegExp patterns are tested against
+the filename, and functions receive the filename and return <code>true</code> to
+ignore. <strong>Default:</strong> <code>undefined</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a> of objects with the properties:
@@ -3926,11 +4108,13 @@ descriptor. See <a href="#fsutimespath-atime-mtime-callback"><code>fs.utimes()</
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
-<td><p>Marking the API stable.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.16.0</td>
+<td><p>Add support for the <code>followSymlinks</code> option.</p></td></tr>
+<tr><td>v24.1.0</td>
 <td><p>Add support for <code>URL</code> instances for <code>cwd</code> option.</p></td></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Marking the API stable.</p></td></tr>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>exclude</code> option to accept glob patterns.</p></td></tr>
 <tr><td>v22.2.0</td>
 <td><p>Add support for <code>withFileTypes</code> as an option.</p></td></tr>
@@ -3950,6 +4134,8 @@ descriptor. See <a href="#fsutimespath-atime-mtime-callback"><code>fs.utimes()</
 <li><code>exclude</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Function to filter out files/directories or a
 list of glob patterns to be excluded. If a function is provided, return
 <code>true</code> to exclude the item, <code>false</code> to include it. <strong>Default:</strong> <code>undefined</code>.</li>
+<li><code>followSymlinks</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, symbolic links to directories are
+followed while expanding <code>**</code> patterns. <strong>Default:</strong> <code>false</code>.</li>
 <li><code>withFileTypes</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the glob should return paths as Dirents,
 <code>false</code> otherwise. <strong>Default:</strong> <code>false</code>.</li>
 </ul>
@@ -3964,6 +4150,8 @@ list of glob patterns to be excluded. If a function is provided, return
 <p>Retrieves the files matching the specified pattern.</p>
 </li>
 </ul>
+<p>When <code>followSymlinks</code> is enabled, detected symbolic link cycles are not
+traversed recursively.</p>
 
 <pre class="with-36-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { glob } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
 
@@ -4340,7 +4528,7 @@ a colon, Node.js will open a file system stream, as described by
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v19.8.0</td>
 <td><p><span>Added in: v19.8.0</span></p></td></tr>
@@ -4605,6 +4793,8 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added support for the <code>buffer</code> option.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
 <tr><td>v16.0.0</td>
@@ -4633,6 +4823,8 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 <li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> <strong>Default:</strong> <code>null</code></li>
 <li><code>flag</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> See <a href="#file-system-flags">support of file system <code>flags</code></a>. <strong>Default:</strong> <code>'r'</code>.</li>
 <li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> allows aborting an in-progress readFile</li>
+<li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A buffer to read into, or a
+function called with the file size that returns the buffer.</li>
 </ul>
 </li>
 <li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
@@ -4652,6 +4844,10 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 <p>The callback is passed two arguments <code>(err, data)</code>, where <code>data</code> is the
 contents of the file.</p>
 <p>If no encoding is specified, then the raw buffer is returned.</p>
+<p>If <code>buffer</code> is provided and no encoding is specified, the returned <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> is
+a view over the supplied buffer containing only the bytes read. If the
+supplied buffer is too small to contain the entire file, the callback is
+called with an error.</p>
 <p>If <code>options</code> is a string, then it specifies the encoding:</p>
 <pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
 
@@ -4686,6 +4882,25 @@ controller.<span class="hljs-title function_">abort</span>();</code> <button cla
 when possible prefer streaming via <code>fs.createReadStream()</code>.</p>
 <p>Aborting an ongoing request does not abort individual operating
 system requests but rather the internal buffering <code>fs.readFile</code> performs.</p>
+<p>An example using the <code>buffer</code> option with a pre-allocated buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+
+<span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">16384</span>);
+<span class="hljs-title function_">readFile</span>(<span class="hljs-string">'/path/to/file'</span>, { <span class="hljs-attr">buffer</span>: buf }, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data); <span class="hljs-comment">// A view over `buf` containing only the bytes read</span>
+});</code> <button class="copy-button">copy</button></pre>
+<p>An example using the <code>buffer</code> option with a function returning a buffer:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+<span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+
+<span class="hljs-title function_">readFile</span>(<span class="hljs-string">'/path/to/file'</span>, {
+  <span class="hljs-attr">buffer</span>: <span class="hljs-function">(<span class="hljs-params">size</span>) =></span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(size),
+}, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data);
+});</code> <button class="copy-button">copy</button></pre>
 <div>
 <h5>File descriptors<span><a class="mark" href="#file-descriptors" id="file-descriptors">#</a></span><a aria-hidden="true" class="legacy" id="fs_file_descriptors"></a></h5>
 <ol>
@@ -5057,6 +5272,9 @@ completion callback.</p>
 <ul>
 <li><code>bigint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the numeric values in the returned
 <a href="fs.html#class-fsstats" class="type">&#x3C;fs.Stats></a> object should be <code>bigint</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>throwIfNoEntry</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether an exception will be thrown
+if no file system entry exists, rather than returning <code>undefined</code>.
+<strong>Default:</strong> <code>true</code>.</li>
 </ul>
 </li>
 <li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
@@ -5191,7 +5409,7 @@ possible exception are given to the completion callback.</p>
 <p>See the POSIX <a href="http://man7.org/linux/man-pages/man2/symlink.2.html"><code>symlink(2)</code></a> documentation for more details.</p>
 <p>The <code>type</code> argument is only available on Windows and ignored on other platforms.
 It can be set to <code>'dir'</code>, <code>'file'</code>, or <code>'junction'</code>. If the <code>type</code> argument is
-not a string, Node.js will autodetect <code>target</code> type and use <code>'file'</code> or <code>'dir'</code>.
+<code>null</code>, Node.js will autodetect <code>target</code> type and use <code>'file'</code> or <code>'dir'</code>.
 If the <code>target</code> does not exist, <code>'file'</code> will be used. Windows junction points
 require the destination path to be absolute. When using <code>'junction'</code>, the
 <code>target</code> argument will automatically be normalized to absolute path. Junction
@@ -5355,6 +5573,8 @@ and <code>fs.unwatchFile()</code> when possible.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.16.0</td>
+<td><p>Added <code>throwIfNoEntry</code> option.</p></td></tr>
 <tr><td>v19.1.0</td>
 <td><p>Added recursive support for Linux, AIX and IBMi.</p></td></tr>
 <tr><td>v15.9.0, v14.17.0</td>
@@ -5381,6 +5601,12 @@ specified, and only on supported platforms (See <a href="#caveats">caveats</a>).
 <li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Specifies the character encoding to be used for the
 filename passed to the listener. <strong>Default:</strong> <code>'utf8'</code>.</li>
 <li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> allows closing the watcher with an AbortSignal.</li>
+<li><code>throwIfNoEntry</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Indicates whether an exception should be thrown when the
+path does not exist. <strong>Default:</strong> <code>true</code>.</li>
+<li><code>ignore</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" class="type">&#x3C;RegExp></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> Pattern(s) to ignore. Strings are
+glob patterns (using <a href="https://github.com/isaacs/minimatch"><code>minimatch</code></a>), RegExp patterns are tested against
+the filename, and functions receive the filename and return <code>true</code> to
+ignore. <strong>Default:</strong> <code>undefined</code>.</li>
 </ul>
 </li>
 <li><code>listener</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> <strong>Default:</strong> <code>undefined</code>
@@ -6220,11 +6446,13 @@ this API: <a href="#fsftruncatefd-len-callback"><code>fs.ftruncate()</code></a>.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
-<td><p>Marking the API stable.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.16.0</td>
+<td><p>Add support for the <code>followSymlinks</code> option.</p></td></tr>
+<tr><td>v24.1.0</td>
 <td><p>Add support for <code>URL</code> instances for <code>cwd</code> option.</p></td></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Marking the API stable.</p></td></tr>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>exclude</code> option to accept glob patterns.</p></td></tr>
 <tr><td>v22.2.0</td>
 <td><p>Add support for <code>withFileTypes</code> as an option.</p></td></tr>
@@ -6241,12 +6469,16 @@ this API: <a href="#fsftruncatefd-len-callback"><code>fs.ftruncate()</code></a>.
 <li><code>exclude</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Function to filter out files/directories or a
 list of glob patterns to be excluded. If a function is provided, return
 <code>true</code> to exclude the item, <code>false</code> to include it. <strong>Default:</strong> <code>undefined</code>.</li>
+<li><code>followSymlinks</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, symbolic links to directories are
+followed while expanding <code>**</code> patterns. <strong>Default:</strong> <code>false</code>.</li>
 <li><code>withFileTypes</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the glob should return paths as Dirents,
 <code>false</code> otherwise. <strong>Default:</strong> <code>false</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> paths of files that match the pattern.</li>
 </ul>
+<p>When <code>followSymlinks</code> is enabled, detected symbolic link cycles are not
+traversed recursively.</p>
 
 <pre class="with-40-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { globSync } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
 
@@ -6411,6 +6643,37 @@ this API: <a href="#fsmkdtempprefix-options-callback"><code>fs.mkdtemp()</code><
 <p>The optional <code>options</code> argument can be a string specifying an encoding, or an
 object with an <code>encoding</code> property specifying the character encoding to use.</p>
 </div><div>
+<h4><code>fs.mkdtempDisposableSync(prefix[, options])</code><span><a class="mark" href="#fsmkdtempdisposablesyncprefix-options" id="fsmkdtempdisposablesyncprefix-options">#</a></span><a aria-hidden="true" class="legacy" id="fs_fs_mkdtempdisposablesync_prefix_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.4.0</span>
+</div>
+<ul>
+<li><code>prefix</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="url.html#the-whatwg-url-api" class="type">&#x3C;URL></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> <strong>Default:</strong> <code>'utf8'</code></li>
+</ul>
+</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> A disposable object:
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The path of the created directory.</li>
+<li><code>remove</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A function which removes the created directory.</li>
+<li><code>[Symbol.dispose]</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The same as <code>remove</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Returns a disposable object whose <code>path</code> property holds the created directory
+path. When the object is disposed, the directory and its contents will be
+removed if it still exists. If the directory cannot be deleted, disposal will
+throw an error. The object has a <code>remove()</code> method which will perform the same
+task.</p>
+<!-- TODO: link MDN docs for disposables once https://github.com/mdn/content/pull/38027 lands -->
+<p>For detailed information, see the documentation of <a href="#fsmkdtempprefix-options-callback"><code>fs.mkdtemp()</code></a>.</p>
+<p>There is no callback-based version of this API because it is designed for use
+with the <code>using</code> syntax.</p>
+<p>The optional <code>options</code> argument can be a string specifying an encoding, or an
+object with an <code>encoding</code> property specifying the character encoding to use.</p>
+</div><div>
 <h4><code>fs.opendirSync(path[, options])</code><span><a class="mark" href="#fsopendirsyncpath-options" id="fsopendirsyncpath-options">#</a></span><a aria-hidden="true" class="legacy" id="fs_fs_opendirsync_path_options"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -6514,6 +6777,8 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added support for the <code>buffer</code> option.</p></td></tr>
 <tr><td>v7.6.0</td>
 <td><p>The <code>path</code> parameter can be a WHATWG <code>URL</code> object using <code>file:</code> protocol.</p></td></tr>
 <tr><td>v5.0.0</td>
@@ -6529,6 +6794,8 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 <ul>
 <li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> <strong>Default:</strong> <code>null</code></li>
 <li><code>flag</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> See <a href="#file-system-flags">support of file system <code>flags</code></a>. <strong>Default:</strong> <code>'r'</code>.</li>
+<li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A buffer to read into, or a
+function called with the file size that returns the buffer.</li>
 </ul>
 </li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a></li>
@@ -6538,6 +6805,10 @@ the filenames returned will be passed as <a href="buffer.html#class-buffer" clas
 this API: <a href="#fsreadfilepath-options-callback"><code>fs.readFile()</code></a>.</p>
 <p>If the <code>encoding</code> option is specified then this function returns a
 string. Otherwise it returns a buffer.</p>
+<p>If <code>buffer</code> is provided and no encoding is specified, the returned <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> is
+a view over the supplied buffer containing only the bytes read. If the
+supplied buffer is too small to contain the entire file, an error will be
+thrown.</p>
 <p>Similar to <a href="#fsreadfilepath-options-callback"><code>fs.readFile()</code></a>, when the path is a directory, the behavior of
 <code>fs.readFileSync()</code> is platform-specific.</p>
 <pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { readFileSync } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
@@ -7204,17 +7475,31 @@ included in the iteration results.</p>
 </div><div>
 <h5><code>dir[Symbol.asyncDispose]()</code><span><a class="mark" href="#dirsymbolasyncdispose" id="dirsymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="fs_dir_symbol_asyncdispose"></a></h5>
 <div class="api_metadata">
-<span>Added in: v22.17.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v24.1.0</td>
+<td><p><span>Added in: v24.1.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <code>dir.close()</code> if the directory handle is open, and returns a promise that
 fulfills when disposal is complete.</p>
 </div><div>
-<h5><code>dir[Symbol.Dispose]()</code><span><a class="mark" href="#dirsymboldispose" id="dirsymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="fs_dir_symbol_dispose"></a></h5>
+<h5><code>dir[Symbol.dispose]()</code><span><a class="mark" href="#dirsymboldispose" id="dirsymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="fs_dir_symbol_dispose"></a></h5>
 <div class="api_metadata">
-<span>Added in: v22.17.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v24.1.0</td>
+<td><p><span>Added in: v24.1.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <code>dir.closeSync()</code> if the directory handle is open, and returns
 <code>undefined</code>.</p>
 </div></div><div>
@@ -7310,7 +7595,7 @@ value is determined by the <code>options.encoding</code> passed to <a href="#fsr
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v21.4.0, v20.12.0, v18.20.0</td>
 <td><p><span>Added in: v21.4.0, v20.12.0, v18.20.0</span></p></td></tr>
@@ -7321,16 +7606,6 @@ value is determined by the <code>options.encoding</code> passed to <a href="#fsr
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
 </ul>
 <p>The path to the parent directory of the file this <a href="fs.html#class-fsdirent" class="type">&#x3C;fs.Dirent></a> object refers to.</p>
-</div><div>
-<h5><code>dirent.path</code><span><a class="mark" href="#direntpath" id="direntpath">#</a></span><a aria-hidden="true" class="legacy" id="fs_dirent_path"></a></h5>
-<div class="api_metadata">
-<span>Added in: v20.1.0, v18.17.0</span><span>Deprecated since: v21.5.0, v20.12.0, v18.20.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#direntparentpath"><code>dirent.parentPath</code></a> instead.</div><p></p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
-</ul>
-<p>Alias for <code>dirent.parentPath</code>.</p>
 </div></div><div>
 <h4>Class: <code>fs.FSWatcher</code><span><a class="mark" href="#class-fsfswatcher" id="class-fsfswatcher">#</a></span><a aria-hidden="true" class="legacy" id="fs_class_fs_fswatcher"></a></h4>
 <div class="api_metadata">
@@ -7524,7 +7799,7 @@ i.e. before the <code>'ready'</code> event is emitted.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>Public constructor is deprecated.</p></td></tr>
 <tr><td>v8.1.0</td>
 <td><p>Added times as numbers.</p></td></tr>
@@ -7886,6 +8161,7 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <pre><code class="language-console">StatFs {
   type: 1397114950,
   bsize: 4096,
+  frsize: 4096,
   blocks: 121938943,
   bfree: 61058895,
   bavail: 61058895,
@@ -7896,6 +8172,7 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <pre><code class="language-console">StatFs {
   type: 1397114950n,
   bsize: 4096n,
+  frsize: 4096n,
   blocks: 121938943n,
   bfree: 61058895n,
   bavail: 61058895n,
@@ -7910,7 +8187,20 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
 </ul>
-<p>Free blocks available to unprivileged users.</p>
+<p>Free blocks available to unprivileged users. Multiply by <a href="#statfsbsize"><code>statfs.bsize</code></a>
+to get the number of available bytes.</p>
+
+<pre class="with-47-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { statfs } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+<span class="hljs-keyword">const</span> availableBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">bavail</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Available space: <span class="hljs-subst">${availableBytes}</span> bytes`</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { statfs } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs/promises'</span>);
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+  <span class="hljs-keyword">const</span> availableBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">bavail</span>;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Available space: <span class="hljs-subst">${availableBytes}</span> bytes`</span>);
+})();</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h5><code>statfs.bfree</code><span><a class="mark" href="#statfsbfree" id="statfsbfree">#</a></span><a aria-hidden="true" class="legacy" id="fs_statfs_bfree"></a></h5>
 <div class="api_metadata">
@@ -7919,7 +8209,20 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
 </ul>
-<p>Free blocks in file system.</p>
+<p>Free blocks in file system. Multiply by <a href="#statfsbsize"><code>statfs.bsize</code></a> to get the number
+of free bytes.</p>
+
+<pre class="with-47-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { statfs } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+<span class="hljs-keyword">const</span> freeBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">bfree</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Free space: <span class="hljs-subst">${freeBytes}</span> bytes`</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { statfs } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs/promises'</span>);
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+  <span class="hljs-keyword">const</span> freeBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">bfree</span>;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Free space: <span class="hljs-subst">${freeBytes}</span> bytes`</span>);
+})();</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h5><code>statfs.blocks</code><span><a class="mark" href="#statfsblocks" id="statfsblocks">#</a></span><a aria-hidden="true" class="legacy" id="fs_statfs_blocks"></a></h5>
 <div class="api_metadata">
@@ -7928,7 +8231,20 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
 </ul>
-<p>Total data blocks in file system.</p>
+<p>Total data blocks in file system. Multiply by <a href="#statfsbsize"><code>statfs.bsize</code></a> to get the
+total size in bytes.</p>
+
+<pre class="with-47-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { statfs } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+<span class="hljs-keyword">const</span> totalBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">blocks</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Total space: <span class="hljs-subst">${totalBytes}</span> bytes`</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { statfs } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs/promises'</span>);
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">const</span> stats = <span class="hljs-keyword">await</span> <span class="hljs-title function_">statfs</span>(<span class="hljs-string">'/'</span>);
+  <span class="hljs-keyword">const</span> totalBytes = stats.<span class="hljs-property">bsize</span> * stats.<span class="hljs-property">blocks</span>;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Total space: <span class="hljs-subst">${totalBytes}</span> bytes`</span>);
+})();</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h5><code>statfs.bsize</code><span><a class="mark" href="#statfsbsize" id="statfsbsize">#</a></span><a aria-hidden="true" class="legacy" id="fs_statfs_bsize"></a></h5>
 <div class="api_metadata">
@@ -7937,7 +8253,16 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
 </ul>
-<p>Optimal transfer block size.</p>
+<p>Optimal transfer block size in bytes.</p>
+</div><div>
+<h5><code>statfs.frsize</code><span><a class="mark" href="#statfsfrsize" id="statfsfrsize">#</a></span><a aria-hidden="true" class="legacy" id="fs_statfs_frsize"></a></h5>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
+</ul>
+<p>Fundamental file system block size.</p>
 </div><div>
 <h5><code>statfs.ffree</code><span><a class="mark" href="#statfsffree" id="statfsffree">#</a></span><a aria-hidden="true" class="legacy" id="fs_statfs_ffree"></a></h5>
 <div class="api_metadata">
@@ -7964,7 +8289,199 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></li>
 </ul>
-<p>Type of file system.</p>
+<p>Type of file system. A platform-specific numeric identifier for the type of
+file system. This value corresponds to the <code>f_type</code> field returned by
+<code>statfs(2)</code> on POSIX systems (for example, <code>0xEF53</code> for ext4 on Linux). Its
+meaning is OS-dependent and is not guaranteed to be consistent across
+platforms.</p>
+</div></div><div>
+<h4>Class: <code>fs.Utf8Stream</code><span><a class="mark" href="#class-fsutf8stream" id="class-fsutf8stream">#</a></span><a aria-hidden="true" class="legacy" id="fs_class_fs_utf8stream"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.6.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p>An optimized UTF-8 stream writer that allows for flushing all the internal
+buffering on demand. It handles <code>EAGAIN</code> errors correctly, allowing for
+customization, for example, by dropping content if the disk is busy.</p>
+<div>
+<h5>Event: <code>'close'</code><span><a class="mark" href="#event-close_3" id="event-close_3">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_close_3"></a></h5>
+<p>The <code>'close'</code> event is emitted when the stream is fully closed.</p>
+</div><div>
+<h5>Event: <code>'drain'</code><span><a class="mark" href="#event-drain" id="event-drain">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_drain"></a></h5>
+<p>The <code>'drain'</code> event is emitted when the internal buffer has drained sufficiently
+to allow continued writing.</p>
+</div><div>
+<h5>Event: <code>'drop'</code><span><a class="mark" href="#event-drop" id="event-drop">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_drop"></a></h5>
+<p>The <code>'drop'</code> event is emitted when the maximal length is reached and that data
+will not be written. The data that was dropped is passed as the first argument
+to the event handler.</p>
+</div><div>
+<h5>Event: <code>'error'</code><span><a class="mark" href="#event-error_1" id="event-error_1">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_error_1"></a></h5>
+<p>The <code>'error'</code> event is emitted when an error occurs.</p>
+</div><div>
+<h5>Event: <code>'finish'</code><span><a class="mark" href="#event-finish" id="event-finish">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_finish"></a></h5>
+<p>The <code>'finish'</code> event is emitted when the stream has been ended and all data has
+been flushed to the underlying file.</p>
+</div><div>
+<h5>Event: <code>'ready'</code><span><a class="mark" href="#event-ready_1" id="event-ready_1">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_ready_1"></a></h5>
+<p>The <code>'ready'</code> event is emitted when the stream is ready to accept writes.</p>
+</div><div>
+<h5>Event: <code>'write'</code><span><a class="mark" href="#event-write" id="event-write">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_write"></a></h5>
+<p>The <code>'write'</code> event is emitted when a write operation has completed. The number
+of bytes written is passed as the first argument to the event handler.</p>
+</div><div>
+<h5><code>new fs.Utf8Stream([options])</code><span><a class="mark" href="#new-fsutf8streamoptions" id="new-fsutf8streamoptions">#</a></span><a aria-hidden="true" class="legacy" id="fs_new_fs_utf8stream_options"></a></h5>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>append</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Appends writes to dest file instead of truncating it.
+<strong>Default</strong>: <code>true</code>.</li>
+<li><code>contentMode</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Which type of data you can send to the write
+function, supported values are <code>'utf8'</code> or <code>'buffer'</code>. <strong>Default</strong>:
+<code>'utf8'</code>.</li>
+<li><code>dest</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A path to a file to be written to (mode controlled by the
+append option).</li>
+<li><code>fd</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A file descriptor, something that is returned by <code>fs.open()</code>
+or <code>fs.openSync()</code>.</li>
+<li><code>fs</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An object that has the same API as the <code>fs</code> module, useful
+for mocking, testing, or customizing the behavior of the stream.</li>
+<li><code>fsync</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Perform a <code>fs.fsyncSync()</code> every time a write is
+completed.</li>
+<li><code>maxLength</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The maximum length of the internal buffer. If a write
+operation would cause the buffer to exceed <code>maxLength</code>, the data written is
+dropped and a drop event is emitted with the dropped data</li>
+<li><code>maxWrite</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The maximum number of bytes that can be written;
+<strong>Default</strong>: <code>16384</code></li>
+<li><code>minLength</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The minimum length of the internal buffer that is
+required to be full before flushing.</li>
+<li><code>mkdir</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Ensure directory for <code>dest</code> file exists when true.
+<strong>Default</strong>: <code>false</code>.</li>
+<li><code>mode</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Specify the creating file mode (see <code>fs.open()</code>).</li>
+<li><code>periodicFlush</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Calls flush every <code>periodicFlush</code> milliseconds.</li>
+<li><code>retryEAGAIN</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A function that will be called when <code>write()</code>,
+<code>writeSync()</code>, or <code>flushSync()</code> encounters an <code>EAGAIN</code> or <code>EBUSY</code> error.
+If the return value is <code>true</code> the operation will be retried, otherwise it
+will bubble the error. The <code>err</code> is the error that caused this function to
+be called, <code>writeBufferLen</code> is the length of the buffer that was written,
+and <code>remainingBufferLen</code> is the length of the remaining buffer that the
+stream did not try to write.
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> An error or <code>null</code>.</li>
+<li><code>writeBufferLen</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+<li><code>remainingBufferLen</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+<li><code>sync</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Perform writes synchronously.</li>
+</ul>
+</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.append</code><span><a class="mark" href="#utf8streamappend" id="utf8streamappend">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_append"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the stream is appending to the file or truncating it.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.contentMode</code><span><a class="mark" href="#utf8streamcontentmode" id="utf8streamcontentmode">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_contentmode"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The type of data that can be written to the stream. Supported
+values are <code>'utf8'</code> or <code>'buffer'</code>. <strong>Default</strong>: <code>'utf8'</code>.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.destroy()</code><span><a class="mark" href="#utf8streamdestroy" id="utf8streamdestroy">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_destroy"></a></h5>
+<p>Close the stream immediately, without flushing the internal buffer.</p>
+</div><div>
+<h5><code>utf8Stream.end()</code><span><a class="mark" href="#utf8streamend" id="utf8streamend">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_end"></a></h5>
+<p>Close the stream gracefully, flushing the internal buffer before closing.</p>
+</div><div>
+<h5><code>utf8Stream.fd</code><span><a class="mark" href="#utf8streamfd" id="utf8streamfd">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_fd"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The file descriptor that is being written to.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.file</code><span><a class="mark" href="#utf8streamfile" id="utf8streamfile">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_file"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The file that is being written to.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.flush(callback)</code><span><a class="mark" href="#utf8streamflushcallback" id="utf8streamflushcallback">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_flush_callback"></a></h5>
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> An error if the flush failed, otherwise <code>null</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Writes the current buffer to the file if a write was not in progress. Do
+nothing if <code>minLength</code> is zero or if it is already writing.</p>
+</div><div>
+<h5><code>utf8Stream.flushSync()</code><span><a class="mark" href="#utf8streamflushsync" id="utf8streamflushsync">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_flushsync"></a></h5>
+<p>Flushes the buffered data synchronously. This is a costly operation.</p>
+</div><div>
+<h5><code>utf8Stream.fsync</code><span><a class="mark" href="#utf8streamfsync" id="utf8streamfsync">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_fsync"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the stream is performing a <code>fs.fsyncSync()</code> after every
+write operation.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.maxLength</code><span><a class="mark" href="#utf8streammaxlength" id="utf8streammaxlength">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_maxlength"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The maximum length of the internal buffer. If a write
+operation would cause the buffer to exceed <code>maxLength</code>, the data written is
+dropped and a drop event is emitted with the dropped data.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.minLength</code><span><a class="mark" href="#utf8streamminlength" id="utf8streamminlength">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_minlength"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The minimum length of the internal buffer that is required to be
+full before flushing.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.mkdir</code><span><a class="mark" href="#utf8streammkdir" id="utf8streammkdir">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_mkdir"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the stream should ensure that the directory for the
+<code>dest</code> file exists. If <code>true</code>, it will create the directory if it does not
+exist. <strong>Default</strong>: <code>false</code>.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.mode</code><span><a class="mark" href="#utf8streammode" id="utf8streammode">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_mode"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The mode of the file that is being written to.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.periodicFlush</code><span><a class="mark" href="#utf8streamperiodicflush" id="utf8streamperiodicflush">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_periodicflush"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The number of milliseconds between flushes. If set to <code>0</code>, no
+periodic flushes will be performed.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.reopen(file)</code><span><a class="mark" href="#utf8streamreopenfile" id="utf8streamreopenfile">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_reopen_file"></a></h5>
+<ul>
+<li><code>file</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="url.html#the-whatwg-url-api" class="type">&#x3C;URL></a> A path to a file to be written to (mode
+controlled by the append option).</li>
+</ul>
+<p>Reopen the file in place, useful for log rotation.</p>
+</div><div>
+<h5><code>utf8Stream.sync</code><span><a class="mark" href="#utf8streamsync" id="utf8streamsync">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_sync"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the stream is writing synchronously or asynchronously.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream.write(data)</code><span><a class="mark" href="#utf8streamwritedata" id="utf8streamwritedata">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_write_data"></a></h5>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> The data to write.</li>
+<li>Returns <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>When the <code>options.contentMode</code> is set to <code>'utf8'</code> when the stream is created,
+the <code>data</code> argument must be a string. If the <code>contentMode</code> is set to <code>'buffer'</code>,
+the <code>data</code> argument must be a <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a>.</p>
+</div><div>
+<h5><code>utf8Stream.writing</code><span><a class="mark" href="#utf8streamwriting" id="utf8streamwriting">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_writing"></a></h5>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the stream is currently writing data to the file.</li>
+</ul>
+</div><div>
+<h5><code>utf8Stream[Symbol.dispose]()</code><span><a class="mark" href="#utf8streamsymboldispose" id="utf8streamsymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="fs_utf8stream_symbol_dispose"></a></h5>
+<p>Calls <code>utf8Stream.destroy()</code>.</p>
 </div></div><div>
 <h4>Class: <code>fs.WriteStream</code><span><a class="mark" href="#class-fswritestream" id="class-fswritestream">#</a></span><a aria-hidden="true" class="legacy" id="fs_class_fs_writestream"></a></h4>
 <div class="api_metadata">
@@ -7976,7 +8493,7 @@ numeric values will be <code>bigint</code> instead of <code>number</code>.</p>
 <p>Instances of <a href="fs.html#class-fswritestream" class="type">&#x3C;fs.WriteStream></a> cannot be constructed directly. They are created and
 returned using the <a href="#fscreatewritestreampath-options"><code>fs.createWriteStream()</code></a> function.</p>
 <div>
-<h5>Event: <code>'close'</code><span><a class="mark" href="#event-close_3" id="event-close_3">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_close_3"></a></h5>
+<h5>Event: <code>'close'</code><span><a class="mark" href="#event-close_4" id="event-close_4">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_close_4"></a></h5>
 <div class="api_metadata">
 <span>Added in: v0.1.93</span>
 </div>
@@ -7991,7 +8508,7 @@ returned using the <a href="#fscreatewritestreampath-options"><code>fs.createWri
 </ul>
 <p>Emitted when the <a href="fs.html#class-fswritestream" class="type">&#x3C;fs.WriteStream></a>'s file is opened.</p>
 </div><div>
-<h5>Event: <code>'ready'</code><span><a class="mark" href="#event-ready_1" id="event-ready_1">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_ready_1"></a></h5>
+<h5>Event: <code>'ready'</code><span><a class="mark" href="#event-ready_2" id="event-ready_2">#</a></span><a aria-hidden="true" class="legacy" id="fs_event_ready_2"></a></h5>
 <div class="api_metadata">
 <span>Added in: v9.11.0</span>
 </div>
@@ -8369,7 +8886,7 @@ of one before invoking the other:</p>
 <p>Or, when using the callback APIs, move the <code>fs.stat()</code> call into the callback
 of the <code>fs.rename()</code> operation:</p>
 
-<pre class="with-53-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { rename, stat } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+<pre class="with-44-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { rename, stat } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
 
 <span class="hljs-title function_">rename</span>(<span class="hljs-string">'/tmp/hello'</span>, <span class="hljs-string">'/tmp/world'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
   <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
@@ -8377,7 +8894,7 @@ of the <code>fs.rename()</code> operation:</p>
     <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`stats: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(stats)}</span>`</span>);
   });
-});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { rename, stat } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs/promises'</span>);
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { rename, stat } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
 
 <span class="hljs-title function_">rename</span>(<span class="hljs-string">'/tmp/hello'</span>, <span class="hljs-string">'/tmp/world'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
   <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;

@@ -12,15 +12,32 @@
         ],
         "changes": [
           {
-            "version": "v22.13.0",
+            "version": "v24.15.0",
+            "pr-url": "https://github.com/nodejs/node/pull/61262",
+            "description": "SQLite is now a release candidate."
+          },
+          {
+            "version": [
+              "v23.4.0",
+              "v22.13.0"
+            ],
             "pr-url": "https://github.com/nodejs/node/pull/55890",
             "description": "SQLite is no longer behind `--experimental-sqlite` but still experimental."
           }
         ]
       },
       "stability": 1,
-      "stabilityText": ".1 - Active development.",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/sqlite.js\">lib/sqlite.js</a></p>\n<p>The <code>node:sqlite</code> module facilitates working with SQLite databases.\nTo access it:</p>\n<pre><code class=\"language-mjs\">import sqlite from 'node:sqlite';\n</code></pre>\n<pre><code class=\"language-cjs\">const sqlite = require('node:sqlite');\n</code></pre>\n<p>This module is only available under the <code>node:</code> scheme.</p>\n<p>The following example shows the basic usage of the <code>node:sqlite</code> module to open\nan in-memory database, write data to the database, and then read the data back.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\nconst database = new DatabaseSync(':memory:');\n\n// Execute SQL statements from strings.\ndatabase.exec(`\n  CREATE TABLE data(\n    key INTEGER PRIMARY KEY,\n    value TEXT\n  ) STRICT\n`);\n// Create a prepared statement to insert data into the database.\nconst insert = database.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\n// Execute the prepared statement with bound values.\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n// Create a prepared statement to read data from the database.\nconst query = database.prepare('SELECT * FROM data ORDER BY key');\n// Execute the prepared statement and log the result set.\nconsole.log(query.all());\n// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]\n</code></pre>\n<pre><code class=\"language-cjs\">'use strict';\nconst { DatabaseSync } = require('node:sqlite');\nconst database = new DatabaseSync(':memory:');\n\n// Execute SQL statements from strings.\ndatabase.exec(`\n  CREATE TABLE data(\n    key INTEGER PRIMARY KEY,\n    value TEXT\n  ) STRICT\n`);\n// Create a prepared statement to insert data into the database.\nconst insert = database.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\n// Execute the prepared statement with bound values.\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n// Create a prepared statement to read data from the database.\nconst query = database.prepare('SELECT * FROM data ORDER BY key');\n// Execute the prepared statement and log the result set.\nconsole.log(query.all());\n// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]\n</code></pre>",
+      "stabilityText": ".2 - Release candidate.",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/sqlite.js\">lib/sqlite.js</a></p>\n<p>The <code>node:sqlite</code> module facilitates working with SQLite databases.\nTo access it:</p>\n<pre><code class=\"language-mjs\">import sqlite from 'node:sqlite';\n</code></pre>\n<pre><code class=\"language-cjs\">const sqlite = require('node:sqlite');\n</code></pre>\n<p>This module is only available under the <code>node:</code> scheme.</p>\n<p>The following example shows the basic usage of the <code>node:sqlite</code> module to open\nan in-memory database, write data to the database, and then read the data back.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\nconst database = new DatabaseSync(':memory:');\n\n// Execute SQL statements from strings.\ndatabase.exec(`\n  CREATE TABLE data(\n    key INTEGER PRIMARY KEY,\n    value TEXT\n  ) STRICT\n`);\n// Create a prepared statement to insert data into the database.\nconst insert = database.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\n// Execute the prepared statement with bound values.\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n// Create a prepared statement to read data from the database.\nconst query = database.prepare('SELECT * FROM data ORDER BY key');\n// Execute the prepared statement and log the result set.\nconsole.log(query.all());\n// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\nconst database = new DatabaseSync(':memory:');\n\n// Execute SQL statements from strings.\ndatabase.exec(`\n  CREATE TABLE data(\n    key INTEGER PRIMARY KEY,\n    value TEXT\n  ) STRICT\n`);\n// Create a prepared statement to insert data into the database.\nconst insert = database.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\n// Execute the prepared statement with bound values.\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n// Create a prepared statement to read data from the database.\nconst query = database.prepare('SELECT * FROM data ORDER BY key');\n// Execute the prepared statement and log the result set.\nconsole.log(query.all());\n// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]\n</code></pre>",
+      "modules": [
+        {
+          "textRaw": "Type conversion between JavaScript and SQLite",
+          "name": "type_conversion_between_javascript_and_sqlite",
+          "desc": "<p>When Node.js writes to or reads from SQLite, it is necessary to convert between\nJavaScript data types and SQLite's <a href=\"https://www.sqlite.org/datatype3.html\">data types</a>. Because JavaScript supports\nmore data types than SQLite, only a subset of JavaScript types are supported.\nAttempting to write an unsupported data type to SQLite will result in an\nexception.</p>\n<table>\n<thead>\n<tr>\n<th>Storage class</th>\n<th>JavaScript to SQLite</th>\n<th>SQLite to JavaScript</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>NULL</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a></td>\n</tr>\n<tr>\n<td><code>INTEGER</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type\" class=\"type\">&lt;bigint&gt;</a></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type\" class=\"type\">&lt;bigint&gt;</a> <em>(configurable)</em></td>\n</tr>\n<tr>\n<td><code>REAL</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a></td>\n</tr>\n<tr>\n<td><code>TEXT</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a></td>\n</tr>\n<tr>\n<td><code>BLOB</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a></td>\n</tr>\n</tbody>\n</table>\n<p>APIs that read values from SQLite have a configuration option that determines\nwhether <code>INTEGER</code> values are converted to <code>number</code> or <code>bigint</code> in JavaScript,\nsuch as the <code>readBigInts</code> option for statements and the <code>useBigIntArguments</code>\noption for user-defined functions. If Node.js reads an <code>INTEGER</code> value from\nSQLite that is outside the JavaScript <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger\">safe integer</a> range, and the option to\nread BigInts is not enabled, then an <code>ERR_OUT_OF_RANGE</code> error will be thrown.</p>",
+          "type": "module",
+          "displayName": "Type conversion between JavaScript and SQLite"
+        }
+      ],
       "classes": [
         {
           "textRaw": "Class: `DatabaseSync`",
@@ -32,12 +49,15 @@
             ],
             "changes": [
               {
-                "version": "v22.16.0",
+                "version": "v24.0.0",
                 "pr-url": "https://github.com/nodejs/node/pull/57752",
                 "description": "Add `timeout` option."
               },
               {
-                "version": "v22.15.0",
+                "version": [
+                  "v23.10.0",
+                  "v22.15.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/56991",
                 "description": "The `path` argument now supports Buffer and URL objects."
               }
@@ -51,7 +71,7 @@
               "name": "aggregate",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
@@ -80,11 +100,12 @@
               "desc": "<p>Closes the database connection. An exception is thrown if the database is not\nopen. This method is a wrapper around <a href=\"https://www.sqlite.org/c3ref/close.html\"><code>sqlite3_close_v2()</code></a>.</p>"
             },
             {
-              "textRaw": "`database.loadExtension(path)`",
+              "textRaw": "`database.loadExtension(path[, entryPoint])`",
               "type": "method",
               "name": "loadExtension",
               "meta": {
                 "added": [
+                  "v23.5.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -97,11 +118,17 @@
                       "name": "path",
                       "type": "string",
                       "desc": "The path to the shared library to load."
+                    },
+                    {
+                      "textRaw": "`entryPoint` {string} The name of the extension's entry-point function. When omitted, SQLite derives the entry point from the shared library's filename; pass this argument explicitly when the derived name does not match.",
+                      "name": "entryPoint",
+                      "type": "string",
+                      "desc": "The name of the extension's entry-point function. When omitted, SQLite derives the entry point from the shared library's filename; pass this argument explicitly when the derived name does not match."
                     }
                   ]
                 }
               ],
-              "desc": "<p>Loads a shared library into the database connection. This method is a wrapper\naround <a href=\"https://www.sqlite.org/c3ref/load_extension.html\"><code>sqlite3_load_extension()</code></a>. It is required to enable the\n<code>allowExtension</code> option when constructing the <code>DatabaseSync</code> instance.</p>"
+              "desc": "<p>Loads a shared library into the database connection. This method is a wrapper\naround <a href=\"https://www.sqlite.org/c3ref/load_extension.html\"><code>sqlite3_load_extension()</code></a>. It is required to enable the\n<code>allowExtension</code> option when constructing the <code>DatabaseSync</code> instance.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\nconst database = new DatabaseSync(':memory:', { allowExtension: true });\n\n// Load using the entry point derived from the filename.\ndatabase.loadExtension('./decimal.dylib');\n\n// Override the entry point when the derived name does not match.\ndatabase.loadExtension('./base64.dylib', 'sqlite3_base64_init');\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\nconst database = new DatabaseSync(':memory:', { allowExtension: true });\n\n// Load using the entry point derived from the filename.\ndatabase.loadExtension('./decimal.dylib');\n\n// Override the entry point when the derived name does not match.\ndatabase.loadExtension('./base64.dylib', 'sqlite3_base64_init');\n</code></pre>"
             },
             {
               "textRaw": "`database.enableLoadExtension(allow)`",
@@ -109,6 +136,7 @@
               "name": "enableLoadExtension",
               "meta": {
                 "added": [
+                  "v23.5.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -128,12 +156,36 @@
               "desc": "<p>Enables or disables the <code>loadExtension</code> SQL function, and the <code>loadExtension()</code>\nmethod. When <code>allowExtension</code> is <code>false</code> when constructing, you cannot enable\nloading extensions for security reasons.</p>"
             },
             {
+              "textRaw": "`database.enableDefensive(active)`",
+              "type": "method",
+              "name": "enableDefensive",
+              "meta": {
+                "added": [
+                  "v24.12.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`active` {boolean} Whether to set the defensive flag.",
+                      "name": "active",
+                      "type": "boolean",
+                      "desc": "Whether to set the defensive flag."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Enables or disables the defensive flag. When the defensive flag is active,\nlanguage features that allow ordinary SQL to deliberately corrupt the database file are disabled.\nSee <a href=\"https://www.sqlite.org/c3ref/c_dbconfig_defensive.html#sqlitedbconfigdefensive\"><code>SQLITE_DBCONFIG_DEFENSIVE</code></a> in the SQLite documentation for details.</p>"
+            },
+            {
               "textRaw": "`database.location([dbName])`",
               "type": "method",
               "name": "location",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
@@ -188,6 +240,7 @@
               "name": "function",
               "meta": {
                 "added": [
+                  "v23.5.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -249,6 +302,30 @@
               "desc": "<p>This method is used to create SQLite user-defined functions. This method is a\nwrapper around <a href=\"https://www.sqlite.org/c3ref/create_function.html\"><code>sqlite3_create_function_v2()</code></a>.</p>"
             },
             {
+              "textRaw": "`database.setAuthorizer(callback)`",
+              "type": "method",
+              "name": "setAuthorizer",
+              "meta": {
+                "added": [
+                  "v24.10.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`callback` {Function|null} The authorizer function to set, or `null` to clear the current authorizer.",
+                      "name": "callback",
+                      "type": "Function|null",
+                      "desc": "The authorizer function to set, or `null` to clear the current authorizer."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Sets an authorizer callback that SQLite will invoke whenever it attempts to\naccess data or modify the database schema through prepared statements.\nThis can be used to implement security policies, audit access, or restrict certain operations.\nThis method is a wrapper around <a href=\"https://sqlite.org/c3ref/set_authorizer.html\"><code>sqlite3_set_authorizer()</code></a>.</p>\n<p>When invoked, the callback receives five arguments:</p>\n<ul>\n<li><code>actionCode</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> The type of operation being performed (e.g.,\n<code>SQLITE_INSERT</code>, <code>SQLITE_UPDATE</code>, <code>SQLITE_SELECT</code>).</li>\n<li><code>arg1</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a> The first argument (context-dependent, often a table name).</li>\n<li><code>arg2</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a> The second argument (context-dependent, often a column name).</li>\n<li><code>dbName</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a> The name of the database.</li>\n<li><code>triggerOrView</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a> The name of the trigger or view causing the access.</li>\n</ul>\n<p>The callback must return one of the following constants:</p>\n<ul>\n<li><code>SQLITE_OK</code> - Allow the operation.</li>\n<li><code>SQLITE_DENY</code> - Deny the operation (causes an error).</li>\n<li><code>SQLITE_IGNORE</code> - Ignore the operation (silently skip).</li>\n</ul>\n<pre><code class=\"language-cjs\">const { DatabaseSync, constants } = require('node:sqlite');\nconst db = new DatabaseSync(':memory:');\n\n// Set up an authorizer that denies all table creation\ndb.setAuthorizer((actionCode) => {\n  if (actionCode === constants.SQLITE_CREATE_TABLE) {\n    return constants.SQLITE_DENY;\n  }\n  return constants.SQLITE_OK;\n});\n\n// This will work\ndb.prepare('SELECT 1').get();\n\n// This will throw an error due to authorization denial\ntry {\n  db.exec('CREATE TABLE blocked (id INTEGER)');\n} catch (err) {\n  console.log('Operation blocked:', err.message);\n}\n</code></pre>\n<pre><code class=\"language-mjs\">import { DatabaseSync, constants } from 'node:sqlite';\nconst db = new DatabaseSync(':memory:');\n\n// Set up an authorizer that denies all table creation\ndb.setAuthorizer((actionCode) => {\n  if (actionCode === constants.SQLITE_CREATE_TABLE) {\n    return constants.SQLITE_DENY;\n  }\n  return constants.SQLITE_OK;\n});\n\n// This will work\ndb.prepare('SELECT 1').get();\n\n// This will throw an error due to authorization denial\ntry {\n  db.exec('CREATE TABLE blocked (id INTEGER)');\n} catch (err) {\n  console.log('Operation blocked:', err.message);\n}\n</code></pre>"
+            },
+            {
               "textRaw": "`database.open()`",
               "type": "method",
               "name": "open",
@@ -266,7 +343,77 @@
               "desc": "<p>Opens the database specified in the <code>path</code> argument of the <code>DatabaseSync</code>\nconstructor. This method should only be used when the database is not opened via\nthe constructor. An exception is thrown if the database is already open.</p>"
             },
             {
-              "textRaw": "`database.prepare(sql)`",
+              "textRaw": "`database.serialize([dbName])`",
+              "type": "method",
+              "name": "serialize",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Uint8Array} A binary representation of the database.",
+                    "name": "return",
+                    "type": "Uint8Array",
+                    "desc": "A binary representation of the database."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`dbName` {string} Name of the database to serialize. This can be `'main'` (the default primary database) or any other database that has been added with [`ATTACH DATABASE`][]. **Default:** `'main'`.",
+                      "name": "dbName",
+                      "type": "string",
+                      "default": "`'main'`",
+                      "desc": "Name of the database to serialize. This can be `'main'` (the default primary database) or any other database that has been added with [`ATTACH DATABASE`][]."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Serializes the database into a binary representation, returned as a\n<code>Uint8Array</code>. This is useful for saving, cloning, or transferring an in-memory\ndatabase. This method is a wrapper around <a href=\"https://sqlite.org/c3ref/serialize.html\"><code>sqlite3_serialize()</code></a>.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\n\nconst db = new DatabaseSync(':memory:');\ndb.exec('CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)');\ndb.exec(\"INSERT INTO t VALUES (1, 'hello')\");\nconst buffer = db.serialize();\nconsole.log(buffer.length); // Prints the byte length of the database\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\n\nconst db = new DatabaseSync(':memory:');\ndb.exec('CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)');\ndb.exec(\"INSERT INTO t VALUES (1, 'hello')\");\nconst buffer = db.serialize();\nconsole.log(buffer.length); // Prints the byte length of the database\n</code></pre>"
+            },
+            {
+              "textRaw": "`database.deserialize(buffer[, options])`",
+              "type": "method",
+              "name": "deserialize",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`buffer` {Uint8Array} A binary representation of a database, such as the output of [`database.serialize()`][].",
+                      "name": "buffer",
+                      "type": "Uint8Array",
+                      "desc": "A binary representation of a database, such as the output of [`database.serialize()`][]."
+                    },
+                    {
+                      "textRaw": "`options` {Object} Optional configuration for the deserialization.",
+                      "name": "options",
+                      "type": "Object",
+                      "desc": "Optional configuration for the deserialization.",
+                      "options": [
+                        {
+                          "textRaw": "`dbName` {string} Name of the database to deserialize into. **Default:** `'main'`.",
+                          "name": "dbName",
+                          "type": "string",
+                          "default": "`'main'`",
+                          "desc": "Name of the database to deserialize into."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Loads a serialized database into this connection, replacing the current\ndatabase. The deserialized database is writable. Existing prepared statements\nare finalized before deserialization is attempted, even if the operation\nsubsequently fails. This method is a wrapper around\n<a href=\"https://sqlite.org/c3ref/deserialize.html\"><code>sqlite3_deserialize()</code></a>.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\n\nconst original = new DatabaseSync(':memory:');\noriginal.exec('CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)');\noriginal.exec(\"INSERT INTO t VALUES (1, 'hello')\");\nconst buffer = original.serialize();\noriginal.close();\n\nconst clone = new DatabaseSync(':memory:');\nclone.deserialize(buffer);\nconsole.log(clone.prepare('SELECT value FROM t').get());\n// Prints: { value: 'hello' }\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\n\nconst original = new DatabaseSync(':memory:');\noriginal.exec('CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)');\noriginal.exec(\"INSERT INTO t VALUES (1, 'hello')\");\nconst buffer = original.serialize();\noriginal.close();\n\nconst clone = new DatabaseSync(':memory:');\nclone.deserialize(buffer);\nconsole.log(clone.prepare('SELECT value FROM t').get());\n// Prints: { value: 'hello' }\n</code></pre>"
+            },
+            {
+              "textRaw": "`database.prepare(sql[, options])`",
               "type": "method",
               "name": "prepare",
               "meta": {
@@ -289,6 +436,42 @@
                       "name": "sql",
                       "type": "string",
                       "desc": "A SQL string to compile to a prepared statement."
+                    },
+                    {
+                      "textRaw": "`options` {Object} Optional configuration for the prepared statement.",
+                      "name": "options",
+                      "type": "Object",
+                      "desc": "Optional configuration for the prepared statement.",
+                      "options": [
+                        {
+                          "textRaw": "`readBigInts` {boolean} If `true`, integer fields are read as `BigInt`s. **Default:** inherited from database options or `false`.",
+                          "name": "readBigInts",
+                          "type": "boolean",
+                          "default": "inherited from database options or `false`",
+                          "desc": "If `true`, integer fields are read as `BigInt`s."
+                        },
+                        {
+                          "textRaw": "`returnArrays` {boolean} If `true`, results are returned as arrays. **Default:** inherited from database options or `false`.",
+                          "name": "returnArrays",
+                          "type": "boolean",
+                          "default": "inherited from database options or `false`",
+                          "desc": "If `true`, results are returned as arrays."
+                        },
+                        {
+                          "textRaw": "`allowBareNamedParameters` {boolean} If `true`, allows binding named parameters without the prefix character. **Default:** inherited from database options or `true`.",
+                          "name": "allowBareNamedParameters",
+                          "type": "boolean",
+                          "default": "inherited from database options or `true`",
+                          "desc": "If `true`, allows binding named parameters without the prefix character."
+                        },
+                        {
+                          "textRaw": "`allowUnknownNamedParameters` {boolean} If `true`, unknown named parameters are ignored. **Default:** inherited from database options or `false`.",
+                          "name": "allowUnknownNamedParameters",
+                          "type": "boolean",
+                          "default": "inherited from database options or `false`",
+                          "desc": "If `true`, unknown named parameters are ignored."
+                        }
+                      ]
                     }
                   ]
                 }
@@ -296,11 +479,43 @@
               "desc": "<p>Compiles a SQL statement into a <a href=\"https://www.sqlite.org/c3ref/stmt.html\">prepared statement</a>. This method is a wrapper\naround <a href=\"https://www.sqlite.org/c3ref/prepare.html\"><code>sqlite3_prepare_v2()</code></a>.</p>"
             },
             {
+              "textRaw": "`database.createTagStore([maxSize])`",
+              "type": "method",
+              "name": "createTagStore",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {SQLTagStore} A new SQL tag store for caching prepared statements.",
+                    "name": "return",
+                    "type": "SQLTagStore",
+                    "desc": "A new SQL tag store for caching prepared statements."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`maxSize` {integer} The maximum number of prepared statements to cache. **Default:** `1000`.",
+                      "name": "maxSize",
+                      "type": "integer",
+                      "default": "`1000`",
+                      "desc": "The maximum number of prepared statements to cache."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Creates a new <a href=\"#class-sqltagstore\"><code>SQLTagStore</code></a>, which is a Least Recently Used (LRU) cache\nfor storing prepared statements. This allows for the efficient reuse of\nprepared statements by tagging them with a unique identifier.</p>\n<p>When a tagged SQL literal is executed, the <code>SQLTagStore</code> checks if a prepared\nstatement for the corresponding SQL query string already exists in the cache.\nIf it does, the cached statement is used. If not, a new prepared statement is\ncreated, executed, and then stored in the cache for future use. This mechanism\nhelps to avoid the overhead of repeatedly parsing and preparing the same SQL\nstatements.</p>\n<p>Tagged statements bind the placeholder values from the template literal as\nparameters to the underlying prepared statement. For example:</p>\n<pre><code class=\"language-js\">sqlTagStore.get`SELECT ${value}`;\n</code></pre>\n<p>is equivalent to:</p>\n<pre><code class=\"language-js\">db.prepare('SELECT ?').get(value);\n</code></pre>\n<p>However, in the first example, the tag store will cache the underlying prepared\nstatement for future use.</p>\n<blockquote>\n<p><strong>Note:</strong> The <code>${value}</code> syntax in tagged statements <em>binds</em> a parameter to\nthe prepared statement. This differs from its behavior in <em>untagged</em> template\nliterals, where it performs string interpolation.</p>\n<pre><code class=\"language-js\">// This a safe example of binding a parameter to a tagged statement.\nsqlTagStore.run`INSERT INTO t1 (id) VALUES (${id})`;\n\n// This is an *unsafe* example of an untagged template string.\n// `id` is interpolated into the query text as a string.\n// This can lead to SQL injection and data corruption.\ndb.run(`INSERT INTO t1 (id) VALUES (${id})`);\n</code></pre>\n</blockquote>\n<p>The tag store will match a statement from the cache if the query strings\n(including the positions of any bound placeholders) are identical.</p>\n<pre><code class=\"language-js\">// The following statements will match in the cache:\nsqlTagStore.get`SELECT * FROM t1 WHERE id = ${id} AND active = 1`;\nsqlTagStore.get`SELECT * FROM t1 WHERE id = ${12345} AND active = 1`;\n\n// The following statements will not match, as the query strings\n// and bound placeholders differ:\nsqlTagStore.get`SELECT * FROM t1 WHERE id = ${id} AND active = 1`;\nsqlTagStore.get`SELECT * FROM t1 WHERE id = 12345 AND active = 1`;\n\n// The following statements will not match, as matches are case-sensitive:\nsqlTagStore.get`SELECT * FROM t1 WHERE id = ${id} AND active = 1`;\nsqlTagStore.get`select * from t1 where id = ${id} and active = 1`;\n</code></pre>\n<p>The only way of binding parameters in tagged statements is with the <code>${value}</code>\nsyntax. Do not add parameter binding placeholders (<code>?</code> etc.) to the SQL query\nstring itself.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\n\nconst db = new DatabaseSync(':memory:');\nconst sql = db.createTagStore();\n\ndb.exec('CREATE TABLE users (id INT, name TEXT)');\n\n// Using the 'run' method to insert data.\n// The tagged literal is used to identify the prepared statement.\nsql.run`INSERT INTO users VALUES (1, 'Alice')`;\nsql.run`INSERT INTO users VALUES (2, 'Bob')`;\n\n// Using the 'get' method to retrieve a single row.\nconst name = 'Alice';\nconst user = sql.get`SELECT * FROM users WHERE name = ${name}`;\nconsole.log(user); // { id: 1, name: 'Alice' }\n\n// Using the 'all' method to retrieve all rows.\nconst allUsers = sql.all`SELECT * FROM users ORDER BY id`;\nconsole.log(allUsers);\n// [\n//   { id: 1, name: 'Alice' },\n//   { id: 2, name: 'Bob' }\n// ]\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\n\nconst db = new DatabaseSync(':memory:');\nconst sql = db.createTagStore();\n\ndb.exec('CREATE TABLE users (id INT, name TEXT)');\n\n// Using the 'run' method to insert data.\n// The tagged literal is used to identify the prepared statement.\nsql.run`INSERT INTO users VALUES (1, 'Alice')`;\nsql.run`INSERT INTO users VALUES (2, 'Bob')`;\n\n// Using the 'get' method to retrieve a single row.\nconst name = 'Alice';\nconst user = sql.get`SELECT * FROM users WHERE name = ${name}`;\nconsole.log(user); // { id: 1, name: 'Alice' }\n\n// Using the 'all' method to retrieve all rows.\nconst allUsers = sql.all`SELECT * FROM users ORDER BY id`;\nconsole.log(allUsers);\n// [\n//   { id: 1, name: 'Alice' },\n//   { id: 2, name: 'Bob' }\n// ]\n</code></pre>"
+            },
+            {
               "textRaw": "`database.createSession([options])`",
               "type": "method",
               "name": "createSession",
               "meta": {
                 "added": [
+                  "v23.3.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -345,6 +560,7 @@
               "name": "applyChangeset",
               "meta": {
                 "added": [
+                  "v23.3.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -371,10 +587,10 @@
                       "desc": "The configuration options for how the changes will be applied.",
                       "options": [
                         {
-                          "textRaw": "`filter` {Function} Skip changes that, when targeted table name is supplied to this function, return a truthy value. By default, all changes are attempted.",
+                          "textRaw": "`filter` {Function} for each table affected by at least one change in the changeset, the `filter` callback is invoked with the table name as the first argument. If the return value is falsy, then no attempt is made to apply any changes to the table. Otherwise, if the return value is truthy or no `filter` callback is provided, all changes related to the table are attempted.",
                           "name": "filter",
                           "type": "Function",
-                          "desc": "Skip changes that, when targeted table name is supplied to this function, return a truthy value. By default, all changes are attempted."
+                          "desc": "for each table affected by at least one change in the changeset, the `filter` callback is invoked with the table name as the first argument. If the return value is falsy, then no attempt is made to apply any changes to the table. Otherwise, if the return value is truthy or no `filter` callback is provided, all changes related to the table are attempted."
                         },
                         {
                           "textRaw": "`onConflict` {Function} A function that determines how to handle conflicts. The function receives one argument, which can be one of the following values:The function should return one of the following values:When an error is thrown in the conflict handler or when any other value is returned from the handler, applying the changeset is aborted and the database is rolled back.**Default**: A function that returns `SQLITE_CHANGESET_ABORT`.",
@@ -414,7 +630,7 @@
                   ]
                 }
               ],
-              "desc": "<p>An exception is thrown if the database is not\nopen. This method is a wrapper around <a href=\"https://www.sqlite.org/session/sqlite3changeset_apply.html\"><code>sqlite3changeset_apply()</code></a>.</p>\n<pre><code class=\"language-js\">const sourceDb = new DatabaseSync(':memory:');\nconst targetDb = new DatabaseSync(':memory:');\n\nsourceDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\ntargetDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\n\nconst session = sourceDb.createSession();\n\nconst insert = sourceDb.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n\nconst changeset = session.changeset();\ntargetDb.applyChangeset(changeset);\n// Now that the changeset has been applied, targetDb contains the same data as sourceDb.\n</code></pre>"
+              "desc": "<p>An exception is thrown if the database is not\nopen. This method is a wrapper around <a href=\"https://www.sqlite.org/session/sqlite3changeset_apply.html\"><code>sqlite3changeset_apply()</code></a>.</p>\n<pre><code class=\"language-mjs\">import { DatabaseSync } from 'node:sqlite';\n\nconst sourceDb = new DatabaseSync(':memory:');\nconst targetDb = new DatabaseSync(':memory:');\n\nsourceDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\ntargetDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\n\nconst session = sourceDb.createSession();\n\nconst insert = sourceDb.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n\nconst changeset = session.changeset();\ntargetDb.applyChangeset(changeset);\n// Now that the changeset has been applied, targetDb contains the same data as sourceDb.\n</code></pre>\n<pre><code class=\"language-cjs\">const { DatabaseSync } = require('node:sqlite');\n\nconst sourceDb = new DatabaseSync(':memory:');\nconst targetDb = new DatabaseSync(':memory:');\n\nsourceDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\ntargetDb.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');\n\nconst session = sourceDb.createSession();\n\nconst insert = sourceDb.prepare('INSERT INTO data (key, value) VALUES (?, ?)');\ninsert.run(1, 'hello');\ninsert.run(2, 'world');\n\nconst changeset = session.changeset();\ntargetDb.applyChangeset(changeset);\n// Now that the changeset has been applied, targetDb contains the same data as sourceDb.\n</code></pre>"
             },
             {
               "textRaw": "`database[Symbol.dispose]()`",
@@ -422,12 +638,17 @@
               "name": "[Symbol.dispose]",
               "meta": {
                 "added": [
+                  "v23.11.0",
                   "v22.15.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.2.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/58467",
+                    "description": "No longer experimental."
+                  }
+                ]
               },
-              "stability": 1,
-              "stabilityText": "Experimental",
               "signatures": [
                 {
                   "params": []
@@ -443,6 +664,7 @@
               "name": "Type",
               "meta": {
                 "added": [
+                  "v23.11.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -455,11 +677,23 @@
               "name": "Type",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
               "desc": "Whether the database is currently within a transaction. This method is a wrapper around [`sqlite3_get_autocommit()`][]."
+            },
+            {
+              "textRaw": "`limits` Type: {Object}",
+              "type": "Object",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.15.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>An object for getting and setting SQLite database limits at runtime.\nEach property corresponds to an SQLite limit and can be read or written.</p>\n<pre><code class=\"language-js\">const db = new DatabaseSync(':memory:');\n\n// Read current limit\nconsole.log(db.limits.length);\n\n// Set a new limit\ndb.limits.sqlLength = 100000;\n\n// Reset a limit to its compile-time maximum\ndb.limits.sqlLength = Infinity;\n</code></pre>\n<p>Available properties: <code>length</code>, <code>sqlLength</code>, <code>column</code>, <code>exprDepth</code>,\n<code>compoundSelect</code>, <code>vdbeOp</code>, <code>functionArg</code>, <code>attach</code>, <code>likePatternLength</code>,\n<code>variableNumber</code>, <code>triggerDepth</code>.</p>\n<p>Setting a property to <code>Infinity</code> resets the limit to its compile-time maximum value.</p>"
             }
           ],
           "signatures": [
@@ -546,6 +780,87 @@
                       "type": "boolean",
                       "default": "`false`",
                       "desc": "If `true`, unknown named parameters are ignored when binding. If `false`, an exception is thrown for unknown named parameters."
+                    },
+                    {
+                      "textRaw": "`defensive` {boolean} If `true`, enables the defensive flag. When the defensive flag is enabled, language features that allow ordinary SQL to deliberately corrupt the database file are disabled. The defensive flag can also be set using `enableDefensive()`. **Default:** `true`.",
+                      "name": "defensive",
+                      "type": "boolean",
+                      "default": "`true`",
+                      "desc": "If `true`, enables the defensive flag. When the defensive flag is enabled, language features that allow ordinary SQL to deliberately corrupt the database file are disabled. The defensive flag can also be set using `enableDefensive()`."
+                    },
+                    {
+                      "textRaw": "`limits` {Object} Configuration for various SQLite limits. These limits can be used to prevent excessive resource consumption when handling potentially malicious input. See [Run-Time Limits][] and [Limit Constants][] in the SQLite documentation for details. Default values are determined by SQLite's compile-time defaults and may vary depending on how SQLite was built. The following properties are supported:",
+                      "name": "limits",
+                      "type": "Object",
+                      "desc": "Configuration for various SQLite limits. These limits can be used to prevent excessive resource consumption when handling potentially malicious input. See [Run-Time Limits][] and [Limit Constants][] in the SQLite documentation for details. Default values are determined by SQLite's compile-time defaults and may vary depending on how SQLite was built. The following properties are supported:",
+                      "options": [
+                        {
+                          "textRaw": "`length` {number} Maximum length of a string or BLOB.",
+                          "name": "length",
+                          "type": "number",
+                          "desc": "Maximum length of a string or BLOB."
+                        },
+                        {
+                          "textRaw": "`sqlLength` {number} Maximum length of an SQL statement.",
+                          "name": "sqlLength",
+                          "type": "number",
+                          "desc": "Maximum length of an SQL statement."
+                        },
+                        {
+                          "textRaw": "`column` {number} Maximum number of columns.",
+                          "name": "column",
+                          "type": "number",
+                          "desc": "Maximum number of columns."
+                        },
+                        {
+                          "textRaw": "`exprDepth` {number} Maximum depth of an expression tree.",
+                          "name": "exprDepth",
+                          "type": "number",
+                          "desc": "Maximum depth of an expression tree."
+                        },
+                        {
+                          "textRaw": "`compoundSelect` {number} Maximum number of terms in a compound SELECT.",
+                          "name": "compoundSelect",
+                          "type": "number",
+                          "desc": "Maximum number of terms in a compound SELECT."
+                        },
+                        {
+                          "textRaw": "`vdbeOp` {number} Maximum number of VDBE instructions.",
+                          "name": "vdbeOp",
+                          "type": "number",
+                          "desc": "Maximum number of VDBE instructions."
+                        },
+                        {
+                          "textRaw": "`functionArg` {number} Maximum number of function arguments.",
+                          "name": "functionArg",
+                          "type": "number",
+                          "desc": "Maximum number of function arguments."
+                        },
+                        {
+                          "textRaw": "`attach` {number} Maximum number of attached databases.",
+                          "name": "attach",
+                          "type": "number",
+                          "desc": "Maximum number of attached databases."
+                        },
+                        {
+                          "textRaw": "`likePatternLength` {number} Maximum length of a LIKE pattern.",
+                          "name": "likePatternLength",
+                          "type": "number",
+                          "desc": "Maximum length of a LIKE pattern."
+                        },
+                        {
+                          "textRaw": "`variableNumber` {number} Maximum number of SQL variables.",
+                          "name": "variableNumber",
+                          "type": "number",
+                          "desc": "Maximum number of SQL variables."
+                        },
+                        {
+                          "textRaw": "`triggerDepth` {number} Maximum trigger recursion depth.",
+                          "name": "triggerDepth",
+                          "type": "number",
+                          "desc": "Maximum trigger recursion depth."
+                        }
+                      ]
                     }
                   ]
                 }
@@ -560,6 +875,7 @@
           "name": "Session",
           "meta": {
             "added": [
+              "v23.3.0",
               "v22.12.0"
             ],
             "changes": []
@@ -571,6 +887,7 @@
               "name": "changeset",
               "meta": {
                 "added": [
+                  "v23.3.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -594,6 +911,7 @@
               "name": "patchset",
               "meta": {
                 "added": [
+                  "v23.3.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -610,15 +928,34 @@
                 }
               ],
               "desc": "<p>Similar to the method above, but generates a more compact patchset. See <a href=\"https://www.sqlite.org/sessionintro.html#changesets_and_patchsets\">Changesets and Patchsets</a>\nin the documentation of SQLite. An exception is thrown if the database or the session is not open. This method is a\nwrapper around <a href=\"https://www.sqlite.org/session/sqlite3session_patchset.html\"><code>sqlite3session_patchset()</code></a>.</p>"
-            }
-          ],
-          "modules": [
+            },
             {
-              "textRaw": "`session.close()`.",
-              "name": "`session.close()`.",
-              "desc": "<p>Closes the session. An exception is thrown if the database or the session is not open. This method is a\nwrapper around <a href=\"https://www.sqlite.org/session/sqlite3session_delete.html\"><code>sqlite3session_delete()</code></a>.</p>",
-              "type": "module",
-              "displayName": "`session.close()`."
+              "textRaw": "`session.close()`",
+              "type": "method",
+              "name": "close",
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Closes the session. An exception is thrown if the database or the session is not open. This method is a\nwrapper around <a href=\"https://www.sqlite.org/session/sqlite3session_delete.html\"><code>sqlite3session_delete()</code></a>.</p>"
+            },
+            {
+              "textRaw": "`session[Symbol.dispose]()`",
+              "type": "method",
+              "name": "[Symbol.dispose]",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Closes the session. If the session is already closed, does nothing.</p>"
             }
           ]
         },
@@ -644,7 +981,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.14.0",
+                    "version": [
+                      "v23.7.0",
+                      "v22.14.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56385",
                     "description": "Add support for `DataView` and typed array objects for `anonymousParameters`."
                   }
@@ -682,7 +1022,7 @@
               "name": "columns",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v23.11.0"
                 ],
                 "changes": []
               },
@@ -741,7 +1081,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.14.0",
+                    "version": [
+                      "v23.7.0",
+                      "v22.14.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56385",
                     "description": "Add support for `DataView` and typed array objects for `anonymousParameters`."
                   }
@@ -779,11 +1122,15 @@
               "name": "iterate",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": [
                   {
-                    "version": "v22.14.0",
+                    "version": [
+                      "v23.7.0",
+                      "v22.14.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56385",
                     "description": "Add support for `DataView` and typed array objects for `anonymousParameters`."
                   }
@@ -825,7 +1172,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.14.0",
+                    "version": [
+                      "v23.7.0",
+                      "v22.14.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56385",
                     "description": "Add support for `DataView` and typed array objects for `anonymousParameters`."
                   }
@@ -900,6 +1250,7 @@
               "name": "setAllowUnknownNamedParameters",
               "meta": {
                 "added": [
+                  "v23.11.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -924,7 +1275,7 @@
               "name": "setReturnArrays",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
@@ -994,28 +1345,244 @@
               "desc": "<p>The source SQL text of the prepared statement. This property is a\nwrapper around <a href=\"https://www.sqlite.org/c3ref/expanded_sql.html\"><code>sqlite3_sql()</code></a>.</p>",
               "shortDesc": "The source SQL used to create this prepared statement."
             }
-          ],
-          "modules": [
+          ]
+        },
+        {
+          "textRaw": "Class: `SQLTagStore`",
+          "type": "class",
+          "name": "SQLTagStore",
+          "meta": {
+            "added": [
+              "v24.9.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>This class represents a single LRU (Least Recently Used) cache for storing\nprepared statements.</p>\n<p>Instances of this class are created via the <a href=\"#databasecreatetagstoremaxsize\"><code>database.createTagStore()</code></a>\nmethod, not by using a constructor. The store caches prepared statements based\non the provided SQL query string. When the same query is seen again, the store\nretrieves the cached statement and safely applies the new values through\nparameter binding, thereby preventing attacks like SQL injection.</p>\n<p>The cache has a maxSize that defaults to 1000 statements, but a custom size can\nbe provided (e.g., <code>database.createTagStore(100)</code>). All APIs exposed by this\nclass execute synchronously.</p>",
+          "methods": [
             {
-              "textRaw": "Type conversion between JavaScript and SQLite",
-              "name": "type_conversion_between_javascript_and_sqlite",
-              "desc": "<p>When Node.js writes to or reads from SQLite it is necessary to convert between\nJavaScript data types and SQLite's <a href=\"https://www.sqlite.org/datatype3.html\">data types</a>. Because JavaScript supports\nmore data types than SQLite, only a subset of JavaScript types are supported.\nAttempting to write an unsupported data type to SQLite will result in an\nexception.</p>\n<table>\n<thead>\n<tr>\n<th>SQLite</th>\n<th>JavaScript</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>NULL</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type\" class=\"type\">&lt;null&gt;</a></td>\n</tr>\n<tr>\n<td><code>INTEGER</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type\" class=\"type\">&lt;bigint&gt;</a></td>\n</tr>\n<tr>\n<td><code>REAL</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a></td>\n</tr>\n<tr>\n<td><code>TEXT</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a></td>\n</tr>\n<tr>\n<td><code>BLOB</code></td>\n<td><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a></td>\n</tr>\n</tbody>\n</table>",
-              "type": "module",
-              "displayName": "Type conversion between JavaScript and SQLite"
+              "textRaw": "`sqlTagStore.all(stringElements[, ...boundParameters])`",
+              "type": "method",
+              "name": "all",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Array} An array of objects representing the rows returned by the query.",
+                    "name": "return",
+                    "type": "Array",
+                    "desc": "An array of objects representing the rows returned by the query."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`stringElements` {string\\[]} Template literal elements containing the SQL query.",
+                      "name": "stringElements",
+                      "type": "string\\[]",
+                      "desc": "Template literal elements containing the SQL query."
+                    },
+                    {
+                      "textRaw": "`...boundParameters` {null|number|bigint|string|Buffer|TypedArray|DataView} Parameter values to be bound to placeholders in the template string.",
+                      "name": "...boundParameters",
+                      "type": "null|number|bigint|string|Buffer|TypedArray|DataView",
+                      "desc": "Parameter values to be bound to placeholders in the template string."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Executes the given SQL query and returns all resulting rows as an array of\nobjects.</p>\n<p>This function is intended to be used as a template literal tag, not to be\ncalled directly.</p>"
+            },
+            {
+              "textRaw": "`sqlTagStore.get(stringElements[, ...boundParameters])`",
+              "type": "method",
+              "name": "get",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Object | undefined} An object representing the first row returned by the query, or `undefined` if no rows are returned.",
+                    "name": "return",
+                    "type": "Object | undefined",
+                    "desc": "An object representing the first row returned by the query, or `undefined` if no rows are returned."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`stringElements` {string\\[]} Template literal elements containing the SQL query.",
+                      "name": "stringElements",
+                      "type": "string\\[]",
+                      "desc": "Template literal elements containing the SQL query."
+                    },
+                    {
+                      "textRaw": "`...boundParameters` {null|number|bigint|string|Buffer|TypedArray|DataView} Parameter values to be bound to placeholders in the template string.",
+                      "name": "...boundParameters",
+                      "type": "null|number|bigint|string|Buffer|TypedArray|DataView",
+                      "desc": "Parameter values to be bound to placeholders in the template string."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Executes the given SQL query and returns the first resulting row as an object.</p>\n<p>This function is intended to be used as a template literal tag, not to be\ncalled directly.</p>"
+            },
+            {
+              "textRaw": "`sqlTagStore.iterate(stringElements[, ...boundParameters])`",
+              "type": "method",
+              "name": "iterate",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Iterator} An iterator that yields objects representing the rows returned by the query.",
+                    "name": "return",
+                    "type": "Iterator",
+                    "desc": "An iterator that yields objects representing the rows returned by the query."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`stringElements` {string\\[]} Template literal elements containing the SQL query.",
+                      "name": "stringElements",
+                      "type": "string\\[]",
+                      "desc": "Template literal elements containing the SQL query."
+                    },
+                    {
+                      "textRaw": "`...boundParameters` {null|number|bigint|string|Buffer|TypedArray|DataView} Parameter values to be bound to placeholders in the template string.",
+                      "name": "...boundParameters",
+                      "type": "null|number|bigint|string|Buffer|TypedArray|DataView",
+                      "desc": "Parameter values to be bound to placeholders in the template string."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Executes the given SQL query and returns an iterator over the resulting rows.</p>\n<p>This function is intended to be used as a template literal tag, not to be\ncalled directly.</p>"
+            },
+            {
+              "textRaw": "`sqlTagStore.run(stringElements[, ...boundParameters])`",
+              "type": "method",
+              "name": "run",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Object} An object containing information about the execution, including `changes` and `lastInsertRowid`.",
+                    "name": "return",
+                    "type": "Object",
+                    "desc": "An object containing information about the execution, including `changes` and `lastInsertRowid`."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`stringElements` {string\\[]} Template literal elements containing the SQL query.",
+                      "name": "stringElements",
+                      "type": "string\\[]",
+                      "desc": "Template literal elements containing the SQL query."
+                    },
+                    {
+                      "textRaw": "`...boundParameters` {null|number|bigint|string|Buffer|TypedArray|DataView} Parameter values to be bound to placeholders in the template string.",
+                      "name": "...boundParameters",
+                      "type": "null|number|bigint|string|Buffer|TypedArray|DataView",
+                      "desc": "Parameter values to be bound to placeholders in the template string."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Executes the given SQL query, which is expected to not return any rows (e.g., INSERT, UPDATE, DELETE).</p>\n<p>This function is intended to be used as a template literal tag, not to be\ncalled directly.</p>"
+            },
+            {
+              "textRaw": "`sqlTagStore.clear()`",
+              "type": "method",
+              "name": "clear",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Resets the LRU cache, clearing all stored prepared statements.</p>"
+            }
+          ],
+          "properties": [
+            {
+              "textRaw": "`size` Type: {integer}",
+              "type": "integer",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/60246",
+                    "description": "Changed from a method to a getter."
+                  }
+                ]
+              },
+              "desc": "<p>A read-only property that returns the number of prepared statements currently in the cache.</p>"
+            },
+            {
+              "textRaw": "`capacity` Type: {integer}",
+              "type": "integer",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>A read-only property that returns the maximum number of prepared statements the cache can hold.</p>"
+            },
+            {
+              "textRaw": "`db` Type: {DatabaseSync}",
+              "type": "DatabaseSync",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.9.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>A read-only property that returns the <code>DatabaseSync</code> object associated with this <code>SQLTagStore</code>.</p>"
             }
           ]
         }
       ],
       "methods": [
         {
-          "textRaw": "`sqlite.backup(sourceDb, destination[, options])`",
+          "textRaw": "`sqlite.backup(sourceDb, path[, options])`",
           "type": "method",
           "name": "backup",
           "meta": {
             "added": [
-              "v22.16.0"
+              "v23.8.0"
             ],
-            "changes": []
+            "changes": [
+              {
+                "version": "v23.10.0",
+                "pr-url": "https://github.com/nodejs/node/pull/56991",
+                "description": "The `path` argument now supports Buffer and URL objects."
+              }
+            ]
           },
           "signatures": [
             {
@@ -1033,9 +1600,9 @@
                   "desc": "The database to backup. The source database must be open."
                 },
                 {
-                  "textRaw": "`destination` {string} The path where the backup will be created. If the file already exists, the contents will be overwritten.",
-                  "name": "destination",
-                  "type": "string",
+                  "textRaw": "`path` {string | Buffer | URL} The path where the backup will be created. If the file already exists, the contents will be overwritten.",
+                  "name": "path",
+                  "type": "string | Buffer | URL",
                   "desc": "The path where the backup will be created. If the file already exists, the contents will be overwritten."
                 },
                 {
@@ -1086,6 +1653,7 @@
           "name": "Type",
           "meta": {
             "added": [
+              "v23.5.0",
               "v22.13.0"
             ],
             "changes": []
@@ -1103,6 +1671,29 @@
                   "desc": "<p>One of the following constants is available as an argument to the <code>onConflict</code>\nconflict resolution handler passed to <a href=\"#databaseapplychangesetchangeset-options\"><code>database.applyChangeset()</code></a>. See also\n<a href=\"https://www.sqlite.org/session/c_changeset_conflict.html\">Constants Passed To The Conflict Handler</a> in the SQLite documentation.</p>\n<table>\n  <tr>\n    <th>Constant</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_DATA</code></td>\n    <td>The conflict handler is invoked with this constant when processing a DELETE or UPDATE change if a row with the required PRIMARY KEY fields is present in the database, but one or more other (non primary-key) fields modified by the update do not contain the expected \"before\" values.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_NOTFOUND</code></td>\n    <td>The conflict handler is invoked with this constant when processing a DELETE or UPDATE change if a row with the required PRIMARY KEY fields is not present in the database.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_CONFLICT</code></td>\n    <td>This constant is passed to the conflict handler while processing an INSERT change if the operation would result in duplicate primary key values.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_CONSTRAINT</code></td>\n    <td>If foreign key handling is enabled, and applying a changeset leaves the database in a state containing foreign key violations, the conflict handler is invoked with this constant exactly once before the changeset is committed. If the conflict handler returns <code>SQLITE_CHANGESET_OMIT</code>, the changes, including those that caused the foreign key constraint violation, are committed. Or, if it returns <code>SQLITE_CHANGESET_ABORT</code>, the changeset is rolled back.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_FOREIGN_KEY</code></td>\n    <td>If any other constraint violation occurs while applying a change (i.e. a UNIQUE, CHECK or NOT NULL constraint), the conflict handler is invoked with this constant.</td>\n  </tr>\n</table>\n<p>One of the following constants must be returned from the <code>onConflict</code> conflict\nresolution handler passed to <a href=\"#databaseapplychangesetchangeset-options\"><code>database.applyChangeset()</code></a>. See also\n<a href=\"https://www.sqlite.org/session/c_changeset_abort.html\">Constants Returned From The Conflict Handler</a> in the SQLite documentation.</p>\n<table>\n  <tr>\n    <th>Constant</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_OMIT</code></td>\n    <td>Conflicting changes are omitted.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_REPLACE</code></td>\n    <td>Conflicting changes replace existing values. Note that this value can only be returned when the type of conflict is either <code>SQLITE_CHANGESET_DATA</code> or <code>SQLITE_CHANGESET_CONFLICT</code>.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CHANGESET_ABORT</code></td>\n    <td>Abort when a change encounters a conflict and roll back database.</td>\n  </tr>\n</table>",
                   "type": "module",
                   "displayName": "Conflict resolution constants"
+                },
+                {
+                  "textRaw": "Authorization constants",
+                  "name": "authorization_constants",
+                  "desc": "<p>The following constants are used with the <a href=\"#databasesetauthorizercallback\"><code>database.setAuthorizer()</code></a> method.</p>",
+                  "modules": [
+                    {
+                      "textRaw": "Authorization result codes",
+                      "name": "authorization_result_codes",
+                      "desc": "<p>One of the following constants must be returned from the authorizer callback\nfunction passed to <a href=\"#databasesetauthorizercallback\"><code>database.setAuthorizer()</code></a>.</p>\n<table>\n  <tr>\n    <th>Constant</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td><code>SQLITE_OK</code></td>\n    <td>Allow the operation to proceed normally.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DENY</code></td>\n    <td>Deny the operation and cause an error to be returned.</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_IGNORE</code></td>\n    <td>Ignore the operation and continue as if it had never been requested.</td>\n  </tr>\n</table>",
+                      "type": "module",
+                      "displayName": "Authorization result codes"
+                    },
+                    {
+                      "textRaw": "Authorization action codes",
+                      "name": "authorization_action_codes",
+                      "desc": "<p>The following constants are passed as the first argument to the authorizer\ncallback function to indicate what type of operation is being authorized.</p>\n<table>\n  <tr>\n    <th>Constant</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_INDEX</code></td>\n    <td>Create an index</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TABLE</code></td>\n    <td>Create a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TEMP_INDEX</code></td>\n    <td>Create a temporary index</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TEMP_TABLE</code></td>\n    <td>Create a temporary table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TEMP_TRIGGER</code></td>\n    <td>Create a temporary trigger</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TEMP_VIEW</code></td>\n    <td>Create a temporary view</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_TRIGGER</code></td>\n    <td>Create a trigger</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_VIEW</code></td>\n    <td>Create a view</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DELETE</code></td>\n    <td>Delete from a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_INDEX</code></td>\n    <td>Drop an index</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TABLE</code></td>\n    <td>Drop a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TEMP_INDEX</code></td>\n    <td>Drop a temporary index</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TEMP_TABLE</code></td>\n    <td>Drop a temporary table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TEMP_TRIGGER</code></td>\n    <td>Drop a temporary trigger</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TEMP_VIEW</code></td>\n    <td>Drop a temporary view</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_TRIGGER</code></td>\n    <td>Drop a trigger</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_VIEW</code></td>\n    <td>Drop a view</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_INSERT</code></td>\n    <td>Insert into a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_PRAGMA</code></td>\n    <td>Execute a PRAGMA statement</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_READ</code></td>\n    <td>Read from a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_SELECT</code></td>\n    <td>Execute a SELECT statement</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_TRANSACTION</code></td>\n    <td>Begin, commit, or rollback a transaction</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_UPDATE</code></td>\n    <td>Update a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_ATTACH</code></td>\n    <td>Attach a database</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DETACH</code></td>\n    <td>Detach a database</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_ALTER_TABLE</code></td>\n    <td>Alter a table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_REINDEX</code></td>\n    <td>Reindex</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_ANALYZE</code></td>\n    <td>Analyze the database</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_CREATE_VTABLE</code></td>\n    <td>Create a virtual table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_DROP_VTABLE</code></td>\n    <td>Drop a virtual table</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_FUNCTION</code></td>\n    <td>Use a function</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_SAVEPOINT</code></td>\n    <td>Create, release, or rollback a savepoint</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_COPY</code></td>\n    <td>Copy data (legacy)</td>\n  </tr>\n  <tr>\n    <td><code>SQLITE_RECURSIVE</code></td>\n    <td>Recursive query</td>\n  </tr>\n</table>",
+                      "type": "module",
+                      "displayName": "Authorization action codes"
+                    }
+                  ],
+                  "type": "module",
+                  "displayName": "Authorization constants"
                 }
               ],
               "type": "module",

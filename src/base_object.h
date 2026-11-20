@@ -85,6 +85,11 @@ class BaseObject : public MemoryRetainer {
   static inline BaseObject* FromJSObject(v8::Local<v8::Value> object);
   template <typename T>
   static inline T* FromJSObject(v8::Local<v8::Value> object);
+  // Global alias for FromJSObject() to avoid churn.
+  template <typename T>
+  static inline T* Unwrap(v8::Local<v8::Value> obj) {
+    return BaseObject::FromJSObject<T>(obj);
+  }
 
   // Make the `v8::Global` a weak reference and, `delete` this object once
   // the JS object has been garbage collected and there are no (strong)
@@ -100,15 +105,13 @@ class BaseObject : public MemoryRetainer {
   // to it anymore.
   inline bool IsWeakOrDetached() const;
 
-  inline v8::EmbedderGraph::Node::Detachedness GetDetachedness() const override;
-
   // Utility to create a FunctionTemplate with one internal field (used for
   // the `BaseObject*` pointer) and a constructor that initializes that field
   // to `nullptr`.
   static v8::Local<v8::FunctionTemplate> MakeLazilyInitializedJSTemplate(
-      IsolateData* isolate);
+      IsolateData* isolate, int internal_field_count = kInternalFieldCount);
   static v8::Local<v8::FunctionTemplate> MakeLazilyInitializedJSTemplate(
-      Environment* env);
+      Environment* env, int internal_field_count = kInternalFieldCount);
 
   // Setter/Getter pair for internal fields that can be passed to SetAccessor.
   template <int Field>
@@ -182,7 +185,6 @@ class BaseObject : public MemoryRetainer {
 
  private:
   v8::Local<v8::Object> WrappedObject() const override;
-  bool IsRootNode() const override;
   void DeleteMe();
 
   // persistent_handle_ needs to be at a fixed offset from the start of the
@@ -243,12 +245,6 @@ class BaseObjectList
   SET_SELF_SIZE(BaseObjectList)
   void MemoryInfo(node::MemoryTracker* tracker) const override;
 };
-
-// Global alias for FromJSObject() to avoid churn.
-template <typename T>
-inline T* Unwrap(v8::Local<v8::Value> obj) {
-  return BaseObject::FromJSObject<T>(obj);
-}
 
 #define ASSIGN_OR_RETURN_UNWRAP(ptr, obj, ...)                                 \
   do {                                                                         \

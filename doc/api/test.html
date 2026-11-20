@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Test runner | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Test runner | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:494px){.with-34-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:534px){.with-39-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:1064px){.with-71-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:686px){.with-58-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:598px){.with-47-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:670px){.with-56-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:494px){.with-34-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:518px){.with-37-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:1064px){.with-71-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:686px){.with-58-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:598px){.with-47-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:670px){.with-56-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-test">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="test" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -139,16 +139,32 @@
 <li><span class="stability_2"><a href="#test-runner">Test runner</a></span>
 <ul>
 <li><a href="#subtests">Subtests</a></li>
+<li><a href="#rerunning-failed-tests">Rerunning failed tests</a></li>
+<li><a href="#describe-and-it-aliases"><code>describe()</code> and <code>it()</code> aliases</a></li>
 <li><a href="#skipping-tests">Skipping tests</a></li>
 <li><a href="#todo-tests">TODO tests</a></li>
-<li><a href="#describe-and-it-aliases"><code>describe()</code> and <code>it()</code> aliases</a></li>
+<li><a href="#expecting-tests-to-fail">Expecting tests to fail</a></li>
 <li><a href="#only-tests"><code>only</code> tests</a></li>
 <li><a href="#filtering-tests-by-name">Filtering tests by name</a></li>
+<li><span class="stability_1.0"><a href="#test-tags">Test tags</a></span>
+<ul>
+<li><a href="#authoring-tagged-tests">Authoring tagged tests</a></li>
+<li><a href="#filtering-by-tag">Filtering by tag</a></li>
+<li><a href="#reading-tags-from-inside-a-test">Reading tags from inside a test</a></li>
+<li><a href="#errors">Errors</a></li>
+</ul>
+</li>
 <li><a href="#extraneous-asynchronous-activity">Extraneous asynchronous activity</a></li>
 <li><span class="stability_1"><a href="#watch-mode">Watch mode</a></span></li>
+<li><span class="stability_1.0"><a href="#global-setup-and-teardown">Global setup and teardown</a></span></li>
 <li><a href="#running-tests-from-the-command-line">Running tests from the command line</a>
 <ul>
-<li><a href="#test-runner-execution-model">Test runner execution model</a></li>
+<li><span class="stability_1.0"><a href="#randomizing-tests-execution-order">Randomizing tests execution order</a></span></li>
+<li><a href="#test-runner-execution-model">Test runner execution model</a>
+<ul>
+<li><a href="#child-process-option-inheritance">Child process option inheritance</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#collecting-code-coverage">Collecting code coverage</a></span>
@@ -242,7 +258,7 @@
 <li><a href="#mocksetterobject-methodname-implementation-options"><code>mock.setter(object, methodName[, implementation][, options])</code></a></li>
 </ul>
 </li>
-<li><span class="stability_1"><a href="#class-mocktimers">Class: <code>MockTimers</code></a></span>
+<li><a href="#class-mocktimers">Class: <code>MockTimers</code></a>
 <ul>
 <li><a href="#timersenableenableoptions"><code>timers.enable([enableOptions])</code></a></li>
 <li><a href="#timersreset"><code>timers.reset()</code></a></li>
@@ -269,6 +285,7 @@
 <li><a href="#event-testdiagnostic">Event: <code>'test:diagnostic'</code></a></li>
 <li><a href="#event-testenqueue">Event: <code>'test:enqueue'</code></a></li>
 <li><a href="#event-testfail">Event: <code>'test:fail'</code></a></li>
+<li><a href="#event-testinterrupted">Event: <code>'test:interrupted'</code></a></li>
 <li><a href="#event-testpass">Event: <code>'test:pass'</code></a></li>
 <li><a href="#event-testplan">Event: <code>'test:plan'</code></a></li>
 <li><a href="#event-teststart">Event: <code>'test:start'</code></a></li>
@@ -276,6 +293,20 @@
 <li><a href="#event-teststdout">Event: <code>'test:stdout'</code></a></li>
 <li><a href="#event-testsummary">Event: <code>'test:summary'</code></a></li>
 <li><a href="#event-testwatchdrained">Event: <code>'test:watch:drained'</code></a></li>
+<li><a href="#event-testwatchrestarted">Event: <code>'test:watch:restarted'</code></a></li>
+</ul>
+</li>
+<li><a href="#gettestcontext"><code>getTestContext()</code></a></li>
+<li><a href="#test-instrumentation-and-opentelemetry">Test instrumentation and OpenTelemetry</a>
+<ul>
+<li><a href="#tracing-events">Tracing events</a>
+<ul>
+<li><a href="#channel-tracingnodeteststart">Channel: <code>'tracing:node.test:start'</code></a></li>
+<li><a href="#channel-tracingnodetestend">Channel: <code>'tracing:node.test:end'</code></a></li>
+<li><a href="#channel-tracingnodetesterror">Channel: <code>'tracing:node.test:error'</code></a></li>
+</ul>
+</li>
+<li><a href="#context-propagation-with-bindstore">Context propagation with <code>bindStore()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-testcontext">Class: <code>TestContext</code></a>
@@ -297,6 +328,8 @@
 <li><a href="#contextpassed"><code>context.passed</code></a></li>
 <li><a href="#contexterror"><code>context.error</code></a></li>
 <li><a href="#contextattempt"><code>context.attempt</code></a></li>
+<li><span class="stability_1.0"><a href="#contexttags"><code>context.tags</code></a></span></li>
+<li><a href="#contextworkerid"><code>context.workerId</code></a></li>
 <li><a href="#contextplancountoptions"><code>context.plan(count[,options])</code></a></li>
 <li><a href="#contextrunonlyshouldrunonlytests"><code>context.runOnly(shouldRunOnlyTests)</code></a></li>
 <li><a href="#contextsignal"><code>context.signal</code></a></li>
@@ -312,6 +345,9 @@
 <li><a href="#contextfullname_1"><code>context.fullName</code></a></li>
 <li><a href="#contextname_1"><code>context.name</code></a></li>
 <li><a href="#contextsignal_1"><code>context.signal</code></a></li>
+<li><a href="#contextpassed_1"><code>context.passed</code></a></li>
+<li><a href="#contextattempt_1"><code>context.attempt</code></a></li>
+<li><a href="#contextdiagnosticmessage_1"><code>context.diagnostic(message)</code></a></li>
 </ul>
 </li>
 </ul>
@@ -450,16 +486,32 @@
 <li><span class="stability_2"><a href="#test-runner">Test runner</a></span>
 <ul>
 <li><a href="#subtests">Subtests</a></li>
+<li><a href="#rerunning-failed-tests">Rerunning failed tests</a></li>
+<li><a href="#describe-and-it-aliases"><code>describe()</code> and <code>it()</code> aliases</a></li>
 <li><a href="#skipping-tests">Skipping tests</a></li>
 <li><a href="#todo-tests">TODO tests</a></li>
-<li><a href="#describe-and-it-aliases"><code>describe()</code> and <code>it()</code> aliases</a></li>
+<li><a href="#expecting-tests-to-fail">Expecting tests to fail</a></li>
 <li><a href="#only-tests"><code>only</code> tests</a></li>
 <li><a href="#filtering-tests-by-name">Filtering tests by name</a></li>
+<li><span class="stability_1.0"><a href="#test-tags">Test tags</a></span>
+<ul>
+<li><a href="#authoring-tagged-tests">Authoring tagged tests</a></li>
+<li><a href="#filtering-by-tag">Filtering by tag</a></li>
+<li><a href="#reading-tags-from-inside-a-test">Reading tags from inside a test</a></li>
+<li><a href="#errors">Errors</a></li>
+</ul>
+</li>
 <li><a href="#extraneous-asynchronous-activity">Extraneous asynchronous activity</a></li>
 <li><span class="stability_1"><a href="#watch-mode">Watch mode</a></span></li>
+<li><span class="stability_1.0"><a href="#global-setup-and-teardown">Global setup and teardown</a></span></li>
 <li><a href="#running-tests-from-the-command-line">Running tests from the command line</a>
 <ul>
-<li><a href="#test-runner-execution-model">Test runner execution model</a></li>
+<li><span class="stability_1.0"><a href="#randomizing-tests-execution-order">Randomizing tests execution order</a></span></li>
+<li><a href="#test-runner-execution-model">Test runner execution model</a>
+<ul>
+<li><a href="#child-process-option-inheritance">Child process option inheritance</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#collecting-code-coverage">Collecting code coverage</a></span>
@@ -553,7 +605,7 @@
 <li><a href="#mocksetterobject-methodname-implementation-options"><code>mock.setter(object, methodName[, implementation][, options])</code></a></li>
 </ul>
 </li>
-<li><span class="stability_1"><a href="#class-mocktimers">Class: <code>MockTimers</code></a></span>
+<li><a href="#class-mocktimers">Class: <code>MockTimers</code></a>
 <ul>
 <li><a href="#timersenableenableoptions"><code>timers.enable([enableOptions])</code></a></li>
 <li><a href="#timersreset"><code>timers.reset()</code></a></li>
@@ -580,6 +632,7 @@
 <li><a href="#event-testdiagnostic">Event: <code>'test:diagnostic'</code></a></li>
 <li><a href="#event-testenqueue">Event: <code>'test:enqueue'</code></a></li>
 <li><a href="#event-testfail">Event: <code>'test:fail'</code></a></li>
+<li><a href="#event-testinterrupted">Event: <code>'test:interrupted'</code></a></li>
 <li><a href="#event-testpass">Event: <code>'test:pass'</code></a></li>
 <li><a href="#event-testplan">Event: <code>'test:plan'</code></a></li>
 <li><a href="#event-teststart">Event: <code>'test:start'</code></a></li>
@@ -587,6 +640,20 @@
 <li><a href="#event-teststdout">Event: <code>'test:stdout'</code></a></li>
 <li><a href="#event-testsummary">Event: <code>'test:summary'</code></a></li>
 <li><a href="#event-testwatchdrained">Event: <code>'test:watch:drained'</code></a></li>
+<li><a href="#event-testwatchrestarted">Event: <code>'test:watch:restarted'</code></a></li>
+</ul>
+</li>
+<li><a href="#gettestcontext"><code>getTestContext()</code></a></li>
+<li><a href="#test-instrumentation-and-opentelemetry">Test instrumentation and OpenTelemetry</a>
+<ul>
+<li><a href="#tracing-events">Tracing events</a>
+<ul>
+<li><a href="#channel-tracingnodeteststart">Channel: <code>'tracing:node.test:start'</code></a></li>
+<li><a href="#channel-tracingnodetestend">Channel: <code>'tracing:node.test:end'</code></a></li>
+<li><a href="#channel-tracingnodetesterror">Channel: <code>'tracing:node.test:error'</code></a></li>
+</ul>
+</li>
+<li><a href="#context-propagation-with-bindstore">Context propagation with <code>bindStore()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-testcontext">Class: <code>TestContext</code></a>
@@ -608,6 +675,8 @@
 <li><a href="#contextpassed"><code>context.passed</code></a></li>
 <li><a href="#contexterror"><code>context.error</code></a></li>
 <li><a href="#contextattempt"><code>context.attempt</code></a></li>
+<li><span class="stability_1.0"><a href="#contexttags"><code>context.tags</code></a></span></li>
+<li><a href="#contextworkerid"><code>context.workerId</code></a></li>
 <li><a href="#contextplancountoptions"><code>context.plan(count[,options])</code></a></li>
 <li><a href="#contextrunonlyshouldrunonlytests"><code>context.runOnly(shouldRunOnlyTests)</code></a></li>
 <li><a href="#contextsignal"><code>context.signal</code></a></li>
@@ -623,6 +692,9 @@
 <li><a href="#contextfullname_1"><code>context.fullName</code></a></li>
 <li><a href="#contextname_1"><code>context.name</code></a></li>
 <li><a href="#contextsignal_1"><code>context.signal</code></a></li>
+<li><a href="#contextpassed_1"><code>context.passed</code></a></li>
+<li><a href="#contextattempt_1"><code>context.attempt</code></a></li>
+<li><a href="#contextdiagnosticmessage_1"><code>context.diagnostic(message)</code></a></li>
 </ul>
 </li>
 </ul>
@@ -644,7 +716,7 @@
 </details>
 </div>
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/test.js">lib/test.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/test.js">lib/test.js</a></p>
 <p>The <code>node:test</code> module facilitates the creation of JavaScript tests.
 To access it:</p>
 
@@ -736,6 +808,57 @@ complete, unlike tests created within suites.
 Any subtests that are still outstanding when their parent finishes
 are cancelled and treated as failures. Any subtest failures cause the parent
 test to fail.</p>
+</section><section><h3>Rerunning failed tests<span><a class="mark" href="#rerunning-failed-tests" id="rerunning-failed-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_rerunning_failed_tests"></a></h3>
+<p>The test runner supports persisting the state of the run to a file, allowing
+the test runner to rerun failed tests without having to re-run the entire test suite.
+Use the <a href="cli.html#--test-rerun-failures"><code>--test-rerun-failures</code></a> command-line option to specify a file path where the
+state of the run is stored. if the state file does not exist, the test runner will
+create it.
+the state file is a JSON file that contains an array of run attempts.
+Each run attempt is an object mapping successful tests to the attempt they have passed in.
+The key identifying a test in this map is the test file path, with the line and column where the test is defined.
+in a case where a test defined in a specific location is run multiple times,
+for example within a function or a loop,
+a counter will be appended to the key, to disambiguate the test runs.
+note changing the order of test execution or the location of a test can lead the test runner
+to consider tests as passed on a previous attempt,
+meaning <code>--test-rerun-failures</code> should be used when tests run in a deterministic order.</p>
+<p>example of a state file:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">[</span>
+  <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"test.js:10:5"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"passed_on_attempt"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"test 1"</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"test.js:10:5"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"passed_on_attempt"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"test 1"</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"test.js:20:5"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"passed_on_attempt"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"test 2"</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">]</span></code> <button class="copy-button">copy</button></pre>
+<p>in this example, there are two run attempts, with two tests defined in <code>test.js</code>,
+the first test succeeded on the first attempt, and the second test succeeded on the second attempt.</p>
+<p>When the <code>--test-rerun-failures</code> option is used, the test runner will only run tests that have not yet passed.</p>
+<pre><code class="language-bash">node --test-rerun-failures /path/to/state/file</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>describe()</code> and <code>it()</code> aliases<span><a class="mark" href="#describe-and-it-aliases" id="describe-and-it-aliases">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_and_it_aliases"></a></h3>
+<p>Suites and tests can also be written using the <code>describe()</code> and <code>it()</code>
+functions. <a href="#describename-options-fn"><code>describe()</code></a> is an alias for <a href="#suitename-options-fn"><code>suite()</code></a>, and <a href="#itname-options-fn"><code>it()</code></a> is an
+alias for <a href="#testname-options-fn"><code>test()</code></a>.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'A thing'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  });
+
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should be ok'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
+  });
+
+  <span class="hljs-title function_">describe</span>(<span class="hljs-string">'a nested thing'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
+      assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+    });
+  });
+});</code> <button class="copy-button">copy</button></pre>
+<p><code>describe()</code> and <code>it()</code> are imported from the <code>node:test</code> module.</p>
+
+<pre class="with-46-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { describe, it } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { describe, it } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);</code><button class="copy-button">copy</button></pre>
 </section><section><h3>Skipping tests<span><a class="mark" href="#skipping-tests" id="skipping-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_skipping_tests"></a></h3>
 <p>Individual tests can be skipped by passing the <code>skip</code> option to the test, or by
 calling the test context's <code>skip()</code> method as shown in the
@@ -785,28 +908,72 @@ as both TODO and skipped, the TODO option is ignored.</p>
   t.<span class="hljs-title function_">todo</span>(<span class="hljs-string">'this is a todo test and is not treated as a failure'</span>);
   <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'this does not fail the test'</span>);
 });</code> <button class="copy-button">copy</button></pre>
-</section><section><h3><code>describe()</code> and <code>it()</code> aliases<span><a class="mark" href="#describe-and-it-aliases" id="describe-and-it-aliases">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_and_it_aliases"></a></h3>
-<p>Suites and tests can also be written using the <code>describe()</code> and <code>it()</code>
-functions. <a href="#describename-options-fn"><code>describe()</code></a> is an alias for <a href="#suitename-options-fn"><code>suite()</code></a>, and <a href="#itname-options-fn"><code>it()</code></a> is an
-alias for <a href="#testname-options-fn"><code>test()</code></a>.</p>
-<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'A thing'</span>, <span class="hljs-function">() =></span> {
-  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
-  });
+</section><section><h3>Expecting tests to fail<span><a class="mark" href="#expecting-tests-to-fail" id="expecting-tests-to-fail">#</a></span><a aria-hidden="true" class="legacy" id="test_expecting_tests_to_fail"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.14.0</span>
+</div>
+<p>This flips the pass/fail reporting for a specific test or suite: a flagged test
+case must throw in order to pass, and a flagged test case that does not throw
+fails.</p>
+<p>In each of the following, <code>doTheThing()</code> fails to return <code>true</code>, but since the
+tests are flagged <code>expectFailure</code>, they pass.</p>
+<pre><code class="language-js">it.<span class="hljs-title function_">expectFailure</span>(<span class="hljs-string">'should do the thing'</span>, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});
 
-  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should be ok'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
-  });
+<span class="hljs-title function_">it</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">expectFailure</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});
 
-  <span class="hljs-title function_">describe</span>(<span class="hljs-string">'a nested thing'</span>, <span class="hljs-function">() =></span> {
-    <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
-      assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
-    });
-  });
+<span class="hljs-title function_">it</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">expectFailure</span>: <span class="hljs-string">'feature not implemented'</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
 });</code> <button class="copy-button">copy</button></pre>
-<p><code>describe()</code> and <code>it()</code> are imported from the <code>node:test</code> module.</p>
+<p>If the value of <code>expectFailure</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" class="type">&#x3C;RegExp></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a>
+the tests will pass only if they throw a matching value.
+See <a href="assert.html#assertthrowsfn-error-message"><code>assert.throws</code></a> for how each value type is handled.</p>
+<p>Each of the following tests fails <em>despite</em> being flagged <code>expectFailure</code>
+because the failure does not match the specific <strong>expected</strong> failure.</p>
+<pre><code class="language-js"><span class="hljs-title function_">it</span>(<span class="hljs-string">'fails because regex does not match'</span>, {
+  <span class="hljs-attr">expectFailure</span>: <span class="hljs-regexp">/expected message/</span>,
+}, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'different message'</span>);
+});
 
-<pre class="with-46-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { describe, it } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { describe, it } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);</code><button class="copy-button">copy</button></pre>
+<span class="hljs-title function_">it</span>(<span class="hljs-string">'fails because object matcher does not match'</span>, {
+  <span class="hljs-attr">expectFailure</span>: { <span class="hljs-attr">code</span>: <span class="hljs-string">'ERR_EXPECTED'</span> },
+}, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> err = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'boom'</span>);
+  err.<span class="hljs-property">code</span> = <span class="hljs-string">'ERR_ACTUAL'</span>;
+  <span class="hljs-keyword">throw</span> err;
+});</code> <button class="copy-button">copy</button></pre>
+<p>To supply both a reason and specific error for <code>expectFailure</code>, use <code>{ label, match }</code>.</p>
+<pre><code class="language-js"><span class="hljs-title function_">it</span>(<span class="hljs-string">'should fail with specific error and reason'</span>, {
+  <span class="hljs-attr">expectFailure</span>: {
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'reason for failure'</span>,
+    <span class="hljs-attr">match</span>: <span class="hljs-regexp">/error message/</span>,
+  },
+}, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p><code>skip</code> and/or <code>todo</code> are mutually exclusive to <code>expectFailure</code>, and <code>skip</code> or <code>todo</code>
+will "win" when both are applied (<code>skip</code> wins against both, and <code>todo</code> wins
+against <code>expectFailure</code>).</p>
+<p>These tests will be skipped (and not run):</p>
+<pre><code class="language-js">it.<span class="hljs-title function_">expectFailure</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">skip</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});
+
+it.<span class="hljs-title function_">skip</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">expectFailure</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p>These tests will be marked "todo" (silencing errors):</p>
+<pre><code class="language-js">it.<span class="hljs-title function_">expectFailure</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">todo</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});
+
+it.<span class="hljs-title function_">todo</span>(<span class="hljs-string">'should do the thing'</span>, { <span class="hljs-attr">expectFailure</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">() =></span> {
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title function_">doTheThing</span>(), <span class="hljs-literal">true</span>);
+});</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>only</code> tests<span><a class="mark" href="#only-tests" id="only-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_only_tests"></a></h3>
 <p>If Node.js is started with the <a href="cli.html#--test-only"><code>--test-only</code></a> command-line option, or test
 isolation is disabled, it is possible to skip all tests except for a selected
@@ -914,6 +1081,65 @@ only <code>some test</code> in <code>test 1</code>.</p>
 <p>Test name patterns do not change the set of files that the test runner executes.</p>
 <p>If both <code>--test-name-pattern</code> and <code>--test-skip-pattern</code> are supplied,
 tests must satisfy <strong>both</strong> requirements in order to be executed.</p>
+</section><section><h3>Test tags<span><a class="mark" href="#test-tags" id="test-tags">#</a></span><a aria-hidden="true" class="legacy" id="test_test_tags"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>Tags annotate tests and suites with arbitrary string labels. The
+<a href="cli.html#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter</code></a> CLI flag (or the <code>testTagFilters</code>
+option on <a href="#runoptions"><code>run()</code></a>) selects tests whose tag set contains every
+provided filter value.</p>
+<p>Tags are an alternative to encoding metadata into test names. They are
+useful for cross-cutting axes such as subsystem, speed bucket, flakiness,
+or environment, where a name pattern would be brittle.</p>
+<div>
+<h4>Authoring tagged tests<span><a class="mark" href="#authoring-tagged-tests" id="authoring-tagged-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_authoring_tagged_tests"></a></h4>
+<p>Pass a <code>tags</code> array on any of <code>test()</code>, <code>it()</code>, <code>suite()</code>, or <code>describe()</code>.
+Tags inherit from a suite to its child tests by union—a test inside a
+suite tagged <code>['db']</code> that declares its own <code>tags: ['integration']</code>
+effectively has both tags.</p>
+
+<pre class="with-46-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { describe, it } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">'database'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'db'</span>] }, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'reads a row'</span>);                                            <span class="hljs-comment">// tags: ['db']</span>
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'writes a row'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'integration'</span>] });                <span class="hljs-comment">// tags: ['db', 'integration']</span>
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'reconnects after disconnect'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'flaky'</span>] });       <span class="hljs-comment">// tags: ['db', 'flaky']</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { describe, it } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">'database'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'db'</span>] }, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'reads a row'</span>);                                            <span class="hljs-comment">// tags: ['db']</span>
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'writes a row'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'integration'</span>] });                <span class="hljs-comment">// tags: ['db', 'integration']</span>
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'reconnects after disconnect'</span>, { <span class="hljs-attr">tags</span>: [<span class="hljs-string">'flaky'</span>] });       <span class="hljs-comment">// tags: ['db', 'flaky']</span>
+});</code><button class="copy-button">copy</button></pre>
+<p>Tag values must be non-empty strings. Tags are matched case-insensitively;
+the canonical form is lowercase. Duplicates within a single <code>tags</code> array
+are collapsed on the lowercased form, preserving the first-seen
+declaration order.</p>
+<p>Hooks (<code>before</code>, <code>after</code>, <code>beforeEach</code>, <code>afterEach</code>) do not declare their
+own tags. They run as part of their owning suite, which carries the
+suite's tags.</p>
+</div><div>
+<h4>Filtering by tag<span><a class="mark" href="#filtering-by-tag" id="filtering-by-tag">#</a></span><a aria-hidden="true" class="legacy" id="test_filtering_by_tag"></a></h4>
+<p>Each <a href="cli.html#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter</code></a> value is a literal tag name. A
+test runs only when its tag set contains that name. The flag may be
+specified more than once; tests must match <strong>every</strong> filter to run. The
+same applies to the <code>testTagFilters</code> array on <a href="#runoptions"><code>run()</code></a>. Filters are
+case-insensitive and AND'd with <a href="cli.html#--test-name-pattern"><code>--test-name-pattern</code></a>,
+<a href="cli.html#--test-skip-pattern"><code>--test-skip-pattern</code></a>, and <code>.only</code> filtering.</p>
+<p>Untagged tests are excluded under any non-empty filter, since the filter
+requires the tag to be present.</p>
+</div><div>
+<h4>Reading tags from inside a test<span><a class="mark" href="#reading-tags-from-inside-a-test" id="reading-tags-from-inside-a-test">#</a></span><a aria-hidden="true" class="legacy" id="test_reading_tags_from_inside_a_test"></a></h4>
+<p>The <a href="#class-testcontext"><code>TestContext</code></a> object exposes the test's tags as a frozen array
+through <a href="#contexttags"><code>context.tags</code></a>, so tests can branch on their own metadata.</p>
+</div><div>
+<h4>Errors<span><a class="mark" href="#errors" id="errors">#</a></span><a aria-hidden="true" class="legacy" id="test_errors"></a></h4>
+<p>A tag value that violates the validation rules above throws
+<code>ERR_INVALID_ARG_VALUE</code> at the registration site, before any test runs.
+A non-array <code>tags</code> value throws <code>ERR_INVALID_ARG_TYPE</code>.</p>
+</div>
 </section><section><h3>Extraneous asynchronous activity<span><a class="mark" href="#extraneous-asynchronous-activity" id="extraneous-asynchronous-activity">#</a></span><a aria-hidden="true" class="legacy" id="test_extraneous_asynchronous_activity"></a></h3>
 <p>Once a test function finishes executing, the results are reported as quickly
 as possible while maintaining the order of the tests. However, it is possible
@@ -953,6 +1179,48 @@ warnings at the top level by the <a href="test.html#class-testsstream" class="ty
 their dependencies. When a change is detected, the test runner will
 rerun the tests affected by the change.
 The test runner will continue to run until the process is terminated.</p>
+</section><section><h3>Global setup and teardown<span><a class="mark" href="#global-setup-and-teardown" id="global-setup-and-teardown">#</a></span><a aria-hidden="true" class="legacy" id="test_global_setup_and_teardown"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>The test runner supports specifying a module that will be evaluated before all tests are executed and
+can be used to setup global state or fixtures for tests. This is useful for preparing resources or setting up
+shared state that is required by multiple tests.</p>
+<p>This module can export any of the following:</p>
+<ul>
+<li>A <code>globalSetup</code> function which runs once before all tests start</li>
+<li>A <code>globalTeardown</code> function which runs once after all tests complete</li>
+</ul>
+<p>The module is specified using the <code>--test-global-setup</code> flag when running tests from the command line.</p>
+
+<pre class="with-37-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-comment">// setup-module.js</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">globalSetup</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// Setup shared resources, state, or environment</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Global setup executed'</span>);
+  <span class="hljs-comment">// Run servers, create files, prepare databases, etc.</span>
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">globalTeardown</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// Clean up resources, state, or environment</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Global teardown executed'</span>);
+  <span class="hljs-comment">// Close servers, remove files, disconnect from databases, etc.</span>
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { globalSetup, globalTeardown };</code><code class="language-js mjs"><span class="hljs-comment">// setup-module.mjs</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">globalSetup</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// Setup shared resources, state, or environment</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Global setup executed'</span>);
+  <span class="hljs-comment">// Run servers, create files, prepare databases, etc.</span>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">globalTeardown</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// Clean up resources, state, or environment</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Global teardown executed'</span>);
+  <span class="hljs-comment">// Close servers, remove files, disconnect from databases, etc.</span>
+}</code><button class="copy-button">copy</button></pre>
+<p>If the global setup function throws an error, no tests will be run and the process will exit with a non-zero exit code.
+The global teardown function will not be called in this case.</p>
 </section><section><h3>Running tests from the command line<span><a class="mark" href="#running-tests-from-the-command-line" id="running-tests-from-the-command-line">#</a></span><a aria-hidden="true" class="legacy" id="test_running_tests_from_the_command_line"></a></h3>
 <p>The Node.js test runner can be invoked from the command line by passing the
 <a href="cli.html#--test"><code>--test</code></a> flag:</p>
@@ -966,7 +1234,7 @@ The test runner will continue to run until the process is terminated.</p>
 <li><code>**/test.{cjs,mjs,js}</code></li>
 <li><code>**/test/**/*.{cjs,mjs,js}</code></li>
 </ul>
-<p>Unless <a href="cli.html#--no-experimental-strip-types"><code>--no-experimental-strip-types</code></a> is supplied, the following
+<p>Unless <a href="cli.html#--no-strip-types"><code>--no-strip-types</code></a> is supplied, the following
 additional patterns are also matched:</p>
 <ul>
 <li><code>**/*.test.{cts,mts,ts}</code></li>
@@ -982,10 +1250,67 @@ Glob patterns follow the behavior of <a href="https://man7.org/linux/man-pages/m
 The glob patterns should be enclosed in double quotes on the command line to
 prevent shell expansion, which can reduce portability across systems.</p>
 <pre><code class="language-bash">node --<span class="hljs-built_in">test</span> <span class="hljs-string">"**/*.test.js"</span> <span class="hljs-string">"**/*.spec.js"</span></code> <button class="copy-button">copy</button></pre>
+<div>
+<h4>Randomizing tests execution order<span><a class="mark" href="#randomizing-tests-execution-order" id="randomizing-tests-execution-order">#</a></span><a aria-hidden="true" class="legacy" id="test_randomizing_tests_execution_order"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>The test runner can randomize execution order to help detect
+order-dependent tests. When enabled, the runner randomizes both discovered
+test files and queued tests within each file. Use <code>--test-randomize</code> to
+enable this mode.</p>
+<pre><code class="language-bash">node --<span class="hljs-built_in">test</span> --test-randomize</code> <button class="copy-button">copy</button></pre>
+<p>When randomization is enabled, the test runner prints the seed used for the run
+as a diagnostic message:</p>
+<pre><code class="language-text">Randomized test order seed: 12345</code> <button class="copy-button">copy</button></pre>
+<p>Use <code>--test-random-seed=&#x3C;number></code> to replay the same randomized order
+deterministically. Supplying <code>--test-random-seed</code> also enables randomization,
+so <code>--test-randomize</code> is optional when a seed is provided:</p>
+<pre><code class="language-bash">node --<span class="hljs-built_in">test</span> --test-random-seed=12345</code> <button class="copy-button">copy</button></pre>
+<p>In most test files, randomization works automatically. One important exception
+is when subtests are awaited one by one. In that pattern, each subtest starts
+only after the previous one finishes, so the runner keeps declaration order
+instead of randomizing it.</p>
+<p>Example: this runs sequentially and is <strong>not</strong> randomized.</p>
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'math'</span>, <span class="hljs-title function_">async</span> (t) => {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> name <span class="hljs-keyword">of</span> [<span class="hljs-string">'adds'</span>, <span class="hljs-string">'subtracts'</span>, <span class="hljs-string">'multiplies'</span>]) {
+    <span class="hljs-comment">// Sequentially awaiting each subtest preserves declaration order.</span>
+    <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(name, <span class="hljs-title function_">async</span> () => {});
+  }
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> test = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'math'</span>, <span class="hljs-title function_">async</span> (t) => {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> name <span class="hljs-keyword">of</span> [<span class="hljs-string">'adds'</span>, <span class="hljs-string">'subtracts'</span>, <span class="hljs-string">'multiplies'</span>]) {
+    <span class="hljs-comment">// Sequentially awaiting each subtest preserves declaration order.</span>
+    <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(name, <span class="hljs-title function_">async</span> () => {});
+  }
+});</code><button class="copy-button">copy</button></pre>
+<p>Using suite-style APIs such as <code>describe()</code>/<code>it()</code> or <code>suite()</code>/<code>test()</code>
+still allows randomization, because sibling tests are enqueued together.</p>
+<p>Example: this remains eligible for randomization.</p>
+
+<pre class="with-46-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { describe, it } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">'math'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'adds'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'subtracts'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'multiplies'</span>, <span class="hljs-function">() =></span> {});
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { describe, it } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">'math'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'adds'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'subtracts'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'multiplies'</span>, <span class="hljs-function">() =></span> {});
+});</code><button class="copy-button">copy</button></pre>
+<p><code>--test-randomize</code> and <code>--test-random-seed</code> are not supported with <code>--watch</code> mode.</p>
 <p>Matching files are executed as test files.
 More information on the test file execution can be found
 in the <a href="#test-runner-execution-model">test runner execution model</a> section.</p>
-<div>
+</div><div>
 <h4>Test runner execution model<span><a class="mark" href="#test-runner-execution-model" id="test-runner-execution-model">#</a></span><a aria-hidden="true" class="legacy" id="test_test_runner_execution_model"></a></h4>
 <p>When process-level test isolation is enabled, each matching test file is
 executed in a separate child process. The maximum number of child processes
@@ -1004,7 +1329,30 @@ are all run within the same context, it is possible for tests to interact with
 each other in ways that are not possible when isolation is enabled. For example,
 if a test relies on global state, it is possible for that state to be modified
 by a test originating from another file.</p>
-</div>
+<div>
+<h5>Child process option inheritance<span><a class="mark" href="#child-process-option-inheritance" id="child-process-option-inheritance">#</a></span><a aria-hidden="true" class="legacy" id="test_child_process_option_inheritance"></a></h5>
+<p>When running tests in process isolation mode (the default), spawned child processes
+inherit Node.js options from the parent process, including those specified in
+<a href="cli.html#--experimental-config-filepath---experimental-config-file">configuration files</a>. However, certain flags are filtered out to enable proper
+test runner functionality:</p>
+<ul>
+<li><code>--test</code> - Prevented to avoid recursive test execution</li>
+<li><code>--experimental-test-coverage</code> - Managed by the test runner</li>
+<li><code>--experimental-test-tag-filter</code> - Filter values are validated by the parent
+process and re-emitted to child processes</li>
+<li><code>--watch</code> - Watch mode is handled at the parent level</li>
+<li><code>--experimental-default-config-file</code> - Config file loading is handled by the parent</li>
+<li><code>--test-reporter</code> - Reporting is managed by the parent process</li>
+<li><code>--test-reporter-destination</code> - Output destinations are controlled by the parent</li>
+<li><code>--experimental-config-file</code> - Config file paths are managed by the parent</li>
+<li><code>--test-randomize</code> - Randomization is managed by the parent process and
+propagated to child processes</li>
+<li><code>--test-random-seed</code> - Randomization seed is managed by the parent process and
+propagated to child processes</li>
+</ul>
+<p>All other Node.js options from command line arguments, environment variables,
+and configuration files are inherited by the child processes.</p>
+</div></div>
 </section><section><h3>Collecting code coverage<span><a class="mark" href="#collecting-code-coverage" id="collecting-code-coverage">#</a></span><a aria-hidden="true" class="legacy" id="test_collecting_code_coverage"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>When Node.js is started with the <a href="cli.html#--experimental-test-coverage"><code>--experimental-test-coverage</code></a>
@@ -1013,8 +1361,10 @@ all tests have completed. If the <a href="cli.html#node_v8_coveragedir"><code>NO
 used to specify a code coverage directory, the generated V8 coverage files are
 written to that directory. Node.js core modules and files within
 <code>node_modules/</code> directories are, by default, not included in the coverage report.
-However, they can be explicitly included via the <a href="cli.html#--test-coverage-include"><code>--test-coverage-include</code></a> flag. If
-coverage is enabled, the coverage report is sent to any <a href="#test-reporters">test reporters</a> via
+However, they can be explicitly included via the <a href="cli.html#--test-coverage-include"><code>--test-coverage-include</code></a> flag.
+By default all the matching test files are excluded from the coverage report.
+Exclusions can be overridden by using the <a href="cli.html#--test-coverage-exclude"><code>--test-coverage-exclude</code></a> flag.
+If coverage is enabled, the coverage report is sent to any <a href="#test-reporters">test reporters</a> via
 the <code>'test:coverage'</code> event.</p>
 <p>Coverage can be disabled on a series of lines using the following
 comment syntax:</p>
@@ -1053,7 +1403,7 @@ object. The following example creates a spy on a function that adds two numbers
 together. The spy is then used to assert that the function was called as
 expected.</p>
 
-<pre class="with-39-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> assert <span class="hljs-keyword">from</span> <span class="hljs-string">'node:assert'</span>;
+<pre class="with-44-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> assert <span class="hljs-keyword">from</span> <span class="hljs-string">'node:assert'</span>;
 <span class="hljs-keyword">import</span> { mock, test } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
 
 <span class="hljs-title function_">test</span>(<span class="hljs-string">'spies on a function'</span>, <span class="hljs-function">() =></span> {
@@ -1072,8 +1422,7 @@ expected.</p>
 
   <span class="hljs-comment">// Reset the globally tracked mocks.</span>
   mock.<span class="hljs-title function_">reset</span>();
-});</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:assert'</span>);
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:assert'</span>);
 <span class="hljs-keyword">const</span> { mock, test } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);
 
 <span class="hljs-title function_">test</span>(<span class="hljs-string">'spies on a function'</span>, <span class="hljs-function">() =></span> {
@@ -1279,7 +1628,7 @@ integer, or another Date object.</p>
 });</code><button class="copy-button">copy</button></pre>
 <p>You can use the <code>.setTime()</code> method to manually move the mocked date to another
 time. This method only accepts a positive integer.</p>
-<p><strong>Note:</strong> This method will execute any mocked timers that are in the past
+<p><strong>Note:</strong> This method will <strong>not</strong> execute any mocked timers that are in the past
 from the new time.</p>
 <p>In the below example we are setting a new time for the mocked date.</p>
 
@@ -1308,14 +1657,13 @@ from the new time.</p>
   context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">tick</span>(<span class="hljs-number">200</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(), <span class="hljs-number">1200</span>);
 });</code><button class="copy-button">copy</button></pre>
-<p>If you have any timer that's set to run in the past, it will be executed as if
-the <code>.tick()</code> method has been called. This is useful if you want to test
-time-dependent functionality that's already in the past.</p>
+<p>Timers scheduled in the past will <strong>not</strong> run when you call <code>setTime()</code>. To execute those timers, you can use
+the <code>.tick()</code> method to move forward from the new time.</p>
 
 <pre class="with-38-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> assert <span class="hljs-keyword">from</span> <span class="hljs-string">'node:assert'</span>;
 <span class="hljs-keyword">import</span> { test } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
 
-<span class="hljs-title function_">test</span>(<span class="hljs-string">'runs timers as setTime passes ticks'</span>, <span class="hljs-function">(<span class="hljs-params">context</span>) =></span> {
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'setTime does not execute timers'</span>, <span class="hljs-function">(<span class="hljs-params">context</span>) =></span> {
   <span class="hljs-comment">// Optionally choose what to mock</span>
   context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">enable</span>({ <span class="hljs-attr">apis</span>: [<span class="hljs-string">'setTimeout'</span>, <span class="hljs-string">'Date'</span>] });
   <span class="hljs-keyword">const</span> fn = context.<span class="hljs-property">mock</span>.<span class="hljs-title function_">fn</span>();
@@ -1327,13 +1675,16 @@ time-dependent functionality that's already in the past.</p>
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(), <span class="hljs-number">800</span>);
 
   context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">setTime</span>(<span class="hljs-number">1200</span>);
-  <span class="hljs-comment">// Timer is executed as the time is now reached</span>
+  <span class="hljs-comment">// Timer is still not executed</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(fn.<span class="hljs-property">mock</span>.<span class="hljs-title function_">callCount</span>(), <span class="hljs-number">0</span>);
+  <span class="hljs-comment">// Advance in time to execute the timer</span>
+  context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">tick</span>(<span class="hljs-number">0</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(fn.<span class="hljs-property">mock</span>.<span class="hljs-title function_">callCount</span>(), <span class="hljs-number">1</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(), <span class="hljs-number">1200</span>);
 });</code><code class="language-js cjs"><span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:assert'</span>);
 <span class="hljs-keyword">const</span> { test } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);
 
-<span class="hljs-title function_">test</span>(<span class="hljs-string">'runs timers as setTime passes ticks'</span>, <span class="hljs-function">(<span class="hljs-params">context</span>) =></span> {
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'setTime does not execute timers'</span>, <span class="hljs-function">(<span class="hljs-params">context</span>) =></span> {
   <span class="hljs-comment">// Optionally choose what to mock</span>
   context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">enable</span>({ <span class="hljs-attr">apis</span>: [<span class="hljs-string">'setTimeout'</span>, <span class="hljs-string">'Date'</span>] });
   <span class="hljs-keyword">const</span> fn = context.<span class="hljs-property">mock</span>.<span class="hljs-title function_">fn</span>();
@@ -1345,7 +1696,10 @@ time-dependent functionality that's already in the past.</p>
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(), <span class="hljs-number">800</span>);
 
   context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">setTime</span>(<span class="hljs-number">1200</span>);
-  <span class="hljs-comment">// Timer is executed as the time is now reached</span>
+  <span class="hljs-comment">// Timer is still not executed</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(fn.<span class="hljs-property">mock</span>.<span class="hljs-title function_">callCount</span>(), <span class="hljs-number">0</span>);
+  <span class="hljs-comment">// Advance in time to execute the timer</span>
+  context.<span class="hljs-property">mock</span>.<span class="hljs-property">timers</span>.<span class="hljs-title function_">tick</span>(<span class="hljs-number">0</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(fn.<span class="hljs-property">mock</span>.<span class="hljs-title function_">callCount</span>(), <span class="hljs-number">1</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(), <span class="hljs-number">1200</span>);
 });</code><button class="copy-button">copy</button></pre>
@@ -1441,6 +1795,8 @@ same test.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>The default reporter on non-TTY stdout is changed from <code>tap</code> to <code>spec</code>, aligning with TTY stdout.</p></td></tr>
 <tr><td>v19.9.0, v18.17.0</td>
 <td><p>Reporters are now exposed at <code>node:test/reporters</code>.</p></td></tr>
 <tr><td>v19.6.0, v18.15.0</td>
@@ -1453,12 +1809,13 @@ flags for the test runner to use a specific reporter.</p>
 <p>The following built-reporters are supported:</p>
 <ul>
 <li>
-<p><code>tap</code>
-The <code>tap</code> reporter outputs the test results in the <a href="https://testanything.org/">TAP</a> format.</p>
+<p><code>spec</code>
+The <code>spec</code> reporter outputs the test results in a human-readable format. This
+is the default reporter.</p>
 </li>
 <li>
-<p><code>spec</code>
-The <code>spec</code> reporter outputs the test results in a human-readable format.</p>
+<p><code>tap</code>
+The <code>tap</code> reporter outputs the test results in the <a href="https://testanything.org/">TAP</a> format.</p>
 </li>
 <li>
 <p><code>dot</code>
@@ -1476,8 +1833,6 @@ The <code>lcov</code> reporter outputs test coverage when used with the
 <a href="cli.html#--experimental-test-coverage"><code>--experimental-test-coverage</code></a> flag.</p>
 </li>
 </ul>
-<p>When <code>stdout</code> is a <a href="tty.html">TTY</a>, the <code>spec</code> reporter is used by default.
-Otherwise, the <code>tap</code> reporter is used by default.</p>
 <p>The exact output of these reporters is subject to change between versions of
 Node.js, and should not be relied on programmatically. If programmatic access
 to the test runner's output is required, use the events emitted by the
@@ -1507,6 +1862,9 @@ Reporters should transform events emitted by a <a href="test.html#class-testsstr
         <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:drained'</span>:
         <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'test watch queue drained'</span>);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:restarted'</span>:
+        <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'test watch restarted due to file change'</span>);
         <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:start'</span>:
         <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">`test <span class="hljs-subst">${event.data.name}</span> started`</span>);
@@ -1549,6 +1907,9 @@ Reporters should transform events emitted by a <a href="test.html#class-testsstr
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:drained'</span>:
         <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'test watch queue drained'</span>);
         <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:restarted'</span>:
+        <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'test watch restarted due to file change'</span>);
+        <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:start'</span>:
         <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">`test <span class="hljs-subst">${event.data.name}</span> started`</span>);
         <span class="hljs-keyword">break</span>;
@@ -1590,6 +1951,9 @@ Reporters should transform events emitted by a <a href="test.html#class-testsstr
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:drained'</span>:
         <span class="hljs-keyword">yield</span> <span class="hljs-string">'test watch queue drained\n'</span>;
         <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:restarted'</span>:
+        <span class="hljs-keyword">yield</span> <span class="hljs-string">'test watch restarted due to file change\n'</span>;
+        <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:start'</span>:
         <span class="hljs-keyword">yield</span> <span class="hljs-string">`test <span class="hljs-subst">${event.data.name}</span> started\n`</span>;
         <span class="hljs-keyword">break</span>;
@@ -1625,6 +1989,9 @@ Reporters should transform events emitted by a <a href="test.html#class-testsstr
         <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:drained'</span>:
         <span class="hljs-keyword">yield</span> <span class="hljs-string">'test watch queue drained\n'</span>;
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'test:watch:restarted'</span>:
+        <span class="hljs-keyword">yield</span> <span class="hljs-string">'test watch restarted due to file change\n'</span>;
         <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">case</span> <span class="hljs-string">'test:start'</span>:
         <span class="hljs-keyword">yield</span> <span class="hljs-string">`test <span class="hljs-subst">${event.data.name}</span> started\n`</span>;
@@ -1673,13 +2040,21 @@ unless a destination is explicitly provided.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.10.0</td>
+<tr><td>v24.19.0</td>
+<td><p>Added the <code>testTagFilters</code> option.</p></td></tr>
+<tr><td>v24.14.0</td>
+<td><p>Add the <code>env</code> option.</p></td></tr>
+<tr><td>v24.7.0</td>
+<td><p>Added a rerunFailuresFilePath option.</p></td></tr>
+<tr><td>v23.0.0</td>
+<td><p>Added the <code>cwd</code> option.</p></td></tr>
+<tr><td>v23.0.0, v22.10.0</td>
 <td><p>Added coverage options.</p></td></tr>
 <tr><td>v22.8.0</td>
 <td><p>Added the <code>isolation</code> option.</p></td></tr>
 <tr><td>v22.6.0</td>
 <td><p>Added the <code>globPatterns</code> option.</p></td></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.14.0</td>
 <td><p>Added the <code>forceExit</code> option.</p></td></tr>
 <tr><td>v20.1.0, v18.17.0</td>
 <td><p>Add a testNamePatterns option.</p></td></tr>
@@ -1699,9 +2074,12 @@ If <code>true</code>, it would run <code>os.availableParallelism() - 1</code> te
 parallel.
 If <code>false</code>, it would only run one test file at a time.
 <strong>Default:</strong> <code>false</code>.</li>
-<li><code>files</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array containing the list of files to run.
+<li><code>cwd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Specifies the current working directory to be used by the test runner.
+Serves as the base path for resolving files as if <a href="#running-tests-from-the-command-line">running tests from the command line</a> from that directory.
+<strong>Default:</strong> <code>process.cwd()</code>.</li>
+<li><code>files</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array containing the list of files to run.
 <strong>Default:</strong> Same as <a href="#running-tests-from-the-command-line">running tests from the command line</a>.</li>
-<li><code>forceExit</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Configures the test runner to exit the process once
+<li><code>forceExit</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Configures the test runner to exit the process once
 all known tests have finished executing even if the event loop would
 otherwise remain active. <strong>Default:</strong> <code>false</code>.</li>
 <li><code>globPatterns</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array containing the list of glob patterns to
@@ -1741,6 +2119,10 @@ Test name patterns are interpreted as JavaScript regular expressions.
 For each test that is executed, any corresponding test hooks, such as
 <code>beforeEach()</code>, are also run.
 <strong>Default:</strong> <code>undefined</code>.</li>
+<li><code>testTagFilters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> A tag name, or an array of tag names,
+used to filter tests by their declared tags. Tests must contain every
+listed tag to run. Equivalent to passing <a href="cli.html#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter</code></a>
+on the command line. See <a href="#test-tags">Test tags</a>. <strong>Default:</strong> <code>undefined</code>.</li>
 <li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A number of milliseconds the test execution will
 fail after.
 If unspecified, subtests inherit this value from their parent.
@@ -1754,6 +2136,18 @@ that specifies the index of the shard to run. This option is <em>required</em>.<
 of shards to split the test files to. This option is <em>required</em>.</li>
 </ul>
 </li>
+<li><code>randomize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Randomize execution order for test files and queued tests.
+This option is not supported with <code>watch: true</code>.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>randomSeed</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Seed used when randomizing execution order. If this
+option is set, runs can replay the same randomized order deterministically,
+and setting this option also enables randomization. The value must be an
+integer between <code>0</code> and <code>4294967295</code>.
+<strong>Default:</strong> <code>undefined</code>.</li>
+<li><code>rerunFailuresFilePath</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A file path where the test runner will
+store the state of the tests to allow rerunning only the failed tests on a next run.
+see [Rerunning failed tests][] for more information.
+<strong>Default:</strong> <code>undefined</code>.</li>
 <li><code>coverage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> enable <a href="#collecting-code-coverage">code coverage</a> collection.
 <strong>Default:</strong> <code>false</code>.</li>
 <li><code>coverageExcludeGlobs</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> Excludes specific files from code coverage
@@ -1777,6 +2171,10 @@ coverage does not reach the threshold specified, the process will exit with code
 <li><code>functionCoverage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Require a minimum percent of covered functions. If code
 coverage does not reach the threshold specified, the process will exit with code <code>1</code>.
 <strong>Default:</strong> <code>0</code>.</li>
+<li><code>env</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Specify environment variables to be passed along to the test process.
+This option is not compatible with <code>isolation='none'</code>. These variables will override
+those from the main process, and are not merged with <code>process.env</code>.
+<strong>Default:</strong> <code>process.env</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="test.html#class-testsstream" class="type">&#x3C;TestsStream></a></li>
@@ -1808,7 +2206,7 @@ code iteration by automatically rerunning tests on file changes.</p>
  .<span class="hljs-title function_">pipe</span>(process.<span class="hljs-property">stdout</span>);</code><button class="copy-button">copy</button></pre>
 </section><section><h3><code>suite([name][, options][, fn])</code><span><a class="mark" href="#suitename-options-fn" id="suitename-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_suite_name_options_fn"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <ul>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the suite, which is displayed when reporting test
@@ -1824,19 +2222,19 @@ suites. The first argument to this function is a <a href="#class-suitecontext"><
 <p>The <code>suite()</code> function is imported from the <code>node:test</code> module.</p>
 </section><section><h3><code>suite.skip([name][, options][, fn])</code><span><a class="mark" href="#suiteskipname-options-fn" id="suiteskipname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_suite_skip_name_options_fn"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <p>Shorthand for skipping a suite. This is the same as
 <a href="#suitename-options-fn"><code>suite([name], { skip: true }[, fn])</code></a>.</p>
 </section><section><h3><code>suite.todo([name][, options][, fn])</code><span><a class="mark" href="#suitetodoname-options-fn" id="suitetodoname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_suite_todo_name_options_fn"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <p>Shorthand for marking a suite as <code>TODO</code>. This is the same as
 <a href="#suitename-options-fn"><code>suite([name], { todo: true }[, fn])</code></a>.</p>
 </section><section><h3><code>suite.only([name][, options][, fn])</code><span><a class="mark" href="#suiteonlyname-options-fn" id="suiteonlyname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_suite_only_name_options_fn"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <p>Shorthand for marking a suite as <code>only</code>. This is the same as
 <a href="#suitename-options-fn"><code>suite([name], { only: true }[, fn])</code></a>.</p>
@@ -1845,6 +2243,8 @@ suites. The first argument to this function is a <a href="#class-suitecontext"><
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added the <code>tags</code> option.</p></td></tr>
 <tr><td>v20.2.0, v18.17.0</td>
 <td><p>Added the <code>skip</code>, <code>todo</code>, and <code>only</code> shorthands.</p></td></tr>
 <tr><td>v18.8.0, v16.18.0</td>
@@ -1869,6 +2269,14 @@ If <code>true</code>, all scheduled asynchronous tests run concurrently within t
 thread. If <code>false</code>, only one test runs at a time.
 If unspecified, subtests inherit this value from their parent.
 <strong>Default:</strong> <code>false</code>.</li>
+<li><code>expectFailure</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" class="type">&#x3C;RegExp></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a> If truthy, the
+test is expected to fail. If a non-empty string is provided, that string is displayed
+in the test results as the reason why the test is expected to fail. If a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp" class="type">&#x3C;RegExp></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a>
+is provided directly (without wrapping in <code>{ match: … }</code>), the test passes
+only if the thrown error matches, following the behavior of
+<a href="assert.html#assertthrowsfn-error-message"><code>assert.throws</code></a>. To provide both a reason and validation, pass an object
+with <code>label</code> (string) and <code>match</code> (RegExp, Function, Object, or Error).
+<strong>Default:</strong> <code>false</code>.</li>
 <li><code>only</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If truthy, and the test context is configured to run
 <code>only</code> tests, then this test will be run. Otherwise, the test is skipped.
 <strong>Default:</strong> <code>false</code>.</li>
@@ -1876,6 +2284,10 @@ If unspecified, subtests inherit this value from their parent.
 <li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> If truthy, the test is skipped. If a string is
 provided, that string is displayed in the test results as the reason for
 skipping the test. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> An array of string labels associated with the test.
+Used together with <a href="cli.html#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter</code></a> to filter which
+tests run. Tags inherit from suites to nested tests by union. See
+<a href="#test-tags">Test tags</a>. <strong>Default:</strong> <code>[]</code>.</li>
 <li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> If truthy, the test marked as <code>TODO</code>. If a string
 is provided, that string is displayed in the test results as the reason why
 the test is <code>TODO</code>. <strong>Default:</strong> <code>false</code>.</li>
@@ -1993,7 +2405,7 @@ If unspecified, subtests inherit this value from their parent.
 <pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-title function_">async</span> () => {
   <span class="hljs-title function_">before</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'about to run some test'</span>));
   <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    <span class="hljs-comment">// Some relevant assertions here</span>
   });
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>after([fn][, options])</code><span><a class="mark" href="#afterfn-options" id="afterfn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_after_fn_options"></a></h3>
@@ -2019,7 +2431,7 @@ If unspecified, subtests inherit this value from their parent.
 <pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-title function_">async</span> () => {
   <span class="hljs-title function_">after</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'finished running tests'</span>));
   <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    <span class="hljs-comment">// Some relevant assertion here</span>
   });
 });</code> <button class="copy-button">copy</button></pre>
 <p><strong>Note:</strong> The <code>after</code> hook is guaranteed to run,
@@ -2047,7 +2459,7 @@ If unspecified, subtests inherit this value from their parent.
 <pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-title function_">async</span> () => {
   <span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'about to run a test'</span>));
   <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    <span class="hljs-comment">// Some relevant assertion here</span>
   });
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>afterEach([fn][, options])</code><span><a class="mark" href="#aftereachfn-options" id="aftereachfn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_aftereach_fn_options"></a></h3>
@@ -2074,12 +2486,12 @@ The <code>afterEach()</code> hook is run even if the test fails.</p>
 <pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-title function_">async</span> () => {
   <span class="hljs-title function_">afterEach</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'finished running a test'</span>));
   <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
-    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    <span class="hljs-comment">// Some relevant assertion here</span>
   });
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>assert</code><span><a class="mark" href="#assert" id="assert">#</a></span><a aria-hidden="true" class="legacy" id="test_assert"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.14.0</span>
+<span>Added in: v23.7.0, v22.14.0</span>
 </div>
 <p>An object whose methods are used to configure available assertions on the
 <code>TestContext</code> objects in the current process. The methods from <code>node:assert</code>
@@ -2090,7 +2502,7 @@ preloaded with <code>--require</code> or <code>--import</code>.</p>
 <div>
 <h4><code>assert.register(name, fn)</code><span><a class="mark" href="#assertregistername-fn" id="assertregistername-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_assert_register_name_fn"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.14.0</span>
+<span>Added in: v23.7.0, v22.14.0</span>
 </div>
 <p>Defines a new assertion function with the provided name and function. If an
 assertion already exists with the same name, it is overwritten.</p>
@@ -2259,7 +2671,7 @@ mock can still be used after calling this function.</p>
 </div>
 </section><section><h3>Class: <code>MockModuleContext</code><span><a class="mark" href="#class-mockmodulecontext" id="class-mockmodulecontext">#</a></span><a aria-hidden="true" class="legacy" id="test_class_mockmodulecontext"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.18.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
 <p>The <code>MockModuleContext</code> class is used to manipulate the behavior of module mocks
@@ -2267,20 +2679,20 @@ created via the <a href="#class-mocktracker"><code>MockTracker</code></a> APIs.<
 <div>
 <h4><code>ctx.restore()</code><span><a class="mark" href="#ctxrestore_1" id="ctxrestore_1">#</a></span><a aria-hidden="true" class="legacy" id="test_ctx_restore_1"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.18.0</span>
 </div>
 <p>Resets the implementation of the mock module.</p>
 </div>
 </section><section><h3>Class: <code>MockPropertyContext</code><span><a class="mark" href="#class-mockpropertycontext" id="class-mockpropertycontext">#</a></span><a aria-hidden="true" class="legacy" id="test_class_mockpropertycontext"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.3.0</span>
 </div>
 <p>The <code>MockPropertyContext</code> class is used to inspect or manipulate the behavior
 of property mocks created via the <a href="#class-mocktracker"><code>MockTracker</code></a> APIs.</p>
 <div>
 <h4><code>ctx.accesses</code><span><a class="mark" href="#ctxaccesses" id="ctxaccesses">#</a></span><a aria-hidden="true" class="legacy" id="test_ctx_accesses"></a></h4>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a></li>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a></li>
 </ul>
 <p>A getter that returns a copy of the internal array used to track accesses (get/set) to
 the mocked property. Each entry in the array is an object with the following properties:</p>
@@ -2467,10 +2879,10 @@ method.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Support JSON modules.</p></td></tr>
-<tr><td>v22.3.0</td>
-<td><p><span>Added in: v22.3.0</span></p></td></tr>
+<tr><td>v22.3.0, v20.18.0</td>
+<td><p><span>Added in: v22.3.0, v20.18.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
@@ -2484,16 +2896,35 @@ following properties are supported:
 generates a new mock module. If <code>true</code>, subsequent calls will return the same
 module mock, and the mock module is inserted into the CommonJS cache.
 <strong>Default:</strong> false.</li>
+<li><code>exports</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Optional mocked exports. The <code>default</code> property, if
+provided, is used as the mocked module's default export. All other own
+enumerable properties are used as named exports.
+<strong>This option cannot be used with <code>defaultExport</code> or <code>namedExports</code>.</strong>
+<ul>
+<li>If the mock is a CommonJS or builtin module, <code>exports.default</code> is used as
+the value of <code>module.exports</code>.</li>
+<li>If <code>exports.default</code> is not provided for a CommonJS or builtin mock,
+<code>module.exports</code> defaults to an empty object.</li>
+<li>If named exports are provided with a non-object default export, the mock
+throws an exception when used as a CommonJS or builtin module.</li>
+</ul>
+</li>
 <li><code>defaultExport</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> An optional value used as the mocked module's default
 export. If this value is not provided, ESM mocks do not include a default
 export. If the mock is a CommonJS or builtin module, this setting is used as
 the value of <code>module.exports</code>. If this value is not provided, CJS and builtin
-mocks use an empty object as the value of <code>module.exports</code>.</li>
+mocks use an empty object as the value of <code>module.exports</code>.
+<strong>This option cannot be used with <code>options.exports</code>.</strong>
+This option is deprecated and will be removed in a later version.
+Prefer <code>options.exports.default</code>.</li>
 <li><code>namedExports</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An optional object whose keys and values are used to
 create the named exports of the mock module. If the mock is a CommonJS or
 builtin module, these values are copied onto <code>module.exports</code>. Therefore, if a
 mock is created with both named exports and a non-object default export, the
-mock will throw an exception when used as a CJS or builtin module.</li>
+mock will throw an exception when used as a CJS or builtin module.
+<strong>This option cannot be used with <code>options.exports</code>.</strong>
+This option is deprecated and will be removed in a later version.
+Prefer <code>options.exports</code>.</li>
 </ul>
 </li>
 <li>Returns: <a href="test.html#class-mockmodulecontext" class="type">&#x3C;MockModuleContext></a> An object that can be used to manipulate the mock.</li>
@@ -2508,10 +2939,10 @@ API are currently ignored (because the test runner's loader is synchronous, and 
 support multi-chain / cross-chain loading).</p>
 <p>The following example demonstrates how a mock is created for a module.</p>
 <pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'mocks a builtin module in both module systems'</span>, <span class="hljs-title function_">async</span> (t) => {
-  <span class="hljs-comment">// Create a mock of 'node:readline' with a named export named 'fn', which</span>
+  <span class="hljs-comment">// Create a mock of 'node:readline' with a named export named 'foo', which</span>
   <span class="hljs-comment">// does not exist in the original 'node:readline' module.</span>
   <span class="hljs-keyword">const</span> mock = t.<span class="hljs-property">mock</span>.<span class="hljs-title function_">module</span>(<span class="hljs-string">'node:readline'</span>, {
-    <span class="hljs-attr">namedExports</span>: { <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>; } },
+    <span class="hljs-attr">exports</span>: { <span class="hljs-attr">foo</span>: <span class="hljs-function">() =></span> <span class="hljs-number">42</span> },
   });
 
   <span class="hljs-keyword">let</span> esmImpl = <span class="hljs-keyword">await</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">'node:readline'</span>);
@@ -2520,8 +2951,8 @@ support multi-chain / cross-chain loading).</p>
   <span class="hljs-comment">// cursorTo() is an export of the original 'node:readline' module.</span>
   assert.<span class="hljs-title function_">strictEqual</span>(esmImpl.<span class="hljs-property">cursorTo</span>, <span class="hljs-literal">undefined</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(cjsImpl.<span class="hljs-property">cursorTo</span>, <span class="hljs-literal">undefined</span>);
-  assert.<span class="hljs-title function_">strictEqual</span>(esmImpl.<span class="hljs-title function_">fn</span>(), <span class="hljs-number">42</span>);
-  assert.<span class="hljs-title function_">strictEqual</span>(cjsImpl.<span class="hljs-title function_">fn</span>(), <span class="hljs-number">42</span>);
+  assert.<span class="hljs-title function_">strictEqual</span>(esmImpl.<span class="hljs-title function_">foo</span>(), <span class="hljs-number">42</span>);
+  assert.<span class="hljs-title function_">strictEqual</span>(cjsImpl.<span class="hljs-title function_">foo</span>(), <span class="hljs-number">42</span>);
 
   mock.<span class="hljs-title function_">restore</span>();
 
@@ -2531,13 +2962,13 @@ support multi-chain / cross-chain loading).</p>
 
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-keyword">typeof</span> esmImpl.<span class="hljs-property">cursorTo</span>, <span class="hljs-string">'function'</span>);
   assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-keyword">typeof</span> cjsImpl.<span class="hljs-property">cursorTo</span>, <span class="hljs-string">'function'</span>);
-  assert.<span class="hljs-title function_">strictEqual</span>(esmImpl.<span class="hljs-property">fn</span>, <span class="hljs-literal">undefined</span>);
-  assert.<span class="hljs-title function_">strictEqual</span>(cjsImpl.<span class="hljs-property">fn</span>, <span class="hljs-literal">undefined</span>);
+  assert.<span class="hljs-title function_">strictEqual</span>(esmImpl.<span class="hljs-property">foo</span>, <span class="hljs-literal">undefined</span>);
+  assert.<span class="hljs-title function_">strictEqual</span>(cjsImpl.<span class="hljs-property">foo</span>, <span class="hljs-literal">undefined</span>);
 });</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>mock.property(object, propertyName[, value])</code><span><a class="mark" href="#mockpropertyobject-propertyname-value" id="mockpropertyobject-propertyname-value">#</a></span><a aria-hidden="true" class="legacy" id="test_mock_property_object_propertyname_value"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.3.0</span>
 </div>
 <ul>
 <li><code>object</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The object whose value is being mocked.</li>
@@ -2598,9 +3029,16 @@ set to <code>true</code>.</p>
 </div>
 </section><section><h3>Class: <code>MockTimers</code><span><a class="mark" href="#class-mocktimers" id="class-mocktimers">#</a></span><a aria-hidden="true" class="legacy" id="test_class_mocktimers"></a></h3>
 <div class="api_metadata">
-<span>Added in: v20.4.0, v18.19.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.1.0</td>
+<td><p>The Mock Timers is now stable.</p></td></tr>
+<tr><td>v20.4.0, v18.19.0</td>
+<td><p><span>Added in: v20.4.0, v18.19.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Mocking timers is a technique commonly used in software testing to simulate and
 control the behavior of timers, such as <code>setInterval</code> and <code>setTimeout</code>,
 without actually waiting for the specified time intervals.</p>
@@ -3047,7 +3485,7 @@ clocks or actual timers outside of the mocking environment.</p>
 <p>Dates and timer objects are dependent on each other. If you use <code>setTime()</code> to
 pass the current time to the mocked <code>Date</code> object, the set timers with
 <code>setTimeout</code> and <code>setInterval</code> will <strong>not</strong> be affected.</p>
-<p>However, the <code>tick</code> method <strong>will</strong> advanced the mocked <code>Date</code> object.</p>
+<p>However, the <code>tick</code> method <strong>will</strong> advance the mocked <code>Date</code> object.</p>
 
 <pre class="with-38-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> assert <span class="hljs-keyword">from</span> <span class="hljs-string">'node:assert'</span>;
 <span class="hljs-keyword">import</span> { test } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
@@ -3082,6 +3520,8 @@ pass the current time to the mocked <code>Date</code> object, the set timers wit
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added <code>parentId</code> to test events that carry a <code>testId</code>.</p></td></tr>
 <tr><td>v20.0.0, v19.9.0, v18.17.0</td>
 <td><p>added type to test:pass and test:fail events for when the test is a suite.</p></td></tr>
 <tr><td>v18.9.0, v16.19.0</td>
@@ -3199,6 +3639,15 @@ this is a suite.</li>
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 <li><code>testNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The ordinal number of the test.</li>
 <li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contexttodomessage"><code>context.todo</code></a> is called</li>
 <li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contextskipmessage"><code>context.skip</code></a> is called</li>
@@ -3222,6 +3671,15 @@ The corresponding declaration ordered events are <code>'test:pass'</code> and <c
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 <li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test type. Either <code>'suite'</code> or <code>'test'</code>.</li>
 </ul>
 </li>
@@ -3269,6 +3727,15 @@ defined.</p>
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 <li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test type. Either <code>'suite'</code> or <code>'test'</code>.</li>
 </ul>
 </li>
@@ -3291,6 +3758,8 @@ defined.</p>
 </li>
 <li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The type of the test, used to denote whether
 this is a suite.</li>
+<li><code>attempt</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The attempt number of the test run,
+present only when using the <a href="cli.html#--test-rerun-failures"><code>--test-rerun-failures</code></a> flag.</li>
 </ul>
 </li>
 <li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path of the test file,
@@ -3299,6 +3768,15 @@ this is a suite.</li>
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 <li><code>testNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The ordinal number of the test.</li>
 <li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contexttodomessage"><code>context.todo</code></a> is called</li>
 <li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contextskipmessage"><code>context.skip</code></a> is called</li>
@@ -3309,6 +3787,36 @@ this is a suite.</li>
 This event is guaranteed to be emitted in the same order as the tests are
 defined.
 The corresponding execution ordered event is <code>'test:complete'</code>.</p>
+</div><div>
+<h4>Event: <code>'test:interrupted'</code><span><a class="mark" href="#event-testinterrupted" id="event-testinterrupted">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_interrupted"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.15.0</span>
+</div>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>tests</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array of objects containing information about the
+interrupted tests.
+<ul>
+<li><code>column</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The column number where the test is defined,
+or <code>undefined</code> if the test was run through the REPL.</li>
+<li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path of the test file,
+<code>undefined</code> if test was run through the REPL.</li>
+<li><code>line</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The line number where the test is defined, or
+<code>undefined</code> if the test was run through the REPL.</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
+<li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when the test runner is interrupted by a <code>SIGINT</code> signal (e.g., when
+pressing <kbd>Ctrl</kbd>+<kbd>C</kbd>). The event contains information about
+the tests that were running at the time of interruption.</p>
+<p>When using process isolation (the default), the test name will be the file path
+since the parent runner only knows about file-level tests. When using
+<code>--test-isolation=none</code>, the actual test name is shown.</p>
 </div><div>
 <h4>Event: <code>'test:pass'</code><span><a class="mark" href="#event-testpass" id="event-testpass">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_pass"></a></h4>
 <ul>
@@ -3321,6 +3829,10 @@ The corresponding execution ordered event is <code>'test:complete'</code>.</p>
 <li><code>duration_ms</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The duration of the test in milliseconds.</li>
 <li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The type of the test, used to denote whether
 this is a suite.</li>
+<li><code>attempt</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The attempt number of the test run,
+present only when using the <a href="cli.html#--test-rerun-failures"><code>--test-rerun-failures</code></a> flag.</li>
+<li><code>passed_on_attempt</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The attempt number the test passed on,
+present only when using the <a href="cli.html#--test-rerun-failures"><code>--test-rerun-failures</code></a> flag.</li>
 </ul>
 </li>
 <li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path of the test file,
@@ -3329,6 +3841,15 @@ this is a suite.</li>
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 <li><code>testNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The ordinal number of the test.</li>
 <li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contexttodomessage"><code>context.todo</code></a> is called</li>
 <li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contextskipmessage"><code>context.skip</code></a> is called</li>
@@ -3371,6 +3892,15 @@ defined.</p>
 <code>undefined</code> if the test was run through the REPL.</li>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The test name.</li>
 <li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>parentId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The <code>testId</code> of the enclosing test, or
+<code>undefined</code> for top-level tests. Lets custom reporters track lineage
+when concurrent siblings at the same nesting level interleave.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> The flattened lowercased tags declared on the test
+and its ancestor suites, in declaration order. Empty for untagged tests.
+See <a href="#test-tags">Test tags</a>.</li>
+<li><code>testId</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> A numeric identifier for this test instance, unique
+within the test file's process. Consistent across all events for the same
+test instance, enabling reliable correlation in custom reporters.</li>
 </ul>
 </li>
 </ul>
@@ -3440,6 +3970,125 @@ generated for each test file in addition to a final cumulative summary.</p>
 </div><div>
 <h4>Event: <code>'test:watch:drained'</code><span><a class="mark" href="#event-testwatchdrained" id="event-testwatchdrained">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_watch_drained"></a></h4>
 <p>Emitted when no more tests are queued for execution in watch mode.</p>
+</div><div>
+<h4>Event: <code>'test:watch:restarted'</code><span><a class="mark" href="#event-testwatchrestarted" id="event-testwatchrestarted">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_watch_restarted"></a></h4>
+<p>Emitted when one or more tests are restarted due to a file change in watch mode.</p>
+</div>
+</section><section><h3><code>getTestContext()</code><span><a class="mark" href="#gettestcontext" id="gettestcontext">#</a></span><a aria-hidden="true" class="legacy" id="test_gettestcontext"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<ul>
+<li>Returns: <a href="test.html#class-testcontext" class="type">&#x3C;TestContext></a> | <a href="test.html#class-suitecontext" class="type">&#x3C;SuiteContext></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a></li>
+</ul>
+<p>Returns the <a href="#class-testcontext"><code>TestContext</code></a> or <a href="#class-suitecontext"><code>SuiteContext</code></a> object associated with the
+currently executing test or suite, or <code>undefined</code> if called outside of a test or
+suite. This function can be used to access context information from within the
+test or suite function or any async operations within them.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { getTestContext } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'example test'</span>, <span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">getTestContext</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Running test: <span class="hljs-subst">${ctx.name}</span>`</span>);
+});
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">'example suite'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> ctx = <span class="hljs-title function_">getTestContext</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Running suite: <span class="hljs-subst">${ctx.name}</span>`</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p>When called from a test, returns a <a href="#class-testcontext"><code>TestContext</code></a>.
+When called from a suite, returns a <a href="#class-suitecontext"><code>SuiteContext</code></a>.</p>
+<p>If called from outside a test or suite (e.g., at the top level of a module or in
+a setTimeout callback after execution has completed), this function returns
+<code>undefined</code>.</p>
+<p>When called from within a hook (before, beforeEach, after, afterEach), this
+function returns the context of the test or suite that the hook is associated
+with.</p>
+</section><section><h3>Test instrumentation and OpenTelemetry<span><a class="mark" href="#test-instrumentation-and-opentelemetry" id="test-instrumentation-and-opentelemetry">#</a></span><a aria-hidden="true" class="legacy" id="test_test_instrumentation_and_opentelemetry"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p>The test runner publishes test execution events through the Node.js
+<a href="diagnostics_channel.html"><code>diagnostics_channel</code></a> module, enabling integration with observability tools
+like OpenTelemetry without requiring changes to the test runner itself.</p>
+<div>
+<h4>Tracing events<span><a class="mark" href="#tracing-events" id="tracing-events">#</a></span><a aria-hidden="true" class="legacy" id="test_tracing_events"></a></h4>
+<p>The test runner publishes events to the <code>'node.test'</code> tracing channel. Subscribers
+can use the <a href="diagnostics_channel.html#class-tracingchannel"><code>TracingChannel</code></a> API to bind context or perform custom
+instrumentation.</p>
+<div>
+<h5>Channel: <code>'tracing:node.test:start'</code><span><a class="mark" href="#channel-tracingnodeteststart" id="channel-tracingnodeteststart">#</a></span><a aria-hidden="true" class="legacy" id="test_channel_tracing_node_test_start"></a></h5>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the test.</li>
+<li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path to the test file, or <code>undefined</code> when
+running in the REPL.</li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when a test or suite starts execution. The test's span encompasses all
+of its before, beforeEach, and afterEach hooks, as well as the test body.</p>
+</div><div>
+<h5>Channel: <code>'tracing:node.test:end'</code><span><a class="mark" href="#channel-tracingnodetestend" id="channel-tracingnodetestend">#</a></span><a aria-hidden="true" class="legacy" id="test_channel_tracing_node_test_end"></a></h5>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the test.</li>
+<li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path to the test file, or <code>undefined</code> when
+running in the REPL.</li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when a test or suite finishes execution.</p>
+</div><div>
+<h5>Channel: <code>'tracing:node.test:error'</code><span><a class="mark" href="#channel-tracingnodetesterror" id="channel-tracingnodetesterror">#</a></span><a aria-hidden="true" class="legacy" id="test_channel_tracing_node_test_error"></a></h5>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the test.</li>
+<li><code>nesting</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The nesting level of the test.</li>
+<li><code>file</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The path to the test file, or <code>undefined</code> when
+running in the REPL.</li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a> The error that was thrown.</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when a test or suite throws an error.</p>
+</div></div><div>
+<h4>Context propagation with <code>bindStore()</code><span><a class="mark" href="#context-propagation-with-bindstore" id="context-propagation-with-bindstore">#</a></span><a aria-hidden="true" class="legacy" id="test_context_propagation_with_bindstore"></a></h4>
+<p>The tracing channel can be used to propagate context through test execution by
+binding an <code>AsyncLocalStorage</code> instance. This allows context to be automatically
+available in the test function and all async operations within the test.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> dc <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AsyncLocalStorage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:async_hooks'</span>;
+
+<span class="hljs-keyword">const</span> testStorage = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AsyncLocalStorage</span>();
+<span class="hljs-keyword">const</span> testChannel = dc.<span class="hljs-title function_">tracingChannel</span>(<span class="hljs-string">'node.test'</span>);
+
+<span class="hljs-comment">// Bind context to test execution — the returned value becomes the store</span>
+testChannel.<span class="hljs-property">start</span>.<span class="hljs-title function_">bindStore</span>(testStorage, <span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-keyword">return</span> { <span class="hljs-attr">testName</span>: data.<span class="hljs-property">name</span>, <span class="hljs-attr">startTime</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() };
+});
+
+<span class="hljs-comment">// Optionally handle errors and cleanup</span>
+testChannel.<span class="hljs-property">error</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-keyword">const</span> store = testStorage.<span class="hljs-title function_">getStore</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Test "<span class="hljs-subst">${data.name}</span>" failed after <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now() - store.startTime}</span>ms`</span>);
+});
+
+testChannel.<span class="hljs-property">end</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-keyword">const</span> store = testStorage.<span class="hljs-title function_">getStore</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Test "<span class="hljs-subst">${data.name}</span>" completed in <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now() - store.startTime}</span>ms`</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p>When using <code>bindStore()</code>, the context provided will be automatically propagated
+to the test function and all async operations within the test, without requiring
+any additional instrumentation in the test code.</p>
 </div>
 </section><section><h3>Class: <code>TestContext</code><span><a class="mark" href="#class-testcontext" id="class-testcontext">#</a></span><a aria-hidden="true" class="legacy" id="test_class_testcontext"></a></h3>
 <div class="api_metadata">
@@ -3505,7 +4154,7 @@ before each subtest of the current test.</p>
   <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(
     <span class="hljs-string">'This is a subtest'</span>,
     <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
-      assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+      <span class="hljs-comment">// Some relevant assertion here</span>
     },
   );
 });</code> <button class="copy-button">copy</button></pre>
@@ -3533,7 +4182,7 @@ If unspecified, subtests inherit this value from their parent.
 finishes.</p>
 <pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-title function_">async</span> (t) => {
   t.<span class="hljs-title function_">after</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =></span> t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">`finished running <span class="hljs-subst">${t.name}</span>`</span>));
-  assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+  <span class="hljs-comment">// Some relevant assertion here</span>
 });</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>context.afterEach([fn][, options])</code><span><a class="mark" href="#contextaftereachfn-options" id="contextaftereachfn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_context_aftereach_fn_options"></a></h4>
@@ -3562,14 +4211,14 @@ after each subtest of the current test.</p>
   <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(
     <span class="hljs-string">'This is a subtest'</span>,
     <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
-      assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+      <span class="hljs-comment">// Some relevant assertion here</span>
     },
   );
 });</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>context.assert</code><span><a class="mark" href="#contextassert" id="contextassert">#</a></span><a aria-hidden="true" class="legacy" id="test_context_assert"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.2.0</span>
+<span>Added in: v22.2.0, v20.15.0</span>
 </div>
 <p>An object containing assertion methods bound to <code>context</code>. The top-level
 functions from the <code>node:assert</code> module are exposed here for the purpose of
@@ -3581,7 +4230,7 @@ creating test plans.</p>
 <div>
 <h5><code>context.assert.fileSnapshot(value, path[, options])</code><span><a class="mark" href="#contextassertfilesnapshotvalue-path-options" id="contextassertfilesnapshotvalue-path-options">#</a></span><a aria-hidden="true" class="legacy" id="test_context_assert_filesnapshot_value_path_options"></a></h5>
 <div class="api_metadata">
-<span>Added in: v22.14.0</span>
+<span>Added in: v23.7.0, v22.14.0</span>
 </div>
 <ul>
 <li><code>value</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> A value to serialize to a string. If Node.js was started with
@@ -3662,7 +4311,7 @@ not return a value.</p>
 </div><div>
 <h4><code>context.filePath</code><span><a class="mark" href="#contextfilepath" id="contextfilepath">#</a></span><a aria-hidden="true" class="legacy" id="test_context_filepath"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.6.0</span>
+<span>Added in: v22.6.0, v20.16.0</span>
 </div>
 <p>The absolute path of the test file that created the current test. If a test file
 imports additional modules that generate tests, the imported tests will return
@@ -3705,7 +4354,49 @@ the path of the root test file.</p>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
 </ul>
-<p>Number of times the test has been attempted.</p>
+<p>The attempt number of the test. This value is zero-based, so the first attempt is <code>0</code>,
+the second attempt is <code>1</code>, and so on. This property is useful in conjunction with the
+<code>--test-rerun-failures</code> option to determine which attempt the test is currently running.</p>
+</div><div>
+<h4><code>context.tags</code><span><a class="mark" href="#contexttags" id="contexttags">#</a></span><a aria-hidden="true" class="legacy" id="test_context_tags"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a></li>
+</ul>
+<p>A frozen array of the test's flattened lowercased tags, in declaration
+order, including any tags inherited from ancestor suites. Empty when the
+test has no tags. See <a href="#test-tags">Test tags</a>.</p>
+</div><div>
+<h4><code>context.workerId</code><span><a class="mark" href="#contextworkerid" id="contextworkerid">#</a></span><a aria-hidden="true" class="legacy" id="test_context_workerid"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.15.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a></li>
+</ul>
+<p>The unique identifier of the worker running the current test file. This value is
+derived from the <code>NODE_TEST_WORKER_ID</code> environment variable. When running tests
+with <code>--test-isolation=process</code> (the default), each test file runs in a separate
+child process and is assigned a worker ID from 1 to N, where N is the number of
+concurrent workers. When running with <code>--test-isolation=none</code>, all tests run in
+the same process and the worker ID is always 1. This value is <code>undefined</code> when
+not running in a test context.</p>
+<p>This property is useful for splitting resources (like database connections or
+server ports) across concurrent test files:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { test } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;
+<span class="hljs-keyword">import</span> { process } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:process'</span>;
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'database operations'</span>, <span class="hljs-title function_">async</span> (t) => {
+  <span class="hljs-comment">// Worker ID is available via context</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Running in worker <span class="hljs-subst">${t.workerId}</span>`</span>);
+
+  <span class="hljs-comment">// Or via environment variable (available at import time)</span>
+  <span class="hljs-keyword">const</span> workerId = process.<span class="hljs-property">env</span>.<span class="hljs-property">NODE_TEST_WORKER_ID</span>;
+  <span class="hljs-comment">// Use workerId to allocate separate resources per worker</span>
+});</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>context.plan(count[,options])</code><span><a class="mark" href="#contextplancountoptions" id="contextplancountoptions">#</a></span><a aria-hidden="true" class="legacy" id="test_context_plan_count_options"></a></h4>
 <div class="api_metadata">
@@ -3854,6 +4545,8 @@ execution of the test function. This function does not return a value.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added the <code>tags</code> option.</p></td></tr>
 <tr><td>v18.8.0, v16.18.0</td>
 <td><p>Add a <code>signal</code> option.</p></td></tr>
 <tr><td>v18.7.0, v16.17.0</td>
@@ -3883,6 +4576,10 @@ If unspecified, subtests inherit this value from their parent.
 <li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> If truthy, the test is skipped. If a string is
 provided, that string is displayed in the test results as the reason for
 skipping the test. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>tags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> An array of string labels associated with the subtest.
+Used together with <a href="cli.html#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter</code></a> to filter which
+tests run. Tags inherit from the parent test or suite by union. See
+<a href="#test-tags">Test tags</a>. <strong>Default:</strong> <code>[]</code>.</li>
 <li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> If truthy, the test marked as <code>TODO</code>. If a string
 is provided, that string is displayed in the test results as the reason why
 the test is <code>TODO</code>. <strong>Default:</strong> <code>false</code>.</li>
@@ -3915,7 +4612,7 @@ behaves in the same fashion as the top level <a href="#testname-options-fn"><cod
 </div><div>
 <h4><code>context.waitFor(condition[, options])</code><span><a class="mark" href="#contextwaitforcondition-options" id="contextwaitforcondition-options">#</a></span><a aria-hidden="true" class="legacy" id="test_context_waitfor_condition_options"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.14.0</span>
+<span>Added in: v23.7.0, v22.14.0</span>
 </div>
 <ul>
 <li><code>condition</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> An assertion function that is invoked
@@ -3971,7 +4668,40 @@ return the path of the root test file.</p>
 <ul>
 <li>Type: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a></li>
 </ul>
-<p>Can be used to abort test subtasks when the test has been aborted.</p></div></section>
+<p>Can be used to abort test subtasks when the test has been aborted.</p>
+</div><div>
+<h4><code>context.passed</code><span><a class="mark" href="#contextpassed_1" id="contextpassed_1">#</a></span><a aria-hidden="true" class="legacy" id="test_context_passed_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>Indicates whether the suite and all of its subtests have passed.</p>
+</div><div>
+<h4><code>context.attempt</code><span><a class="mark" href="#contextattempt_1" id="contextattempt_1">#</a></span><a aria-hidden="true" class="legacy" id="test_context_attempt_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>The attempt number of the suite. This value is zero-based, so the first attempt is <code>0</code>,
+the second attempt is <code>1</code>, and so on. This property is useful in conjunction with the
+<code>--test-rerun-failures</code> option to determine the attempt number of the current run.</p>
+</div><div>
+<h4><code>context.diagnostic(message)</code><span><a class="mark" href="#contextdiagnosticmessage_1" id="contextdiagnosticmessage_1">#</a></span><a aria-hidden="true" class="legacy" id="test_context_diagnostic_message_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A diagnostic message to output.</li>
+</ul>
+<p>Output a diagnostic message. This is typically used for logging information
+about the current suite or its tests.</p>
+<pre><code class="language-js">test.<span class="hljs-title function_">describe</span>(<span class="hljs-string">'my suite'</span>, <span class="hljs-function">(<span class="hljs-params">suite</span>) =></span> {
+  suite.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">'Suite diagnostic message'</span>);
+});</code> <button class="copy-button">copy</button></pre></div></section>
         <!-- API END -->
       </div>
     </div>

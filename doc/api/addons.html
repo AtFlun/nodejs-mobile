@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>C++ addons | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>C++ addons | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="addons" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -148,6 +148,7 @@
 <li><a href="#building">Building</a></li>
 <li><a href="#linking-to-libraries-included-with-nodejs">Linking to libraries included with Node.js</a></li>
 <li><a href="#loading-addons-using-require">Loading addons using <code>require()</code></a></li>
+<li><span class="stability_1.0"><a href="#loading-addons-using-import">Loading addons using <code>import</code></a></span></li>
 </ul>
 </li>
 <li><a href="#native-abstractions-for-nodejs">Native abstractions for Node.js</a></li>
@@ -324,6 +325,7 @@
 <li><a href="#building">Building</a></li>
 <li><a href="#linking-to-libraries-included-with-nodejs">Linking to libraries included with Node.js</a></li>
 <li><a href="#loading-addons-using-require">Loading addons using <code>require()</code></a></li>
+<li><span class="stability_1.0"><a href="#loading-addons-using-import">Loading addons using <code>import</code></a></span></li>
 </ul>
 </li>
 <li><a href="#native-abstractions-for-nodejs">Native abstractions for Node.js</a></li>
@@ -347,20 +349,16 @@
         <h2>C++ addons<span><a class="mark" href="#c-addons" id="c-addons">#</a></span><a aria-hidden="true" class="legacy" id="addons_c_addons"></a></h2>
 
 
-<p><em>Addons</em> are dynamically-linked shared objects written in C++. The
-<a href="modules.html#requireid"><code>require()</code></a> function can load addons as ordinary Node.js modules.
-Addons provide an interface between JavaScript and C/C++ libraries.</p>
+<p><em>Addons</em> are dynamically-linked shared objects that can be loaded via the
+<a href="modules.html#requireid"><code>require()</code></a> function as ordinary Node.js modules.
+Addons provide a foreign function interface between JavaScript and native code.</p>
 <p>There are three options for implementing addons:</p>
 <ul>
-<li>Node-API</li>
+<li><a href="n-api.html">Node-API</a> (recommended)</li>
 <li><code>nan</code> (<a href="https://github.com/nodejs/nan">Native Abstractions for Node.js</a>)</li>
 <li>direct use of internal V8, libuv, and Node.js libraries</li>
 </ul>
-<p>Unless there is a need for direct access to functionality which is not<br>
-exposed by Node-API, use Node-API.
-Refer to <a href="n-api.html">C/C++ addons with Node-API</a> for more information on
-Node-API.</p>
-<p>When not using Node-API, implementing addons becomes more complex, requiring<br>
+<p>This rest of this document focuses on the latter, requiring
 knowledge of multiple components and APIs:</p>
 <ul>
 <li>
@@ -371,7 +369,7 @@ calling functions, etc. The V8's API is documented mostly in the
 tree), and is also available <a href="https://v8docs.nodesource.com/">online</a>.</p>
 </li>
 <li>
-<p><a href="https://github.com/libuv/libuv">libuv</a>: The C library that implements the Node.js event loop, its worker
+<p><a href="https://github.com/libuv/libuv"><code>libuv</code></a>: The C library that implements the Node.js event loop, its worker
 threads and all of the asynchronous behaviors of the platform. It also
 serves as a cross-platform abstraction library, giving easy, POSIX-like
 access across all major operating systems to many common system tasks, such
@@ -425,26 +423,26 @@ equivalent of the following JavaScript code:</p>
   <span class="hljs-built_in">NODE_SET_METHOD</span>(exports, <span class="hljs-string">"hello"</span>, Method);
 }
 
-<span class="hljs-built_in">NODE_MODULE</span>(NODE_GYP_MODULE_NAME, Initialize)
+<span class="hljs-built_in">NODE_MODULE</span>(NODE_GYP_MODULE_NAME, Initialize) <span class="hljs-comment">// N.B.: no semi-colon, this is not a function</span>
 
 }  <span class="hljs-comment">// namespace demo</span></code> <button class="copy-button">copy</button></pre>
-<p>All Node.js addons must export an initialization function following
-the pattern:</p>
-<pre><code class="language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Initialize</span><span class="hljs-params">(Local&#x3C;Object> exports)</span></span>;
-<span class="hljs-built_in">NODE_MODULE</span>(NODE_GYP_MODULE_NAME, Initialize)</code> <button class="copy-button">copy</button></pre>
-<p>There is no semi-colon after <code>NODE_MODULE</code> as it's not a function (see
-<code>node.h</code>).</p>
-<p>The <code>module_name</code> must match the filename of the final binary (excluding
-the <code>.node</code> suffix).</p>
-<p>In the <code>hello.cc</code> example, then, the initialization function is <code>Initialize</code>
-and the addon module name is <code>addon</code>.</p>
-<p>When building addons with <code>node-gyp</code>, using the macro <code>NODE_GYP_MODULE_NAME</code> as
-the first parameter of <code>NODE_MODULE()</code> will ensure that the name of the final
-binary will be passed to <code>NODE_MODULE()</code>.</p>
-<p>Addons defined with <code>NODE_MODULE()</code> can not be loaded in multiple contexts or
-multiple threads at the same time.</p>
+<p>On most platforms, the following <code>Makefile</code> can get us started:</p>
+<!--lint disable no-tabs remark-lint-->
+<pre><code class="language-bash">NODEJS_DEV_ROOT ?= $(shell <span class="hljs-built_in">dirname</span> <span class="hljs-string">"$<span class="hljs-subst">$(command -v node)</span>"</span>)/..
+CXXFLAGS = -std=c++23 -I$(NODEJS_DEV_ROOT)/include/node -fPIC -shared -Wl,-undefined,dynamic_lookup
+
+hello.node: hello.cc
+	$(CXX) $(CXXFLAGS) -o <span class="hljs-variable">$@</span> __CONTENT__#x3C;</code> <button class="copy-button">copy</button></pre>
+<!--lint enable no-tabs remark-lint-->
+<p>Then running the following commands will compile and run the code:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">make</span>
+<span class="hljs-meta prompt_">$ </span><span class="language-bash">node -p <span class="hljs-string">'require("./hello.node").hello()'</span></span>
+world</code> <button class="copy-button">copy</button></pre>
+<p>To integrate with the npm ecosystem, see the <a href="#building">Building</a> section.</p>
 <div>
 <h4>Context-aware addons<span><a class="mark" href="#context-aware-addons" id="context-aware-addons">#</a></span><a aria-hidden="true" class="legacy" id="addons_context_aware_addons"></a></h4>
+<p>Addons defined with <code>NODE_MODULE()</code> can not be loaded in multiple contexts or
+multiple threads at the same time.</p>
 <p>There are environments in which Node.js addons may need to be loaded multiple
 times in multiple contexts. For example, the <a href="https://electronjs.org/">Electron</a> runtime runs multiple
 instances of Node.js in a single process. Each instance will have its own
@@ -571,8 +569,8 @@ any asynchronous callbacks the addon may create.</p>
 <p>In order to be loaded from multiple Node.js environments,
 such as a main thread and a Worker thread, an add-on needs to either:</p>
 <ul>
-<li>Be an Node-API addon, or</li>
-<li>Be declared as context-aware using <code>NODE_MODULE_INIT()</code> as described above</li>
+<li>Be an <a href="n-api.html">Node-API</a> addon.</li>
+<li>Be declared as context-aware using <code>NODE_MODULE_INIT()</code> as described above.</li>
 </ul>
 <p>In order to support <a href="worker_threads.html#class-worker"><code>Worker</code></a> threads, addons need to clean up any resources
 they may have allocated when such a thread exits. This can be achieved through
@@ -640,7 +638,7 @@ such as any libuv handles registered by the addon.</p>
 <p>Once the source code has been written, it must be compiled into the binary
 <code>addon.node</code> file. To do so, create a file called <code>binding.gyp</code> in the
 top-level of the project describing the build configuration of the module
-using a JSON-like format. This file is used by <a href="https://github.com/nodejs/node-gyp">node-gyp</a>, a tool written
+using a JSON-like format. This file is used by <a href="https://github.com/nodejs/node-gyp"><code>node-gyp</code></a>, a tool written
 specifically to compile Node.js addons.</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"targets"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
@@ -718,6 +716,22 @@ JavaScript files that happen to share the same base name. For instance, if
 there is a file <code>addon.js</code> in the same directory as the binary <code>addon.node</code>,
 then <a href="modules.html#requireid"><code>require('addon')</code></a> will give precedence to the <code>addon.js</code> file
 and load it instead.</p>
+</div><div>
+<h4>Loading addons using <code>import</code><span><a class="mark" href="#loading-addons-using-import" id="loading-addons-using-import">#</a></span><a aria-hidden="true" class="legacy" id="addons_loading_addons_using_import"></a></h4>
+<div class="api_metadata">
+<span>Added in: v23.6.0, v22.20.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>You can use the <a href="cli.html#--experimental-addon-modules"><code>--experimental-addon-modules</code></a> flag to enable support for
+both static <code>import</code> and dynamic <code>import()</code> to load binary addons.</p>
+<p>If we reuse the Hello World example from earlier, you could do:</p>
+<pre><code class="language-js mjs"><span class="hljs-comment">// hello.mjs</span>
+<span class="hljs-keyword">import</span> myAddon <span class="hljs-keyword">from</span> <span class="hljs-string">'./hello.node'</span>;
+<span class="hljs-comment">// N.B.: import {hello} from './hello.node' would not work</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myAddon.<span class="hljs-title function_">hello</span>());</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node --experimental-addon-modules hello.mjs</span>
+world</code> <button class="copy-button">copy</button></pre>
 </div>
 </section><section><h3>Native abstractions for Node.js<span><a class="mark" href="#native-abstractions-for-nodejs" id="native-abstractions-for-nodejs">#</a></span><a aria-hidden="true" class="legacy" id="addons_native_abstractions_for_node_js"></a></h3>
 <p>Each of the examples illustrated in this document directly use the
@@ -733,53 +747,7 @@ future releases of V8 and Node.js. See the <code>nan</code> <a href="https://git
 illustration of how it can be used.</p>
 </section><section><h3>Node-API<span><a class="mark" href="#node-api" id="node-api">#</a></span><a aria-hidden="true" class="legacy" id="addons_node_api"></a></h3>
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p>Node-API is an API for building native addons. It is independent from
-the underlying JavaScript runtime (e.g. V8) and is maintained as part of
-Node.js itself. This API will be Application Binary Interface (ABI) stable
-across versions of Node.js. It is intended to insulate addons from
-changes in the underlying JavaScript engine and allow modules
-compiled for one version to run on later versions of Node.js without
-recompilation. Addons are built/packaged with the same approach/tools
-outlined in this document (node-gyp, etc.). The only difference is the
-set of APIs that are used by the native code. Instead of using the V8
-or <a href="https://github.com/nodejs/nan">Native Abstractions for Node.js</a> APIs, the functions available
-in the Node-API are used.</p>
-<p>Creating and maintaining an addon that benefits from the ABI stability
-provided by Node-API carries with it certain
-<a href="n-api.html#implications-of-abi-stability">implementation considerations</a>.</p>
-<p>To use Node-API in the above "Hello world" example, replace the content of
-<code>hello.cc</code> with the following. All other instructions remain the same.</p>
-<pre><code class="language-cpp"><span class="hljs-comment">// hello.cc using Node-API</span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&#x3C;node_api.h></span></span>
-
-<span class="hljs-keyword">namespace</span> demo {
-
-<span class="hljs-function">napi_value <span class="hljs-title">Method</span><span class="hljs-params">(napi_env env, napi_callback_info args)</span> </span>{
-  napi_value greeting;
-  napi_status status;
-
-  status = <span class="hljs-built_in">napi_create_string_utf8</span>(env, <span class="hljs-string">"world"</span>, NAPI_AUTO_LENGTH, &#x26;greeting);
-  <span class="hljs-keyword">if</span> (status != napi_ok) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;
-  <span class="hljs-keyword">return</span> greeting;
-}
-
-<span class="hljs-function">napi_value <span class="hljs-title">init</span><span class="hljs-params">(napi_env env, napi_value exports)</span> </span>{
-  napi_status status;
-  napi_value fn;
-
-  status = <span class="hljs-built_in">napi_create_function</span>(env, <span class="hljs-literal">nullptr</span>, <span class="hljs-number">0</span>, Method, <span class="hljs-literal">nullptr</span>, &#x26;fn);
-  <span class="hljs-keyword">if</span> (status != napi_ok) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;
-
-  status = <span class="hljs-built_in">napi_set_named_property</span>(env, exports, <span class="hljs-string">"hello"</span>, fn);
-  <span class="hljs-keyword">if</span> (status != napi_ok) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;
-  <span class="hljs-keyword">return</span> exports;
-}
-
-<span class="hljs-built_in">NAPI_MODULE</span>(NODE_GYP_MODULE_NAME, init)
-
-}  <span class="hljs-comment">// namespace demo</span></code> <button class="copy-button">copy</button></pre>
-<p>The functions available and how to use them are documented in
-<a href="n-api.html">C/C++ addons with Node-API</a>.</p>
+<p>See <a href="n-api.html">C/C++ addons with Node-API</a>.</p>
 </section><section><h3>Addon examples<span><a class="mark" href="#addon-examples" id="addon-examples">#</a></span><a aria-hidden="true" class="legacy" id="addons_addon_examples"></a></h3>
 <p>Following are some example addons intended to help developers get started. The
 examples use the V8 APIs. Refer to the online <a href="https://v8docs.nodesource.com/">V8 reference</a>

@@ -8,7 +8,7 @@
       "introduced_in": "v0.1.90",
       "stability": 2,
       "stabilityText": "Stable",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/buffer.js\">lib/buffer.js</a></p>\n<p><code>Buffer</code> objects are used to represent a fixed-length sequence of bytes. Many\nNode.js APIs support <code>Buffer</code>s.</p>\n<p>The <code>Buffer</code> class is a subclass of JavaScript's <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a> class and\nextends it with methods that cover additional use cases. Node.js APIs accept\nplain <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a>s wherever <code>Buffer</code>s are supported as well.</p>\n<p>While the <code>Buffer</code> class is available within the global scope, it is still\nrecommended to explicitly reference it via an import or require statement.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Creates a zero-filled Buffer of length 10.\nconst buf1 = Buffer.alloc(10);\n\n// Creates a Buffer of length 10,\n// filled with bytes which all have the value `1`.\nconst buf2 = Buffer.alloc(10, 1);\n\n// Creates an uninitialized buffer of length 10.\n// This is faster than calling Buffer.alloc() but the returned\n// Buffer instance might contain old data that needs to be\n// overwritten using fill(), write(), or other functions that fill the Buffer's\n// contents.\nconst buf3 = Buffer.allocUnsafe(10);\n\n// Creates a Buffer containing the bytes [1, 2, 3].\nconst buf4 = Buffer.from([1, 2, 3]);\n\n// Creates a Buffer containing the bytes [1, 1, 1, 1] – the entries\n// are all truncated using `(value &#x26; 255)` to fit into the range 0–255.\nconst buf5 = Buffer.from([257, 257.5, -255, '1']);\n\n// Creates a Buffer containing the UTF-8-encoded bytes for the string 'tést':\n// [0x74, 0xc3, 0xa9, 0x73, 0x74] (in hexadecimal notation)\n// [116, 195, 169, 115, 116] (in decimal notation)\nconst buf6 = Buffer.from('tést');\n\n// Creates a Buffer containing the Latin-1 bytes [0x74, 0xe9, 0x73, 0x74].\nconst buf7 = Buffer.from('tést', 'latin1');\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Creates a zero-filled Buffer of length 10.\nconst buf1 = Buffer.alloc(10);\n\n// Creates a Buffer of length 10,\n// filled with bytes which all have the value `1`.\nconst buf2 = Buffer.alloc(10, 1);\n\n// Creates an uninitialized buffer of length 10.\n// This is faster than calling Buffer.alloc() but the returned\n// Buffer instance might contain old data that needs to be\n// overwritten using fill(), write(), or other functions that fill the Buffer's\n// contents.\nconst buf3 = Buffer.allocUnsafe(10);\n\n// Creates a Buffer containing the bytes [1, 2, 3].\nconst buf4 = Buffer.from([1, 2, 3]);\n\n// Creates a Buffer containing the bytes [1, 1, 1, 1] – the entries\n// are all truncated using `(value &#x26; 255)` to fit into the range 0–255.\nconst buf5 = Buffer.from([257, 257.5, -255, '1']);\n\n// Creates a Buffer containing the UTF-8-encoded bytes for the string 'tést':\n// [0x74, 0xc3, 0xa9, 0x73, 0x74] (in hexadecimal notation)\n// [116, 195, 169, 115, 116] (in decimal notation)\nconst buf6 = Buffer.from('tést');\n\n// Creates a Buffer containing the Latin-1 bytes [0x74, 0xe9, 0x73, 0x74].\nconst buf7 = Buffer.from('tést', 'latin1');\n</code></pre>",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/buffer.js\">lib/buffer.js</a></p>\n<p><code>Buffer</code> objects are used to represent a fixed-length sequence of bytes. Many\nNode.js APIs support <code>Buffer</code>s.</p>\n<p>The <code>Buffer</code> class is a subclass of JavaScript's <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a> class and\nextends it with methods that cover additional use cases. Node.js APIs accept\nplain <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a>s wherever <code>Buffer</code>s are supported as well.</p>\n<p>While the <code>Buffer</code> class is available within the global scope, it is still\nrecommended to explicitly reference it via an import or require statement.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Creates a zero-filled Buffer of length 10.\nconst buf1 = Buffer.alloc(10);\n\n// Creates a Buffer of length 10,\n// filled with bytes which all have the value `1`.\nconst buf2 = Buffer.alloc(10, 1);\n\n// Creates an uninitialized buffer of length 10.\n// This is faster than calling Buffer.alloc() but the returned\n// Buffer instance might contain old data that needs to be\n// overwritten using fill(), write(), or other functions that fill the Buffer's\n// contents.\nconst buf3 = Buffer.allocUnsafe(10);\n\n// Creates a Buffer containing the bytes [1, 2, 3].\nconst buf4 = Buffer.from([1, 2, 3]);\n\n// Creates a Buffer containing the bytes [1, 1, 1, 1] – the entries\n// are all truncated using `(value &#x26; 255)` to fit into the range 0–255.\nconst buf5 = Buffer.from([257, 257.5, -255, '1']);\n\n// Creates a Buffer containing the UTF-8-encoded bytes for the string 'tést':\n// [0x74, 0xc3, 0xa9, 0x73, 0x74] (in hexadecimal notation)\n// [116, 195, 169, 115, 116] (in decimal notation)\nconst buf6 = Buffer.from('tést');\n\n// Creates a Buffer containing the Latin-1 bytes [0x74, 0xe9, 0x73, 0x74].\nconst buf7 = Buffer.from('tést', 'latin1');\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Creates a zero-filled Buffer of length 10.\nconst buf1 = Buffer.alloc(10);\n\n// Creates a Buffer of length 10,\n// filled with bytes which all have the value `1`.\nconst buf2 = Buffer.alloc(10, 1);\n\n// Creates an uninitialized buffer of length 10.\n// This is faster than calling Buffer.alloc() but the returned\n// Buffer instance might contain old data that needs to be\n// overwritten using fill(), write(), or other functions that fill the Buffer's\n// contents.\nconst buf3 = Buffer.allocUnsafe(10);\n\n// Creates a Buffer containing the bytes [1, 2, 3].\nconst buf4 = Buffer.from([1, 2, 3]);\n\n// Creates a Buffer containing the bytes [1, 1, 1, 1] – the entries\n// are all truncated using `(value &#x26; 255)` to fit into the range 0–255.\nconst buf5 = Buffer.from([257, 257.5, -255, '1']);\n\n// Creates a Buffer containing the UTF-8-encoded bytes for the string 'tést':\n// [0x74, 0xc3, 0xa9, 0x73, 0x74] (in hexadecimal notation)\n// [116, 195, 169, 115, 116] (in decimal notation)\nconst buf6 = Buffer.from('tést');\n\n// Creates a Buffer containing the Latin-1 bytes [0x74, 0xe9, 0x73, 0x74].\nconst buf7 = Buffer.from('tést', 'latin1');\n</code></pre>",
       "modules": [
         {
           "textRaw": "Buffers and character encodings",
@@ -52,6 +52,15 @@
             ]
           },
           "desc": "<p><code>Buffer</code> instances are also JavaScript <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array\" class=\"type\">&lt;Uint8Array&gt;</a> and <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a>\ninstances. All <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> methods and properties are available on <code>Buffer</code>s. There are,\nhowever, subtle incompatibilities between the <code>Buffer</code> API and the\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> API.</p>\n<p>In particular:</p>\n<ul>\n<li>While <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/slice\"><code>TypedArray.prototype.slice()</code></a> creates a copy of part of the <code>TypedArray</code>,\n<a href=\"#bufslicestart-end\"><code>Buffer.prototype.slice()</code></a> creates a view over the existing <code>Buffer</code>\nwithout copying. This behavior can be surprising, and only exists for legacy\ncompatibility. <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/subarray\"><code>TypedArray.prototype.subarray()</code></a> can be used to achieve\nthe behavior of <a href=\"#bufslicestart-end\"><code>Buffer.prototype.slice()</code></a> on both <code>Buffer</code>s\nand other <code>TypedArray</code>s and should be preferred.</li>\n<li><a href=\"#buftostringencoding-start-end\"><code>buf.toString()</code></a> is incompatible with its <code>TypedArray</code> equivalent.</li>\n<li>A number of methods, e.g. <a href=\"#bufindexofvalue-byteoffset-encoding\"><code>buf.indexOf()</code></a>, support additional arguments.</li>\n</ul>\n<p>There are two ways to create new <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> instances from a <code>Buffer</code>:</p>\n<ul>\n<li>Passing a <code>Buffer</code> to a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> constructor will copy the <code>Buffer</code>'s\ncontents, interpreted as an array of integers, and not as a byte sequence\nof the target type.</li>\n</ul>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst buf = Buffer.from([1, 2, 3, 4]);\nconst uint32array = new Uint32Array(buf);\n\nconsole.log(uint32array);\n\n// Prints: Uint32Array(4) [ 1, 2, 3, 4 ]\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\nconst buf = Buffer.from([1, 2, 3, 4]);\nconst uint32array = new Uint32Array(buf);\n\nconsole.log(uint32array);\n\n// Prints: Uint32Array(4) [ 1, 2, 3, 4 ]\n</code></pre>\n<ul>\n<li>Passing the <code>Buffer</code>'s underlying <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a> will create a\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> that shares its memory with the <code>Buffer</code>.</li>\n</ul>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst buf = Buffer.from('hello', 'utf16le');\nconst uint16array = new Uint16Array(\n  buf.buffer,\n  buf.byteOffset,\n  buf.length / Uint16Array.BYTES_PER_ELEMENT);\n\nconsole.log(uint16array);\n\n// Prints: Uint16Array(5) [ 104, 101, 108, 108, 111 ]\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\nconst buf = Buffer.from('hello', 'utf16le');\nconst uint16array = new Uint16Array(\n  buf.buffer,\n  buf.byteOffset,\n  buf.length / Uint16Array.BYTES_PER_ELEMENT);\n\nconsole.log(uint16array);\n\n// Prints: Uint16Array(5) [ 104, 101, 108, 108, 111 ]\n</code></pre>\n<p>It is possible to create a new <code>Buffer</code> that shares the same allocated\nmemory as a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> instance by using the <code>TypedArray</code> object's\n<code>.buffer</code> property in the same way. <a href=\"#static-method-bufferfromarraybuffer-byteoffset-length\"><code>Buffer.from()</code></a>\nbehaves like <code>new Uint8Array()</code> in this context.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst arr = new Uint16Array(2);\n\narr[0] = 5000;\narr[1] = 4000;\n\n// Copies the contents of `arr`.\nconst buf1 = Buffer.from(arr);\n\n// Shares memory with `arr`.\nconst buf2 = Buffer.from(arr.buffer);\n\nconsole.log(buf1);\n// Prints: &#x3C;Buffer 88 a0>\nconsole.log(buf2);\n// Prints: &#x3C;Buffer 88 13 a0 0f>\n\narr[1] = 6000;\n\nconsole.log(buf1);\n// Prints: &#x3C;Buffer 88 a0>\nconsole.log(buf2);\n// Prints: &#x3C;Buffer 88 13 70 17>\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\nconst arr = new Uint16Array(2);\n\narr[0] = 5000;\narr[1] = 4000;\n\n// Copies the contents of `arr`.\nconst buf1 = Buffer.from(arr);\n\n// Shares memory with `arr`.\nconst buf2 = Buffer.from(arr.buffer);\n\nconsole.log(buf1);\n// Prints: &#x3C;Buffer 88 a0>\nconsole.log(buf2);\n// Prints: &#x3C;Buffer 88 13 a0 0f>\n\narr[1] = 6000;\n\nconsole.log(buf1);\n// Prints: &#x3C;Buffer 88 a0>\nconsole.log(buf2);\n// Prints: &#x3C;Buffer 88 13 70 17>\n</code></pre>\n<p>When creating a <code>Buffer</code> using a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a>'s <code>.buffer</code>, it is\npossible to use only a portion of the underlying <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a> by passing in\n<code>byteOffset</code> and <code>length</code> parameters.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst arr = new Uint16Array(20);\nconst buf = Buffer.from(arr.buffer, 0, 16);\n\nconsole.log(buf.length);\n// Prints: 16\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\nconst arr = new Uint16Array(20);\nconst buf = Buffer.from(arr.buffer, 0, 16);\n\nconsole.log(buf.length);\n// Prints: 16\n</code></pre>\n<p>The <code>Buffer.from()</code> and <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/from\"><code>TypedArray.from()</code></a> have different signatures and\nimplementations. Specifically, the <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> variants accept a second\nargument that is a mapping function that is invoked on every element of the\ntyped array:</p>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/from\"><code>TypedArray.from(source[, mapFn[, thisArg]])</code></a></li>\n</ul>\n<p>The <code>Buffer.from()</code> method, however, does not support the use of a mapping\nfunction:</p>\n<ul>\n<li><a href=\"#static-method-bufferfromarray\"><code>Buffer.from(array)</code></a></li>\n<li><a href=\"#static-method-bufferfrombuffer\"><code>Buffer.from(buffer)</code></a></li>\n<li><a href=\"#static-method-bufferfromarraybuffer-byteoffset-length\"><code>Buffer.from(arrayBuffer[, byteOffset[, length]])</code></a></li>\n<li><a href=\"#static-method-bufferfromstring-encoding\"><code>Buffer.from(string[, encoding])</code></a></li>\n</ul>",
+          "modules": [
+            {
+              "textRaw": "Buffer methods are callable with `Uint8Array` instances",
+              "name": "buffer_methods_are_callable_with_`uint8array`_instances",
+              "desc": "<p>All methods on the Buffer prototype are callable with a <code>Uint8Array</code> instance.</p>\n<pre><code class=\"language-js\">const { toString, write } = Buffer.prototype;\n\nconst uint8array = new Uint8Array(5);\n\nwrite.call(uint8array, 'hello', 0, 5, 'utf8'); // 5\n// &#x3C;Uint8Array 68 65 6c 6c 6f>\n\ntoString.call(uint8array, 'utf8'); // 'hello'\n</code></pre>",
+              "type": "module",
+              "displayName": "Buffer methods are callable with `Uint8Array` instances"
+            }
+          ],
           "type": "module",
           "displayName": "Buffers and TypedArrays"
         },
@@ -92,7 +101,7 @@
                   ]
                 }
               ],
-              "desc": "<p>Decodes a string of Base64-encoded data into bytes, and encodes those bytes\ninto a string using Latin-1 (ISO-8859-1).</p>\n<p>The <code>data</code> may be any JavaScript-value that can be coerced into a string.</p>\n<p><strong>This function is only provided for compatibility with legacy web platform APIs\nand should never be used in new code, because they use strings to represent\nbinary data and predate the introduction of typed arrays in JavaScript.\nFor code running using Node.js APIs, converting between base64-encoded strings\nand binary data should be performed using <code>Buffer.from(str, 'base64')</code> and\n<code>buf.toString('base64')</code>.</strong></p>"
+              "desc": "<p>Decodes a string of Base64-encoded data into bytes, and encodes those bytes\ninto a string using Latin-1 (ISO-8859-1).</p>\n<p>The <code>data</code> may be any JavaScript-value that can be coerced into a string.</p>\n<p><strong>This function is only provided for compatibility with legacy web platform APIs\nand should never be used in new code, because they use strings to represent\nbinary data and predate the introduction of typed arrays in JavaScript.\nFor code running using Node.js APIs, converting between base64-encoded strings\nand binary data should be performed using <code>Buffer.from(str, 'base64')</code> and\n<code>buf.toString('base64')</code>.</strong></p>\n<p>An automated migration is available (<a href=\"https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa\">source</a>:</p>\n<pre><code class=\"language-bash\">npx codemod@latest @nodejs/buffer-atob-btoa\n</code></pre>"
             },
             {
               "textRaw": "`buffer.btoa(data)`",
@@ -119,7 +128,7 @@
                   ]
                 }
               ],
-              "desc": "<p>Decodes a string into bytes using Latin-1 (ISO-8859), and encodes those bytes\ninto a string using Base64.</p>\n<p>The <code>data</code> may be any JavaScript-value that can be coerced into a string.</p>\n<p><strong>This function is only provided for compatibility with legacy web platform APIs\nand should never be used in new code, because they use strings to represent\nbinary data and predate the introduction of typed arrays in JavaScript.\nFor code running using Node.js APIs, converting between base64-encoded strings\nand binary data should be performed using <code>Buffer.from(str, 'base64')</code> and\n<code>buf.toString('base64')</code>.</strong></p>"
+              "desc": "<p>Decodes a string into bytes using Latin-1 (ISO-8859), and encodes those bytes\ninto a string using Base64.</p>\n<p>The <code>data</code> may be any JavaScript-value that can be coerced into a string.</p>\n<p><strong>This function is only provided for compatibility with legacy web platform APIs\nand should never be used in new code, because they use strings to represent\nbinary data and predate the introduction of typed arrays in JavaScript.\nFor code running using Node.js APIs, converting between base64-encoded strings\nand binary data should be performed using <code>Buffer.from(str, 'base64')</code> and\n<code>buf.toString('base64')</code>.</strong></p>\n<p>An automated migration is available (<a href=\"https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa\">source</a>:</p>\n<pre><code class=\"language-bash\">npx codemod@latest @nodejs/buffer-atob-btoa\n</code></pre>"
             },
             {
               "textRaw": "`buffer.isAscii(input)`",
@@ -191,7 +200,7 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.17.0",
+                    "version": "v24.0.0",
                     "pr-url": "https://github.com/nodejs/node/pull/57513",
                     "description": "Marking the API stable."
                   }
@@ -477,7 +486,8 @@
               "name": "bytes",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.16.0"
                 ],
                 "changes": []
               },
@@ -569,6 +579,28 @@
                 }
               ],
               "desc": "<p>Returns a promise that fulfills with the contents of the <code>Blob</code> decoded as a\nUTF-8 string.</p>"
+            },
+            {
+              "textRaw": "`blob.textStream()`",
+              "type": "method",
+              "name": "textStream",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {ReadableStream}",
+                    "name": "return",
+                    "type": "ReadableStream"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns a new <code>ReadableStream</code> that allows the content of the <code>Blob</code> to be read\nas a stream of UTF-8 decoded strings. It is equivalent to piping\n<a href=\"#blobstream\"><code>blob.stream()</code></a> through a <a href=\"webstreams.html#class-textdecoderstream\"><code>TextDecoderStream</code></a> set up with UTF-8.</p>"
             }
           ],
           "properties": [
@@ -798,7 +830,7 @@
                   ]
                 }
               ],
-              "desc": "<p>Allocates a new <code>Buffer</code> of <code>size</code> bytes. If <code>size</code> is larger than\n<a href=\"#bufferconstantsmax_length\"><code>buffer.constants.MAX_LENGTH</code></a> or smaller than 0, <a href=\"errors.html#err_out_of_range\"><code>ERR_OUT_OF_RANGE</code></a>\nis thrown. A zero-length <code>Buffer</code> is created if <code>size</code> is 0.</p>\n<p>The underlying memory for <code>Buffer</code> instances created in this way is <em>not\ninitialized</em>. The contents of the newly created <code>Buffer</code> are unknown and\n<em>may contain sensitive data</em>. Use <a href=\"#buffillvalue-offset-end-encoding\"><code>buf.fill(0)</code></a> to initialize\nsuch <code>Buffer</code> instances with zeroes.</p>\n<p>When using <a href=\"#static-method-bufferallocunsafesize\"><code>Buffer.allocUnsafe()</code></a> to allocate new <code>Buffer</code> instances,\nallocations less than <code>Buffer.poolSize >>> 1</code> (4KiB when default poolSize is used) are sliced\nfrom a single pre-allocated <code>Buffer</code>. This allows applications to avoid the\ngarbage collection overhead of creating many individually allocated <code>Buffer</code>\ninstances. This approach improves both performance and memory usage by\neliminating the need to track and clean up as many individual <code>ArrayBuffer</code> objects.</p>\n<p>However, in the case where a developer may need to retain a small chunk of\nmemory from a pool for an indeterminate amount of time, it may be appropriate\nto create an un-pooled <code>Buffer</code> instance using <code>Buffer.allocUnsafeSlow()</code> and\nthen copying out the relevant bits.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Need to keep around a few small chunks of memory.\nconst store = [];\n\nsocket.on('readable', () => {\n  let data;\n  while (null !== (data = readable.read())) {\n    // Allocate for retained data.\n    const sb = Buffer.allocUnsafeSlow(10);\n\n    // Copy the data into the new allocation.\n    data.copy(sb, 0, 0, 10);\n\n    store.push(sb);\n  }\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Need to keep around a few small chunks of memory.\nconst store = [];\n\nsocket.on('readable', () => {\n  let data;\n  while (null !== (data = readable.read())) {\n    // Allocate for retained data.\n    const sb = Buffer.allocUnsafeSlow(10);\n\n    // Copy the data into the new allocation.\n    data.copy(sb, 0, 0, 10);\n\n    store.push(sb);\n  }\n});\n</code></pre>\n<p>A <code>TypeError</code> will be thrown if <code>size</code> is not a number.</p>"
+              "desc": "<p>Allocates a new <code>Buffer</code> of <code>size</code> bytes. If <code>size</code> is larger than\n<a href=\"#bufferconstantsmax_length\"><code>buffer.constants.MAX_LENGTH</code></a> or smaller than 0, <a href=\"errors.html#err_out_of_range\"><code>ERR_OUT_OF_RANGE</code></a>\nis thrown. A zero-length <code>Buffer</code> is created if <code>size</code> is 0.</p>\n<p>The underlying memory for <code>Buffer</code> instances created in this way is <em>not\ninitialized</em>. The contents of the newly created <code>Buffer</code> are unknown and\n<em>may contain sensitive data</em>. Use <a href=\"#buffillvalue-offset-end-encoding\"><code>buf.fill(0)</code></a> to initialize\nsuch <code>Buffer</code> instances with zeroes.</p>\n<p>When using <a href=\"#static-method-bufferallocunsafesize\"><code>Buffer.allocUnsafe()</code></a> to allocate new <code>Buffer</code> instances,\nallocations less than <code>Buffer.poolSize >>> 1</code> (32KiB when default poolSize is used) are sliced\nfrom a single pre-allocated <code>Buffer</code>. This allows applications to avoid the\ngarbage collection overhead of creating many individually allocated <code>Buffer</code>\ninstances. This approach improves both performance and memory usage by\neliminating the need to track and clean up as many individual <code>ArrayBuffer</code> objects.</p>\n<p>However, in the case where a developer may need to retain a small chunk of\nmemory from a pool for an indeterminate amount of time, it may be appropriate\nto create an un-pooled <code>Buffer</code> instance using <code>Buffer.allocUnsafeSlow()</code> and\nthen copying out the relevant bits.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Need to keep around a few small chunks of memory.\nconst store = [];\n\nsocket.on('readable', () => {\n  let data;\n  while (null !== (data = readable.read())) {\n    // Allocate for retained data.\n    const sb = Buffer.allocUnsafeSlow(10);\n\n    // Copy the data into the new allocation.\n    data.copy(sb, 0, 0, 10);\n\n    store.push(sb);\n  }\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Need to keep around a few small chunks of memory.\nconst store = [];\n\nsocket.on('readable', () => {\n  let data;\n  while (null !== (data = readable.read())) {\n    // Allocate for retained data.\n    const sb = Buffer.allocUnsafeSlow(10);\n\n    // Copy the data into the new allocation.\n    data.copy(sb, 0, 0, 10);\n\n    store.push(sb);\n  }\n});\n</code></pre>\n<p>A <code>TypeError</code> will be thrown if <code>size</code> is not a number.</p>"
             },
             {
               "textRaw": "Static method: `Buffer.byteLength(string[, encoding])`",
@@ -927,7 +959,7 @@
                   ]
                 }
               ],
-              "desc": "<p>Returns a new <code>Buffer</code> which is the result of concatenating all the <code>Buffer</code>\ninstances in the <code>list</code> together.</p>\n<p>If the list has no items, or if the <code>totalLength</code> is 0, then a new zero-length\n<code>Buffer</code> is returned.</p>\n<p>If <code>totalLength</code> is not provided, it is calculated from the <code>Buffer</code> instances\nin <code>list</code> by adding their lengths.</p>\n<p>If <code>totalLength</code> is provided, it is coerced to an unsigned integer. If the\ncombined length of the <code>Buffer</code>s in <code>list</code> exceeds <code>totalLength</code>, the result is\ntruncated to <code>totalLength</code>. If the combined length of the <code>Buffer</code>s in <code>list</code> is\nless than <code>totalLength</code>, the remaining space is filled with zeros.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Create a single `Buffer` from a list of three `Buffer` instances.\n\nconst buf1 = Buffer.alloc(10);\nconst buf2 = Buffer.alloc(14);\nconst buf3 = Buffer.alloc(18);\nconst totalLength = buf1.length + buf2.length + buf3.length;\n\nconsole.log(totalLength);\n// Prints: 42\n\nconst bufA = Buffer.concat([buf1, buf2, buf3], totalLength);\n\nconsole.log(bufA);\n// Prints: &#x3C;Buffer 00 00 00 00 ...>\nconsole.log(bufA.length);\n// Prints: 42\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Create a single `Buffer` from a list of three `Buffer` instances.\n\nconst buf1 = Buffer.alloc(10);\nconst buf2 = Buffer.alloc(14);\nconst buf3 = Buffer.alloc(18);\nconst totalLength = buf1.length + buf2.length + buf3.length;\n\nconsole.log(totalLength);\n// Prints: 42\n\nconst bufA = Buffer.concat([buf1, buf2, buf3], totalLength);\n\nconsole.log(bufA);\n// Prints: &#x3C;Buffer 00 00 00 00 ...>\nconsole.log(bufA.length);\n// Prints: 42\n</code></pre>\n<p><code>Buffer.concat()</code> may also use the internal <code>Buffer</code> pool like\n<a href=\"#static-method-bufferallocunsafesize\"><code>Buffer.allocUnsafe()</code></a> does.</p>"
+              "desc": "<p>Returns a new <code>Buffer</code> which is the result of concatenating all the <code>Buffer</code>\ninstances in the <code>list</code> together.</p>\n<p>If the list has no items, or if the <code>totalLength</code> is 0, then a new zero-length\n<code>Buffer</code> is returned.</p>\n<p>If <code>totalLength</code> is not provided, it is calculated from the <code>Buffer</code> instances\nin <code>list</code> by adding their lengths.</p>\n<p>If <code>totalLength</code> is provided, it must be an unsigned integer. If the\ncombined length of the <code>Buffer</code>s in <code>list</code> exceeds <code>totalLength</code>, the result is\ntruncated to <code>totalLength</code>. If the combined length of the <code>Buffer</code>s in <code>list</code> is\nless than <code>totalLength</code>, the remaining space is filled with zeros.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\n// Create a single `Buffer` from a list of three `Buffer` instances.\n\nconst buf1 = Buffer.alloc(10);\nconst buf2 = Buffer.alloc(14);\nconst buf3 = Buffer.alloc(18);\nconst totalLength = buf1.length + buf2.length + buf3.length;\n\nconsole.log(totalLength);\n// Prints: 42\n\nconst bufA = Buffer.concat([buf1, buf2, buf3], totalLength);\n\nconsole.log(bufA);\n// Prints: &#x3C;Buffer 00 00 00 00 ...>\nconsole.log(bufA.length);\n// Prints: 42\n</code></pre>\n<pre><code class=\"language-cjs\">const { Buffer } = require('node:buffer');\n\n// Create a single `Buffer` from a list of three `Buffer` instances.\n\nconst buf1 = Buffer.alloc(10);\nconst buf2 = Buffer.alloc(14);\nconst buf3 = Buffer.alloc(18);\nconst totalLength = buf1.length + buf2.length + buf3.length;\n\nconsole.log(totalLength);\n// Prints: 42\n\nconst bufA = Buffer.concat([buf1, buf2, buf3], totalLength);\n\nconsole.log(bufA);\n// Prints: &#x3C;Buffer 00 00 00 00 ...>\nconsole.log(bufA.length);\n// Prints: 42\n</code></pre>\n<p><code>Buffer.concat()</code> may also use the internal <code>Buffer</code> pool like\n<a href=\"#static-method-bufferallocunsafesize\"><code>Buffer.allocUnsafe()</code></a> does.</p>"
             },
             {
               "textRaw": "Static method: `Buffer.copyBytesFrom(view[, offset[, length]])`",
@@ -1210,16 +1242,22 @@
           ],
           "properties": [
             {
-              "textRaw": "`poolSize` Type: {integer} **Default:** `8192`",
+              "textRaw": "`poolSize` Type: {integer} **Default:** `65536`",
               "type": "integer",
               "name": "Type",
               "meta": {
                 "added": [
                   "v0.11.3"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.18.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/63597",
+                    "description": "Default raised from 8192 to 65536."
+                  }
+                ]
               },
-              "default": "`8192`",
+              "default": "`65536`",
               "desc": "<p>This is the size (in bytes) of pre-allocated internal <code>Buffer</code> instances used\nfor pooling. This value may be modified.</p>"
             },
             {
@@ -1530,7 +1568,13 @@
                 "added": [
                   "v5.3.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  }
+                ]
               },
               "signatures": [
                 {
@@ -2172,6 +2216,11 @@
                 ],
                 "changes": [
                   {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  },
+                  {
                     "version": "v10.0.0",
                     "pr-url": "https://github.com/nodejs/node/pull/18395",
                     "description": "Removed `noAssert` and no implicit coercion of the offset and `byteLength` to `uint32` anymore."
@@ -2212,6 +2261,11 @@
                   "v0.11.15"
                 ],
                 "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  },
                   {
                     "version": "v10.0.0",
                     "pr-url": "https://github.com/nodejs/node/pull/18395",
@@ -2474,6 +2528,11 @@
                 ],
                 "changes": [
                   {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  },
+                  {
                     "version": [
                       "v14.9.0",
                       "v12.19.0"
@@ -2522,6 +2581,11 @@
                   "v0.11.15"
                 ],
                 "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  },
                   {
                     "version": [
                       "v14.9.0",
@@ -2759,7 +2823,13 @@
                 "added": [
                   "v0.1.90"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  }
+                ]
               },
               "signatures": [
                 {
@@ -2825,7 +2895,13 @@
                 "added": [
                   "v0.1.90"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.13.1",
+                    "pr-url": "https://github.com/nodejs/node/pull/56578",
+                    "description": "supports Uint8Array as `this` value."
+                  }
+                ]
               },
               "signatures": [
                 {
@@ -3978,6 +4054,11 @@
               "v18.13.0"
             ],
             "changes": [
+              {
+                "version": "v23.0.0",
+                "pr-url": "https://github.com/nodejs/node/pull/47613",
+                "description": "Makes File instances cloneable."
+              },
               {
                 "version": "v20.0.0",
                 "pr-url": "https://github.com/nodejs/node/pull/47153",

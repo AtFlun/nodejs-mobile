@@ -103,33 +103,6 @@
     # Indicates if gcmole tools are downloaded by a hook.
     'gcmole%': 0,
   },
-
-  # [GYP] this needs to be outside of the top level 'variables'
-  'conditions': [
-    ['host_arch=="ia32" or host_arch=="x64" or \
-      host_arch=="ppc" or host_arch=="ppc64" or \
-      host_arch=="s390x" or \
-      clang==1', {
-      'variables': {
-        'host_cxx_is_biarch%': 1,
-       },
-     }, {
-      'variables': {
-        'host_cxx_is_biarch%': 0,
-      },
-    }],
-    ['target_arch=="ia32" or target_arch=="x64" or \
-      target_arch=="ppc" or target_arch=="ppc64" or \
-      target_arch=="s390x" or clang==1', {
-      'variables': {
-        'target_cxx_is_biarch%': 1,
-       },
-     }, {
-      'variables': {
-        'target_cxx_is_biarch%': 0,
-      },
-    }],
-  ],
   'target_defaults': {
     'cflags!': ['-Wall', '-Wextra'],
     'conditions': [
@@ -347,43 +320,24 @@
           }],
           ],
       }],  # s390x
-      ['v8_target_arch=="ppc" or v8_target_arch=="ppc64"', {
+      ['v8_target_arch=="ppc64"', {
+        'defines': [
+          'V8_TARGET_ARCH_PPC64',
+        ],
+        'cflags': [
+          '-ffp-contract=off',
+        ],
         'conditions': [
-          ['v8_target_arch=="ppc"', {
-            'defines': [
-              'V8_TARGET_ARCH_PPC',
-            ],
+          ['OS=="aix" or OS=="os400"', {
+            # Work around AIX ceil, trunc and round oddities.
+            'cflags': [ '-mcpu=power5+ -mfprnd' ],
           }],
-          ['v8_target_arch=="ppc64"', {
-            'defines': [
-              'V8_TARGET_ARCH_PPC64',
-            ],
-            'cflags': [
-              '-ffp-contract=off',
-            ],
-          }],
-          ['v8_host_byteorder=="little"', {
-            'defines': [
-              'V8_TARGET_ARCH_PPC_LE',
-            ],
-          }],
-          ['v8_host_byteorder=="big"', {
-            'defines': [
-              'V8_TARGET_ARCH_PPC_BE',
-            ],
-            'conditions': [
-              ['OS=="aix" or OS=="os400"', {
-                # Work around AIX ceil, trunc and round oddities.
-                'cflags': [ '-mcpu=power5+ -mfprnd' ],
-              }],
-              ['OS=="aix" or OS=="os400"', {
-                # Work around AIX assembler popcntb bug.
-                'cflags': [ '-mno-popcntb' ],
-              }],
-            ],
+          ['OS=="aix" or OS=="os400"', {
+            # Work around AIX assembler popcntb bug.
+            'cflags': [ '-mno-popcntb' ],
           }],
         ],
-      }],  # ppc
+      }],  # ppc64
       ['v8_target_arch=="ia32"', {
         'defines': [
           'V8_TARGET_ARCH_IA32',
@@ -556,7 +510,7 @@
         'defines': [
           'WIN32',
           'NOMINMAX',  # Refs: https://chromium-review.googlesource.com/c/v8/v8/+/1456620
-          '_WIN32_WINNT=0x0602',  # Windows 8
+          '_WIN32_WINNT=0x0A00',  # Windows 10
           '_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS',
         ],
         # 4351: VS 2005 and later are warning us that they've fixed a bug
@@ -565,12 +519,11 @@
         'msvs_configuration_attributes': {
           'CharacterSet': '1',
         },
-      }],
-      ['OS=="win" and v8_target_arch=="ia32"', {
         'msvs_settings': {
           'VCCLCompilerTool': {
-            # Ensure no surprising artifacts from 80bit double math with x86.
-            'AdditionalOptions': ['/arch:SSE2'],
+            'AdditionalOptions': [
+              '/bigobj', # Prevent C1128: number of sections exceeded object file format limit.
+            ],
           },
         },
       }],
@@ -618,71 +571,6 @@
           '-mmmx',  # Allows mmintrin.h for MMX intrinsics.
         ],
       }],
-      ['(OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris" \
-         or OS=="netbsd" or OS=="mac" or OS=="android" or OS=="qnx") and \
-        (v8_target_arch=="arm" or v8_target_arch=="ia32" or \
-         v8_target_arch=="ppc")', {
-        'target_conditions': [
-          ['_toolset=="host"', {
-            'conditions': [
-              ['host_cxx_is_biarch==1', {
-                'conditions': [
-                  ['host_arch=="s390x"', {
-                    'cflags': [ '-m31' ],
-                    'ldflags': [ '-m31' ]
-                  },{
-                   'cflags': [ '-m32' ],
-                   'ldflags': [ '-m32' ]
-                  }],
-                ],
-              }],
-            ],
-            'xcode_settings': {
-              'ARCHS': [ 'i386' ],
-            },
-          }],
-          ['_toolset=="target"', {
-            'conditions': [
-              ['target_cxx_is_biarch==1', {
-                'conditions': [
-                  ['host_arch=="s390x"', {
-                    'cflags': [ '-m31' ],
-                    'ldflags': [ '-m31' ]
-                  },{
-                   'cflags': [ '-m32' ],
-                   'ldflags': [ '-m32' ],
-                  }],
-                ],
-              }],
-            ],
-            'xcode_settings': {
-              'ARCHS': [ 'i386' ],
-            },
-          }],
-        ],
-      }],
-      ['(OS=="linux" or OS=="android") and \
-        (v8_target_arch=="x64" or v8_target_arch=="arm64" or \
-         v8_target_arch=="ppc64" or v8_target_arch=="s390x")', {
-        'target_conditions': [
-          ['_toolset=="host"', {
-            'conditions': [
-              ['host_cxx_is_biarch==1', {
-                'cflags': [ '-m64' ],
-                'ldflags': [ '-m64' ]
-              }],
-             ],
-           }],
-          ['_toolset=="target"', {
-             'conditions': [
-               ['target_cxx_is_biarch==1', {
-                 'cflags': [ '-m64' ],
-                 'ldflags': [ '-m64' ],
-               }],
-             ]
-           }],
-         ],
-      }],
       ['OS=="android" and v8_android_log_stdout==1', {
         'defines': [
           'V8_ANDROID_LOG_STDOUT',
@@ -704,9 +592,6 @@
           '__STDC_FORMAT_MACROS',
           '_ALL_SOURCE=1'],
         'conditions': [
-          [ 'v8_target_arch=="ppc"', {
-            'ldflags': [ '-Wl,-bmaxdata:0x60000000/dsa' ],
-          }],
           [ 'v8_target_arch=="ppc64"', {
             'cflags': [ '-maix64', '-fdollars-in-identifiers', '-fno-extern-tls-init' ],
             'ldflags': [ '-maix64 -Wl,-bbigtoc' ],
@@ -853,7 +738,10 @@
           }],
           # Temporary refs: https://github.com/nodejs/node/pull/23801
           ['v8_enable_handle_zapping==1', {
-            'defines': ['ENABLE_HANDLE_ZAPPING',],
+            'defines': [
+              'ENABLE_LOCAL_HANDLE_ZAPPING',
+              'ENABLE_GLOBAL_HANDLE_ZAPPING',
+            ],
           }],
         ],
 
@@ -952,13 +840,5 @@
       4724,  # https://crbug.com/v8/7771
       4800,  # Forcing value to bool.
     ],
-    # Relevant only for x86.
-    # Refs: https://github.com/nodejs/node/pull/25852
-    # Refs: https://docs.microsoft.com/en-us/cpp/build/reference/safeseh-image-has-safe-exception-handlers
-    'msvs_settings': {
-      'VCLinkerTool': {
-        'ImageHasSafeExceptionHandlers': 'false',
-      },
-    },
   },  # target_defaults
 }

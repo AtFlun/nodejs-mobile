@@ -2,6 +2,17 @@
 
 <!--introduced_in=v10.5.0-->
 
+<!-- YAML
+added: v10.5.0
+changes:
+  - version: v12.11.0
+    pr-url: https://github.com/nodejs/node/pull/29512
+    description: This API is no longer experimental.
+  - version: v11.7.0
+    pr-url: https://github.com/nodejs/node/pull/25361
+    description: This API is no longer behind the `--experimental-worker` CLI flag.
+-->
+
 > Stability: 2 - Stable
 
 <!-- source_link=lib/worker_threads.js -->
@@ -10,13 +21,11 @@ The `node:worker_threads` module enables the use of threads that execute
 JavaScript in parallel. To access it:
 
 ```mjs
-import worker from 'node:worker_threads';
+import worker_threads from 'node:worker_threads';
 ```
 
 ```cjs
-'use strict';
-
-const worker = require('node:worker_threads');
+const worker_threads = require('node:worker_threads');
 ```
 
 Workers (threads) are useful for performing CPU-intensive JavaScript operations.
@@ -57,8 +66,6 @@ export default function parseJSAsync(script) {
 ```
 
 ```cjs
-'use strict';
-
 const {
   Worker,
   isMainThread,
@@ -101,7 +108,7 @@ Worker threads inherit non-process-specific options by default. Refer to
 [`Worker constructor options`][] to know how to customize worker thread options,
 specifically `argv` and `execArgv` options.
 
-## `worker.getEnvironmentData(key)`
+## `worker_threads.getEnvironmentData(key)`
 
 <!-- YAML
 added:
@@ -141,8 +148,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const {
   Worker,
   isMainThread,
@@ -158,10 +163,12 @@ if (isMainThread) {
 }
 ```
 
-## `worker.isInternalThread`
+## `worker_threads.isInternalThread`
 
 <!-- YAML
-added: v22.14.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 * Type: {boolean}
@@ -180,8 +187,6 @@ console.log(isInternalThread);  // true
 
 ```cjs
 // loader.js
-'use strict';
-
 const { isInternalThread } = require('node:worker_threads');
 console.log(isInternalThread);  // true
 ```
@@ -194,13 +199,11 @@ console.log(isInternalThread);  // false
 
 ```cjs
 // main.js
-'use strict';
-
 const { isInternalThread } = require('node:worker_threads');
 console.log(isInternalThread);  // false
 ```
 
-## `worker.isMainThread`
+## `worker_threads.isMainThread`
 
 <!-- YAML
 added: v10.5.0
@@ -223,8 +226,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const { Worker, isMainThread } = require('node:worker_threads');
 
 if (isMainThread) {
@@ -236,7 +237,7 @@ if (isMainThread) {
 }
 ```
 
-## `worker.markAsUntransferable(object)`
+## `worker_threads.markAsUntransferable(object)`
 
 <!-- YAML
 added:
@@ -254,6 +255,8 @@ In particular, this makes sense for objects that can be cloned, rather than
 transferred, and which are used by other objects on the sending side.
 For example, Node.js marks the `ArrayBuffer`s it uses for its
 [`Buffer` pool][`Buffer.allocUnsafe()`] with this.
+`ArrayBuffer.prototype.transfer()` is disallowed on such array buffer
+instances.
 
 This operation cannot be undone.
 
@@ -284,8 +287,6 @@ console.log(typedArray2);
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel, markAsUntransferable } = require('node:worker_threads');
 
 const pooledBuffer = new ArrayBuffer(8);
@@ -313,7 +314,7 @@ console.log(typedArray2);
 
 There is no equivalent to this API in browsers.
 
-## `worker.isMarkedAsUntransferable(object)`
+## `worker_threads.isMarkedAsUntransferable(object)`
 
 <!-- YAML
 added: v21.0.0
@@ -335,8 +336,6 @@ isMarkedAsUntransferable(pooledBuffer);  // Returns true.
 ```
 
 ```cjs
-'use strict';
-
 const { markAsUntransferable, isMarkedAsUntransferable } = require('node:worker_threads');
 
 const pooledBuffer = new ArrayBuffer(8);
@@ -347,10 +346,12 @@ isMarkedAsUntransferable(pooledBuffer);  // Returns true.
 
 There is no equivalent to this API in browsers.
 
-## `worker.markAsUncloneable(object)`
+## `worker_threads.markAsUncloneable(object)`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
 -->
 
 * `object` {any} Any arbitrary JavaScript value.
@@ -378,8 +379,6 @@ try {
 ```
 
 ```cjs
-'use strict';
-
 const { markAsUncloneable } = require('node:worker_threads');
 
 const anyObject = { foo: 'bar' };
@@ -395,7 +394,7 @@ try {
 
 There is no equivalent to this API in browsers.
 
-## `worker.moveMessagePortToContext(port, contextifiedSandbox)`
+## `worker_threads.moveMessagePortToContext(port, contextifiedSandbox)`
 
 <!-- YAML
 added: v11.13.0
@@ -421,7 +420,7 @@ However, the created `MessagePort` no longer inherits from
 {EventTarget}, and only [`port.onmessage()`][] can be used to receive
 events using it.
 
-## `worker.parentPort`
+## `worker_threads.parentPort`
 
 <!-- YAML
 added: v10.5.0
@@ -454,8 +453,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const { Worker, isMainThread, parentPort } = require('node:worker_threads');
 
 if (isMainThread) {
@@ -472,10 +469,12 @@ if (isMainThread) {
 }
 ```
 
-## `worker.postMessageToThread(threadId, value[, transferList][, timeout])`
+## `worker_threads.postMessageToThread(threadId, value[, transferList][, timeout])`
 
 <!-- YAML
-added: v22.5.0
+added:
+- v22.5.0
+- v20.19.0
 -->
 
 > Stability: 1.1 - Active development
@@ -505,7 +504,7 @@ parent or child of the current thread.
 If the two threads are parent-children, use the [`require('node:worker_threads').parentPort.postMessage()`][]
 and the [`worker.postMessage()`][] to let the threads communicate.
 
-The example below shows the use of of `postMessageToThread`: it creates 10 nested threads,
+The example below shows the use of `postMessageToThread`: it creates 10 nested threads,
 the last one will try to communicate with the main thread.
 
 ```mjs
@@ -545,9 +544,6 @@ channel.onmessage = channel.close;
 ```
 
 ```cjs
-'use strict';
-
-const process = require('node:process');
 const {
   postMessageToThread,
   threadId,
@@ -582,7 +578,7 @@ if (level === 0) {
 channel.onmessage = channel.close;
 ```
 
-## `worker.receiveMessageOnPort(port)`
+## `worker_threads.receiveMessageOnPort(port)`
 
 <!-- YAML
 added: v12.3.0
@@ -613,8 +609,6 @@ console.log(receiveMessageOnPort(port2));
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel, receiveMessageOnPort } = require('node:worker_threads');
 const { port1, port2 } = new MessageChannel();
 port1.postMessage({ hello: 'world' });
@@ -628,7 +622,7 @@ console.log(receiveMessageOnPort(port2));
 When this function is used, no `'message'` event is emitted and the
 `onmessage` listener is not invoked.
 
-## `worker.resourceLimits`
+## `worker_threads.resourceLimits`
 
 <!-- YAML
 added:
@@ -648,7 +642,7 @@ this matches its values.
 
 If this is used in the main thread, its value is an empty object.
 
-## `worker.SHARE_ENV`
+## `worker_threads.SHARE_ENV`
 
 <!-- YAML
 added: v11.14.0
@@ -670,8 +664,6 @@ new Worker('process.env.SET_IN_WORKER = "foo"', { eval: true, env: SHARE_ENV })
 ```
 
 ```cjs
-'use strict';
-
 const { Worker, SHARE_ENV } = require('node:worker_threads');
 new Worker('process.env.SET_IN_WORKER = "foo"', { eval: true, env: SHARE_ENV })
   .once('exit', () => {
@@ -679,7 +671,7 @@ new Worker('process.env.SET_IN_WORKER = "foo"', { eval: true, env: SHARE_ENV })
   });
 ```
 
-## `worker.setEnvironmentData(key[, value])`
+## `worker_threads.setEnvironmentData(key[, value])`
 
 <!-- YAML
 added:
@@ -703,7 +695,7 @@ The `worker.setEnvironmentData()` API sets the content of
 `worker.getEnvironmentData()` in the current thread and all new `Worker`
 instances spawned from the current context.
 
-## `worker.threadId`
+## `worker_threads.threadId`
 
 <!-- YAML
 added: v10.5.0
@@ -715,10 +707,10 @@ An integer identifier for the current thread. On the corresponding worker object
 (if there is any), it is available as [`worker.threadId`][].
 This value is unique for each [`Worker`][] instance inside a single process.
 
-## `worker.threadName`
+## `worker_threads.threadName`
 
 <!-- YAML
-added: v22.20.0
+added: v24.6.0
 -->
 
 * {string|null}
@@ -726,7 +718,7 @@ added: v22.20.0
 A string identifier for the current thread or null if the thread is not running.
 On the corresponding worker object (if there is any), it is available as [`worker.threadName`][].
 
-## `worker.workerData`
+## `worker_threads.workerData`
 
 <!-- YAML
 added: v10.5.0
@@ -749,8 +741,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const { Worker, isMainThread, workerData } = require('node:worker_threads');
 
 if (isMainThread) {
@@ -758,6 +748,147 @@ if (isMainThread) {
 } else {
   console.log(workerData);  // Prints 'Hello, world!'.
 }
+```
+
+## `worker_threads.locks`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+> Stability: 1 - Experimental
+
+* {LockManager}
+
+An instance of a [`LockManager`][LockManager] that can be used to coordinate
+access to resources that may be shared across multiple threads within the same
+process. The API mirrors the semantics of the
+[browser `LockManager`][]
+
+### Class: `Lock`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+The `Lock` interface provides information about a lock that has been granted via
+[`locks.request()`][locks.request()]
+
+#### `lock.name`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+* {string}
+
+The name of the lock.
+
+#### `lock.mode`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+* {string}
+
+The mode of the lock. Either `shared` or `exclusive`.
+
+### Class: `LockManager`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+The `LockManager` interface provides methods for requesting and introspecting
+locks. To obtain a `LockManager` instance use
+
+```mjs
+import { locks } from 'node:worker_threads';
+```
+
+```cjs
+const { locks } = require('node:worker_threads');
+```
+
+This implementation matches the [browser `LockManager`][] API.
+
+#### `locks.request(name[, options], callback)`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+* `name` {string}
+* `options` {Object}
+  * `mode` {string} Either `'exclusive'` or `'shared'`. **Default:** `'exclusive'`.
+  * `ifAvailable` {boolean} If `true`, the request will only be granted if the
+    lock is not already held. If it cannot be granted, `callback` will be
+    invoked with `null` instead of a `Lock` instance. **Default:** `false`.
+  * `steal` {boolean} If `true`, any existing locks with the same name are
+    released and the request is granted immediately, pre-empting any queued
+    requests. **Default:** `false`.
+  * `signal` {AbortSignal} that can be used to abort a
+    pending (but not yet granted) lock request.
+* `callback` {Function} Invoked once the lock is granted (or immediately with
+  `null` if `ifAvailable` is `true` and the lock is unavailable). The lock is
+  released automatically when the function returns, or—if the function returns
+  a promise—when that promise settles.
+* Returns: {Promise} Resolves once the lock has been released.
+
+```mjs
+import { locks } from 'node:worker_threads';
+
+await locks.request('my_resource', async (lock) => {
+  // The lock has been acquired.
+});
+// The lock has been released here.
+```
+
+```cjs
+const { locks } = require('node:worker_threads');
+
+locks.request('my_resource', async (lock) => {
+  // The lock has been acquired.
+}).then(() => {
+  // The lock has been released here.
+});
+```
+
+#### `locks.query()`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+* Returns: {Promise}
+
+Resolves with a `LockManagerSnapshot` describing the currently held and pending
+locks for the current process.
+
+```mjs
+import { locks } from 'node:worker_threads';
+
+const snapshot = await locks.query();
+for (const lock of snapshot.held) {
+  console.log(`held lock: name ${lock.name}, mode ${lock.mode}`);
+}
+for (const pending of snapshot.pending) {
+  console.log(`pending lock: name ${pending.name}, mode ${pending.mode}`);
+}
+```
+
+```cjs
+const { locks } = require('node:worker_threads');
+
+locks.query().then((snapshot) => {
+  for (const lock of snapshot.held) {
+    console.log(`held lock: name ${lock.name}, mode ${lock.mode}`);
+  }
+  for (const pending of snapshot.pending) {
+    console.log(`pending lock: name ${pending.name}, mode ${pending.mode}`);
+  }
+});
 ```
 
 ## Class: `BroadcastChannel extends EventTarget`
@@ -797,8 +928,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const {
   isMainThread,
   BroadcastChannel,
@@ -907,8 +1036,6 @@ port2.postMessage({ foo: 'bar' });
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel } = require('node:worker_threads');
 
 const { port1, port2 } = new MessageChannel();
@@ -962,8 +1089,6 @@ port1.close();
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel } = require('node:worker_threads');
 const { port1, port2 } = new MessageChannel();
 
@@ -1097,8 +1222,6 @@ port2.postMessage(circularData);
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel } = require('node:worker_threads');
 const { port1, port2 } = new MessageChannel();
 
@@ -1148,8 +1271,6 @@ port2.postMessage({ port: otherChannel.port1 }, [ otherChannel.port1 ]);
 ```
 
 ```cjs
-'use strict';
-
 const { MessageChannel } = require('node:worker_threads');
 const { port1, port2 } = new MessageChannel();
 
@@ -1235,8 +1356,6 @@ not preserved. In particular, {Buffer} objects will be read as
 plain {Uint8Array}s on the receiving side, and instances of JavaScript
 classes will be cloned as plain JavaScript objects.
 
-<!-- eslint-disable no-unused-private-class-members -->
-
 ```js
 const b = Symbol('b');
 
@@ -1247,7 +1366,7 @@ class Foo {
     this.c = 3;
   }
 
-  get d() { return 4; }
+  get d() { return this.#a + 3; }
 }
 
 const { port1, port2 } = new MessageChannel();
@@ -1259,17 +1378,14 @@ port2.postMessage(new Foo());
 // Prints: { c: 3 }
 ```
 
-This limitation extends to many built-in objects, such as the global `URL`
-object:
+Some built-in objects cannot be cloned at all. For example, posting a
+`URL` object throws a `DataCloneError`:
 
 ```js
 const { port1, port2 } = new MessageChannel();
 
-port1.onmessage = ({ data }) => console.log(data);
-
 port2.postMessage(new URL('https://example.org'));
-
-// Prints: { }
+// Throws DataCloneError: Cannot clone object of unsupported type.
 ```
 
 ### `port.hasRef()`
@@ -1279,7 +1395,7 @@ added:
   - v18.1.0
   - v16.17.0
 changes:
- - version: v22.17.0
+ - version: v24.0.0
    pr-url: https://github.com/nodejs/node/pull/57513
    description: Marking the API stable.
 -->
@@ -1410,8 +1526,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const assert = require('node:assert');
 const {
   Worker, MessageChannel, MessagePort, isMainThread, parentPort,
@@ -1541,9 +1655,18 @@ changes:
       used for generated code.
     * `stackSizeMb` {number} The default maximum stack size for the thread.
       Small values may lead to unusable Worker instances. **Default:** `4`.
-  * `name` {string} An optional `name` to be appended to the worker title
-    for debugging/identification purposes, making the final title as
-    `[worker ${id}] ${name}`. **Default:** `''`.
+  * `name` {string} An optional `name` to be replaced in the thread name
+    and to the worker title for debugging/identification purposes,
+    making the final title as `[worker ${id}] ${name}`.
+    This parameter has a maximum allowed size, depending on the operating
+    system. If the provided name exceeds the limit, it will be truncated
+    * Maximum sizes:
+      * Windows: 32,767 characters
+      * macOS: 64 characters
+      * Linux: 16 characters
+      * NetBSD: limited to `PTHREAD_MAX_NAMELEN_NP`
+      * FreeBSD and OpenBSD: limited to `MAXCOMLEN`
+        **Default:** `'WorkerThread'`.
 
 ### Event: `'error'`
 
@@ -1611,7 +1734,7 @@ JavaScript code.
 
 <!-- YAML
 added:
-- v22.19.0
+- v24.6.0
 -->
 
 * Returns: {Promise}
@@ -1650,7 +1773,7 @@ immediately with an [`ERR_WORKER_NOT_RUNNING`][] error.
 ### `worker.getHeapStatistics()`
 
 <!-- YAML
-added: v22.16.0
+added: v24.0.0
 -->
 
 * Returns: {Promise}
@@ -1669,7 +1792,7 @@ added:
 -->
 
 An object that can be used to query performance information from a worker
-instance. Similar to [`perf_hooks.performance`][].
+instance.
 
 #### `performance.eventLoopUtilization([utilization1[, utilization2]])`
 
@@ -1722,8 +1845,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const { Worker, isMainThread, parentPort } = require('node:worker_threads');
 
 if (isMainThread) {
@@ -1791,19 +1912,16 @@ this matches its values.
 
 If the worker has stopped, the return value is an empty object.
 
-### `worker.startCpuProfile(name)`
+### `worker.startCpuProfile()`
 
 <!-- YAML
-added: v22.20.0
+added: v24.8.0
 -->
 
-* name: {string}
 * Returns: {Promise}
 
-Starting a CPU profile with the given `name`, then return a Promise that fulfills
-with an error or an object which has a `stop` method. Calling the `stop` method will
-stop collecting the profile, then return a Promise that fulfills with an error or the
-profile data.
+Starting a CPU profile then return a Promise that fulfills with an error
+or an `CPUProfileHandle` object. This API supports `await using` syntax.
 
 ```cjs
 const { Worker } = require('node:worker_threads');
@@ -1814,10 +1932,69 @@ const worker = new Worker(`
   `, { eval: true });
 
 worker.on('online', async () => {
-  const handle = await worker.startCpuProfile('demo');
+  const handle = await worker.startCpuProfile();
   const profile = await handle.stop();
   console.log(profile);
   worker.terminate();
+});
+```
+
+`await using` example.
+
+```cjs
+const { Worker } = require('node:worker_threads');
+
+const w = new Worker(`
+  const { parentPort } = require('node:worker_threads');
+  parentPort.on('message', () => {});
+  `, { eval: true });
+
+w.on('online', async () => {
+  // Stop profile automatically when return and profile will be discarded
+  await using handle = await w.startCpuProfile();
+});
+```
+
+### `worker.startHeapProfile()`
+
+<!-- YAML
+added: v24.9.0
+-->
+
+* Returns: {Promise}
+
+Starting a Heap profile then return a Promise that fulfills with an error
+or an `HeapProfileHandle` object. This API supports `await using` syntax.
+
+```cjs
+const { Worker } = require('node:worker_threads');
+
+const worker = new Worker(`
+  const { parentPort } = require('worker_threads');
+  parentPort.on('message', () => {});
+  `, { eval: true });
+
+worker.on('online', async () => {
+  const handle = await worker.startHeapProfile();
+  const profile = await handle.stop();
+  console.log(profile);
+  worker.terminate();
+});
+```
+
+`await using` example.
+
+```cjs
+const { Worker } = require('node:worker_threads');
+
+const w = new Worker(`
+  const { parentPort } = require('node:worker_threads');
+  parentPort.on('message', () => {});
+  `, { eval: true });
+
+w.on('online', async () => {
+  // Stop profile automatically when return and profile will be discarded
+  await using handle = await w.startHeapProfile();
 });
 ```
 
@@ -1893,7 +2070,7 @@ This value is unique for each `Worker` instance inside a single process.
 ### `worker.threadName`
 
 <!-- YAML
-added: v22.20.0
+added: v24.6.0
 -->
 
 * {string|null}
@@ -1914,10 +2091,17 @@ active handle in the event system. If the worker is already `unref()`ed calling
 ### `worker[Symbol.asyncDispose]()`
 
 <!-- YAML
-added: v22.18.0
+added: v24.2.0
 -->
 
-Alias for [`worker.terminate()`][].
+Calls [`worker.terminate()`][] when the dispose scope is exited.
+
+```js
+async function example() {
+  await using worker = new Worker('for (;;) {}', { eval: true });
+  // Worker is automatically terminate when the scope is exited.
+}
+```
 
 ## Notes
 
@@ -1946,8 +2130,6 @@ if (isMainThread) {
 ```
 
 ```cjs
-'use strict';
-
 const {
   Worker,
   isMainThread,
@@ -1976,6 +2158,7 @@ thread spawned will spawn another until the application crashes.
 [Addons worker support]: addons.md#worker-support
 [ECMAScript module loader]: esm.md#data-imports
 [HTML structured clone algorithm]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
+[LockManager]: #class-lockmanager
 [Signals events]: process.md#signal-events
 [Web Workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
 [`'close'` event]: #event-close
@@ -1999,10 +2182,9 @@ thread spawned will spawn another until the application crashes.
 [`data:` URL]: https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data
 [`fs.close()`]: fs.md#fsclosefd-callback
 [`fs.open()`]: fs.md#fsopenpath-flags-mode-callback
-[`markAsUntransferable()`]: #workermarkasuntransferableobject
+[`markAsUntransferable()`]: #worker_threadsmarkasuntransferableobject
 [`node:cluster` module]: cluster.md
-[`perf_hooks.performance`]: perf_hooks.md#perf_hooksperformance
-[`perf_hooks` `eventLoopUtilization()`]: perf_hooks.md#performanceeventlooputilizationutilization1-utilization2
+[`perf_hooks` `eventLoopUtilization()`]: perf_hooks.md#perf_hookseventlooputilizationutilization1-utilization2
 [`port.on('message')`]: #event-message
 [`port.onmessage()`]: https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/message_event
 [`port.postMessage()`]: #portpostmessagevalue-transferlist
@@ -2016,25 +2198,27 @@ thread spawned will spawn another until the application crashes.
 [`process.stdout`]: process.md#processstdout
 [`process.threadCpuUsage()`]: process.md#processthreadcpuusagepreviousvalue
 [`process.title`]: process.md#processtitle
-[`require('node:worker_threads').isMainThread`]: #workerismainthread
+[`require('node:worker_threads').isMainThread`]: #worker_threadsismainthread
 [`require('node:worker_threads').parentPort.on('message')`]: #event-message
 [`require('node:worker_threads').parentPort.postMessage()`]: #workerpostmessagevalue-transferlist
-[`require('node:worker_threads').parentPort`]: #workerparentport
-[`require('node:worker_threads').threadId`]: #workerthreadid
-[`require('node:worker_threads').threadName`]: #workerthreadname
-[`require('node:worker_threads').workerData`]: #workerworkerdata
+[`require('node:worker_threads').parentPort`]: #worker_threadsparentport
+[`require('node:worker_threads').threadId`]: #worker_threadsthreadid
+[`require('node:worker_threads').threadName`]: #worker_threadsthreadname
+[`require('node:worker_threads').workerData`]: #worker_threadsworkerdata
 [`trace_events`]: tracing.md
 [`v8.getHeapSnapshot()`]: v8.md#v8getheapsnapshotoptions
 [`v8.getHeapStatistics()`]: v8.md#v8getheapstatistics
 [`vm`]: vm.md
-[`worker.SHARE_ENV`]: #workershare_env
+[`worker.SHARE_ENV`]: #worker_threadsshare_env
 [`worker.on('message')`]: #event-message_1
 [`worker.postMessage()`]: #workerpostmessagevalue-transferlist
 [`worker.terminate()`]: #workerterminate
-[`worker.threadId`]: #workerthreadid_1
-[`worker.threadName`]: #workerthreadname_1
+[`worker.threadId`]: #workerthreadid
+[`worker.threadName`]: #workerthreadname
 [async-resource-worker-pool]: async_context.md#using-asyncresource-for-a-worker-thread-pool
+[browser `LockManager`]: https://developer.mozilla.org/en-US/docs/Web/API/LockManager
 [browser `MessagePort`]: https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
 [child processes]: child_process.md
 [contextified]: vm.md#what-does-it-mean-to-contextify-an-object
+[locks.request()]: #locksrequestname-options-callback
 [v8.serdes]: v8.md#serialization-api

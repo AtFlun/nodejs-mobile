@@ -8,7 +8,7 @@
       "introduced_in": "v16.4.0",
       "stability": 2,
       "stabilityText": "Stable",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/async_hooks.js\">lib/async_hooks.js</a></p>",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/async_hooks.js\">lib/async_hooks.js</a></p>",
       "modules": [
         {
           "textRaw": "Introduction",
@@ -49,7 +49,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.15.0",
+                    "version": [
+                      "v23.11.0",
+                      "v22.15.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/57510",
                     "description": "Marking the API stable."
                   }
@@ -86,7 +89,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.15.0",
+                    "version": [
+                      "v23.11.0",
+                      "v22.15.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/57510",
                     "description": "Marking the API stable."
                   }
@@ -242,6 +248,20 @@
               "desc": "<p>Runs a function synchronously outside of a context and returns its\nreturn value. The store is not accessible within the callback function or\nthe asynchronous operations created within the callback. Any <code>getStore()</code>\ncall done within the callback function will always return <code>undefined</code>.</p>\n<p>The optional <code>args</code> are passed to the callback function.</p>\n<p>If the callback function throws an error, the error is thrown by <code>exit()</code> too.\nThe stacktrace is not impacted by this call and the context is re-entered.</p>\n<p>Example:</p>\n<pre><code class=\"language-js\">// Within a call to run\ntry {\n  asyncLocalStorage.getStore(); // Returns the store object or value\n  asyncLocalStorage.exit(() => {\n    asyncLocalStorage.getStore(); // Returns undefined\n    throw new Error();\n  });\n} catch (e) {\n  asyncLocalStorage.getStore(); // Returns the same object or value\n  // The error will be caught here\n}\n</code></pre>"
             }
           ],
+          "properties": [
+            {
+              "textRaw": "`name` Type: {string}",
+              "type": "string",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The name of the <code>AsyncLocalStorage</code> instance if provided.</p>"
+            }
+          ],
           "modules": [
             {
               "textRaw": "Usage with `async/await`",
@@ -260,7 +280,27 @@
           ],
           "signatures": [
             {
-              "params": [],
+              "params": [
+                {
+                  "textRaw": "`options` {Object}",
+                  "name": "options",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`defaultValue` {any} The default value to be used when no store is provided.",
+                      "name": "defaultValue",
+                      "type": "any",
+                      "desc": "The default value to be used when no store is provided."
+                    },
+                    {
+                      "textRaw": "`name` {string} A name for the `AsyncLocalStorage` value.",
+                      "name": "name",
+                      "type": "string",
+                      "desc": "A name for the `AsyncLocalStorage` value."
+                    }
+                  ]
+                }
+              ],
               "desc": "<p>Creates a new instance of <code>AsyncLocalStorage</code>. Store is only provided within a\n<code>run()</code> call or after an <code>enterWith()</code> call.</p>"
             }
           ]

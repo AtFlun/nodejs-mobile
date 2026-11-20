@@ -5,25 +5,33 @@
   (import "wasm:js-string" "concat" (func $string_concat (param externref externref) (result (ref extern))))
   (import "wasm:js-string" "equals" (func $string_equals (param externref externref) (result i32)))
 
+  ;; Import a string constant via importedStringConstants
+  (import "wasm:js/string-constants" "hello" (global $hello externref))
+  
   ;; Export functions that use the builtins
   (export "getLength" (func $get_length))
   (export "concatStrings" (func $concat_strings))
   (export "compareStrings" (func $compare_strings))
-
+  (export "getHello" (func $get_hello))
+  
   (func $get_length (param $str externref) (result i32)
     local.get $str
     call $string_length
   )
-
+  
   (func $concat_strings (param $str1 externref) (param $str2 externref) (result (ref extern))
     local.get $str1
     local.get $str2
     call $string_concat
   )
-
+  
   (func $compare_strings (param $str1 externref) (param $str2 externref) (result i32)
     local.get $str1
     local.get $str2
     call $string_equals
+  )
+
+  (func $get_hello (result externref)
+    global.get $hello
   )
 )

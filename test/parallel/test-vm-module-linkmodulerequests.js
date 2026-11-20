@@ -1,6 +1,6 @@
 'use strict';
 
-// Flags: --experimental-vm-modules
+// Flags: --experimental-vm-modules --js-source-phase-imports
 
 require('../common');
 
@@ -54,5 +54,25 @@ test('mismatch linkage', () => {
   const baz = new SourceTextModule('import foo from "foo"; import bar from "bar";');
   assert.throws(() => baz.linkRequests([foo]), {
     code: 'ERR_MODULE_LINK_MISMATCH',
+  });
+
+  // Link a same module cache key with different instances.
+  const qux = new SourceTextModule(`
+    import foo from "foo";
+    import source Foo from "foo";
+  `);
+  assert.throws(() => qux.linkRequests([foo, bar]), {
+    code: 'ERR_MODULE_LINK_MISMATCH',
+  });
+});
+
+test('instantiate error should hint about module identifier', () => {
+  const foo = new SourceTextModule('import bar from "bar"', { identifier: 'file://foo' });
+  const bar = new SourceTextModule('import "unknown"', { identifier: 'file://bar' });
+
+  foo.linkRequests([bar]);
+  assert.throws(() => foo.instantiate(), {
+    message: `request for 'unknown' can not be resolved on module 'file://bar' that is not linked`,
+    code: 'ERR_VM_MODULE_LINK_FAILURE',
   });
 });

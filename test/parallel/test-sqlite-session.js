@@ -14,6 +14,7 @@ const { once } = require('events');
 /**
  * Convenience wrapper around assert.deepStrictEqual that sets a null
  * prototype to the expected object.
+ * @returns {boolean}
  */
 function deepStrictEqual(t) {
   return (actual, expected, message) => {
@@ -365,6 +366,30 @@ suite('conflict resolution', () => {
   });
 });
 
+test('filter handler throws', (t) => {
+  const database1 = new DatabaseSync(':memory:');
+  const database2 = new DatabaseSync(':memory:');
+  const createTableSql = 'CREATE TABLE data1(key INTEGER PRIMARY KEY); CREATE TABLE data2(key INTEGER PRIMARY KEY);';
+  database1.exec(createTableSql);
+  database2.exec(createTableSql);
+
+  const session = database1.createSession();
+
+  database1.exec('INSERT INTO data1 (key) VALUES (1), (2), (3)');
+  database1.exec('INSERT INTO data2 (key) VALUES (1), (2), (3), (4), (5)');
+
+  t.assert.throws(() => {
+    database2.applyChangeset(session.changeset(), {
+      filter: (tableName) => {
+        throw new Error(`Error filtering table ${tableName}`);
+      }
+    });
+  }, {
+    name: 'Error',
+    message: 'Error filtering table data1'
+  });
+});
+
 test('database.createSession() - filter changes', (t) => {
   const database1 = new DatabaseSync(':memory:');
   const database2 = new DatabaseSync(':memory:');
@@ -471,6 +496,27 @@ test('database.applyChangeset() - wrong arguments', (t) => {
   });
 });
 
+test('database.applyChangeset() - malformed changeset returns SQLITE_CORRUPT', {
+  skip: process.config.variables.node_shared_sqlite ?
+    'requires the bundled SQLite session fix' : false,
+}, (t) => {
+  const database = new DatabaseSync(':memory:');
+  database.exec('CREATE TABLE t1(a INTEGER PRIMARY KEY, b, c, d)');
+
+  const changeset = Buffer.from(
+    '540401000000743100177e0072286565286565',
+    'hex');
+
+  t.assert.throws(() => {
+    database.applyChangeset(changeset);
+  }, {
+    name: 'Error',
+    message: 'database disk image is malformed',
+    errcode: 11,
+    code: 'ERR_SQLITE_ERROR',
+  });
+});
+
 test('session.patchset()', (t) => {
   const database = new DatabaseSync(':memory:');
   database.exec('CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)');
@@ -540,6 +586,21 @@ test('session.close() - closing twice', (t) => {
   }, {
     name: 'Error',
     message: 'session is not open'
+  });
+});
+
+test('session supports ERM', (t) => {
+  const database = new DatabaseSync(':memory:');
+  let afterDisposeSession;
+  {
+    using session = database.createSession();
+    afterDisposeSession = session;
+    const changeset = session.changeset();
+    t.assert.ok(changeset instanceof Uint8Array);
+    t.assert.strictEqual(changeset.length, 0);
+  }
+  t.assert.throws(() => afterDisposeSession.changeset(), {
+    message: /session is not open/,
   });
 });
 

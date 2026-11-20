@@ -21,7 +21,7 @@
       },
       "stability": 2,
       "stabilityText": "Stable",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/test.js\">lib/test.js</a></p>\n<p>The <code>node:test</code> module facilitates the creation of JavaScript tests.\nTo access it:</p>\n<pre><code class=\"language-mjs\">import test from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const test = require('node:test');\n</code></pre>\n<p>This module is only available under the <code>node:</code> scheme.</p>\n<p>Tests created via the <code>test</code> module consist of a single function that is\nprocessed in one of three ways:</p>\n<ol>\n<li>A synchronous function that is considered failing if it throws an exception,\nand is considered passing otherwise.</li>\n<li>A function that returns a <code>Promise</code> that is considered failing if the\n<code>Promise</code> rejects, and is considered passing if the <code>Promise</code> fulfills.</li>\n<li>A function that receives a callback function. If the callback receives any\ntruthy value as its first argument, the test is considered failing. If a\nfalsy value is passed as the first argument to the callback, the test is\nconsidered passing. If the test function receives a callback function and\nalso returns a <code>Promise</code>, the test will fail.</li>\n</ol>\n<p>The following example illustrates how tests are written using the\n<code>test</code> module.</p>\n<pre><code class=\"language-js\">test('synchronous passing test', (t) => {\n  // This test passes because it does not throw an exception.\n  assert.strictEqual(1, 1);\n});\n\ntest('synchronous failing test', (t) => {\n  // This test fails because it throws an exception.\n  assert.strictEqual(1, 2);\n});\n\ntest('asynchronous passing test', async (t) => {\n  // This test passes because the Promise returned by the async\n  // function is settled and not rejected.\n  assert.strictEqual(1, 1);\n});\n\ntest('asynchronous failing test', async (t) => {\n  // This test fails because the Promise returned by the async\n  // function is rejected.\n  assert.strictEqual(1, 2);\n});\n\ntest('failing test using Promises', (t) => {\n  // Promises can be used directly as well.\n  return new Promise((resolve, reject) => {\n    setImmediate(() => {\n      reject(new Error('this will cause the test to fail'));\n    });\n  });\n});\n\ntest('callback passing test', (t, done) => {\n  // done() is the callback function. When the setImmediate() runs, it invokes\n  // done() with no arguments.\n  setImmediate(done);\n});\n\ntest('callback failing test', (t, done) => {\n  // When the setImmediate() runs, done() is invoked with an Error object and\n  // the test fails.\n  setImmediate(() => {\n    done(new Error('callback failure'));\n  });\n});\n</code></pre>\n<p>If any tests fail, the process exit code is set to <code>1</code>.</p>",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/test.js\">lib/test.js</a></p>\n<p>The <code>node:test</code> module facilitates the creation of JavaScript tests.\nTo access it:</p>\n<pre><code class=\"language-mjs\">import test from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const test = require('node:test');\n</code></pre>\n<p>This module is only available under the <code>node:</code> scheme.</p>\n<p>Tests created via the <code>test</code> module consist of a single function that is\nprocessed in one of three ways:</p>\n<ol>\n<li>A synchronous function that is considered failing if it throws an exception,\nand is considered passing otherwise.</li>\n<li>A function that returns a <code>Promise</code> that is considered failing if the\n<code>Promise</code> rejects, and is considered passing if the <code>Promise</code> fulfills.</li>\n<li>A function that receives a callback function. If the callback receives any\ntruthy value as its first argument, the test is considered failing. If a\nfalsy value is passed as the first argument to the callback, the test is\nconsidered passing. If the test function receives a callback function and\nalso returns a <code>Promise</code>, the test will fail.</li>\n</ol>\n<p>The following example illustrates how tests are written using the\n<code>test</code> module.</p>\n<pre><code class=\"language-js\">test('synchronous passing test', (t) => {\n  // This test passes because it does not throw an exception.\n  assert.strictEqual(1, 1);\n});\n\ntest('synchronous failing test', (t) => {\n  // This test fails because it throws an exception.\n  assert.strictEqual(1, 2);\n});\n\ntest('asynchronous passing test', async (t) => {\n  // This test passes because the Promise returned by the async\n  // function is settled and not rejected.\n  assert.strictEqual(1, 1);\n});\n\ntest('asynchronous failing test', async (t) => {\n  // This test fails because the Promise returned by the async\n  // function is rejected.\n  assert.strictEqual(1, 2);\n});\n\ntest('failing test using Promises', (t) => {\n  // Promises can be used directly as well.\n  return new Promise((resolve, reject) => {\n    setImmediate(() => {\n      reject(new Error('this will cause the test to fail'));\n    });\n  });\n});\n\ntest('callback passing test', (t, done) => {\n  // done() is the callback function. When the setImmediate() runs, it invokes\n  // done() with no arguments.\n  setImmediate(done);\n});\n\ntest('callback failing test', (t, done) => {\n  // When the setImmediate() runs, done() is invoked with an Error object and\n  // the test fails.\n  setImmediate(() => {\n    done(new Error('callback failure'));\n  });\n});\n</code></pre>\n<p>If any tests fail, the process exit code is set to <code>1</code>.</p>",
       "modules": [
         {
           "textRaw": "Subtests",
@@ -29,6 +29,20 @@
           "desc": "<p>The test context's <code>test()</code> method allows subtests to be created.\nIt allows you to structure your tests in a hierarchical manner,\nwhere you can create nested tests within a larger test.\nThis method behaves identically to the top level <code>test()</code> function.\nThe following example demonstrates the creation of a\ntop level test with two subtests.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  await t.test('subtest 1', (t) => {\n    assert.strictEqual(1, 1);\n  });\n\n  await t.test('subtest 2', (t) => {\n    assert.strictEqual(2, 2);\n  });\n});\n</code></pre>\n<blockquote>\n<p><strong>Note:</strong> <code>beforeEach</code> and <code>afterEach</code> hooks are triggered\nbetween each subtest execution.</p>\n</blockquote>\n<p>In this example, <code>await</code> is used to ensure that both subtests have completed.\nThis is necessary because tests do not wait for their subtests to\ncomplete, unlike tests created within suites.\nAny subtests that are still outstanding when their parent finishes\nare cancelled and treated as failures. Any subtest failures cause the parent\ntest to fail.</p>",
           "type": "module",
           "displayName": "Subtests"
+        },
+        {
+          "textRaw": "Rerunning failed tests",
+          "name": "rerunning_failed_tests",
+          "desc": "<p>The test runner supports persisting the state of the run to a file, allowing\nthe test runner to rerun failed tests without having to re-run the entire test suite.\nUse the <a href=\"cli.html#--test-rerun-failures\"><code>--test-rerun-failures</code></a> command-line option to specify a file path where the\nstate of the run is stored. if the state file does not exist, the test runner will\ncreate it.\nthe state file is a JSON file that contains an array of run attempts.\nEach run attempt is an object mapping successful tests to the attempt they have passed in.\nThe key identifying a test in this map is the test file path, with the line and column where the test is defined.\nin a case where a test defined in a specific location is run multiple times,\nfor example within a function or a loop,\na counter will be appended to the key, to disambiguate the test runs.\nnote changing the order of test execution or the location of a test can lead the test runner\nto consider tests as passed on a previous attempt,\nmeaning <code>--test-rerun-failures</code> should be used when tests run in a deterministic order.</p>\n<p>example of a state file:</p>\n<pre><code class=\"language-json\">[\n  {\n    \"test.js:10:5\": { \"passed_on_attempt\": 0, \"name\": \"test 1\" }\n  },\n  {\n    \"test.js:10:5\": { \"passed_on_attempt\": 0, \"name\": \"test 1\" },\n    \"test.js:20:5\": { \"passed_on_attempt\": 1, \"name\": \"test 2\" }\n  }\n]\n</code></pre>\n<p>in this example, there are two run attempts, with two tests defined in <code>test.js</code>,\nthe first test succeeded on the first attempt, and the second test succeeded on the second attempt.</p>\n<p>When the <code>--test-rerun-failures</code> option is used, the test runner will only run tests that have not yet passed.</p>\n<pre><code class=\"language-bash\">node --test-rerun-failures /path/to/state/file\n</code></pre>",
+          "type": "module",
+          "displayName": "Rerunning failed tests"
+        },
+        {
+          "textRaw": "`describe()` and `it()` aliases",
+          "name": "`describe()`_and_`it()`_aliases",
+          "desc": "<p>Suites and tests can also be written using the <code>describe()</code> and <code>it()</code>\nfunctions. <a href=\"#describename-options-fn\"><code>describe()</code></a> is an alias for <a href=\"#suitename-options-fn\"><code>suite()</code></a>, and <a href=\"#itname-options-fn\"><code>it()</code></a> is an\nalias for <a href=\"#testname-options-fn\"><code>test()</code></a>.</p>\n<pre><code class=\"language-js\">describe('A thing', () => {\n  it('should work', () => {\n    assert.strictEqual(1, 1);\n  });\n\n  it('should be ok', () => {\n    assert.strictEqual(2, 2);\n  });\n\n  describe('a nested thing', () => {\n    it('should work', () => {\n      assert.strictEqual(3, 3);\n    });\n  });\n});\n</code></pre>\n<p><code>describe()</code> and <code>it()</code> are imported from the <code>node:test</code> module.</p>\n<pre><code class=\"language-mjs\">import { describe, it } from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const { describe, it } = require('node:test');\n</code></pre>",
+          "type": "module",
+          "displayName": "`describe()` and `it()` aliases"
         },
         {
           "textRaw": "Skipping tests",
@@ -45,11 +59,17 @@
           "displayName": "TODO tests"
         },
         {
-          "textRaw": "`describe()` and `it()` aliases",
-          "name": "`describe()`_and_`it()`_aliases",
-          "desc": "<p>Suites and tests can also be written using the <code>describe()</code> and <code>it()</code>\nfunctions. <a href=\"#describename-options-fn\"><code>describe()</code></a> is an alias for <a href=\"#suitename-options-fn\"><code>suite()</code></a>, and <a href=\"#itname-options-fn\"><code>it()</code></a> is an\nalias for <a href=\"#testname-options-fn\"><code>test()</code></a>.</p>\n<pre><code class=\"language-js\">describe('A thing', () => {\n  it('should work', () => {\n    assert.strictEqual(1, 1);\n  });\n\n  it('should be ok', () => {\n    assert.strictEqual(2, 2);\n  });\n\n  describe('a nested thing', () => {\n    it('should work', () => {\n      assert.strictEqual(3, 3);\n    });\n  });\n});\n</code></pre>\n<p><code>describe()</code> and <code>it()</code> are imported from the <code>node:test</code> module.</p>\n<pre><code class=\"language-mjs\">import { describe, it } from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const { describe, it } = require('node:test');\n</code></pre>",
+          "textRaw": "Expecting tests to fail",
+          "name": "expecting_tests_to_fail",
+          "meta": {
+            "added": [
+              "v24.14.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>This flips the pass/fail reporting for a specific test or suite: a flagged test\ncase must throw in order to pass, and a flagged test case that does not throw\nfails.</p>\n<p>In each of the following, <code>doTheThing()</code> fails to return <code>true</code>, but since the\ntests are flagged <code>expectFailure</code>, they pass.</p>\n<pre><code class=\"language-js\">it.expectFailure('should do the thing', () => {\n  assert.strictEqual(doTheThing(), true);\n});\n\nit('should do the thing', { expectFailure: true }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n\nit('should do the thing', { expectFailure: 'feature not implemented' }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n</code></pre>\n<p>If the value of <code>expectFailure</code> is a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp\" class=\"type\">&lt;RegExp&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\" class=\"type\">&lt;Error&gt;</a>\nthe tests will pass only if they throw a matching value.\nSee <a href=\"assert.html#assertthrowsfn-error-message\"><code>assert.throws</code></a> for how each value type is handled.</p>\n<p>Each of the following tests fails <em>despite</em> being flagged <code>expectFailure</code>\nbecause the failure does not match the specific <strong>expected</strong> failure.</p>\n<pre><code class=\"language-js\">it('fails because regex does not match', {\n  expectFailure: /expected message/,\n}, () => {\n  throw new Error('different message');\n});\n\nit('fails because object matcher does not match', {\n  expectFailure: { code: 'ERR_EXPECTED' },\n}, () => {\n  const err = new Error('boom');\n  err.code = 'ERR_ACTUAL';\n  throw err;\n});\n</code></pre>\n<p>To supply both a reason and specific error for <code>expectFailure</code>, use <code>{ label, match }</code>.</p>\n<pre><code class=\"language-js\">it('should fail with specific error and reason', {\n  expectFailure: {\n    label: 'reason for failure',\n    match: /error message/,\n  },\n}, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n</code></pre>\n<p><code>skip</code> and/or <code>todo</code> are mutually exclusive to <code>expectFailure</code>, and <code>skip</code> or <code>todo</code>\nwill \"win\" when both are applied (<code>skip</code> wins against both, and <code>todo</code> wins\nagainst <code>expectFailure</code>).</p>\n<p>These tests will be skipped (and not run):</p>\n<pre><code class=\"language-js\">it.expectFailure('should do the thing', { skip: true }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n\nit.skip('should do the thing', { expectFailure: true }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n</code></pre>\n<p>These tests will be marked \"todo\" (silencing errors):</p>\n<pre><code class=\"language-js\">it.expectFailure('should do the thing', { todo: true }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n\nit.todo('should do the thing', { expectFailure: true }, () => {\n  assert.strictEqual(doTheThing(), true);\n});\n</code></pre>",
           "type": "module",
-          "displayName": "`describe()` and `it()` aliases"
+          "displayName": "Expecting tests to fail"
         },
         {
           "textRaw": "`only` tests",
@@ -64,6 +84,51 @@
           "desc": "<p>The <a href=\"cli.html#--test-name-pattern\"><code>--test-name-pattern</code></a> command-line option can be used to only run\ntests whose name matches the provided pattern, and the\n<a href=\"cli.html#--test-skip-pattern\"><code>--test-skip-pattern</code></a> option can be used to skip tests whose name\nmatches the provided pattern. Test name patterns are interpreted as\nJavaScript regular expressions. The <code>--test-name-pattern</code> and\n<code>--test-skip-pattern</code> options can be specified multiple times in order to run\nnested tests. For each test that is executed, any corresponding test hooks,\nsuch as <code>beforeEach()</code>, are also run. Tests that are not executed are omitted\nfrom the test runner output.</p>\n<p>Given the following test file, starting Node.js with the\n<code>--test-name-pattern=\"test [1-3]\"</code> option would cause the test runner to execute\n<code>test 1</code>, <code>test 2</code>, and <code>test 3</code>. If <code>test 1</code> did not match the test name\npattern, then its subtests would not execute, despite matching the pattern. The\nsame set of tests could also be executed by passing <code>--test-name-pattern</code>\nmultiple times (e.g. <code>--test-name-pattern=\"test 1\"</code>,\n<code>--test-name-pattern=\"test 2\"</code>, etc.).</p>\n<pre><code class=\"language-js\">test('test 1', async (t) => {\n  await t.test('test 2');\n  await t.test('test 3');\n});\n\ntest('Test 4', async (t) => {\n  await t.test('Test 5');\n  await t.test('test 6');\n});\n</code></pre>\n<p>Test name patterns can also be specified using regular expression literals. This\nallows regular expression flags to be used. In the previous example, starting\nNode.js with <code>--test-name-pattern=\"/test [4-5]/i\"</code> (or <code>--test-skip-pattern=\"/test [4-5]/i\"</code>)\nwould match <code>Test 4</code> and <code>Test 5</code> because the pattern is case-insensitive.</p>\n<p>To match a single test with a pattern, you can prefix it with all its ancestor\ntest names separated by space, to ensure it is unique.\nFor example, given the following test file:</p>\n<pre><code class=\"language-js\">describe('test 1', (t) => {\n  it('some test');\n});\n\ndescribe('test 2', (t) => {\n  it('some test');\n});\n</code></pre>\n<p>Starting Node.js with <code>--test-name-pattern=\"test 1 some test\"</code> would match\nonly <code>some test</code> in <code>test 1</code>.</p>\n<p>Test name patterns do not change the set of files that the test runner executes.</p>\n<p>If both <code>--test-name-pattern</code> and <code>--test-skip-pattern</code> are supplied,\ntests must satisfy <strong>both</strong> requirements in order to be executed.</p>",
           "type": "module",
           "displayName": "Filtering tests by name"
+        },
+        {
+          "textRaw": "Test tags",
+          "name": "test_tags",
+          "meta": {
+            "added": [
+              "v24.19.0"
+            ],
+            "changes": []
+          },
+          "stability": 1,
+          "stabilityText": ".0 - Early development",
+          "desc": "<p>Tags annotate tests and suites with arbitrary string labels. The\n<a href=\"cli.html#--experimental-test-tag-filtertag\"><code>--experimental-test-tag-filter</code></a> CLI flag (or the <code>testTagFilters</code>\noption on <a href=\"#runoptions\"><code>run()</code></a>) selects tests whose tag set contains every\nprovided filter value.</p>\n<p>Tags are an alternative to encoding metadata into test names. They are\nuseful for cross-cutting axes such as subsystem, speed bucket, flakiness,\nor environment, where a name pattern would be brittle.</p>",
+          "modules": [
+            {
+              "textRaw": "Authoring tagged tests",
+              "name": "authoring_tagged_tests",
+              "desc": "<p>Pass a <code>tags</code> array on any of <code>test()</code>, <code>it()</code>, <code>suite()</code>, or <code>describe()</code>.\nTags inherit from a suite to its child tests by union—a test inside a\nsuite tagged <code>['db']</code> that declares its own <code>tags: ['integration']</code>\neffectively has both tags.</p>\n<pre><code class=\"language-mjs\">import { describe, it } from 'node:test';\n\ndescribe('database', { tags: ['db'] }, () => {\n  it('reads a row');                                            // tags: ['db']\n  it('writes a row', { tags: ['integration'] });                // tags: ['db', 'integration']\n  it('reconnects after disconnect', { tags: ['flaky'] });       // tags: ['db', 'flaky']\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { describe, it } = require('node:test');\n\ndescribe('database', { tags: ['db'] }, () => {\n  it('reads a row');                                            // tags: ['db']\n  it('writes a row', { tags: ['integration'] });                // tags: ['db', 'integration']\n  it('reconnects after disconnect', { tags: ['flaky'] });       // tags: ['db', 'flaky']\n});\n</code></pre>\n<p>Tag values must be non-empty strings. Tags are matched case-insensitively;\nthe canonical form is lowercase. Duplicates within a single <code>tags</code> array\nare collapsed on the lowercased form, preserving the first-seen\ndeclaration order.</p>\n<p>Hooks (<code>before</code>, <code>after</code>, <code>beforeEach</code>, <code>afterEach</code>) do not declare their\nown tags. They run as part of their owning suite, which carries the\nsuite's tags.</p>",
+              "type": "module",
+              "displayName": "Authoring tagged tests"
+            },
+            {
+              "textRaw": "Filtering by tag",
+              "name": "filtering_by_tag",
+              "desc": "<p>Each <a href=\"cli.html#--experimental-test-tag-filtertag\"><code>--experimental-test-tag-filter</code></a> value is a literal tag name. A\ntest runs only when its tag set contains that name. The flag may be\nspecified more than once; tests must match <strong>every</strong> filter to run. The\nsame applies to the <code>testTagFilters</code> array on <a href=\"#runoptions\"><code>run()</code></a>. Filters are\ncase-insensitive and AND'd with <a href=\"cli.html#--test-name-pattern\"><code>--test-name-pattern</code></a>,\n<a href=\"cli.html#--test-skip-pattern\"><code>--test-skip-pattern</code></a>, and <code>.only</code> filtering.</p>\n<p>Untagged tests are excluded under any non-empty filter, since the filter\nrequires the tag to be present.</p>",
+              "type": "module",
+              "displayName": "Filtering by tag"
+            },
+            {
+              "textRaw": "Reading tags from inside a test",
+              "name": "reading_tags_from_inside_a_test",
+              "desc": "<p>The <a href=\"#class-testcontext\"><code>TestContext</code></a> object exposes the test's tags as a frozen array\nthrough <a href=\"#contexttags\"><code>context.tags</code></a>, so tests can branch on their own metadata.</p>",
+              "type": "module",
+              "displayName": "Reading tags from inside a test"
+            },
+            {
+              "textRaw": "Errors",
+              "name": "errors",
+              "desc": "<p>A tag value that violates the validation rules above throws\n<code>ERR_INVALID_ARG_VALUE</code> at the registration site, before any test runs.\nA non-array <code>tags</code> value throws <code>ERR_INVALID_ARG_TYPE</code>.</p>",
+              "type": "module",
+              "displayName": "Errors"
+            }
+          ],
+          "type": "module",
+          "displayName": "Test tags"
         },
         {
           "textRaw": "Extraneous asynchronous activity",
@@ -89,14 +154,53 @@
           "displayName": "Watch mode"
         },
         {
+          "textRaw": "Global setup and teardown",
+          "name": "global_setup_and_teardown",
+          "meta": {
+            "added": [
+              "v24.0.0"
+            ],
+            "changes": []
+          },
+          "stability": 1,
+          "stabilityText": ".0 - Early development",
+          "desc": "<p>The test runner supports specifying a module that will be evaluated before all tests are executed and\ncan be used to setup global state or fixtures for tests. This is useful for preparing resources or setting up\nshared state that is required by multiple tests.</p>\n<p>This module can export any of the following:</p>\n<ul>\n<li>A <code>globalSetup</code> function which runs once before all tests start</li>\n<li>A <code>globalTeardown</code> function which runs once after all tests complete</li>\n</ul>\n<p>The module is specified using the <code>--test-global-setup</code> flag when running tests from the command line.</p>\n<pre><code class=\"language-cjs\">// setup-module.js\nasync function globalSetup() {\n  // Setup shared resources, state, or environment\n  console.log('Global setup executed');\n  // Run servers, create files, prepare databases, etc.\n}\n\nasync function globalTeardown() {\n  // Clean up resources, state, or environment\n  console.log('Global teardown executed');\n  // Close servers, remove files, disconnect from databases, etc.\n}\n\nmodule.exports = { globalSetup, globalTeardown };\n</code></pre>\n<pre><code class=\"language-mjs\">// setup-module.mjs\nexport async function globalSetup() {\n  // Setup shared resources, state, or environment\n  console.log('Global setup executed');\n  // Run servers, create files, prepare databases, etc.\n}\n\nexport async function globalTeardown() {\n  // Clean up resources, state, or environment\n  console.log('Global teardown executed');\n  // Close servers, remove files, disconnect from databases, etc.\n}\n</code></pre>\n<p>If the global setup function throws an error, no tests will be run and the process will exit with a non-zero exit code.\nThe global teardown function will not be called in this case.</p>",
+          "type": "module",
+          "displayName": "Global setup and teardown"
+        },
+        {
           "textRaw": "Running tests from the command line",
           "name": "running_tests_from_the_command_line",
-          "desc": "<p>The Node.js test runner can be invoked from the command line by passing the\n<a href=\"cli.html#--test\"><code>--test</code></a> flag:</p>\n<pre><code class=\"language-bash\">node --test\n</code></pre>\n<p>By default, Node.js will run all files matching these patterns:</p>\n<ul>\n<li><code>**/*.test.{cjs,mjs,js}</code></li>\n<li><code>**/*-test.{cjs,mjs,js}</code></li>\n<li><code>**/*_test.{cjs,mjs,js}</code></li>\n<li><code>**/test-*.{cjs,mjs,js}</code></li>\n<li><code>**/test.{cjs,mjs,js}</code></li>\n<li><code>**/test/**/*.{cjs,mjs,js}</code></li>\n</ul>\n<p>Unless <a href=\"cli.html#--no-experimental-strip-types\"><code>--no-experimental-strip-types</code></a> is supplied, the following\nadditional patterns are also matched:</p>\n<ul>\n<li><code>**/*.test.{cts,mts,ts}</code></li>\n<li><code>**/*-test.{cts,mts,ts}</code></li>\n<li><code>**/*_test.{cts,mts,ts}</code></li>\n<li><code>**/test-*.{cts,mts,ts}</code></li>\n<li><code>**/test.{cts,mts,ts}</code></li>\n<li><code>**/test/**/*.{cts,mts,ts}</code></li>\n</ul>\n<p>Alternatively, one or more glob patterns can be provided as the\nfinal argument(s) to the Node.js command, as shown below.\nGlob patterns follow the behavior of <a href=\"https://man7.org/linux/man-pages/man7/glob.7.html\"><code>glob(7)</code></a>.\nThe glob patterns should be enclosed in double quotes on the command line to\nprevent shell expansion, which can reduce portability across systems.</p>\n<pre><code class=\"language-bash\">node --test \"**/*.test.js\" \"**/*.spec.js\"\n</code></pre>\n<p>Matching files are executed as test files.\nMore information on the test file execution can be found\nin the <a href=\"#test-runner-execution-model\">test runner execution model</a> section.</p>",
+          "desc": "<p>The Node.js test runner can be invoked from the command line by passing the\n<a href=\"cli.html#--test\"><code>--test</code></a> flag:</p>\n<pre><code class=\"language-bash\">node --test\n</code></pre>\n<p>By default, Node.js will run all files matching these patterns:</p>\n<ul>\n<li><code>**/*.test.{cjs,mjs,js}</code></li>\n<li><code>**/*-test.{cjs,mjs,js}</code></li>\n<li><code>**/*_test.{cjs,mjs,js}</code></li>\n<li><code>**/test-*.{cjs,mjs,js}</code></li>\n<li><code>**/test.{cjs,mjs,js}</code></li>\n<li><code>**/test/**/*.{cjs,mjs,js}</code></li>\n</ul>\n<p>Unless <a href=\"cli.html#--no-strip-types\"><code>--no-strip-types</code></a> is supplied, the following\nadditional patterns are also matched:</p>\n<ul>\n<li><code>**/*.test.{cts,mts,ts}</code></li>\n<li><code>**/*-test.{cts,mts,ts}</code></li>\n<li><code>**/*_test.{cts,mts,ts}</code></li>\n<li><code>**/test-*.{cts,mts,ts}</code></li>\n<li><code>**/test.{cts,mts,ts}</code></li>\n<li><code>**/test/**/*.{cts,mts,ts}</code></li>\n</ul>\n<p>Alternatively, one or more glob patterns can be provided as the\nfinal argument(s) to the Node.js command, as shown below.\nGlob patterns follow the behavior of <a href=\"https://man7.org/linux/man-pages/man7/glob.7.html\"><code>glob(7)</code></a>.\nThe glob patterns should be enclosed in double quotes on the command line to\nprevent shell expansion, which can reduce portability across systems.</p>\n<pre><code class=\"language-bash\">node --test \"**/*.test.js\" \"**/*.spec.js\"\n</code></pre>",
           "modules": [
+            {
+              "textRaw": "Randomizing tests execution order",
+              "name": "randomizing_tests_execution_order",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>The test runner can randomize execution order to help detect\norder-dependent tests. When enabled, the runner randomizes both discovered\ntest files and queued tests within each file. Use <code>--test-randomize</code> to\nenable this mode.</p>\n<pre><code class=\"language-bash\">node --test --test-randomize\n</code></pre>\n<p>When randomization is enabled, the test runner prints the seed used for the run\nas a diagnostic message:</p>\n<pre><code class=\"language-text\">Randomized test order seed: 12345\n</code></pre>\n<p>Use <code>--test-random-seed=&#x3C;number></code> to replay the same randomized order\ndeterministically. Supplying <code>--test-random-seed</code> also enables randomization,\nso <code>--test-randomize</code> is optional when a seed is provided:</p>\n<pre><code class=\"language-bash\">node --test --test-random-seed=12345\n</code></pre>\n<p>In most test files, randomization works automatically. One important exception\nis when subtests are awaited one by one. In that pattern, each subtest starts\nonly after the previous one finishes, so the runner keeps declaration order\ninstead of randomizing it.</p>\n<p>Example: this runs sequentially and is <strong>not</strong> randomized.</p>\n<pre><code class=\"language-mjs\">import test from 'node:test';\n\ntest('math', async (t) => {\n  for (const name of ['adds', 'subtracts', 'multiplies']) {\n    // Sequentially awaiting each subtest preserves declaration order.\n    await t.test(name, async () => {});\n  }\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const test = require('node:test');\n\ntest('math', async (t) => {\n  for (const name of ['adds', 'subtracts', 'multiplies']) {\n    // Sequentially awaiting each subtest preserves declaration order.\n    await t.test(name, async () => {});\n  }\n});\n</code></pre>\n<p>Using suite-style APIs such as <code>describe()</code>/<code>it()</code> or <code>suite()</code>/<code>test()</code>\nstill allows randomization, because sibling tests are enqueued together.</p>\n<p>Example: this remains eligible for randomization.</p>\n<pre><code class=\"language-mjs\">import { describe, it } from 'node:test';\n\ndescribe('math', () => {\n  it('adds', () => {});\n  it('subtracts', () => {});\n  it('multiplies', () => {});\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { describe, it } = require('node:test');\n\ndescribe('math', () => {\n  it('adds', () => {});\n  it('subtracts', () => {});\n  it('multiplies', () => {});\n});\n</code></pre>\n<p><code>--test-randomize</code> and <code>--test-random-seed</code> are not supported with <code>--watch</code> mode.</p>\n<p>Matching files are executed as test files.\nMore information on the test file execution can be found\nin the <a href=\"#test-runner-execution-model\">test runner execution model</a> section.</p>",
+              "type": "module",
+              "displayName": "Randomizing tests execution order"
+            },
             {
               "textRaw": "Test runner execution model",
               "name": "test_runner_execution_model",
               "desc": "<p>When process-level test isolation is enabled, each matching test file is\nexecuted in a separate child process. The maximum number of child processes\nrunning at any time is controlled by the <a href=\"cli.html#--test-concurrency\"><code>--test-concurrency</code></a> flag. If the\nchild process finishes with an exit code of 0, the test is considered passing.\nOtherwise, the test is considered to be a failure. Test files must be executable\nby Node.js, but are not required to use the <code>node:test</code> module internally.</p>\n<p>Each test file is executed as if it was a regular script. That is, if the test\nfile itself uses <code>node:test</code> to define tests, all of those tests will be\nexecuted within a single application thread, regardless of the value of the\n<code>concurrency</code> option of <a href=\"#testname-options-fn\"><code>test()</code></a>.</p>\n<p>When process-level test isolation is disabled, each matching test file is\nimported into the test runner process. Once all test files have been loaded, the\ntop level tests are executed with a concurrency of one. Because the test files\nare all run within the same context, it is possible for tests to interact with\neach other in ways that are not possible when isolation is enabled. For example,\nif a test relies on global state, it is possible for that state to be modified\nby a test originating from another file.</p>",
+              "modules": [
+                {
+                  "textRaw": "Child process option inheritance",
+                  "name": "child_process_option_inheritance",
+                  "desc": "<p>When running tests in process isolation mode (the default), spawned child processes\ninherit Node.js options from the parent process, including those specified in\n<a href=\"cli.html#--experimental-config-filepath---experimental-config-file\">configuration files</a>. However, certain flags are filtered out to enable proper\ntest runner functionality:</p>\n<ul>\n<li><code>--test</code> - Prevented to avoid recursive test execution</li>\n<li><code>--experimental-test-coverage</code> - Managed by the test runner</li>\n<li><code>--experimental-test-tag-filter</code> - Filter values are validated by the parent\nprocess and re-emitted to child processes</li>\n<li><code>--watch</code> - Watch mode is handled at the parent level</li>\n<li><code>--experimental-default-config-file</code> - Config file loading is handled by the parent</li>\n<li><code>--test-reporter</code> - Reporting is managed by the parent process</li>\n<li><code>--test-reporter-destination</code> - Output destinations are controlled by the parent</li>\n<li><code>--experimental-config-file</code> - Config file paths are managed by the parent</li>\n<li><code>--test-randomize</code> - Randomization is managed by the parent process and\npropagated to child processes</li>\n<li><code>--test-random-seed</code> - Randomization seed is managed by the parent process and\npropagated to child processes</li>\n</ul>\n<p>All other Node.js options from command line arguments, environment variables,\nand configuration files are inherited by the child processes.</p>",
+                  "type": "module",
+                  "displayName": "Child process option inheritance"
+                }
+              ],
               "type": "module",
               "displayName": "Test runner execution model"
             }
@@ -109,7 +213,7 @@
           "name": "collecting_code_coverage",
           "stability": 1,
           "stabilityText": "Experimental",
-          "desc": "<p>When Node.js is started with the <a href=\"cli.html#--experimental-test-coverage\"><code>--experimental-test-coverage</code></a>\ncommand-line flag, code coverage is collected and statistics are reported once\nall tests have completed. If the <a href=\"cli.html#node_v8_coveragedir\"><code>NODE_V8_COVERAGE</code></a> environment variable is\nused to specify a code coverage directory, the generated V8 coverage files are\nwritten to that directory. Node.js core modules and files within\n<code>node_modules/</code> directories are, by default, not included in the coverage report.\nHowever, they can be explicitly included via the <a href=\"cli.html#--test-coverage-include\"><code>--test-coverage-include</code></a> flag. If\ncoverage is enabled, the coverage report is sent to any <a href=\"#test-reporters\">test reporters</a> via\nthe <code>'test:coverage'</code> event.</p>\n<p>Coverage can be disabled on a series of lines using the following\ncomment syntax:</p>\n<pre><code class=\"language-js\">/* node:coverage disable */\nif (anAlwaysFalseCondition) {\n  // Code in this branch will never be executed, but the lines are ignored for\n  // coverage purposes. All lines following the 'disable' comment are ignored\n  // until a corresponding 'enable' comment is encountered.\n  console.log('this is never executed');\n}\n/* node:coverage enable */\n</code></pre>\n<p>Coverage can also be disabled for a specified number of lines. After the\nspecified number of lines, coverage will be automatically reenabled. If the\nnumber of lines is not explicitly provided, a single line is ignored.</p>\n<pre><code class=\"language-js\">/* node:coverage ignore next */\nif (anAlwaysFalseCondition) { console.log('this is never executed'); }\n\n/* node:coverage ignore next 3 */\nif (anAlwaysFalseCondition) {\n  console.log('this is never executed');\n}\n</code></pre>",
+          "desc": "<p>When Node.js is started with the <a href=\"cli.html#--experimental-test-coverage\"><code>--experimental-test-coverage</code></a>\ncommand-line flag, code coverage is collected and statistics are reported once\nall tests have completed. If the <a href=\"cli.html#node_v8_coveragedir\"><code>NODE_V8_COVERAGE</code></a> environment variable is\nused to specify a code coverage directory, the generated V8 coverage files are\nwritten to that directory. Node.js core modules and files within\n<code>node_modules/</code> directories are, by default, not included in the coverage report.\nHowever, they can be explicitly included via the <a href=\"cli.html#--test-coverage-include\"><code>--test-coverage-include</code></a> flag.\nBy default all the matching test files are excluded from the coverage report.\nExclusions can be overridden by using the <a href=\"cli.html#--test-coverage-exclude\"><code>--test-coverage-exclude</code></a> flag.\nIf coverage is enabled, the coverage report is sent to any <a href=\"#test-reporters\">test reporters</a> via\nthe <code>'test:coverage'</code> event.</p>\n<p>Coverage can be disabled on a series of lines using the following\ncomment syntax:</p>\n<pre><code class=\"language-js\">/* node:coverage disable */\nif (anAlwaysFalseCondition) {\n  // Code in this branch will never be executed, but the lines are ignored for\n  // coverage purposes. All lines following the 'disable' comment are ignored\n  // until a corresponding 'enable' comment is encountered.\n  console.log('this is never executed');\n}\n/* node:coverage enable */\n</code></pre>\n<p>Coverage can also be disabled for a specified number of lines. After the\nspecified number of lines, coverage will be automatically reenabled. If the\nnumber of lines is not explicitly provided, a single line is ignored.</p>\n<pre><code class=\"language-js\">/* node:coverage ignore next */\nif (anAlwaysFalseCondition) { console.log('this is never executed'); }\n\n/* node:coverage ignore next 3 */\nif (anAlwaysFalseCondition) {\n  console.log('this is never executed');\n}\n</code></pre>",
           "modules": [
             {
               "textRaw": "Coverage reporters",
@@ -125,7 +229,7 @@
         {
           "textRaw": "Mocking",
           "name": "mocking",
-          "desc": "<p>The <code>node:test</code> module supports mocking during testing via a top-level <code>mock</code>\nobject. The following example creates a spy on a function that adds two numbers\ntogether. The spy is then used to assert that the function was called as\nexpected.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { mock, test } from 'node:test';\n\ntest('spies on a function', () => {\n  const sum = mock.fn((a, b) => {\n    return a + b;\n  });\n\n  assert.strictEqual(sum.mock.callCount(), 0);\n  assert.strictEqual(sum(3, 4), 7);\n  assert.strictEqual(sum.mock.callCount(), 1);\n\n  const call = sum.mock.calls[0];\n  assert.deepStrictEqual(call.arguments, [3, 4]);\n  assert.strictEqual(call.result, 7);\n  assert.strictEqual(call.error, undefined);\n\n  // Reset the globally tracked mocks.\n  mock.reset();\n});\n</code></pre>\n<pre><code class=\"language-cjs\">'use strict';\nconst assert = require('node:assert');\nconst { mock, test } = require('node:test');\n\ntest('spies on a function', () => {\n  const sum = mock.fn((a, b) => {\n    return a + b;\n  });\n\n  assert.strictEqual(sum.mock.callCount(), 0);\n  assert.strictEqual(sum(3, 4), 7);\n  assert.strictEqual(sum.mock.callCount(), 1);\n\n  const call = sum.mock.calls[0];\n  assert.deepStrictEqual(call.arguments, [3, 4]);\n  assert.strictEqual(call.result, 7);\n  assert.strictEqual(call.error, undefined);\n\n  // Reset the globally tracked mocks.\n  mock.reset();\n});\n</code></pre>\n<p>The same mocking functionality is also exposed on the <a href=\"#class-testcontext\"><code>TestContext</code></a> object\nof each test. The following example creates a spy on an object method using the\nAPI exposed on the <code>TestContext</code>. The benefit of mocking via the test context is\nthat the test runner will automatically restore all mocked functionality once\nthe test finishes.</p>\n<pre><code class=\"language-js\">test('spies on an object method', (t) => {\n  const number = {\n    value: 5,\n    add(a) {\n      return this.value + a;\n    },\n  };\n\n  t.mock.method(number, 'add');\n  assert.strictEqual(number.add.mock.callCount(), 0);\n  assert.strictEqual(number.add(3), 8);\n  assert.strictEqual(number.add.mock.callCount(), 1);\n\n  const call = number.add.mock.calls[0];\n\n  assert.deepStrictEqual(call.arguments, [3]);\n  assert.strictEqual(call.result, 8);\n  assert.strictEqual(call.target, undefined);\n  assert.strictEqual(call.this, number);\n});\n</code></pre>",
+          "desc": "<p>The <code>node:test</code> module supports mocking during testing via a top-level <code>mock</code>\nobject. The following example creates a spy on a function that adds two numbers\ntogether. The spy is then used to assert that the function was called as\nexpected.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { mock, test } from 'node:test';\n\ntest('spies on a function', () => {\n  const sum = mock.fn((a, b) => {\n    return a + b;\n  });\n\n  assert.strictEqual(sum.mock.callCount(), 0);\n  assert.strictEqual(sum(3, 4), 7);\n  assert.strictEqual(sum.mock.callCount(), 1);\n\n  const call = sum.mock.calls[0];\n  assert.deepStrictEqual(call.arguments, [3, 4]);\n  assert.strictEqual(call.result, 7);\n  assert.strictEqual(call.error, undefined);\n\n  // Reset the globally tracked mocks.\n  mock.reset();\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { mock, test } = require('node:test');\n\ntest('spies on a function', () => {\n  const sum = mock.fn((a, b) => {\n    return a + b;\n  });\n\n  assert.strictEqual(sum.mock.callCount(), 0);\n  assert.strictEqual(sum(3, 4), 7);\n  assert.strictEqual(sum.mock.callCount(), 1);\n\n  const call = sum.mock.calls[0];\n  assert.deepStrictEqual(call.arguments, [3, 4]);\n  assert.strictEqual(call.result, 7);\n  assert.strictEqual(call.error, undefined);\n\n  // Reset the globally tracked mocks.\n  mock.reset();\n});\n</code></pre>\n<p>The same mocking functionality is also exposed on the <a href=\"#class-testcontext\"><code>TestContext</code></a> object\nof each test. The following example creates a spy on an object method using the\nAPI exposed on the <code>TestContext</code>. The benefit of mocking via the test context is\nthat the test runner will automatically restore all mocked functionality once\nthe test finishes.</p>\n<pre><code class=\"language-js\">test('spies on an object method', (t) => {\n  const number = {\n    value: 5,\n    add(a) {\n      return this.value + a;\n    },\n  };\n\n  t.mock.method(number, 'add');\n  assert.strictEqual(number.add.mock.callCount(), 0);\n  assert.strictEqual(number.add(3), 8);\n  assert.strictEqual(number.add.mock.callCount(), 1);\n\n  const call = number.add.mock.calls[0];\n\n  assert.deepStrictEqual(call.arguments, [3]);\n  assert.strictEqual(call.result, 8);\n  assert.strictEqual(call.target, undefined);\n  assert.strictEqual(call.this, number);\n});\n</code></pre>",
           "modules": [
             {
               "textRaw": "Timers",
@@ -137,7 +241,7 @@
             {
               "textRaw": "Dates",
               "name": "dates",
-              "desc": "<p>The mock timers API also allows the mocking of the <code>Date</code> object. This is a\nuseful feature for testing time-dependent functionality, or to simulate\ninternal calendar functions such as <code>Date.now()</code>.</p>\n<p>The dates implementation is also part of the <a href=\"#class-mocktimers\"><code>MockTimers</code></a> class. Refer to it\nfor a full list of methods and features.</p>\n<p><strong>Note:</strong> Dates and timers are dependent when mocked together. This means that\nif you have both the <code>Date</code> and <code>setTimeout</code> mocked, advancing the time will\nalso advance the mocked date as they simulate a single internal clock.</p>\n<p>The example below show how to mock the <code>Date</code> object and obtain the current\n<code>Date.now()</code> value.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('mocks the Date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'] });\n  // If not specified, the initial date will be based on 0 in the UNIX epoch\n  assert.strictEqual(Date.now(), 0);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(9999);\n  assert.strictEqual(Date.now(), 9999);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('mocks the Date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'] });\n  // If not specified, the initial date will be based on 0 in the UNIX epoch\n  assert.strictEqual(Date.now(), 0);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(9999);\n  assert.strictEqual(Date.now(), 9999);\n});\n</code></pre>\n<p>If there is no initial epoch set, the initial date will be based on 0 in the\nUnix epoch. This is January 1st, 1970, 00:00:00 UTC. You can set an initial date\nby passing a <code>now</code> property to the <code>.enable()</code> method. This value will be used\nas the initial date for the mocked <code>Date</code> object. It can either be a positive\ninteger, or another Date object.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('mocks the Date object with initial time', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 300);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('mocks the Date object with initial time', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 300);\n});\n</code></pre>\n<p>You can use the <code>.setTime()</code> method to manually move the mocked date to another\ntime. This method only accepts a positive integer.</p>\n<p><strong>Note:</strong> This method will execute any mocked timers that are in the past\nfrom the new time.</p>\n<p>In the below example we are setting a new time for the mocked date.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('sets the time of a date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.setTime(1000);\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('sets the time of a date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.setTime(1000);\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<p>If you have any timer that's set to run in the past, it will be executed as if\nthe <code>.tick()</code> method has been called. This is useful if you want to test\ntime-dependent functionality that's already in the past.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n\n  context.mock.timers.setTime(800);\n  // Timer is not executed as the time is not yet reached\n  assert.strictEqual(fn.mock.callCount(), 0);\n  assert.strictEqual(Date.now(), 800);\n\n  context.mock.timers.setTime(1200);\n  // Timer is executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 1);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n\n  context.mock.timers.setTime(800);\n  // Timer is not executed as the time is not yet reached\n  assert.strictEqual(fn.mock.callCount(), 0);\n  assert.strictEqual(Date.now(), 800);\n\n  context.mock.timers.setTime(1200);\n  // Timer is executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 1);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<p>Using <code>.runAll()</code> will execute all timers that are currently in the queue. This\nwill also advance the mocked date to the time of the last timer that was\nexecuted as if the time has passed.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n  setTimeout(fn, 2000);\n  setTimeout(fn, 3000);\n\n  context.mock.timers.runAll();\n  // All timers are executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 3);\n  assert.strictEqual(Date.now(), 3000);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n  setTimeout(fn, 2000);\n  setTimeout(fn, 3000);\n\n  context.mock.timers.runAll();\n  // All timers are executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 3);\n  assert.strictEqual(Date.now(), 3000);\n});\n</code></pre>",
+              "desc": "<p>The mock timers API also allows the mocking of the <code>Date</code> object. This is a\nuseful feature for testing time-dependent functionality, or to simulate\ninternal calendar functions such as <code>Date.now()</code>.</p>\n<p>The dates implementation is also part of the <a href=\"#class-mocktimers\"><code>MockTimers</code></a> class. Refer to it\nfor a full list of methods and features.</p>\n<p><strong>Note:</strong> Dates and timers are dependent when mocked together. This means that\nif you have both the <code>Date</code> and <code>setTimeout</code> mocked, advancing the time will\nalso advance the mocked date as they simulate a single internal clock.</p>\n<p>The example below show how to mock the <code>Date</code> object and obtain the current\n<code>Date.now()</code> value.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('mocks the Date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'] });\n  // If not specified, the initial date will be based on 0 in the UNIX epoch\n  assert.strictEqual(Date.now(), 0);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(9999);\n  assert.strictEqual(Date.now(), 9999);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('mocks the Date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'] });\n  // If not specified, the initial date will be based on 0 in the UNIX epoch\n  assert.strictEqual(Date.now(), 0);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(9999);\n  assert.strictEqual(Date.now(), 9999);\n});\n</code></pre>\n<p>If there is no initial epoch set, the initial date will be based on 0 in the\nUnix epoch. This is January 1st, 1970, 00:00:00 UTC. You can set an initial date\nby passing a <code>now</code> property to the <code>.enable()</code> method. This value will be used\nas the initial date for the mocked <code>Date</code> object. It can either be a positive\ninteger, or another Date object.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('mocks the Date object with initial time', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 300);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('mocks the Date object with initial time', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 300);\n});\n</code></pre>\n<p>You can use the <code>.setTime()</code> method to manually move the mocked date to another\ntime. This method only accepts a positive integer.</p>\n<p><strong>Note:</strong> This method will <strong>not</strong> execute any mocked timers that are in the past\nfrom the new time.</p>\n<p>In the below example we are setting a new time for the mocked date.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('sets the time of a date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.setTime(1000);\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('sets the time of a date object', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['Date'], now: 100 });\n  assert.strictEqual(Date.now(), 100);\n\n  // Advance in time will also advance the date\n  context.mock.timers.setTime(1000);\n  context.mock.timers.tick(200);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<p>Timers scheduled in the past will <strong>not</strong> run when you call <code>setTime()</code>. To execute those timers, you can use\nthe <code>.tick()</code> method to move forward from the new time.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('setTime does not execute timers', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n\n  context.mock.timers.setTime(800);\n  // Timer is not executed as the time is not yet reached\n  assert.strictEqual(fn.mock.callCount(), 0);\n  assert.strictEqual(Date.now(), 800);\n\n  context.mock.timers.setTime(1200);\n  // Timer is still not executed\n  assert.strictEqual(fn.mock.callCount(), 0);\n  // Advance in time to execute the timer\n  context.mock.timers.tick(0);\n  assert.strictEqual(fn.mock.callCount(), 1);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('setTime does not execute timers', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n\n  context.mock.timers.setTime(800);\n  // Timer is not executed as the time is not yet reached\n  assert.strictEqual(fn.mock.callCount(), 0);\n  assert.strictEqual(Date.now(), 800);\n\n  context.mock.timers.setTime(1200);\n  // Timer is still not executed\n  assert.strictEqual(fn.mock.callCount(), 0);\n  // Advance in time to execute the timer\n  context.mock.timers.tick(0);\n  assert.strictEqual(fn.mock.callCount(), 1);\n  assert.strictEqual(Date.now(), 1200);\n});\n</code></pre>\n<p>Using <code>.runAll()</code> will execute all timers that are currently in the queue. This\nwill also advance the mocked date to the time of the last timer that was\nexecuted as if the time has passed.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n  setTimeout(fn, 2000);\n  setTimeout(fn, 3000);\n\n  context.mock.timers.runAll();\n  // All timers are executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 3);\n  assert.strictEqual(Date.now(), 3000);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('runs timers as setTime passes ticks', (context) => {\n  // Optionally choose what to mock\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const fn = context.mock.fn();\n  setTimeout(fn, 1000);\n  setTimeout(fn, 2000);\n  setTimeout(fn, 3000);\n\n  context.mock.timers.runAll();\n  // All timers are executed as the time is now reached\n  assert.strictEqual(fn.mock.callCount(), 3);\n  assert.strictEqual(Date.now(), 3000);\n});\n</code></pre>",
               "type": "module",
               "displayName": "Dates"
             }
@@ -174,6 +278,11 @@
             ],
             "changes": [
               {
+                "version": "v23.0.0",
+                "pr-url": "https://github.com/nodejs/node/pull/54548",
+                "description": "The default reporter on non-TTY stdout is changed from `tap` to `spec`, aligning with TTY stdout."
+              },
+              {
                 "version": [
                   "v19.9.0",
                   "v18.17.0"
@@ -183,12 +292,12 @@
               }
             ]
           },
-          "desc": "<p>The <code>node:test</code> module supports passing <a href=\"cli.html#--test-reporter\"><code>--test-reporter</code></a>\nflags for the test runner to use a specific reporter.</p>\n<p>The following built-reporters are supported:</p>\n<ul>\n<li>\n<p><code>tap</code>\nThe <code>tap</code> reporter outputs the test results in the <a href=\"https://testanything.org/\">TAP</a> format.</p>\n</li>\n<li>\n<p><code>spec</code>\nThe <code>spec</code> reporter outputs the test results in a human-readable format.</p>\n</li>\n<li>\n<p><code>dot</code>\nThe <code>dot</code> reporter outputs the test results in a compact format,\nwhere each passing test is represented by a <code>.</code>,\nand each failing test is represented by a <code>X</code>.</p>\n</li>\n<li>\n<p><code>junit</code>\nThe junit reporter outputs test results in a jUnit XML format</p>\n</li>\n<li>\n<p><code>lcov</code>\nThe <code>lcov</code> reporter outputs test coverage when used with the\n<a href=\"cli.html#--experimental-test-coverage\"><code>--experimental-test-coverage</code></a> flag.</p>\n</li>\n</ul>\n<p>When <code>stdout</code> is a <a href=\"tty.html\">TTY</a>, the <code>spec</code> reporter is used by default.\nOtherwise, the <code>tap</code> reporter is used by default.</p>\n<p>The exact output of these reporters is subject to change between versions of\nNode.js, and should not be relied on programmatically. If programmatic access\nto the test runner's output is required, use the events emitted by the\n<a href=\"test.html#class-testsstream\" class=\"type\">&lt;TestsStream&gt;</a>.</p>\n<p>The reporters are available via the <code>node:test/reporters</code> module:</p>\n<pre><code class=\"language-mjs\">import { tap, spec, dot, junit, lcov } from 'node:test/reporters';\n</code></pre>\n<pre><code class=\"language-cjs\">const { tap, spec, dot, junit, lcov } = require('node:test/reporters');\n</code></pre>",
+          "desc": "<p>The <code>node:test</code> module supports passing <a href=\"cli.html#--test-reporter\"><code>--test-reporter</code></a>\nflags for the test runner to use a specific reporter.</p>\n<p>The following built-reporters are supported:</p>\n<ul>\n<li>\n<p><code>spec</code>\nThe <code>spec</code> reporter outputs the test results in a human-readable format. This\nis the default reporter.</p>\n</li>\n<li>\n<p><code>tap</code>\nThe <code>tap</code> reporter outputs the test results in the <a href=\"https://testanything.org/\">TAP</a> format.</p>\n</li>\n<li>\n<p><code>dot</code>\nThe <code>dot</code> reporter outputs the test results in a compact format,\nwhere each passing test is represented by a <code>.</code>,\nand each failing test is represented by a <code>X</code>.</p>\n</li>\n<li>\n<p><code>junit</code>\nThe junit reporter outputs test results in a jUnit XML format</p>\n</li>\n<li>\n<p><code>lcov</code>\nThe <code>lcov</code> reporter outputs test coverage when used with the\n<a href=\"cli.html#--experimental-test-coverage\"><code>--experimental-test-coverage</code></a> flag.</p>\n</li>\n</ul>\n<p>The exact output of these reporters is subject to change between versions of\nNode.js, and should not be relied on programmatically. If programmatic access\nto the test runner's output is required, use the events emitted by the\n<a href=\"test.html#class-testsstream\" class=\"type\">&lt;TestsStream&gt;</a>.</p>\n<p>The reporters are available via the <code>node:test/reporters</code> module:</p>\n<pre><code class=\"language-mjs\">import { tap, spec, dot, junit, lcov } from 'node:test/reporters';\n</code></pre>\n<pre><code class=\"language-cjs\">const { tap, spec, dot, junit, lcov } = require('node:test/reporters');\n</code></pre>",
           "modules": [
             {
               "textRaw": "Custom reporters",
               "name": "custom_reporters",
-              "desc": "<p><a href=\"cli.html#--test-reporter\"><code>--test-reporter</code></a> can be used to specify a path to custom reporter.\nA custom reporter is a module that exports a value\naccepted by <a href=\"stream.html#streamcomposestreams\">stream.compose</a>.\nReporters should transform events emitted by a <a href=\"test.html#class-testsstream\" class=\"type\">&lt;TestsStream&gt;</a></p>\n<p>Example of a custom reporter using <a href=\"stream.html#class-streamtransform\" class=\"type\">&lt;stream.Transform&gt;</a>:</p>\n<pre><code class=\"language-mjs\">import { Transform } from 'node:stream';\n\nconst customReporter = new Transform({\n  writableObjectMode: true,\n  transform(event, encoding, callback) {\n    switch (event.type) {\n      case 'test:dequeue':\n        callback(null, `test ${event.data.name} dequeued`);\n        break;\n      case 'test:enqueue':\n        callback(null, `test ${event.data.name} enqueued`);\n        break;\n      case 'test:watch:drained':\n        callback(null, 'test watch queue drained');\n        break;\n      case 'test:start':\n        callback(null, `test ${event.data.name} started`);\n        break;\n      case 'test:pass':\n        callback(null, `test ${event.data.name} passed`);\n        break;\n      case 'test:fail':\n        callback(null, `test ${event.data.name} failed`);\n        break;\n      case 'test:plan':\n        callback(null, 'test plan');\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        callback(null, event.data.message);\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        callback(null, `total line count: ${totalLineCount}\\n`);\n        break;\n      }\n    }\n  },\n});\n\nexport default customReporter;\n</code></pre>\n<pre><code class=\"language-cjs\">const { Transform } = require('node:stream');\n\nconst customReporter = new Transform({\n  writableObjectMode: true,\n  transform(event, encoding, callback) {\n    switch (event.type) {\n      case 'test:dequeue':\n        callback(null, `test ${event.data.name} dequeued`);\n        break;\n      case 'test:enqueue':\n        callback(null, `test ${event.data.name} enqueued`);\n        break;\n      case 'test:watch:drained':\n        callback(null, 'test watch queue drained');\n        break;\n      case 'test:start':\n        callback(null, `test ${event.data.name} started`);\n        break;\n      case 'test:pass':\n        callback(null, `test ${event.data.name} passed`);\n        break;\n      case 'test:fail':\n        callback(null, `test ${event.data.name} failed`);\n        break;\n      case 'test:plan':\n        callback(null, 'test plan');\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        callback(null, event.data.message);\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        callback(null, `total line count: ${totalLineCount}\\n`);\n        break;\n      }\n    }\n  },\n});\n\nmodule.exports = customReporter;\n</code></pre>\n<p>Example of a custom reporter using a generator function:</p>\n<pre><code class=\"language-mjs\">export default async function * customReporter(source) {\n  for await (const event of source) {\n    switch (event.type) {\n      case 'test:dequeue':\n        yield `test ${event.data.name} dequeued\\n`;\n        break;\n      case 'test:enqueue':\n        yield `test ${event.data.name} enqueued\\n`;\n        break;\n      case 'test:watch:drained':\n        yield 'test watch queue drained\\n';\n        break;\n      case 'test:start':\n        yield `test ${event.data.name} started\\n`;\n        break;\n      case 'test:pass':\n        yield `test ${event.data.name} passed\\n`;\n        break;\n      case 'test:fail':\n        yield `test ${event.data.name} failed\\n`;\n        break;\n      case 'test:plan':\n        yield 'test plan\\n';\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        yield `${event.data.message}\\n`;\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        yield `total line count: ${totalLineCount}\\n`;\n        break;\n      }\n    }\n  }\n}\n</code></pre>\n<pre><code class=\"language-cjs\">module.exports = async function * customReporter(source) {\n  for await (const event of source) {\n    switch (event.type) {\n      case 'test:dequeue':\n        yield `test ${event.data.name} dequeued\\n`;\n        break;\n      case 'test:enqueue':\n        yield `test ${event.data.name} enqueued\\n`;\n        break;\n      case 'test:watch:drained':\n        yield 'test watch queue drained\\n';\n        break;\n      case 'test:start':\n        yield `test ${event.data.name} started\\n`;\n        break;\n      case 'test:pass':\n        yield `test ${event.data.name} passed\\n`;\n        break;\n      case 'test:fail':\n        yield `test ${event.data.name} failed\\n`;\n        break;\n      case 'test:plan':\n        yield 'test plan\\n';\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        yield `${event.data.message}\\n`;\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        yield `total line count: ${totalLineCount}\\n`;\n        break;\n      }\n    }\n  }\n};\n</code></pre>\n<p>The value provided to <code>--test-reporter</code> should be a string like one used in an\n<code>import()</code> in JavaScript code, or a value provided for <a href=\"cli.html#--importmodule\"><code>--import</code></a>.</p>",
+              "desc": "<p><a href=\"cli.html#--test-reporter\"><code>--test-reporter</code></a> can be used to specify a path to custom reporter.\nA custom reporter is a module that exports a value\naccepted by <a href=\"stream.html#streamcomposestreams\">stream.compose</a>.\nReporters should transform events emitted by a <a href=\"test.html#class-testsstream\" class=\"type\">&lt;TestsStream&gt;</a></p>\n<p>Example of a custom reporter using <a href=\"stream.html#class-streamtransform\" class=\"type\">&lt;stream.Transform&gt;</a>:</p>\n<pre><code class=\"language-mjs\">import { Transform } from 'node:stream';\n\nconst customReporter = new Transform({\n  writableObjectMode: true,\n  transform(event, encoding, callback) {\n    switch (event.type) {\n      case 'test:dequeue':\n        callback(null, `test ${event.data.name} dequeued`);\n        break;\n      case 'test:enqueue':\n        callback(null, `test ${event.data.name} enqueued`);\n        break;\n      case 'test:watch:drained':\n        callback(null, 'test watch queue drained');\n        break;\n      case 'test:watch:restarted':\n        callback(null, 'test watch restarted due to file change');\n        break;\n      case 'test:start':\n        callback(null, `test ${event.data.name} started`);\n        break;\n      case 'test:pass':\n        callback(null, `test ${event.data.name} passed`);\n        break;\n      case 'test:fail':\n        callback(null, `test ${event.data.name} failed`);\n        break;\n      case 'test:plan':\n        callback(null, 'test plan');\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        callback(null, event.data.message);\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        callback(null, `total line count: ${totalLineCount}\\n`);\n        break;\n      }\n    }\n  },\n});\n\nexport default customReporter;\n</code></pre>\n<pre><code class=\"language-cjs\">const { Transform } = require('node:stream');\n\nconst customReporter = new Transform({\n  writableObjectMode: true,\n  transform(event, encoding, callback) {\n    switch (event.type) {\n      case 'test:dequeue':\n        callback(null, `test ${event.data.name} dequeued`);\n        break;\n      case 'test:enqueue':\n        callback(null, `test ${event.data.name} enqueued`);\n        break;\n      case 'test:watch:drained':\n        callback(null, 'test watch queue drained');\n        break;\n      case 'test:watch:restarted':\n        callback(null, 'test watch restarted due to file change');\n        break;\n      case 'test:start':\n        callback(null, `test ${event.data.name} started`);\n        break;\n      case 'test:pass':\n        callback(null, `test ${event.data.name} passed`);\n        break;\n      case 'test:fail':\n        callback(null, `test ${event.data.name} failed`);\n        break;\n      case 'test:plan':\n        callback(null, 'test plan');\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        callback(null, event.data.message);\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        callback(null, `total line count: ${totalLineCount}\\n`);\n        break;\n      }\n    }\n  },\n});\n\nmodule.exports = customReporter;\n</code></pre>\n<p>Example of a custom reporter using a generator function:</p>\n<pre><code class=\"language-mjs\">export default async function * customReporter(source) {\n  for await (const event of source) {\n    switch (event.type) {\n      case 'test:dequeue':\n        yield `test ${event.data.name} dequeued\\n`;\n        break;\n      case 'test:enqueue':\n        yield `test ${event.data.name} enqueued\\n`;\n        break;\n      case 'test:watch:drained':\n        yield 'test watch queue drained\\n';\n        break;\n      case 'test:watch:restarted':\n        yield 'test watch restarted due to file change\\n';\n        break;\n      case 'test:start':\n        yield `test ${event.data.name} started\\n`;\n        break;\n      case 'test:pass':\n        yield `test ${event.data.name} passed\\n`;\n        break;\n      case 'test:fail':\n        yield `test ${event.data.name} failed\\n`;\n        break;\n      case 'test:plan':\n        yield 'test plan\\n';\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        yield `${event.data.message}\\n`;\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        yield `total line count: ${totalLineCount}\\n`;\n        break;\n      }\n    }\n  }\n}\n</code></pre>\n<pre><code class=\"language-cjs\">module.exports = async function * customReporter(source) {\n  for await (const event of source) {\n    switch (event.type) {\n      case 'test:dequeue':\n        yield `test ${event.data.name} dequeued\\n`;\n        break;\n      case 'test:enqueue':\n        yield `test ${event.data.name} enqueued\\n`;\n        break;\n      case 'test:watch:drained':\n        yield 'test watch queue drained\\n';\n        break;\n      case 'test:watch:restarted':\n        yield 'test watch restarted due to file change\\n';\n        break;\n      case 'test:start':\n        yield `test ${event.data.name} started\\n`;\n        break;\n      case 'test:pass':\n        yield `test ${event.data.name} passed\\n`;\n        break;\n      case 'test:fail':\n        yield `test ${event.data.name} failed\\n`;\n        break;\n      case 'test:plan':\n        yield 'test plan\\n';\n        break;\n      case 'test:diagnostic':\n      case 'test:stderr':\n      case 'test:stdout':\n        yield `${event.data.message}\\n`;\n        break;\n      case 'test:coverage': {\n        const { totalLineCount } = event.data.summary.totals;\n        yield `total line count: ${totalLineCount}\\n`;\n        break;\n      }\n    }\n  }\n};\n</code></pre>\n<p>The value provided to <code>--test-reporter</code> should be a string like one used in an\n<code>import()</code> in JavaScript code, or a value provided for <a href=\"cli.html#--importmodule\"><code>--import</code></a>.</p>",
               "type": "module",
               "displayName": "Custom reporters"
             },
@@ -208,6 +317,7 @@
           "name": "`assert`",
           "meta": {
             "added": [
+              "v23.7.0",
               "v22.14.0"
             ],
             "changes": []
@@ -220,6 +330,7 @@
               "name": "register",
               "meta": {
                 "added": [
+                  "v23.7.0",
                   "v22.14.0"
                 ],
                 "changes": []
@@ -297,6 +408,58 @@
           ],
           "type": "module",
           "displayName": "`snapshot`"
+        },
+        {
+          "textRaw": "Test instrumentation and OpenTelemetry",
+          "name": "test_instrumentation_and_opentelemetry",
+          "meta": {
+            "added": [
+              "v24.16.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>The test runner publishes test execution events through the Node.js\n<a href=\"diagnostics_channel.html\"><code>diagnostics_channel</code></a> module, enabling integration with observability tools\nlike OpenTelemetry without requiring changes to the test runner itself.</p>",
+          "modules": [
+            {
+              "textRaw": "Tracing events",
+              "name": "tracing_events",
+              "desc": "<p>The test runner publishes events to the <code>'node.test'</code> tracing channel. Subscribers\ncan use the <a href=\"diagnostics_channel.html#class-tracingchannel\"><code>TracingChannel</code></a> API to bind context or perform custom\ninstrumentation.</p>",
+              "modules": [
+                {
+                  "textRaw": "Channel: `'tracing:node.test:start'`",
+                  "name": "channel:_`'tracing:node.test:start'`",
+                  "desc": "<ul>\n<li><code>data</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>name</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The name of the test.</li>\n<li><code>nesting</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> The nesting level of the test.</li>\n<li><code>file</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type\" class=\"type\">&lt;undefined&gt;</a> The path to the test file, or <code>undefined</code> when\nrunning in the REPL.</li>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>\n</ul>\n</li>\n</ul>\n<p>Emitted when a test or suite starts execution. The test's span encompasses all\nof its before, beforeEach, and afterEach hooks, as well as the test body.</p>",
+                  "type": "module",
+                  "displayName": "Channel: `'tracing:node.test:start'`"
+                },
+                {
+                  "textRaw": "Channel: `'tracing:node.test:end'`",
+                  "name": "channel:_`'tracing:node.test:end'`",
+                  "desc": "<ul>\n<li><code>data</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>name</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The name of the test.</li>\n<li><code>nesting</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> The nesting level of the test.</li>\n<li><code>file</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type\" class=\"type\">&lt;undefined&gt;</a> The path to the test file, or <code>undefined</code> when\nrunning in the REPL.</li>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>\n</ul>\n</li>\n</ul>\n<p>Emitted when a test or suite finishes execution.</p>",
+                  "type": "module",
+                  "displayName": "Channel: `'tracing:node.test:end'`"
+                },
+                {
+                  "textRaw": "Channel: `'tracing:node.test:error'`",
+                  "name": "channel:_`'tracing:node.test:error'`",
+                  "desc": "<ul>\n<li><code>data</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>name</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The name of the test.</li>\n<li><code>nesting</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> The nesting level of the test.</li>\n<li><code>file</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type\" class=\"type\">&lt;undefined&gt;</a> The path to the test file, or <code>undefined</code> when\nrunning in the REPL.</li>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The type of test. Either <code>'test'</code> or <code>'suite'</code>.</li>\n<li><code>error</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\" class=\"type\">&lt;Error&gt;</a> The error that was thrown.</li>\n</ul>\n</li>\n</ul>\n<p>Emitted when a test or suite throws an error.</p>",
+                  "type": "module",
+                  "displayName": "Channel: `'tracing:node.test:error'`"
+                }
+              ],
+              "type": "module",
+              "displayName": "Tracing events"
+            },
+            {
+              "textRaw": "Context propagation with `bindStore()`",
+              "name": "context_propagation_with_`bindstore()`",
+              "desc": "<p>The tracing channel can be used to propagate context through test execution by\nbinding an <code>AsyncLocalStorage</code> instance. This allows context to be automatically\navailable in the test function and all async operations within the test.</p>\n<pre><code class=\"language-mjs\">import dc from 'node:diagnostics_channel';\nimport { AsyncLocalStorage } from 'node:async_hooks';\n\nconst testStorage = new AsyncLocalStorage();\nconst testChannel = dc.tracingChannel('node.test');\n\n// Bind context to test execution — the returned value becomes the store\ntestChannel.start.bindStore(testStorage, (data) => {\n  return { testName: data.name, startTime: Date.now() };\n});\n\n// Optionally handle errors and cleanup\ntestChannel.error.subscribe((data) => {\n  const store = testStorage.getStore();\n  console.log(`Test \"${data.name}\" failed after ${Date.now() - store.startTime}ms`);\n});\n\ntestChannel.end.subscribe((data) => {\n  const store = testStorage.getStore();\n  console.log(`Test \"${data.name}\" completed in ${Date.now() - store.startTime}ms`);\n});\n</code></pre>\n<p>When using <code>bindStore()</code>, the context provided will be automatically propagated\nto the test function and all async operations within the test, without requiring\nany additional instrumentation in the test code.</p>",
+              "type": "module",
+              "displayName": "Context propagation with `bindStore()`"
+            }
+          ],
+          "type": "module",
+          "displayName": "Test instrumentation and OpenTelemetry"
         }
       ],
       "methods": [
@@ -311,7 +474,30 @@
             ],
             "changes": [
               {
-                "version": "v22.10.0",
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/63221",
+                "description": "Added the `testTagFilters` option."
+              },
+              {
+                "version": "v24.14.0",
+                "pr-url": "https://github.com/nodejs/node/pull/61367",
+                "description": "Add the `env` option."
+              },
+              {
+                "version": "v24.7.0",
+                "pr-url": "https://github.com/nodejs/node/pull/59443",
+                "description": "Added a rerunFailuresFilePath option."
+              },
+              {
+                "version": "v23.0.0",
+                "pr-url": "https://github.com/nodejs/node/pull/54705",
+                "description": "Added the `cwd` option."
+              },
+              {
+                "version": [
+                  "v23.0.0",
+                  "v22.10.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/53937",
                 "description": "Added coverage options."
               },
@@ -326,7 +512,10 @@
                 "description": "Added the `globPatterns` option."
               },
               {
-                "version": "v22.0.0",
+                "version": [
+                  "v22.0.0",
+                  "v20.14.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/52038",
                 "description": "Added the `forceExit` option."
               },
@@ -362,14 +551,21 @@
                       "desc": "If a number is provided, then that many test processes would run in parallel, where each process corresponds to one test file. If `true`, it would run `os.availableParallelism() - 1` test files in parallel. If `false`, it would only run one test file at a time."
                     },
                     {
-                      "textRaw": "`files`: {Array} An array containing the list of files to run. **Default:** Same as [running tests from the command line][].",
+                      "textRaw": "`cwd` {string} Specifies the current working directory to be used by the test runner. Serves as the base path for resolving files as if [running tests from the command line][] from that directory. **Default:** `process.cwd()`.",
+                      "name": "cwd",
+                      "type": "string",
+                      "default": "`process.cwd()`",
+                      "desc": "Specifies the current working directory to be used by the test runner. Serves as the base path for resolving files as if [running tests from the command line][] from that directory."
+                    },
+                    {
+                      "textRaw": "`files` {Array} An array containing the list of files to run. **Default:** Same as [running tests from the command line][].",
                       "name": "files",
                       "type": "Array",
                       "default": "Same as [running tests from the command line][]",
                       "desc": "An array containing the list of files to run."
                     },
                     {
-                      "textRaw": "`forceExit`: {boolean} Configures the test runner to exit the process once all known tests have finished executing even if the event loop would otherwise remain active. **Default:** `false`.",
+                      "textRaw": "`forceExit` {boolean} Configures the test runner to exit the process once all known tests have finished executing even if the event loop would otherwise remain active. **Default:** `false`.",
                       "name": "forceExit",
                       "type": "boolean",
                       "default": "`false`",
@@ -444,6 +640,13 @@
                       "desc": "A String, RegExp or a RegExp Array, that can be used to exclude running tests whose name matches the provided pattern. Test name patterns are interpreted as JavaScript regular expressions. For each test that is executed, any corresponding test hooks, such as `beforeEach()`, are also run."
                     },
                     {
+                      "textRaw": "`testTagFilters` {string|string\\[]} A tag name, or an array of tag names, used to filter tests by their declared tags. Tests must contain every listed tag to run. Equivalent to passing [`--experimental-test-tag-filter`][] on the command line. See [Test tags][]. **Default:** `undefined`.",
+                      "name": "testTagFilters",
+                      "type": "string|string\\[]",
+                      "default": "`undefined`",
+                      "desc": "A tag name, or an array of tag names, used to filter tests by their declared tags. Tests must contain every listed tag to run. Equivalent to passing [`--experimental-test-tag-filter`][] on the command line. See [Test tags][]."
+                    },
+                    {
                       "textRaw": "`timeout` {number} A number of milliseconds the test execution will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
                       "name": "timeout",
                       "type": "number",
@@ -477,6 +680,27 @@
                           "desc": "is a positive integer that specifies the total number of shards to split the test files to. This option is _required_."
                         }
                       ]
+                    },
+                    {
+                      "textRaw": "`randomize` {boolean} Randomize execution order for test files and queued tests. This option is not supported with `watch: true`. **Default:** `false`.",
+                      "name": "randomize",
+                      "type": "boolean",
+                      "default": "`false`",
+                      "desc": "Randomize execution order for test files and queued tests. This option is not supported with `watch: true`."
+                    },
+                    {
+                      "textRaw": "`randomSeed` {number} Seed used when randomizing execution order. If this option is set, runs can replay the same randomized order deterministically, and setting this option also enables randomization. The value must be an integer between `0` and `4294967295`. **Default:** `undefined`.",
+                      "name": "randomSeed",
+                      "type": "number",
+                      "default": "`undefined`",
+                      "desc": "Seed used when randomizing execution order. If this option is set, runs can replay the same randomized order deterministically, and setting this option also enables randomization. The value must be an integer between `0` and `4294967295`."
+                    },
+                    {
+                      "textRaw": "`rerunFailuresFilePath` {string} A file path where the test runner will store the state of the tests to allow rerunning only the failed tests on a next run. see \\[Rerunning failed tests]\\[] for more information. **Default:** `undefined`.",
+                      "name": "rerunFailuresFilePath",
+                      "type": "string",
+                      "default": "`undefined`",
+                      "desc": "A file path where the test runner will store the state of the tests to allow rerunning only the failed tests on a next run. see \\[Rerunning failed tests]\\[] for more information."
                     },
                     {
                       "textRaw": "`coverage` {boolean} enable [code coverage][] collection. **Default:** `false`.",
@@ -519,6 +743,13 @@
                       "type": "number",
                       "default": "`0`",
                       "desc": "Require a minimum percent of covered functions. If code coverage does not reach the threshold specified, the process will exit with code `1`."
+                    },
+                    {
+                      "textRaw": "`env` {Object} Specify environment variables to be passed along to the test process. This option is not compatible with `isolation='none'`. These variables will override those from the main process, and are not merged with `process.env`. **Default:** `process.env`.",
+                      "name": "env",
+                      "type": "Object",
+                      "default": "`process.env`",
+                      "desc": "Specify environment variables to be passed along to the test process. This option is not compatible with `isolation='none'`. These variables will override those from the main process, and are not merged with `process.env`."
                     }
                   ]
                 }
@@ -533,7 +764,8 @@
           "name": "suite",
           "meta": {
             "added": [
-              "v22.0.0"
+              "v22.0.0",
+              "v20.13.0"
             ],
             "changes": []
           },
@@ -577,7 +809,8 @@
           "name": "skip",
           "meta": {
             "added": [
-              "v22.0.0"
+              "v22.0.0",
+              "v20.13.0"
             ],
             "changes": []
           },
@@ -594,7 +827,8 @@
           "name": "todo",
           "meta": {
             "added": [
-              "v22.0.0"
+              "v22.0.0",
+              "v20.13.0"
             ],
             "changes": []
           },
@@ -611,7 +845,8 @@
           "name": "only",
           "meta": {
             "added": [
-              "v22.0.0"
+              "v22.0.0",
+              "v20.13.0"
             ],
             "changes": []
           },
@@ -632,6 +867,11 @@
               "v16.17.0"
             ],
             "changes": [
+              {
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/63221",
+                "description": "Added the `tags` option."
+              },
               {
                 "version": [
                   "v20.2.0",
@@ -688,6 +928,13 @@
                       "desc": "If a number is provided, then that many tests would run asynchronously (they are still managed by the single-threaded event loop). If `true`, all scheduled asynchronous tests run concurrently within the thread. If `false`, only one test runs at a time. If unspecified, subtests inherit this value from their parent."
                     },
                     {
+                      "textRaw": "`expectFailure` {boolean|string|RegExp|Function|Object|Error} If truthy, the test is expected to fail. If a non-empty string is provided, that string is displayed in the test results as the reason why the test is expected to fail. If a {RegExp|Function|Object|Error} is provided directly (without wrapping in `{ match: … }`), the test passes only if the thrown error matches, following the behavior of [`assert.throws`][]. To provide both a reason and validation, pass an object with `label` (string) and `match` (RegExp, Function, Object, or Error). **Default:** `false`.",
+                      "name": "expectFailure",
+                      "type": "boolean|string|RegExp|Function|Object|Error",
+                      "default": "`false`",
+                      "desc": "If truthy, the test is expected to fail. If a non-empty string is provided, that string is displayed in the test results as the reason why the test is expected to fail. If a {RegExp|Function|Object|Error} is provided directly (without wrapping in `{ match: … }`), the test passes only if the thrown error matches, following the behavior of [`assert.throws`][]. To provide both a reason and validation, pass an object with `label` (string) and `match` (RegExp, Function, Object, or Error)."
+                    },
+                    {
                       "textRaw": "`only` {boolean} If truthy, and the test context is configured to run `only` tests, then this test will be run. Otherwise, the test is skipped. **Default:** `false`.",
                       "name": "only",
                       "type": "boolean",
@@ -706,6 +953,13 @@
                       "type": "boolean|string",
                       "default": "`false`",
                       "desc": "If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} An array of string labels associated with the test. Used together with [`--experimental-test-tag-filter`][] to filter which tests run. Tags inherit from suites to nested tests by union. See [Test tags][]. **Default:** `[]`.",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "default": "`[]`",
+                      "desc": "An array of string labels associated with the test. Used together with [`--experimental-test-tag-filter`][] to filter which tests run. Tags inherit from suites to nested tests by union. See [Test tags][]."
                     },
                     {
                       "textRaw": "`todo` {boolean|string} If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`. **Default:** `false`.",
@@ -938,7 +1192,7 @@
               ]
             }
           ],
-          "desc": "<p>This function creates a hook that runs before executing a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  before(() => console.log('about to run some test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+          "desc": "<p>This function creates a hook that runs before executing a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  before(() => console.log('about to run some test'));\n  it('is a subtest', () => {\n    // Some relevant assertions here\n  });\n});\n</code></pre>"
         },
         {
           "textRaw": "`after([fn][, options])`",
@@ -985,7 +1239,7 @@
               ]
             }
           ],
-          "desc": "<p>This function creates a hook that runs after executing a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  after(() => console.log('finished running tests'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>\n<p><strong>Note:</strong> The <code>after</code> hook is guaranteed to run,\neven if tests within the suite fail.</p>"
+          "desc": "<p>This function creates a hook that runs after executing a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  after(() => console.log('finished running tests'));\n  it('is a subtest', () => {\n    // Some relevant assertion here\n  });\n});\n</code></pre>\n<p><strong>Note:</strong> The <code>after</code> hook is guaranteed to run,\neven if tests within the suite fail.</p>"
         },
         {
           "textRaw": "`beforeEach([fn][, options])`",
@@ -1032,7 +1286,7 @@
               ]
             }
           ],
-          "desc": "<p>This function creates a hook that runs before each test in the current suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  beforeEach(() => console.log('about to run a test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+          "desc": "<p>This function creates a hook that runs before each test in the current suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  beforeEach(() => console.log('about to run a test'));\n  it('is a subtest', () => {\n    // Some relevant assertion here\n  });\n});\n</code></pre>"
         },
         {
           "textRaw": "`afterEach([fn][, options])`",
@@ -1079,7 +1333,29 @@
               ]
             }
           ],
-          "desc": "<p>This function creates a hook that runs after each test in the current suite.\nThe <code>afterEach()</code> hook is run even if the test fails.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  afterEach(() => console.log('finished running a test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+          "desc": "<p>This function creates a hook that runs after each test in the current suite.\nThe <code>afterEach()</code> hook is run even if the test fails.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  afterEach(() => console.log('finished running a test'));\n  it('is a subtest', () => {\n    // Some relevant assertion here\n  });\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`getTestContext()`",
+          "type": "method",
+          "name": "getTestContext",
+          "meta": {
+            "added": [
+              "v24.19.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {TestContext|SuiteContext|undefined}",
+                "name": "return",
+                "type": "TestContext|SuiteContext|undefined"
+              },
+              "params": []
+            }
+          ],
+          "desc": "<p>Returns the <a href=\"#class-testcontext\"><code>TestContext</code></a> or <a href=\"#class-suitecontext\"><code>SuiteContext</code></a> object associated with the\ncurrently executing test or suite, or <code>undefined</code> if called outside of a test or\nsuite. This function can be used to access context information from within the\ntest or suite function or any async operations within them.</p>\n<pre><code class=\"language-mjs\">import { getTestContext } from 'node:test';\n\ntest('example test', async () => {\n  const ctx = getTestContext();\n  console.log(`Running test: ${ctx.name}`);\n});\n\ndescribe('example suite', () => {\n  const ctx = getTestContext();\n  console.log(`Running suite: ${ctx.name}`);\n});\n</code></pre>\n<p>When called from a test, returns a <a href=\"#class-testcontext\"><code>TestContext</code></a>.\nWhen called from a suite, returns a <a href=\"#class-suitecontext\"><code>SuiteContext</code></a>.</p>\n<p>If called from outside a test or suite (e.g., at the top level of a module or in\na setTimeout callback after execution has completed), this function returns\n<code>undefined</code>.</p>\n<p>When called from within a hook (before, beforeEach, after, afterEach), this\nfunction returns the context of the test or suite that the hook is associated\nwith.</p>"
         }
       ],
       "classes": [
@@ -1236,7 +1512,8 @@
           "name": "MockModuleContext",
           "meta": {
             "added": [
-              "v22.3.0"
+              "v22.3.0",
+              "v20.18.0"
             ],
             "changes": []
           },
@@ -1250,7 +1527,8 @@
               "name": "restore",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.18.0"
                 ],
                 "changes": []
               },
@@ -1269,16 +1547,16 @@
           "name": "MockPropertyContext",
           "meta": {
             "added": [
-              "v22.20.0"
+              "v24.3.0"
             ],
             "changes": []
           },
           "desc": "<p>The <code>MockPropertyContext</code> class is used to inspect or manipulate the behavior\nof property mocks created via the <a href=\"#class-mocktracker\"><code>MockTracker</code></a> APIs.</p>",
           "properties": [
             {
-              "textRaw": "`accesses` {Array}",
+              "textRaw": "`accesses` Type: {Array}",
               "type": "Array",
-              "name": "accesses",
+              "name": "Type",
               "desc": "<p>A getter that returns a copy of the internal array used to track accesses (get/set) to\nthe mocked property. Each entry in the array is an object with the following properties:</p>\n<ul>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> Either <code>'get'</code> or <code>'set'</code>, indicating the type of access.</li>\n<li><code>value</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types\" class=\"type\">&lt;any&gt;</a> The value that was read (for <code>'get'</code>) or written (for <code>'set'</code>).</li>\n<li><code>stack</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\" class=\"type\">&lt;Error&gt;</a> An <code>Error</code> object whose stack can be used to determine the\ncallsite of the mocked function invocation.</li>\n</ul>"
             }
           ],
@@ -1540,12 +1818,13 @@
               "name": "module",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.18.0"
                 ],
                 "changes": [
                   {
                     "version": [
-                      "v22.17.0"
+                      "v24.0.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/58007",
                     "description": "Support JSON modules."
@@ -1583,23 +1862,46 @@
                           "desc": "If `false`, each call to `require()` or `import()` generates a new mock module. If `true`, subsequent calls will return the same module mock, and the mock module is inserted into the CommonJS cache."
                         },
                         {
-                          "textRaw": "`defaultExport` {any} An optional value used as the mocked module's default export. If this value is not provided, ESM mocks do not include a default export. If the mock is a CommonJS or builtin module, this setting is used as the value of `module.exports`. If this value is not provided, CJS and builtin mocks use an empty object as the value of `module.exports`.",
-                          "name": "defaultExport",
-                          "type": "any",
-                          "desc": "An optional value used as the mocked module's default export. If this value is not provided, ESM mocks do not include a default export. If the mock is a CommonJS or builtin module, this setting is used as the value of `module.exports`. If this value is not provided, CJS and builtin mocks use an empty object as the value of `module.exports`."
+                          "textRaw": "`exports` {Object} Optional mocked exports. The `default` property, if provided, is used as the mocked module's default export. All other own enumerable properties are used as named exports. **This option cannot be used with `defaultExport` or `namedExports`.**",
+                          "name": "exports",
+                          "type": "Object",
+                          "desc": "Optional mocked exports. The `default` property, if provided, is used as the mocked module's default export. All other own enumerable properties are used as named exports. **This option cannot be used with `defaultExport` or `namedExports`.**",
+                          "options": [
+                            {
+                              "textRaw": "If the mock is a CommonJS or builtin module, `exports.default` is used as the value of `module.exports`.",
+                              "name": "If",
+                              "desc": "the mock is a CommonJS or builtin module, `exports.default` is used as the value of `module.exports`."
+                            },
+                            {
+                              "textRaw": "If `exports.default` is not provided for a CommonJS or builtin mock, `module.exports` defaults to an empty object.",
+                              "name": "If",
+                              "desc": "`exports.default` is not provided for a CommonJS or builtin mock, `module.exports` defaults to an empty object."
+                            },
+                            {
+                              "textRaw": "If named exports are provided with a non-object default export, the mock throws an exception when used as a CommonJS or builtin module.",
+                              "name": "If",
+                              "desc": "named exports are provided with a non-object default export, the mock throws an exception when used as a CommonJS or builtin module."
+                            }
+                          ]
                         },
                         {
-                          "textRaw": "`namedExports` {Object} An optional object whose keys and values are used to create the named exports of the mock module. If the mock is a CommonJS or builtin module, these values are copied onto `module.exports`. Therefore, if a mock is created with both named exports and a non-object default export, the mock will throw an exception when used as a CJS or builtin module.",
+                          "textRaw": "`defaultExport` {any} An optional value used as the mocked module's default export. If this value is not provided, ESM mocks do not include a default export. If the mock is a CommonJS or builtin module, this setting is used as the value of `module.exports`. If this value is not provided, CJS and builtin mocks use an empty object as the value of `module.exports`. **This option cannot be used with `options.exports`.** This option is deprecated and will be removed in a later version. Prefer `options.exports.default`.",
+                          "name": "defaultExport",
+                          "type": "any",
+                          "desc": "An optional value used as the mocked module's default export. If this value is not provided, ESM mocks do not include a default export. If the mock is a CommonJS or builtin module, this setting is used as the value of `module.exports`. If this value is not provided, CJS and builtin mocks use an empty object as the value of `module.exports`. **This option cannot be used with `options.exports`.** This option is deprecated and will be removed in a later version. Prefer `options.exports.default`."
+                        },
+                        {
+                          "textRaw": "`namedExports` {Object} An optional object whose keys and values are used to create the named exports of the mock module. If the mock is a CommonJS or builtin module, these values are copied onto `module.exports`. Therefore, if a mock is created with both named exports and a non-object default export, the mock will throw an exception when used as a CJS or builtin module. **This option cannot be used with `options.exports`.** This option is deprecated and will be removed in a later version. Prefer `options.exports`.",
                           "name": "namedExports",
                           "type": "Object",
-                          "desc": "An optional object whose keys and values are used to create the named exports of the mock module. If the mock is a CommonJS or builtin module, these values are copied onto `module.exports`. Therefore, if a mock is created with both named exports and a non-object default export, the mock will throw an exception when used as a CJS or builtin module."
+                          "desc": "An optional object whose keys and values are used to create the named exports of the mock module. If the mock is a CommonJS or builtin module, these values are copied onto `module.exports`. Therefore, if a mock is created with both named exports and a non-object default export, the mock will throw an exception when used as a CJS or builtin module. **This option cannot be used with `options.exports`.** This option is deprecated and will be removed in a later version. Prefer `options.exports`."
                         }
                       ]
                     }
                   ]
                 }
               ],
-              "desc": "<p>This function is used to mock the exports of ECMAScript modules, CommonJS modules, JSON modules, and\nNode.js builtin modules. Any references to the original module prior to mocking are not impacted. In\norder to enable module mocking, Node.js must be started with the\n<a href=\"cli.html#--experimental-test-module-mocks\"><code>--experimental-test-module-mocks</code></a> command-line flag.</p>\n<p><strong>Note</strong>: <a href=\"module.html#customization-hooks\">module customization hooks</a> registered via the <strong>synchronous</strong> API effect resolution of\nthe <code>specifier</code> provided to <code>mock.module</code>. Customization hooks registered via the <strong>asynchronous</strong>\nAPI are currently ignored (because the test runner's loader is synchronous, and node does not\nsupport multi-chain / cross-chain loading).</p>\n<p>The following example demonstrates how a mock is created for a module.</p>\n<pre><code class=\"language-js\">test('mocks a builtin module in both module systems', async (t) => {\n  // Create a mock of 'node:readline' with a named export named 'fn', which\n  // does not exist in the original 'node:readline' module.\n  const mock = t.mock.module('node:readline', {\n    namedExports: { fn() { return 42; } },\n  });\n\n  let esmImpl = await import('node:readline');\n  let cjsImpl = require('node:readline');\n\n  // cursorTo() is an export of the original 'node:readline' module.\n  assert.strictEqual(esmImpl.cursorTo, undefined);\n  assert.strictEqual(cjsImpl.cursorTo, undefined);\n  assert.strictEqual(esmImpl.fn(), 42);\n  assert.strictEqual(cjsImpl.fn(), 42);\n\n  mock.restore();\n\n  // The mock is restored, so the original builtin module is returned.\n  esmImpl = await import('node:readline');\n  cjsImpl = require('node:readline');\n\n  assert.strictEqual(typeof esmImpl.cursorTo, 'function');\n  assert.strictEqual(typeof cjsImpl.cursorTo, 'function');\n  assert.strictEqual(esmImpl.fn, undefined);\n  assert.strictEqual(cjsImpl.fn, undefined);\n});\n</code></pre>"
+              "desc": "<p>This function is used to mock the exports of ECMAScript modules, CommonJS modules, JSON modules, and\nNode.js builtin modules. Any references to the original module prior to mocking are not impacted. In\norder to enable module mocking, Node.js must be started with the\n<a href=\"cli.html#--experimental-test-module-mocks\"><code>--experimental-test-module-mocks</code></a> command-line flag.</p>\n<p><strong>Note</strong>: <a href=\"module.html#customization-hooks\">module customization hooks</a> registered via the <strong>synchronous</strong> API effect resolution of\nthe <code>specifier</code> provided to <code>mock.module</code>. Customization hooks registered via the <strong>asynchronous</strong>\nAPI are currently ignored (because the test runner's loader is synchronous, and node does not\nsupport multi-chain / cross-chain loading).</p>\n<p>The following example demonstrates how a mock is created for a module.</p>\n<pre><code class=\"language-js\">test('mocks a builtin module in both module systems', async (t) => {\n  // Create a mock of 'node:readline' with a named export named 'foo', which\n  // does not exist in the original 'node:readline' module.\n  const mock = t.mock.module('node:readline', {\n    exports: { foo: () => 42 },\n  });\n\n  let esmImpl = await import('node:readline');\n  let cjsImpl = require('node:readline');\n\n  // cursorTo() is an export of the original 'node:readline' module.\n  assert.strictEqual(esmImpl.cursorTo, undefined);\n  assert.strictEqual(cjsImpl.cursorTo, undefined);\n  assert.strictEqual(esmImpl.foo(), 42);\n  assert.strictEqual(cjsImpl.foo(), 42);\n\n  mock.restore();\n\n  // The mock is restored, so the original builtin module is returned.\n  esmImpl = await import('node:readline');\n  cjsImpl = require('node:readline');\n\n  assert.strictEqual(typeof esmImpl.cursorTo, 'function');\n  assert.strictEqual(typeof cjsImpl.cursorTo, 'function');\n  assert.strictEqual(esmImpl.foo, undefined);\n  assert.strictEqual(cjsImpl.foo, undefined);\n});\n</code></pre>"
             },
             {
               "textRaw": "`mock.property(object, propertyName[, value])`",
@@ -1607,7 +1909,7 @@
               "name": "property",
               "meta": {
                 "added": [
-                  "v22.20.0"
+                  "v24.3.0"
                 ],
                 "changes": []
               },
@@ -1709,10 +2011,14 @@
               "v20.4.0",
               "v18.19.0"
             ],
-            "changes": []
+            "changes": [
+              {
+                "version": "v23.1.0",
+                "pr-url": "https://github.com/nodejs/node/pull/55398",
+                "description": "The Mock Timers is now stable."
+              }
+            ]
           },
-          "stability": 1,
-          "stabilityText": "Experimental",
           "desc": "<p>Mocking timers is a technique commonly used in software testing to simulate and\ncontrol the behavior of timers, such as <code>setInterval</code> and <code>setTimeout</code>,\nwithout actually waiting for the specified time intervals.</p>\n<p>MockTimers is also able to mock the <code>Date</code> object.</p>\n<p>The <a href=\"#class-mocktracker\"><code>MockTracker</code></a> provides a top-level <code>timers</code> export\nwhich is a <code>MockTimers</code> instance.</p>",
           "methods": [
             {
@@ -1844,7 +2150,7 @@
                 {
                   "textRaw": "Dates and Timers working together",
                   "name": "dates_and_timers_working_together",
-                  "desc": "<p>Dates and timer objects are dependent on each other. If you use <code>setTime()</code> to\npass the current time to the mocked <code>Date</code> object, the set timers with\n<code>setTimeout</code> and <code>setInterval</code> will <strong>not</strong> be affected.</p>\n<p>However, the <code>tick</code> method <strong>will</strong> advanced the mocked <code>Date</code> object.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('runAll functions following the given order', (context) => {\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const results = [];\n  setTimeout(() => results.push(1), 9999);\n\n  assert.deepStrictEqual(results, []);\n  context.mock.timers.setTime(12000);\n  assert.deepStrictEqual(results, []);\n  // The date is advanced but the timers don't tick\n  assert.strictEqual(Date.now(), 12000);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('runAll functions following the given order', (context) => {\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const results = [];\n  setTimeout(() => results.push(1), 9999);\n\n  assert.deepStrictEqual(results, []);\n  context.mock.timers.setTime(12000);\n  assert.deepStrictEqual(results, []);\n  // The date is advanced but the timers don't tick\n  assert.strictEqual(Date.now(), 12000);\n});\n</code></pre>",
+                  "desc": "<p>Dates and timer objects are dependent on each other. If you use <code>setTime()</code> to\npass the current time to the mocked <code>Date</code> object, the set timers with\n<code>setTimeout</code> and <code>setInterval</code> will <strong>not</strong> be affected.</p>\n<p>However, the <code>tick</code> method <strong>will</strong> advance the mocked <code>Date</code> object.</p>\n<pre><code class=\"language-mjs\">import assert from 'node:assert';\nimport { test } from 'node:test';\n\ntest('runAll functions following the given order', (context) => {\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const results = [];\n  setTimeout(() => results.push(1), 9999);\n\n  assert.deepStrictEqual(results, []);\n  context.mock.timers.setTime(12000);\n  assert.deepStrictEqual(results, []);\n  // The date is advanced but the timers don't tick\n  assert.strictEqual(Date.now(), 12000);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const assert = require('node:assert');\nconst { test } = require('node:test');\n\ntest('runAll functions following the given order', (context) => {\n  context.mock.timers.enable({ apis: ['setTimeout', 'Date'] });\n  const results = [];\n  setTimeout(() => results.push(1), 9999);\n\n  assert.deepStrictEqual(results, []);\n  context.mock.timers.setTime(12000);\n  assert.deepStrictEqual(results, []);\n  // The date is advanced but the timers don't tick\n  assert.strictEqual(Date.now(), 12000);\n});\n</code></pre>",
                   "type": "module",
                   "displayName": "Dates and Timers working together"
                 }
@@ -1862,6 +2168,11 @@
               "v16.19.0"
             ],
             "changes": [
+              {
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/63435",
+                "description": "Added `parentId` to test events that carry a `testId`."
+              },
               {
                 "version": [
                   "v20.0.0",
@@ -2213,6 +2524,24 @@
                       "desc": "The nesting level of the test."
                     },
                     {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
+                    },
+                    {
                       "textRaw": "`testNumber` {number} The ordinal number of the test.",
                       "name": "testNumber",
                       "type": "number",
@@ -2274,6 +2603,24 @@
                       "name": "nesting",
                       "type": "number",
                       "desc": "The nesting level of the test."
+                    },
+                    {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
                     },
                     {
                       "textRaw": "`type` {string} The test type. Either `'suite'` or `'test'`.",
@@ -2392,6 +2739,24 @@
                       "desc": "The nesting level of the test."
                     },
                     {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
+                    },
+                    {
                       "textRaw": "`type` {string} The test type. Either `'suite'` or `'test'`.",
                       "name": "type",
                       "type": "string",
@@ -2449,6 +2814,12 @@
                           "name": "type",
                           "type": "string|undefined",
                           "desc": "The type of the test, used to denote whether this is a suite."
+                        },
+                        {
+                          "textRaw": "`attempt` {number|undefined} The attempt number of the test run, present only when using the [`--test-rerun-failures`][] flag.",
+                          "name": "attempt",
+                          "type": "number|undefined",
+                          "desc": "The attempt number of the test run, present only when using the [`--test-rerun-failures`][] flag."
                         }
                       ]
                     },
@@ -2477,6 +2848,24 @@
                       "desc": "The nesting level of the test."
                     },
                     {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
+                    },
+                    {
                       "textRaw": "`testNumber` {number} The ordinal number of the test.",
                       "name": "testNumber",
                       "type": "number",
@@ -2498,6 +2887,65 @@
                 }
               ],
               "desc": "<p>Emitted when a test fails.\nThis event is guaranteed to be emitted in the same order as the tests are\ndefined.\nThe corresponding execution ordered event is <code>'test:complete'</code>.</p>"
+            },
+            {
+              "textRaw": "Event: `'test:interrupted'`",
+              "type": "event",
+              "name": "test:interrupted",
+              "meta": {
+                "added": [
+                  "v24.15.0"
+                ],
+                "changes": []
+              },
+              "params": [
+                {
+                  "textRaw": "`data` {Object}",
+                  "name": "data",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`tests` {Array} An array of objects containing information about the interrupted tests.",
+                      "name": "tests",
+                      "type": "Array",
+                      "desc": "An array of objects containing information about the interrupted tests.",
+                      "options": [
+                        {
+                          "textRaw": "`column` {number|undefined} The column number where the test is defined, or `undefined` if the test was run through the REPL.",
+                          "name": "column",
+                          "type": "number|undefined",
+                          "desc": "The column number where the test is defined, or `undefined` if the test was run through the REPL."
+                        },
+                        {
+                          "textRaw": "`file` {string|undefined} The path of the test file, `undefined` if test was run through the REPL.",
+                          "name": "file",
+                          "type": "string|undefined",
+                          "desc": "The path of the test file, `undefined` if test was run through the REPL."
+                        },
+                        {
+                          "textRaw": "`line` {number|undefined} The line number where the test is defined, or `undefined` if the test was run through the REPL.",
+                          "name": "line",
+                          "type": "number|undefined",
+                          "desc": "The line number where the test is defined, or `undefined` if the test was run through the REPL."
+                        },
+                        {
+                          "textRaw": "`name` {string} The test name.",
+                          "name": "name",
+                          "type": "string",
+                          "desc": "The test name."
+                        },
+                        {
+                          "textRaw": "`nesting` {number} The nesting level of the test.",
+                          "name": "nesting",
+                          "type": "number",
+                          "desc": "The nesting level of the test."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Emitted when the test runner is interrupted by a <code>SIGINT</code> signal (e.g., when\npressing <kbd>Ctrl</kbd>+<kbd>C</kbd>). The event contains information about\nthe tests that were running at the time of interruption.</p>\n<p>When using process isolation (the default), the test name will be the file path\nsince the parent runner only knows about file-level tests. When using\n<code>--test-isolation=none</code>, the actual test name is shown.</p>"
             },
             {
               "textRaw": "Event: `'test:pass'`",
@@ -2532,6 +2980,18 @@
                           "name": "type",
                           "type": "string|undefined",
                           "desc": "The type of the test, used to denote whether this is a suite."
+                        },
+                        {
+                          "textRaw": "`attempt` {number|undefined} The attempt number of the test run, present only when using the [`--test-rerun-failures`][] flag.",
+                          "name": "attempt",
+                          "type": "number|undefined",
+                          "desc": "The attempt number of the test run, present only when using the [`--test-rerun-failures`][] flag."
+                        },
+                        {
+                          "textRaw": "`passed_on_attempt` {number|undefined} The attempt number the test passed on, present only when using the [`--test-rerun-failures`][] flag.",
+                          "name": "passed_on_attempt",
+                          "type": "number|undefined",
+                          "desc": "The attempt number the test passed on, present only when using the [`--test-rerun-failures`][] flag."
                         }
                       ]
                     },
@@ -2558,6 +3018,24 @@
                       "name": "nesting",
                       "type": "number",
                       "desc": "The nesting level of the test."
+                    },
+                    {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
                     },
                     {
                       "textRaw": "`testNumber` {number} The ordinal number of the test.",
@@ -2666,6 +3144,24 @@
                       "name": "nesting",
                       "type": "number",
                       "desc": "The nesting level of the test."
+                    },
+                    {
+                      "textRaw": "`parentId` {number|undefined} The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave.",
+                      "name": "parentId",
+                      "type": "number|undefined",
+                      "desc": "The `testId` of the enclosing test, or `undefined` for top-level tests. Lets custom reporters track lineage when concurrent siblings at the same nesting level interleave."
+                    },
+                    {
+                      "textRaw": "`tags` {string\\[]} The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][].",
+                      "name": "tags",
+                      "type": "string\\[]",
+                      "desc": "The flattened lowercased tags declared on the test and its ancestor suites, in declaration order. Empty for untagged tests. See [Test tags][]."
+                    },
+                    {
+                      "textRaw": "`testId` {number} A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters.",
+                      "name": "testId",
+                      "type": "number",
+                      "desc": "A numeric identifier for this test instance, unique within the test file's process. Consistent across all events for the same test instance, enabling reliable correlation in custom reporters."
                     }
                   ]
                 }
@@ -2821,6 +3317,13 @@
               "name": "test:watch:drained",
               "params": [],
               "desc": "<p>Emitted when no more tests are queued for execution in watch mode.</p>"
+            },
+            {
+              "textRaw": "Event: `'test:watch:restarted'`",
+              "type": "event",
+              "name": "test:watch:restarted",
+              "params": [],
+              "desc": "<p>Emitted when one or more tests are restarted due to a file change in watch mode.</p>"
             }
           ]
         },
@@ -2938,7 +3441,7 @@
                   ]
                 }
               ],
-              "desc": "<p>This function is used to create a hook running\nbefore each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.beforeEach((t) => t.diagnostic(`about to run ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      assert.ok('some relevant assertion here');\n    },\n  );\n});\n</code></pre>"
+              "desc": "<p>This function is used to create a hook running\nbefore each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.beforeEach((t) => t.diagnostic(`about to run ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      // Some relevant assertion here\n    },\n  );\n});\n</code></pre>"
             },
             {
               "textRaw": "`context.after([fn][, options])`",
@@ -2985,7 +3488,7 @@
                   ]
                 }
               ],
-              "desc": "<p>This function is used to create a hook that runs after the current test\nfinishes.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.after((t) => t.diagnostic(`finished running ${t.name}`));\n  assert.ok('some relevant assertion here');\n});\n</code></pre>"
+              "desc": "<p>This function is used to create a hook that runs after the current test\nfinishes.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.after((t) => t.diagnostic(`finished running ${t.name}`));\n  // Some relevant assertion here\n});\n</code></pre>"
             },
             {
               "textRaw": "`context.afterEach([fn][, options])`",
@@ -3032,7 +3535,7 @@
                   ]
                 }
               ],
-              "desc": "<p>This function is used to create a hook running\nafter each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.afterEach((t) => t.diagnostic(`finished running ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      assert.ok('some relevant assertion here');\n    },\n  );\n});\n</code></pre>"
+              "desc": "<p>This function is used to create a hook running\nafter each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.afterEach((t) => t.diagnostic(`finished running ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      // Some relevant assertion here\n    },\n  );\n});\n</code></pre>"
             },
             {
               "textRaw": "`context.diagnostic(message)`",
@@ -3219,6 +3722,11 @@
                 ],
                 "changes": [
                   {
+                    "version": "v24.19.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/63221",
+                    "description": "Added the `tags` option."
+                  },
+                  {
                     "version": [
                       "v18.8.0",
                       "v16.18.0"
@@ -3286,6 +3794,13 @@
                           "desc": "If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test."
                         },
                         {
+                          "textRaw": "`tags` {string\\[]} An array of string labels associated with the subtest. Used together with [`--experimental-test-tag-filter`][] to filter which tests run. Tags inherit from the parent test or suite by union. See [Test tags][]. **Default:** `[]`.",
+                          "name": "tags",
+                          "type": "string\\[]",
+                          "default": "`[]`",
+                          "desc": "An array of string labels associated with the subtest. Used together with [`--experimental-test-tag-filter`][] to filter which tests run. Tags inherit from the parent test or suite by union. See [Test tags][]."
+                        },
+                        {
                           "textRaw": "`todo` {boolean|string} If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`. **Default:** `false`.",
                           "name": "todo",
                           "type": "boolean|string",
@@ -3326,6 +3841,7 @@
               "name": "waitFor",
               "meta": {
                 "added": [
+                  "v23.7.0",
                   "v22.14.0"
                 ],
                 "changes": []
@@ -3379,7 +3895,8 @@
               "name": "assert",
               "meta": {
                 "added": [
-                  "v22.2.0"
+                  "v22.2.0",
+                  "v20.15.0"
                 ],
                 "changes": []
               },
@@ -3391,6 +3908,7 @@
                   "name": "fileSnapshot",
                   "meta": {
                     "added": [
+                      "v23.7.0",
                       "v22.14.0"
                     ],
                     "changes": []
@@ -3476,7 +3994,8 @@
               "name": "filePath",
               "meta": {
                 "added": [
-                  "v22.6.0"
+                  "v22.6.0",
+                  "v20.16.0"
                 ],
                 "changes": []
               },
@@ -3543,7 +4062,33 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>Number of times the test has been attempted.</p>"
+              "desc": "<p>The attempt number of the test. This value is zero-based, so the first attempt is <code>0</code>,\nthe second attempt is <code>1</code>, and so on. This property is useful in conjunction with the\n<code>--test-rerun-failures</code> option to determine which attempt the test is currently running.</p>"
+            },
+            {
+              "textRaw": "`tags` Type: {string\\[]}",
+              "type": "string\\[]",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>A frozen array of the test's flattened lowercased tags, in declaration\norder, including any tags inherited from ancestor suites. Empty when the\ntest has no tags. See <a href=\"#test-tags\">Test tags</a>.</p>"
+            },
+            {
+              "textRaw": "`workerId` Type: {number|undefined}",
+              "type": "number|undefined",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.15.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The unique identifier of the worker running the current test file. This value is\nderived from the <code>NODE_TEST_WORKER_ID</code> environment variable. When running tests\nwith <code>--test-isolation=process</code> (the default), each test file runs in a separate\nchild process and is assigned a worker ID from 1 to N, where N is the number of\nconcurrent workers. When running with <code>--test-isolation=none</code>, all tests run in\nthe same process and the worker ID is always 1. This value is <code>undefined</code> when\nnot running in a test context.</p>\n<p>This property is useful for splitting resources (like database connections or\nserver ports) across concurrent test files:</p>\n<pre><code class=\"language-mjs\">import { test } from 'node:test';\nimport { process } from 'node:process';\n\ntest('database operations', async (t) => {\n  // Worker ID is available via context\n  console.log(`Running in worker ${t.workerId}`);\n\n  // Or via environment variable (available at import time)\n  const workerId = process.env.NODE_TEST_WORKER_ID;\n  // Use workerId to allocate separate resources per worker\n});\n</code></pre>"
             },
             {
               "textRaw": "`signal` Type: {AbortSignal}",
@@ -3620,6 +4165,56 @@
                 "changes": []
               },
               "desc": "<p>Can be used to abort test subtasks when the test has been aborted.</p>"
+            },
+            {
+              "textRaw": "`passed` Type: {boolean}",
+              "type": "boolean",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Indicates whether the suite and all of its subtests have passed.</p>"
+            },
+            {
+              "textRaw": "`attempt` Type: {number}",
+              "type": "number",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The attempt number of the suite. This value is zero-based, so the first attempt is <code>0</code>,\nthe second attempt is <code>1</code>, and so on. This property is useful in conjunction with the\n<code>--test-rerun-failures</code> option to determine the attempt number of the current run.</p>"
+            }
+          ],
+          "methods": [
+            {
+              "textRaw": "`context.diagnostic(message)`",
+              "type": "method",
+              "name": "diagnostic",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`message` {string} A diagnostic message to output.",
+                      "name": "message",
+                      "type": "string",
+                      "desc": "A diagnostic message to output."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Output a diagnostic message. This is typically used for logging information\nabout the current suite or its tests.</p>\n<pre><code class=\"language-js\">test.describe('my suite', (suite) => {\n  suite.diagnostic('Suite diagnostic message');\n});\n</code></pre>"
             }
           ]
         }

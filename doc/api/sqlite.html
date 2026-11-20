@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>SQLite | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>SQLite | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:606px){.with-48-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:670px){.with-56-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:526px){.with-38-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:606px){.with-48-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:1072px){.with-72-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:670px){.with-56-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-sqlite">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="sqlite" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -136,32 +136,40 @@
       </a>
 
       <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
-<li><span class="stability_1.1"><a href="#sqlite">SQLite</a></span>
+<li><span class="stability_1.2"><a href="#sqlite">SQLite</a></span>
 <ul>
+<li><a href="#type-conversion-between-javascript-and-sqlite">Type conversion between JavaScript and SQLite</a></li>
 <li><a href="#class-databasesync">Class: <code>DatabaseSync</code></a>
 <ul>
 <li><a href="#new-databasesyncpath-options"><code>new DatabaseSync(path[, options])</code></a></li>
 <li><a href="#databaseaggregatename-options"><code>database.aggregate(name, options)</code></a></li>
 <li><a href="#databaseclose"><code>database.close()</code></a></li>
-<li><a href="#databaseloadextensionpath"><code>database.loadExtension(path)</code></a></li>
+<li><a href="#databaseloadextensionpath-entrypoint"><code>database.loadExtension(path[, entryPoint])</code></a></li>
 <li><a href="#databaseenableloadextensionallow"><code>database.enableLoadExtension(allow)</code></a></li>
+<li><a href="#databaseenabledefensiveactive"><code>database.enableDefensive(active)</code></a></li>
 <li><a href="#databaselocationdbname"><code>database.location([dbName])</code></a></li>
 <li><a href="#databaseexecsql"><code>database.exec(sql)</code></a></li>
 <li><a href="#databasefunctionname-options-fn"><code>database.function(name[, options], fn)</code></a></li>
+<li><a href="#databasesetauthorizercallback"><code>database.setAuthorizer(callback)</code></a></li>
 <li><a href="#databaseisopen"><code>database.isOpen</code></a></li>
 <li><a href="#databaseistransaction"><code>database.isTransaction</code></a></li>
+<li><a href="#databaselimits"><code>database.limits</code></a></li>
 <li><a href="#databaseopen"><code>database.open()</code></a></li>
-<li><a href="#databasepreparesql"><code>database.prepare(sql)</code></a></li>
+<li><a href="#databaseserializedbname"><code>database.serialize([dbName])</code></a></li>
+<li><a href="#databasedeserializebuffer-options"><code>database.deserialize(buffer[, options])</code></a></li>
+<li><a href="#databasepreparesql-options"><code>database.prepare(sql[, options])</code></a></li>
+<li><a href="#databasecreatetagstoremaxsize"><code>database.createTagStore([maxSize])</code></a></li>
 <li><a href="#databasecreatesessionoptions"><code>database.createSession([options])</code></a></li>
 <li><a href="#databaseapplychangesetchangeset-options"><code>database.applyChangeset(changeset[, options])</code></a></li>
-<li><span class="stability_1"><a href="#databasesymboldispose"><code>database[Symbol.dispose]()</code></a></span></li>
+<li><a href="#databasesymboldispose"><code>database[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-session">Class: <code>Session</code></a>
 <ul>
 <li><a href="#sessionchangeset"><code>session.changeset()</code></a></li>
 <li><a href="#sessionpatchset"><code>session.patchset()</code></a></li>
-<li><a href="#sessionclose"><code>session.close()</code>.</a></li>
+<li><a href="#sessionclose"><code>session.close()</code></a></li>
+<li><a href="#sessionsymboldispose"><code>session[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-statementsync">Class: <code>StatementSync</code></a>
@@ -177,15 +185,32 @@
 <li><a href="#statementsetreturnarraysenabled"><code>statement.setReturnArrays(enabled)</code></a></li>
 <li><a href="#statementsetreadbigintsenabled"><code>statement.setReadBigInts(enabled)</code></a></li>
 <li><a href="#statementsourcesql"><code>statement.sourceSQL</code></a></li>
-<li><a href="#type-conversion-between-javascript-and-sqlite">Type conversion between JavaScript and SQLite</a></li>
 </ul>
 </li>
-<li><a href="#sqlitebackupsourcedb-destination-options"><code>sqlite.backup(sourceDb, destination[, options])</code></a></li>
+<li><a href="#class-sqltagstore">Class: <code>SQLTagStore</code></a>
+<ul>
+<li><a href="#sqltagstoreallstringelements-boundparameters"><code>sqlTagStore.all(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoregetstringelements-boundparameters"><code>sqlTagStore.get(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoreiteratestringelements-boundparameters"><code>sqlTagStore.iterate(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstorerunstringelements-boundparameters"><code>sqlTagStore.run(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoresize"><code>sqlTagStore.size</code></a></li>
+<li><a href="#sqltagstorecapacity"><code>sqlTagStore.capacity</code></a></li>
+<li><a href="#sqltagstoredb"><code>sqlTagStore.db</code></a></li>
+<li><a href="#sqltagstoreclear"><code>sqlTagStore.clear()</code></a></li>
+</ul>
+</li>
+<li><a href="#sqlitebackupsourcedb-path-options"><code>sqlite.backup(sourceDb, path[, options])</code></a></li>
 <li><a href="#sqliteconstants"><code>sqlite.constants</code></a>
 <ul>
 <li><a href="#sqlite-constants">SQLite constants</a>
 <ul>
 <li><a href="#conflict-resolution-constants">Conflict resolution constants</a></li>
+<li><a href="#authorization-constants">Authorization constants</a>
+<ul>
+<li><a href="#authorization-result-codes">Authorization result codes</a></li>
+<li><a href="#authorization-action-codes">Authorization action codes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -319,32 +344,40 @@
       </header>
 
       <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
-<li><span class="stability_1.1"><a href="#sqlite">SQLite</a></span>
+<li><span class="stability_1.2"><a href="#sqlite">SQLite</a></span>
 <ul>
+<li><a href="#type-conversion-between-javascript-and-sqlite">Type conversion between JavaScript and SQLite</a></li>
 <li><a href="#class-databasesync">Class: <code>DatabaseSync</code></a>
 <ul>
 <li><a href="#new-databasesyncpath-options"><code>new DatabaseSync(path[, options])</code></a></li>
 <li><a href="#databaseaggregatename-options"><code>database.aggregate(name, options)</code></a></li>
 <li><a href="#databaseclose"><code>database.close()</code></a></li>
-<li><a href="#databaseloadextensionpath"><code>database.loadExtension(path)</code></a></li>
+<li><a href="#databaseloadextensionpath-entrypoint"><code>database.loadExtension(path[, entryPoint])</code></a></li>
 <li><a href="#databaseenableloadextensionallow"><code>database.enableLoadExtension(allow)</code></a></li>
+<li><a href="#databaseenabledefensiveactive"><code>database.enableDefensive(active)</code></a></li>
 <li><a href="#databaselocationdbname"><code>database.location([dbName])</code></a></li>
 <li><a href="#databaseexecsql"><code>database.exec(sql)</code></a></li>
 <li><a href="#databasefunctionname-options-fn"><code>database.function(name[, options], fn)</code></a></li>
+<li><a href="#databasesetauthorizercallback"><code>database.setAuthorizer(callback)</code></a></li>
 <li><a href="#databaseisopen"><code>database.isOpen</code></a></li>
 <li><a href="#databaseistransaction"><code>database.isTransaction</code></a></li>
+<li><a href="#databaselimits"><code>database.limits</code></a></li>
 <li><a href="#databaseopen"><code>database.open()</code></a></li>
-<li><a href="#databasepreparesql"><code>database.prepare(sql)</code></a></li>
+<li><a href="#databaseserializedbname"><code>database.serialize([dbName])</code></a></li>
+<li><a href="#databasedeserializebuffer-options"><code>database.deserialize(buffer[, options])</code></a></li>
+<li><a href="#databasepreparesql-options"><code>database.prepare(sql[, options])</code></a></li>
+<li><a href="#databasecreatetagstoremaxsize"><code>database.createTagStore([maxSize])</code></a></li>
 <li><a href="#databasecreatesessionoptions"><code>database.createSession([options])</code></a></li>
 <li><a href="#databaseapplychangesetchangeset-options"><code>database.applyChangeset(changeset[, options])</code></a></li>
-<li><span class="stability_1"><a href="#databasesymboldispose"><code>database[Symbol.dispose]()</code></a></span></li>
+<li><a href="#databasesymboldispose"><code>database[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-session">Class: <code>Session</code></a>
 <ul>
 <li><a href="#sessionchangeset"><code>session.changeset()</code></a></li>
 <li><a href="#sessionpatchset"><code>session.patchset()</code></a></li>
-<li><a href="#sessionclose"><code>session.close()</code>.</a></li>
+<li><a href="#sessionclose"><code>session.close()</code></a></li>
+<li><a href="#sessionsymboldispose"><code>session[Symbol.dispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-statementsync">Class: <code>StatementSync</code></a>
@@ -360,15 +393,32 @@
 <li><a href="#statementsetreturnarraysenabled"><code>statement.setReturnArrays(enabled)</code></a></li>
 <li><a href="#statementsetreadbigintsenabled"><code>statement.setReadBigInts(enabled)</code></a></li>
 <li><a href="#statementsourcesql"><code>statement.sourceSQL</code></a></li>
-<li><a href="#type-conversion-between-javascript-and-sqlite">Type conversion between JavaScript and SQLite</a></li>
 </ul>
 </li>
-<li><a href="#sqlitebackupsourcedb-destination-options"><code>sqlite.backup(sourceDb, destination[, options])</code></a></li>
+<li><a href="#class-sqltagstore">Class: <code>SQLTagStore</code></a>
+<ul>
+<li><a href="#sqltagstoreallstringelements-boundparameters"><code>sqlTagStore.all(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoregetstringelements-boundparameters"><code>sqlTagStore.get(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoreiteratestringelements-boundparameters"><code>sqlTagStore.iterate(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstorerunstringelements-boundparameters"><code>sqlTagStore.run(stringElements[, ...boundParameters])</code></a></li>
+<li><a href="#sqltagstoresize"><code>sqlTagStore.size</code></a></li>
+<li><a href="#sqltagstorecapacity"><code>sqlTagStore.capacity</code></a></li>
+<li><a href="#sqltagstoredb"><code>sqlTagStore.db</code></a></li>
+<li><a href="#sqltagstoreclear"><code>sqlTagStore.clear()</code></a></li>
+</ul>
+</li>
+<li><a href="#sqlitebackupsourcedb-path-options"><code>sqlite.backup(sourceDb, path[, options])</code></a></li>
 <li><a href="#sqliteconstants"><code>sqlite.constants</code></a>
 <ul>
 <li><a href="#sqlite-constants">SQLite constants</a>
 <ul>
 <li><a href="#conflict-resolution-constants">Conflict resolution constants</a></li>
+<li><a href="#authorization-constants">Authorization constants</a>
+<ul>
+<li><a href="#authorization-result-codes">Authorization result codes</a></li>
+<li><a href="#authorization-action-codes">Authorization action codes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -384,15 +434,17 @@
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v24.15.0</td>
+<td><p>SQLite is now a release candidate.</p></td></tr>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>SQLite is no longer behind <code>--experimental-sqlite</code> but still experimental.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development.</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/sqlite.js">lib/sqlite.js</a></p>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.2</a> - Release candidate.</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/sqlite.js">lib/sqlite.js</a></p>
 <p>The <code>node:sqlite</code> module facilitates working with SQLite databases.
 To access it:</p>
 
@@ -420,8 +472,7 @@ insert.<span class="hljs-title function_">run</span>(<span class="hljs-number">2
 <span class="hljs-keyword">const</span> query = database.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT * FROM data ORDER BY key'</span>);
 <span class="hljs-comment">// Execute the prepared statement and log the result set.</span>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-title function_">all</span>());
-<span class="hljs-comment">// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]</span></code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+<span class="hljs-comment">// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
 <span class="hljs-keyword">const</span> database = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
 
 <span class="hljs-comment">// Execute SQL statements from strings.</span>
@@ -441,14 +492,62 @@ insert.<span class="hljs-title function_">run</span>(<span class="hljs-number">2
 <span class="hljs-comment">// Execute the prepared statement and log the result set.</span>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-title function_">all</span>());
 <span class="hljs-comment">// Prints: [ { key: 1, value: 'hello' }, { key: 2, value: 'world' } ]</span></code><button class="copy-button">copy</button></pre>
-<section><h3>Class: <code>DatabaseSync</code><span><a class="mark" href="#class-databasesync" id="class-databasesync">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_class_databasesync"></a></h3>
+<section><h3>Type conversion between JavaScript and SQLite<span><a class="mark" href="#type-conversion-between-javascript-and-sqlite" id="type-conversion-between-javascript-and-sqlite">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_type_conversion_between_javascript_and_sqlite"></a></h3>
+<p>When Node.js writes to or reads from SQLite, it is necessary to convert between
+JavaScript data types and SQLite's <a href="https://www.sqlite.org/datatype3.html">data types</a>. Because JavaScript supports
+more data types than SQLite, only a subset of JavaScript types are supported.
+Attempting to write an unsupported data type to SQLite will result in an
+exception.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Storage class</th><th>JavaScript to SQLite</th><th>SQLite to JavaScript</th></tr></thead><tbody><tr><td><code>NULL</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a></td></tr><tr><td><code>INTEGER</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a> <em>(configurable)</em></td></tr><tr><td><code>REAL</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></td></tr><tr><td><code>TEXT</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></td></tr><tr><td><code>BLOB</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a></td></tr></tbody></table>
+<p>APIs that read values from SQLite have a configuration option that determines
+whether <code>INTEGER</code> values are converted to <code>number</code> or <code>bigint</code> in JavaScript,
+such as the <code>readBigInts</code> option for statements and the <code>useBigIntArguments</code>
+option for user-defined functions. If Node.js reads an <code>INTEGER</code> value from
+SQLite that is outside the JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger">safe integer</a> range, and the option to
+read BigInts is not enabled, then an <code>ERR_OUT_OF_RANGE</code> error will be thrown.</p>
+</section><section><h3>Class: <code>DatabaseSync</code><span><a class="mark" href="#class-databasesync" id="class-databasesync">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_class_databasesync"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.16.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Add <code>timeout</code> option.</p></td></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.10.0, v22.15.0</td>
 <td><p>The <code>path</code> argument now supports Buffer and URL objects.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -463,7 +562,11 @@ exposed by this class execute synchronously.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v24.14.0</td>
+<td><p>Enable <code>defensive</code> by default.</p></td></tr>
+<tr><td>v24.12.0</td>
+<td><p>Add <code>defensive</code> option.</p></td></tr>
+<tr><td>v24.4.0</td>
 <td><p>Add new SQLite database options.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -507,6 +610,30 @@ integer fields are read as JavaScript numbers. <strong>Default:</strong> <code>f
 character (e.g., <code>foo</code> instead of <code>:foo</code>). <strong>Default:</strong> <code>true</code>.</li>
 <li><code>allowUnknownNamedParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, unknown named parameters are ignored when binding.
 If <code>false</code>, an exception is thrown for unknown named parameters. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>defensive</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, enables the defensive flag. When the defensive flag is enabled,
+language features that allow ordinary SQL to deliberately corrupt the database file are disabled.
+The defensive flag can also be set using <code>enableDefensive()</code>.
+<strong>Default:</strong> <code>true</code>.</li>
+<li><code>limits</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration for various SQLite limits. These limits
+can be used to prevent excessive resource consumption when handling
+potentially malicious input. See <a href="https://www.sqlite.org/c3ref/limit.html">Run-Time Limits</a> and <a href="https://www.sqlite.org/c3ref/c_limit_attached.html">Limit Constants</a>
+in the SQLite documentation for details. Default values are determined by
+SQLite's compile-time defaults and may vary depending on how SQLite was
+built. The following properties are supported:
+<ul>
+<li><code>length</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum length of a string or BLOB.</li>
+<li><code>sqlLength</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum length of an SQL statement.</li>
+<li><code>column</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of columns.</li>
+<li><code>exprDepth</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum depth of an expression tree.</li>
+<li><code>compoundSelect</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of terms in a compound SELECT.</li>
+<li><code>vdbeOp</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of VDBE instructions.</li>
+<li><code>functionArg</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of function arguments.</li>
+<li><code>attach</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of attached databases.</li>
+<li><code>likePatternLength</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum length of a LIKE pattern.</li>
+<li><code>variableNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum number of SQL variables.</li>
+<li><code>triggerDepth</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Maximum trigger recursion depth.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -514,7 +641,7 @@ If <code>false</code>, an exception is thrown for unknown named parameters. <str
 </div><div>
 <h4><code>database.aggregate(name, options)</code><span><a class="mark" href="#databaseaggregatename-options" id="databaseaggregatename-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_aggregate_name_options"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <p>Registers a new aggregate function with the SQLite database. This method is a wrapper around
 <a href="https://www.sqlite.org/c3ref/create_function.html"><code>sqlite3_create_window_function()</code></a>.</p>
@@ -593,20 +720,39 @@ db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'
 <p>Closes the database connection. An exception is thrown if the database is not
 open. This method is a wrapper around <a href="https://www.sqlite.org/c3ref/close.html"><code>sqlite3_close_v2()</code></a>.</p>
 </div><div>
-<h4><code>database.loadExtension(path)</code><span><a class="mark" href="#databaseloadextensionpath" id="databaseloadextensionpath">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_loadextension_path"></a></h4>
+<h4><code>database.loadExtension(path[, entryPoint])</code><span><a class="mark" href="#databaseloadextensionpath-entrypoint" id="databaseloadextensionpath-entrypoint">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_loadextension_path_entrypoint"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0</span>
 </div>
 <ul>
 <li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The path to the shared library to load.</li>
+<li><code>entryPoint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the extension's entry-point function. When
+omitted, SQLite derives the entry point from the shared library's filename;
+pass this argument explicitly when the derived name does not match.</li>
 </ul>
 <p>Loads a shared library into the database connection. This method is a wrapper
 around <a href="https://www.sqlite.org/c3ref/load_extension.html"><code>sqlite3_load_extension()</code></a>. It is required to enable the
 <code>allowExtension</code> option when constructing the <code>DatabaseSync</code> instance.</p>
+
+<pre class="with-72-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+<span class="hljs-keyword">const</span> database = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>, { <span class="hljs-attr">allowExtension</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-comment">// Load using the entry point derived from the filename.</span>
+database.<span class="hljs-title function_">loadExtension</span>(<span class="hljs-string">'./decimal.dylib'</span>);
+
+<span class="hljs-comment">// Override the entry point when the derived name does not match.</span>
+database.<span class="hljs-title function_">loadExtension</span>(<span class="hljs-string">'./base64.dylib'</span>, <span class="hljs-string">'sqlite3_base64_init'</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+<span class="hljs-keyword">const</span> database = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>, { <span class="hljs-attr">allowExtension</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-comment">// Load using the entry point derived from the filename.</span>
+database.<span class="hljs-title function_">loadExtension</span>(<span class="hljs-string">'./decimal.dylib'</span>);
+
+<span class="hljs-comment">// Override the entry point when the derived name does not match.</span>
+database.<span class="hljs-title function_">loadExtension</span>(<span class="hljs-string">'./base64.dylib'</span>, <span class="hljs-string">'sqlite3_base64_init'</span>);</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>database.enableLoadExtension(allow)</code><span><a class="mark" href="#databaseenableloadextensionallow" id="databaseenableloadextensionallow">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_enableloadextension_allow"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0</span>
 </div>
 <ul>
 <li><code>allow</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether to allow loading extensions.</li>
@@ -615,9 +761,20 @@ around <a href="https://www.sqlite.org/c3ref/load_extension.html"><code>sqlite3_
 method. When <code>allowExtension</code> is <code>false</code> when constructing, you cannot enable
 loading extensions for security reasons.</p>
 </div><div>
+<h4><code>database.enableDefensive(active)</code><span><a class="mark" href="#databaseenabledefensiveactive" id="databaseenabledefensiveactive">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_enabledefensive_active"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<ul>
+<li><code>active</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether to set the defensive flag.</li>
+</ul>
+<p>Enables or disables the defensive flag. When the defensive flag is active,
+language features that allow ordinary SQL to deliberately corrupt the database file are disabled.
+See <a href="https://www.sqlite.org/c3ref/c_dbconfig_defensive.html#sqlitedbconfigdefensive"><code>SQLITE_DBCONFIG_DEFENSIVE</code></a> in the SQLite documentation for details.</p>
+</div><div>
 <h4><code>database.location([dbName])</code><span><a class="mark" href="#databaselocationdbname" id="databaselocationdbname">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_location_dbname"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <ul>
 <li><code>dbName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Name of the database. This can be <code>'main'</code> (the default primary database) or any other
@@ -640,7 +797,7 @@ file. This method is a wrapper around <a href="https://www.sqlite.org/c3ref/exec
 </div><div>
 <h4><code>database.function(name[, options], fn)</code><span><a class="mark" href="#databasefunctionname-options-fn" id="databasefunctionname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_function_name_options_fn"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0</span>
 </div>
 <ul>
 <li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the SQLite function to create.</li>
@@ -668,9 +825,77 @@ see <a href="#type-conversion-between-javascript-and-sqlite">Type conversion bet
 <p>This method is used to create SQLite user-defined functions. This method is a
 wrapper around <a href="https://www.sqlite.org/c3ref/create_function.html"><code>sqlite3_create_function_v2()</code></a>.</p>
 </div><div>
+<h4><code>database.setAuthorizer(callback)</code><span><a class="mark" href="#databasesetauthorizercallback" id="databasesetauthorizercallback">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_setauthorizer_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.10.0</span>
+</div>
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> The authorizer function to set, or <code>null</code> to
+clear the current authorizer.</li>
+</ul>
+<p>Sets an authorizer callback that SQLite will invoke whenever it attempts to
+access data or modify the database schema through prepared statements.
+This can be used to implement security policies, audit access, or restrict certain operations.
+This method is a wrapper around <a href="https://sqlite.org/c3ref/set_authorizer.html"><code>sqlite3_set_authorizer()</code></a>.</p>
+<p>When invoked, the callback receives five arguments:</p>
+<ul>
+<li><code>actionCode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The type of operation being performed (e.g.,
+<code>SQLITE_INSERT</code>, <code>SQLITE_UPDATE</code>, <code>SQLITE_SELECT</code>).</li>
+<li><code>arg1</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> The first argument (context-dependent, often a table name).</li>
+<li><code>arg2</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> The second argument (context-dependent, often a column name).</li>
+<li><code>dbName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> The name of the database.</li>
+<li><code>triggerOrView</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> The name of the trigger or view causing the access.</li>
+</ul>
+<p>The callback must return one of the following constants:</p>
+<ul>
+<li><code>SQLITE_OK</code> - Allow the operation.</li>
+<li><code>SQLITE_DENY</code> - Deny the operation (causes an error).</li>
+<li><code>SQLITE_IGNORE</code> - Ignore the operation (silently skip).</li>
+</ul>
+
+<pre class="with-59-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span>, constants } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+
+<span class="hljs-comment">// Set up an authorizer that denies all table creation</span>
+db.<span class="hljs-title function_">setAuthorizer</span>(<span class="hljs-function">(<span class="hljs-params">actionCode</span>) =></span> {
+  <span class="hljs-keyword">if</span> (actionCode === constants.<span class="hljs-property">SQLITE_CREATE_TABLE</span>) {
+    <span class="hljs-keyword">return</span> constants.<span class="hljs-property">SQLITE_DENY</span>;
+  }
+  <span class="hljs-keyword">return</span> constants.<span class="hljs-property">SQLITE_OK</span>;
+});
+
+<span class="hljs-comment">// This will work</span>
+db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT 1'</span>).<span class="hljs-title function_">get</span>();
+
+<span class="hljs-comment">// This will throw an error due to authorization denial</span>
+<span class="hljs-keyword">try</span> {
+  db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE blocked (id INTEGER)'</span>);
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Operation blocked:'</span>, err.<span class="hljs-property">message</span>);
+}</code><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span>, constants } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+
+<span class="hljs-comment">// Set up an authorizer that denies all table creation</span>
+db.<span class="hljs-title function_">setAuthorizer</span>(<span class="hljs-function">(<span class="hljs-params">actionCode</span>) =></span> {
+  <span class="hljs-keyword">if</span> (actionCode === constants.<span class="hljs-property">SQLITE_CREATE_TABLE</span>) {
+    <span class="hljs-keyword">return</span> constants.<span class="hljs-property">SQLITE_DENY</span>;
+  }
+  <span class="hljs-keyword">return</span> constants.<span class="hljs-property">SQLITE_OK</span>;
+});
+
+<span class="hljs-comment">// This will work</span>
+db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT 1'</span>).<span class="hljs-title function_">get</span>();
+
+<span class="hljs-comment">// This will throw an error due to authorization denial</span>
+<span class="hljs-keyword">try</span> {
+  db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE blocked (id INTEGER)'</span>);
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Operation blocked:'</span>, err.<span class="hljs-property">message</span>);
+}</code><button class="copy-button">copy</button></pre>
+</div><div>
 <h4><code>database.isOpen</code><span><a class="mark" href="#databaseisopen" id="databaseisopen">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_isopen"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.11.0, v22.15.0</span>
 </div>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the database is currently open or not.</li>
@@ -678,12 +903,36 @@ wrapper around <a href="https://www.sqlite.org/c3ref/create_function.html"><code
 </div><div>
 <h4><code>database.isTransaction</code><span><a class="mark" href="#databaseistransaction" id="databaseistransaction">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_istransaction"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the database is currently within a transaction. This method
 is a wrapper around <a href="https://sqlite.org/c3ref/get_autocommit.html"><code>sqlite3_get_autocommit()</code></a>.</li>
 </ul>
+</div><div>
+<h4><code>database.limits</code><span><a class="mark" href="#databaselimits" id="databaselimits">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_limits"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.15.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>An object for getting and setting SQLite database limits at runtime.
+Each property corresponds to an SQLite limit and can be read or written.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+
+<span class="hljs-comment">// Read current limit</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(db.<span class="hljs-property">limits</span>.<span class="hljs-property">length</span>);
+
+<span class="hljs-comment">// Set a new limit</span>
+db.<span class="hljs-property">limits</span>.<span class="hljs-property">sqlLength</span> = <span class="hljs-number">100000</span>;
+
+<span class="hljs-comment">// Reset a limit to its compile-time maximum</span>
+db.<span class="hljs-property">limits</span>.<span class="hljs-property">sqlLength</span> = <span class="hljs-title class_">Infinity</span>;</code> <button class="copy-button">copy</button></pre>
+<p>Available properties: <code>length</code>, <code>sqlLength</code>, <code>column</code>, <code>exprDepth</code>,
+<code>compoundSelect</code>, <code>vdbeOp</code>, <code>functionArg</code>, <code>attach</code>, <code>likePatternLength</code>,
+<code>variableNumber</code>, <code>triggerDepth</code>.</p>
+<p>Setting a property to <code>Infinity</code> resets the limit to its compile-time maximum value.</p>
 </div><div>
 <h4><code>database.open()</code><span><a class="mark" href="#databaseopen" id="databaseopen">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_open"></a></h4>
 <div class="api_metadata">
@@ -693,20 +942,208 @@ is a wrapper around <a href="https://sqlite.org/c3ref/get_autocommit.html"><code
 constructor. This method should only be used when the database is not opened via
 the constructor. An exception is thrown if the database is already open.</p>
 </div><div>
-<h4><code>database.prepare(sql)</code><span><a class="mark" href="#databasepreparesql" id="databasepreparesql">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_prepare_sql"></a></h4>
+<h4><code>database.serialize([dbName])</code><span><a class="mark" href="#databaseserializedbname" id="databaseserializedbname">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_serialize_dbname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li><code>dbName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Name of the database to serialize. This can be <code>'main'</code>
+(the default primary database) or any other database that has been added with
+<a href="https://www.sqlite.org/lang_attach.html"><code>ATTACH DATABASE</code></a>. <strong>Default:</strong> <code>'main'</code>.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> A binary representation of the database.</li>
+</ul>
+<p>Serializes the database into a binary representation, returned as a
+<code>Uint8Array</code>. This is useful for saving, cloning, or transferring an in-memory
+database. This method is a wrapper around <a href="https://sqlite.org/c3ref/serialize.html"><code>sqlite3_serialize()</code></a>.</p>
+
+<pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">"INSERT INTO t VALUES (1, 'hello')"</span>);
+<span class="hljs-keyword">const</span> buffer = db.<span class="hljs-title function_">serialize</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buffer.<span class="hljs-property">length</span>); <span class="hljs-comment">// Prints the byte length of the database</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">"INSERT INTO t VALUES (1, 'hello')"</span>);
+<span class="hljs-keyword">const</span> buffer = db.<span class="hljs-title function_">serialize</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buffer.<span class="hljs-property">length</span>); <span class="hljs-comment">// Prints the byte length of the database</span></code><button class="copy-button">copy</button></pre>
+</div><div>
+<h4><code>database.deserialize(buffer[, options])</code><span><a class="mark" href="#databasedeserializebuffer-options" id="databasedeserializebuffer-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_deserialize_buffer_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li><code>buffer</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> A binary representation of a database, such as the
+output of <a href="#databaseserializedbname"><code>database.serialize()</code></a>.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Optional configuration for the deserialization.
+<ul>
+<li><code>dbName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Name of the database to deserialize into.
+<strong>Default:</strong> <code>'main'</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Loads a serialized database into this connection, replacing the current
+database. The deserialized database is writable. Existing prepared statements
+are finalized before deserialization is attempted, even if the operation
+subsequently fails. This method is a wrapper around
+<a href="https://sqlite.org/c3ref/deserialize.html"><code>sqlite3_deserialize()</code></a>.</p>
+
+<pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+
+<span class="hljs-keyword">const</span> original = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+original.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+original.<span class="hljs-title function_">exec</span>(<span class="hljs-string">"INSERT INTO t VALUES (1, 'hello')"</span>);
+<span class="hljs-keyword">const</span> buffer = original.<span class="hljs-title function_">serialize</span>();
+original.<span class="hljs-title function_">close</span>();
+
+<span class="hljs-keyword">const</span> clone = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+clone.<span class="hljs-title function_">deserialize</span>(buffer);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(clone.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT value FROM t'</span>).<span class="hljs-title function_">get</span>());
+<span class="hljs-comment">// Prints: { value: 'hello' }</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+
+<span class="hljs-keyword">const</span> original = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+original.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE t(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+original.<span class="hljs-title function_">exec</span>(<span class="hljs-string">"INSERT INTO t VALUES (1, 'hello')"</span>);
+<span class="hljs-keyword">const</span> buffer = original.<span class="hljs-title function_">serialize</span>();
+original.<span class="hljs-title function_">close</span>();
+
+<span class="hljs-keyword">const</span> clone = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+clone.<span class="hljs-title function_">deserialize</span>(buffer);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(clone.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT value FROM t'</span>).<span class="hljs-title function_">get</span>());
+<span class="hljs-comment">// Prints: { value: 'hello' }</span></code><button class="copy-button">copy</button></pre>
+</div><div>
+<h4><code>database.prepare(sql[, options])</code><span><a class="mark" href="#databasepreparesql-options" id="databasepreparesql-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_prepare_sql_options"></a></h4>
 <div class="api_metadata">
 <span>Added in: v22.5.0</span>
 </div>
 <ul>
 <li><code>sql</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A SQL string to compile to a prepared statement.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Optional configuration for the prepared statement.
+<ul>
+<li><code>readBigInts</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, integer fields are read as <code>BigInt</code>s.
+<strong>Default:</strong> inherited from database options or <code>false</code>.</li>
+<li><code>returnArrays</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, results are returned as arrays.
+<strong>Default:</strong> inherited from database options or <code>false</code>.</li>
+<li><code>allowBareNamedParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, allows binding named
+parameters without the prefix character. <strong>Default:</strong> inherited from
+database options or <code>true</code>.</li>
+<li><code>allowUnknownNamedParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, unknown named parameters
+are ignored. <strong>Default:</strong> inherited from database options or <code>false</code>.</li>
+</ul>
+</li>
 <li>Returns: <a href="sqlite.html#class-statementsync" class="type">&#x3C;StatementSync></a> The prepared statement.</li>
 </ul>
 <p>Compiles a SQL statement into a <a href="https://www.sqlite.org/c3ref/stmt.html">prepared statement</a>. This method is a wrapper
 around <a href="https://www.sqlite.org/c3ref/prepare.html"><code>sqlite3_prepare_v2()</code></a>.</p>
 </div><div>
+<h4><code>database.createTagStore([maxSize])</code><span><a class="mark" href="#databasecreatetagstoremaxsize" id="databasecreatetagstoremaxsize">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_createtagstore_maxsize"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li><code>maxSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> The maximum number of prepared statements to cache.
+<strong>Default:</strong> <code>1000</code>.</li>
+<li>Returns: <a href="sqlite.html#class-sqltagstore" class="type">&#x3C;SQLTagStore></a> A new SQL tag store for caching prepared statements.</li>
+</ul>
+<p>Creates a new <a href="#class-sqltagstore"><code>SQLTagStore</code></a>, which is a Least Recently Used (LRU) cache
+for storing prepared statements. This allows for the efficient reuse of
+prepared statements by tagging them with a unique identifier.</p>
+<p>When a tagged SQL literal is executed, the <code>SQLTagStore</code> checks if a prepared
+statement for the corresponding SQL query string already exists in the cache.
+If it does, the cached statement is used. If not, a new prepared statement is
+created, executed, and then stored in the cache for future use. This mechanism
+helps to avoid the overhead of repeatedly parsing and preparing the same SQL
+statements.</p>
+<p>Tagged statements bind the placeholder values from the template literal as
+parameters to the underlying prepared statement. For example:</p>
+<pre><code class="language-js">sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT <span class="hljs-subst">${value}</span>`</span>;</code> <button class="copy-button">copy</button></pre>
+<p>is equivalent to:</p>
+<pre><code class="language-js">db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'SELECT ?'</span>).<span class="hljs-title function_">get</span>(value);</code> <button class="copy-button">copy</button></pre>
+<p>However, in the first example, the tag store will cache the underlying prepared
+statement for future use.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>${value}</code> syntax in tagged statements <em>binds</em> a parameter to
+the prepared statement. This differs from its behavior in <em>untagged</em> template
+literals, where it performs string interpolation.</p>
+<pre><code class="language-js"><span class="hljs-comment">// This a safe example of binding a parameter to a tagged statement.</span>
+sqlTagStore.<span class="hljs-property">run</span><span class="hljs-string">`INSERT INTO t1 (id) VALUES (<span class="hljs-subst">${id}</span>)`</span>;
+
+<span class="hljs-comment">// This is an *unsafe* example of an untagged template string.</span>
+<span class="hljs-comment">// `id` is interpolated into the query text as a string.</span>
+<span class="hljs-comment">// This can lead to SQL injection and data corruption.</span>
+db.<span class="hljs-title function_">run</span>(<span class="hljs-string">`INSERT INTO t1 (id) VALUES (<span class="hljs-subst">${id}</span>)`</span>);</code> <button class="copy-button">copy</button></pre>
+</blockquote>
+<p>The tag store will match a statement from the cache if the query strings
+(including the positions of any bound placeholders) are identical.</p>
+<pre><code class="language-js"><span class="hljs-comment">// The following statements will match in the cache:</span>
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM t1 WHERE id = <span class="hljs-subst">${id}</span> AND active = 1`</span>;
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM t1 WHERE id = <span class="hljs-subst">${<span class="hljs-number">12345</span>}</span> AND active = 1`</span>;
+
+<span class="hljs-comment">// The following statements will not match, as the query strings</span>
+<span class="hljs-comment">// and bound placeholders differ:</span>
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM t1 WHERE id = <span class="hljs-subst">${id}</span> AND active = 1`</span>;
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM t1 WHERE id = 12345 AND active = 1`</span>;
+
+<span class="hljs-comment">// The following statements will not match, as matches are case-sensitive:</span>
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM t1 WHERE id = <span class="hljs-subst">${id}</span> AND active = 1`</span>;
+sqlTagStore.<span class="hljs-property">get</span><span class="hljs-string">`select * from t1 where id = <span class="hljs-subst">${id}</span> and active = 1`</span>;</code> <button class="copy-button">copy</button></pre>
+<p>The only way of binding parameters in tagged statements is with the <code>${value}</code>
+syntax. Do not add parameter binding placeholders (<code>?</code> etc.) to the SQL query
+string itself.</p>
+
+<pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+<span class="hljs-keyword">const</span> sql = db.<span class="hljs-title function_">createTagStore</span>();
+
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE users (id INT, name TEXT)'</span>);
+
+<span class="hljs-comment">// Using the 'run' method to insert data.</span>
+<span class="hljs-comment">// The tagged literal is used to identify the prepared statement.</span>
+sql.<span class="hljs-property">run</span><span class="hljs-string">`INSERT INTO users VALUES (1, 'Alice')`</span>;
+sql.<span class="hljs-property">run</span><span class="hljs-string">`INSERT INTO users VALUES (2, 'Bob')`</span>;
+
+<span class="hljs-comment">// Using the 'get' method to retrieve a single row.</span>
+<span class="hljs-keyword">const</span> name = <span class="hljs-string">'Alice'</span>;
+<span class="hljs-keyword">const</span> user = sql.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM users WHERE name = <span class="hljs-subst">${name}</span>`</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(user); <span class="hljs-comment">// { id: 1, name: 'Alice' }</span>
+
+<span class="hljs-comment">// Using the 'all' method to retrieve all rows.</span>
+<span class="hljs-keyword">const</span> allUsers = sql.<span class="hljs-property">all</span><span class="hljs-string">`SELECT * FROM users ORDER BY id`</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(allUsers);
+<span class="hljs-comment">// [</span>
+<span class="hljs-comment">//   { id: 1, name: 'Alice' },</span>
+<span class="hljs-comment">//   { id: 2, name: 'Bob' }</span>
+<span class="hljs-comment">// ]</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+<span class="hljs-keyword">const</span> sql = db.<span class="hljs-title function_">createTagStore</span>();
+
+db.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE users (id INT, name TEXT)'</span>);
+
+<span class="hljs-comment">// Using the 'run' method to insert data.</span>
+<span class="hljs-comment">// The tagged literal is used to identify the prepared statement.</span>
+sql.<span class="hljs-property">run</span><span class="hljs-string">`INSERT INTO users VALUES (1, 'Alice')`</span>;
+sql.<span class="hljs-property">run</span><span class="hljs-string">`INSERT INTO users VALUES (2, 'Bob')`</span>;
+
+<span class="hljs-comment">// Using the 'get' method to retrieve a single row.</span>
+<span class="hljs-keyword">const</span> name = <span class="hljs-string">'Alice'</span>;
+<span class="hljs-keyword">const</span> user = sql.<span class="hljs-property">get</span><span class="hljs-string">`SELECT * FROM users WHERE name = <span class="hljs-subst">${name}</span>`</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(user); <span class="hljs-comment">// { id: 1, name: 'Alice' }</span>
+
+<span class="hljs-comment">// Using the 'all' method to retrieve all rows.</span>
+<span class="hljs-keyword">const</span> allUsers = sql.<span class="hljs-property">all</span><span class="hljs-string">`SELECT * FROM users ORDER BY id`</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(allUsers);
+<span class="hljs-comment">// [</span>
+<span class="hljs-comment">//   { id: 1, name: 'Alice' },</span>
+<span class="hljs-comment">//   { id: 2, name: 'Bob' }</span>
+<span class="hljs-comment">// ]</span></code><button class="copy-button">copy</button></pre>
+</div><div>
 <h4><code>database.createSession([options])</code><span><a class="mark" href="#databasecreatesessionoptions" id="databasecreatesessionoptions">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_createsession_options"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.3.0, v22.12.0</span>
 </div>
 <ul>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The configuration options for the session.
@@ -721,15 +1158,19 @@ around <a href="https://www.sqlite.org/c3ref/prepare.html"><code>sqlite3_prepare
 </div><div>
 <h4><code>database.applyChangeset(changeset[, options])</code><span><a class="mark" href="#databaseapplychangesetchangeset-options" id="databaseapplychangesetchangeset-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_applychangeset_changeset_options"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.3.0, v22.12.0</span>
 </div>
 <ul>
 <li><code>changeset</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> A binary changeset or patchset.</li>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The configuration options for how the changes will be applied.
 <ul>
 <li>
-<p><code>filter</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Skip changes that, when targeted table name is supplied to this function, return a truthy value.
-By default, all changes are attempted.</p>
+<p><code>filter</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> for each table affected by at least
+one change in the changeset, the <code>filter</code> callback is invoked with the
+table name as the first argument. If the return value is falsy, then no
+attempt is made to apply any changes to the table.
+Otherwise, if the return value is truthy or no <code>filter</code> callback is provided,
+all changes related to the table are attempted.</p>
 </li>
 <li>
 <p><code>onConflict</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A function that determines how to handle conflicts. The function receives one argument,
@@ -759,7 +1200,10 @@ applying the changeset is aborted and the database is rolled back.</p>
 </ul>
 <p>An exception is thrown if the database is not
 open. This method is a wrapper around <a href="https://www.sqlite.org/session/sqlite3changeset_apply.html"><code>sqlite3changeset_apply()</code></a>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> sourceDb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+
+<pre class="with-48-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">DatabaseSync</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:sqlite'</span>;
+
+<span class="hljs-keyword">const</span> sourceDb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
 <span class="hljs-keyword">const</span> targetDb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
 
 sourceDb.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)'</span>);
@@ -773,24 +1217,47 @@ insert.<span class="hljs-title function_">run</span>(<span class="hljs-number">2
 
 <span class="hljs-keyword">const</span> changeset = session.<span class="hljs-title function_">changeset</span>();
 targetDb.<span class="hljs-title function_">applyChangeset</span>(changeset);
-<span class="hljs-comment">// Now that the changeset has been applied, targetDb contains the same data as sourceDb.</span></code> <button class="copy-button">copy</button></pre>
+<span class="hljs-comment">// Now that the changeset has been applied, targetDb contains the same data as sourceDb.</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">DatabaseSync</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sqlite'</span>);
+
+<span class="hljs-keyword">const</span> sourceDb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+<span class="hljs-keyword">const</span> targetDb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DatabaseSync</span>(<span class="hljs-string">':memory:'</span>);
+
+sourceDb.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+targetDb.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)'</span>);
+
+<span class="hljs-keyword">const</span> session = sourceDb.<span class="hljs-title function_">createSession</span>();
+
+<span class="hljs-keyword">const</span> insert = sourceDb.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">'INSERT INTO data (key, value) VALUES (?, ?)'</span>);
+insert.<span class="hljs-title function_">run</span>(<span class="hljs-number">1</span>, <span class="hljs-string">'hello'</span>);
+insert.<span class="hljs-title function_">run</span>(<span class="hljs-number">2</span>, <span class="hljs-string">'world'</span>);
+
+<span class="hljs-keyword">const</span> changeset = session.<span class="hljs-title function_">changeset</span>();
+targetDb.<span class="hljs-title function_">applyChangeset</span>(changeset);
+<span class="hljs-comment">// Now that the changeset has been applied, targetDb contains the same data as sourceDb.</span></code><button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>database[Symbol.dispose]()</code><span><a class="mark" href="#databasesymboldispose" id="databasesymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_database_symbol_dispose"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v23.11.0, v22.15.0</td>
+<td><p><span>Added in: v23.11.0, v22.15.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Closes the database connection. If the database connection is already closed
 then this is a no-op.</p>
 </div>
 </section><section><h3>Class: <code>Session</code><span><a class="mark" href="#class-session" id="class-session">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_class_session"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.3.0, v22.12.0</span>
 </div>
 <div>
 <h4><code>session.changeset()</code><span><a class="mark" href="#sessionchangeset" id="sessionchangeset">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_session_changeset"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.3.0, v22.12.0</span>
 </div>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> Binary changeset that can be applied to other databases.</li>
@@ -800,7 +1267,7 @@ An exception is thrown if the database or the session is not open. This method i
 </div><div>
 <h4><code>session.patchset()</code><span><a class="mark" href="#sessionpatchset" id="sessionpatchset">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_session_patchset"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.3.0, v22.12.0</span>
 </div>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> Binary patchset that can be applied to other databases.</li>
@@ -809,9 +1276,15 @@ An exception is thrown if the database or the session is not open. This method i
 in the documentation of SQLite. An exception is thrown if the database or the session is not open. This method is a
 wrapper around <a href="https://www.sqlite.org/session/sqlite3session_patchset.html"><code>sqlite3session_patchset()</code></a>.</p>
 </div><div>
-<h4><code>session.close()</code>.<span><a class="mark" href="#sessionclose" id="sessionclose">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_session_close"></a></h4>
+<h4><code>session.close()</code><span><a class="mark" href="#sessionclose" id="sessionclose">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_session_close"></a></h4>
 <p>Closes the session. An exception is thrown if the database or the session is not open. This method is a
 wrapper around <a href="https://www.sqlite.org/session/sqlite3session_delete.html"><code>sqlite3session_delete()</code></a>.</p>
+</div><div>
+<h4><code>session[Symbol.dispose]()</code><span><a class="mark" href="#sessionsymboldispose" id="sessionsymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_session_symbol_dispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<p>Closes the session. If the session is already closed, does nothing.</p>
 </div>
 </section><section><h3>Class: <code>StatementSync</code><span><a class="mark" href="#class-statementsync" id="class-statementsync">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_class_statementsync"></a></h3>
 <div class="api_metadata">
@@ -832,7 +1305,7 @@ over hand-crafted SQL strings when handling user input.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>DataView</code> and typed array objects for <code>anonymousParameters</code>.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -855,7 +1328,7 @@ the values in <code>namedParameters</code> and <code>anonymousParameters</code>.
 </div><div>
 <h4><code>statement.columns()</code><span><a class="mark" href="#statementcolumns" id="statementcolumns">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_statement_columns"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v23.11.0</span>
 </div>
 <ul>
 <li>
@@ -900,7 +1373,7 @@ execution of this prepared statement. This property is a wrapper around
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>DataView</code> and typed array objects for <code>anonymousParameters</code>.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -927,10 +1400,10 @@ values in <code>namedParameters</code> and <code>anonymousParameters</code>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>DataView</code> and typed array objects for <code>anonymousParameters</code>.</p></td></tr>
-<tr><td>v22.13.0</td>
-<td><p><span>Added in: v22.13.0</span></p></td></tr>
+<tr><td>v23.4.0, v22.13.0</td>
+<td><p><span>Added in: v23.4.0, v22.13.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
@@ -953,7 +1426,7 @@ the values in <code>namedParameters</code> and <code>anonymousParameters</code>.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>Add support for <code>DataView</code> and typed array objects for <code>anonymousParameters</code>.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -1009,7 +1482,7 @@ a bare name.</li>
 </div><div>
 <h4><code>statement.setAllowUnknownNamedParameters(enabled)</code><span><a class="mark" href="#statementsetallowunknownnamedparametersenabled" id="statementsetallowunknownnamedparametersenabled">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_statement_setallowunknownnamedparameters_enabled"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.11.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>enabled</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Enables or disables support for unknown named parameters.</li>
@@ -1019,7 +1492,7 @@ exception is thrown. This method allows unknown named parameters to be ignored.<
 </div><div>
 <h4><code>statement.setReturnArrays(enabled)</code><span><a class="mark" href="#statementsetreturnarraysenabled" id="statementsetreturnarraysenabled">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_statement_setreturnarrays_enabled"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <ul>
 <li><code>enabled</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Enables or disables the return of query results as arrays.</li>
@@ -1051,52 +1524,141 @@ supported at all times.</p>
 </ul>
 <p>The source SQL text of the prepared statement. This property is a
 wrapper around <a href="https://www.sqlite.org/c3ref/expanded_sql.html"><code>sqlite3_sql()</code></a>.</p>
-</div><div>
-<h4>Type conversion between JavaScript and SQLite<span><a class="mark" href="#type-conversion-between-javascript-and-sqlite" id="type-conversion-between-javascript-and-sqlite">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_type_conversion_between_javascript_and_sqlite"></a></h4>
-<p>When Node.js writes to or reads from SQLite it is necessary to convert between
-JavaScript data types and SQLite's <a href="https://www.sqlite.org/datatype3.html">data types</a>. Because JavaScript supports
-more data types than SQLite, only a subset of JavaScript types are supported.
-Attempting to write an unsupported data type to SQLite will result in an
-exception.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>SQLite</th><th>JavaScript</th></tr></thead><tbody><tr><td><code>NULL</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a></td></tr><tr><td><code>INTEGER</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a></td></tr><tr><td><code>REAL</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></td></tr><tr><td><code>TEXT</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></td></tr><tr><td><code>BLOB</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></td></tr></tbody></table>
 </div>
-</section><section><h3><code>sqlite.backup(sourceDb, destination[, options])</code><span><a class="mark" href="#sqlitebackupsourcedb-destination-options" id="sqlitebackupsourcedb-destination-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqlite_backup_sourcedb_destination_options"></a></h3>
+</section><section><h3>Class: <code>SQLTagStore</code><span><a class="mark" href="#class-sqltagstore" id="class-sqltagstore">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_class_sqltagstore"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v24.9.0</span>
+</div>
+<p>This class represents a single LRU (Least Recently Used) cache for storing
+prepared statements.</p>
+<p>Instances of this class are created via the <a href="#databasecreatetagstoremaxsize"><code>database.createTagStore()</code></a>
+method, not by using a constructor. The store caches prepared statements based
+on the provided SQL query string. When the same query is seen again, the store
+retrieves the cached statement and safely applies the new values through
+parameter binding, thereby preventing attacks like SQL injection.</p>
+<p>The cache has a maxSize that defaults to 1000 statements, but a custom size can
+be provided (e.g., <code>database.createTagStore(100)</code>). All APIs exposed by this
+class execute synchronously.</p>
+<div>
+<h4><code>sqlTagStore.all(stringElements[, ...boundParameters])</code><span><a class="mark" href="#sqltagstoreallstringelements-boundparameters" id="sqltagstoreallstringelements-boundparameters">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_all_stringelements_boundparameters"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li><code>stringElements</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Template literal elements containing the SQL
+query.</li>
+<li><code>...boundParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a>
+Parameter values to be bound to placeholders in the template string.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array of objects representing the rows returned by the query.</li>
+</ul>
+<p>Executes the given SQL query and returns all resulting rows as an array of
+objects.</p>
+<p>This function is intended to be used as a template literal tag, not to be
+called directly.</p>
+</div><div>
+<h4><code>sqlTagStore.get(stringElements[, ...boundParameters])</code><span><a class="mark" href="#sqltagstoregetstringelements-boundparameters" id="sqltagstoregetstringelements-boundparameters">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_get_stringelements_boundparameters"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li><code>stringElements</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Template literal elements containing the SQL
+query.</li>
+<li><code>...boundParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a>
+Parameter values to be bound to placeholders in the template string.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> An object representing the first row returned by
+the query, or <code>undefined</code> if no rows are returned.</li>
+</ul>
+<p>Executes the given SQL query and returns the first resulting row as an object.</p>
+<p>This function is intended to be used as a template literal tag, not to be
+called directly.</p>
+</div><div>
+<h4><code>sqlTagStore.iterate(stringElements[, ...boundParameters])</code><span><a class="mark" href="#sqltagstoreiteratestringelements-boundparameters" id="sqltagstoreiteratestringelements-boundparameters">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_iterate_stringelements_boundparameters"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li><code>stringElements</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Template literal elements containing the SQL
+query.</li>
+<li><code>...boundParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a>
+Parameter values to be bound to placeholders in the template string.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol" class="type">&#x3C;Iterator></a> An iterator that yields objects representing the rows returned by the query.</li>
+</ul>
+<p>Executes the given SQL query and returns an iterator over the resulting rows.</p>
+<p>This function is intended to be used as a template literal tag, not to be
+called directly.</p>
+</div><div>
+<h4><code>sqlTagStore.run(stringElements[, ...boundParameters])</code><span><a class="mark" href="#sqltagstorerunstringelements-boundparameters" id="sqltagstorerunstringelements-boundparameters">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_run_stringelements_boundparameters"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li><code>stringElements</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> Template literal elements containing the SQL
+query.</li>
+<li><code>...boundParameters</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#null_type" class="type">&#x3C;null></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#bigint_type" class="type">&#x3C;bigint></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a>
+Parameter values to be bound to placeholders in the template string.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An object containing information about the execution, including <code>changes</code> and <code>lastInsertRowid</code>.</li>
+</ul>
+<p>Executes the given SQL query, which is expected to not return any rows (e.g., INSERT, UPDATE, DELETE).</p>
+<p>This function is intended to be used as a template literal tag, not to be
+called directly.</p>
+</div><div>
+<h4><code>sqlTagStore.size</code><span><a class="mark" href="#sqltagstoresize" id="sqltagstoresize">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_size"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.13.1</td>
+<td><p>Changed from a method to a getter.</p></td></tr>
+<tr><td>v24.9.0</td>
+<td><p><span>Added in: v24.9.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>A read-only property that returns the number of prepared statements currently in the cache.</p>
+</div><div>
+<h4><code>sqlTagStore.capacity</code><span><a class="mark" href="#sqltagstorecapacity" id="sqltagstorecapacity">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_capacity"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>A read-only property that returns the maximum number of prepared statements the cache can hold.</p>
+</div><div>
+<h4><code>sqlTagStore.db</code><span><a class="mark" href="#sqltagstoredb" id="sqltagstoredb">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_db"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li>Type: <a href="sqlite.html#class-databasesync" class="type">&#x3C;DatabaseSync></a></li>
+</ul>
+<p>A read-only property that returns the <code>DatabaseSync</code> object associated with this <code>SQLTagStore</code>.</p>
+</div><div>
+<h4><code>sqlTagStore.clear()</code><span><a class="mark" href="#sqltagstoreclear" id="sqltagstoreclear">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqltagstore_clear"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<p>Resets the LRU cache, clearing all stored prepared statements.</p>
+</div>
+</section><section><h3><code>sqlite.backup(sourceDb, path[, options])</code><span><a class="mark" href="#sqlitebackupsourcedb-path-options" id="sqlitebackupsourcedb-path-options">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqlite_backup_sourcedb_path_options"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.10.0</td>
+<td><p>The <code>path</code> argument now supports Buffer and URL objects.</p></td></tr>
+<tr><td>v23.8.0</td>
+<td><p><span>Added in: v23.8.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>sourceDb</code> <a href="sqlite.html#class-databasesync" class="type">&#x3C;DatabaseSync></a> The database to backup. The source database must be open.</li>
-<li><code>destination</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The path where the backup will be created. If the file already exists, the contents will be
-overwritten.</li>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="url.html#the-whatwg-url-api" class="type">&#x3C;URL></a> The path where the backup will be created. If the file already exists,
+the contents will be overwritten.</li>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Optional configuration for the backup. The
 following properties are supported:
 <ul>
@@ -1144,7 +1706,7 @@ the backup process to restart.</p>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Backup completed'</span>, totalPagesTransferred);</code><button class="copy-button">copy</button></pre>
 </section><section><h3><code>sqlite.constants</code><span><a class="mark" href="#sqliteconstants" id="sqliteconstants">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_sqlite_constants"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0</span>
 </div>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
@@ -1204,7 +1766,178 @@ resolution handler passed to <a href="#databaseapplychangesetchangeset-options">
     <td><code>SQLITE_CHANGESET_ABORT</code></td>
     <td>Abort when a change encounters a conflict and roll back database.</td>
   </tr>
-</tbody></table></div></div></section>
+</tbody></table>
+</div><div>
+<h5>Authorization constants<span><a class="mark" href="#authorization-constants" id="authorization-constants">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_authorization_constants"></a></h5>
+<p>The following constants are used with the <a href="#databasesetauthorizercallback"><code>database.setAuthorizer()</code></a> method.</p>
+<div>
+<h6>Authorization result codes<span><a class="mark" href="#authorization-result-codes" id="authorization-result-codes">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_authorization_result_codes"></a></h6>
+<p>One of the following constants must be returned from the authorizer callback
+function passed to <a href="#databasesetauthorizercallback"><code>database.setAuthorizer()</code></a>.</p>
+<table>
+  <tbody><tr>
+    <th>Constant</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>SQLITE_OK</code></td>
+    <td>Allow the operation to proceed normally.</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DENY</code></td>
+    <td>Deny the operation and cause an error to be returned.</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_IGNORE</code></td>
+    <td>Ignore the operation and continue as if it had never been requested.</td>
+  </tr>
+</tbody></table>
+</div><div>
+<h6>Authorization action codes<span><a class="mark" href="#authorization-action-codes" id="authorization-action-codes">#</a></span><a aria-hidden="true" class="legacy" id="sqlite_authorization_action_codes"></a></h6>
+<p>The following constants are passed as the first argument to the authorizer
+callback function to indicate what type of operation is being authorized.</p>
+<table>
+  <tbody><tr>
+    <th>Constant</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_INDEX</code></td>
+    <td>Create an index</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TABLE</code></td>
+    <td>Create a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TEMP_INDEX</code></td>
+    <td>Create a temporary index</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TEMP_TABLE</code></td>
+    <td>Create a temporary table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TEMP_TRIGGER</code></td>
+    <td>Create a temporary trigger</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TEMP_VIEW</code></td>
+    <td>Create a temporary view</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_TRIGGER</code></td>
+    <td>Create a trigger</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_VIEW</code></td>
+    <td>Create a view</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DELETE</code></td>
+    <td>Delete from a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_INDEX</code></td>
+    <td>Drop an index</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TABLE</code></td>
+    <td>Drop a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TEMP_INDEX</code></td>
+    <td>Drop a temporary index</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TEMP_TABLE</code></td>
+    <td>Drop a temporary table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TEMP_TRIGGER</code></td>
+    <td>Drop a temporary trigger</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TEMP_VIEW</code></td>
+    <td>Drop a temporary view</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_TRIGGER</code></td>
+    <td>Drop a trigger</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_VIEW</code></td>
+    <td>Drop a view</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_INSERT</code></td>
+    <td>Insert into a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_PRAGMA</code></td>
+    <td>Execute a PRAGMA statement</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_READ</code></td>
+    <td>Read from a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_SELECT</code></td>
+    <td>Execute a SELECT statement</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_TRANSACTION</code></td>
+    <td>Begin, commit, or rollback a transaction</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_UPDATE</code></td>
+    <td>Update a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_ATTACH</code></td>
+    <td>Attach a database</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DETACH</code></td>
+    <td>Detach a database</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_ALTER_TABLE</code></td>
+    <td>Alter a table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_REINDEX</code></td>
+    <td>Reindex</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_ANALYZE</code></td>
+    <td>Analyze the database</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_CREATE_VTABLE</code></td>
+    <td>Create a virtual table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_DROP_VTABLE</code></td>
+    <td>Drop a virtual table</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_FUNCTION</code></td>
+    <td>Use a function</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_SAVEPOINT</code></td>
+    <td>Create, release, or rollback a savepoint</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_COPY</code></td>
+    <td>Copy data (legacy)</td>
+  </tr>
+  <tr>
+    <td><code>SQLITE_RECURSIVE</code></td>
+    <td>Recursive query</td>
+  </tr>
+</tbody></table></div></div></div></section>
         <!-- API END -->
       </div>
     </div>

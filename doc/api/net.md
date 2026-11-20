@@ -41,11 +41,11 @@ sockets on other operating systems.
 [`socket.connect()`][] take a `path` parameter to identify IPC endpoints.
 
 On Unix, the local domain is also known as the Unix domain. The path is a
-file system pathname. It gets truncated to an OS-dependent length of
-`sizeof(sockaddr_un.sun_path) - 1`. Typical values are 107 bytes on Linux and
-103 bytes on macOS. If a Node.js API abstraction creates the Unix domain socket,
-it will unlink the Unix domain socket as well. For example,
-[`net.createServer()`][] may create a Unix domain socket and
+file system pathname. It will throw an error when the length of pathname is
+greater than the length of `sizeof(sockaddr_un.sun_path)`. Typical values are
+107 bytes on Linux and 103 bytes on macOS. If a Node.js API abstraction creates
+the Unix domain socket, it will unlink the Unix domain socket as well. For
+example, [`net.createServer()`][] may create a Unix domain socket and
 [`server.close()`][] will unlink it. But if a user creates the Unix domain
 socket outside of these abstractions, the user will need to remove it. The same
 applies when a Node.js API creates a Unix domain socket but the program then
@@ -173,7 +173,9 @@ The list of rules added to the blocklist.
 ### `BlockList.isBlockList(value)`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 -->
 
 * `value` {any} Any JS value
@@ -181,10 +183,10 @@ added: v22.13.0
 
 ### `blockList.fromJSON(value)`
 
-> Stability: 1 - Experimental
+> Stability: 1.2 - Release candidate
 
  <!-- YAML
-added: v22.19.0
+added: v24.5.0
 -->
 
 ```js
@@ -203,10 +205,10 @@ blockList.fromJSON(JSON.stringify(data));
 
 ### `blockList.toJSON()`
 
-> Stability: 1 - Experimental
+> Stability: 1.2 - Release candidate
 
  <!-- YAML
-added: v22.19.0
+added: v24.5.0
 -->
 
 * Returns Blocklist.rules
@@ -279,7 +281,9 @@ added:
 ### `SocketAddress.parse(input)`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.4.0
+  - v22.13.0
 -->
 
 * `input` {string} An input string containing an IP address and optional port,
@@ -430,9 +434,11 @@ was not open when it was closed.
 added:
  - v20.5.0
  - v18.18.0
+changes:
+ - version: v24.2.0
+   pr-url: https://github.com/nodejs/node/pull/58467
+   description: No longer experimental.
 -->
-
-> Stability: 1 - Experimental
 
 Calls [`server.close()`][] and returns a promise that fulfills when the
 server has closed.
@@ -513,8 +519,12 @@ Start a server listening for connections on a given `handle` that has
 already been bound to a port, a Unix domain socket, or a Windows named pipe.
 
 The `handle` object can be either a server, a socket (anything with an
-underlying `_handle` member), or an object with an `fd` member that is a
-valid file descriptor.
+underlying `_handle` member), a [`BoundSocket`][], or an object with an `fd`
+member that is a valid file descriptor.
+
+When `handle` is a [`BoundSocket`][], the server adopts the already-bound
+socket and starts listening on it. Adoption consumes the bound socket (see
+[ownership transfer][`BoundSocket`]).
 
 Listening on a file descriptor is not supported on Windows.
 
@@ -523,7 +533,9 @@ Listening on a file descriptor is not supported on Windows.
 <!-- YAML
 added: v0.11.14
 changes:
-  - version: v22.12.0
+  - version:
+    - v23.1.0
+    - v22.12.0
     pr-url: https://github.com/nodejs/node/pull/55408
     description: The `reusePort` option is supported.
   - version: v15.6.0
@@ -538,6 +550,10 @@ changes:
   * `backlog` {number} Common parameter of [`server.listen()`][]
     functions.
   * `exclusive` {boolean} **Default:** `false`
+  * `handle` {net.BoundSocket} A pre-bound [`BoundSocket`][]. The server adopts
+    the already-bound socket and listens on it, ignoring `host`, `port`, and
+    `path`. Adoption consumes the bound socket (see
+    [ownership transfer][`BoundSocket`]).
   * `host` {string}
   * `ipv6Only` {boolean} For TCP servers, setting `ipv6Only` to `true` will
     disable dual-stack support, i.e., binding to host `::` won't make
@@ -561,7 +577,8 @@ changes:
   functions.
 * Returns: {net.Server}
 
-If `port` is specified, it behaves the same as
+If `handle` is specified, the server adopts that pre-bound socket. Otherwise, if
+`port` is specified, it behaves the same as
 [`server.listen([port[, host[, backlog]]][, callback])`][`server.listen(port)`].
 Otherwise, if `path` is specified, it behaves the same as
 [`server.listen(path[, backlog][, callback])`][`server.listen(path)`].
@@ -668,7 +685,7 @@ When the number of connections reaches the `server.maxConnections` threshold:
 
 1. If the process is not running in cluster mode, Node.js will close the connection.
 
-2. If the process is running in cluster mode, Node.js will, by default, route the connection to another worker process. To close the connection instead, set \[`server.dropMaxConnection`]\[] to `true`.
+2. If the process is running in cluster mode, Node.js will, by default, route the connection to another worker process. To close the connection instead, set [`server.dropMaxConnection`][] to `true`.
 
 It is not recommended to use this option once a socket has been sent to a child
 with [`child_process.fork()`][].
@@ -676,7 +693,9 @@ with [`child_process.fork()`][].
 ### `server.dropMaxConnection`
 
 <!-- YAML
-added: v22.12.0
+added:
+  - v23.1.0
+  - v22.12.0
 -->
 
 * Type: {boolean}
@@ -733,6 +752,9 @@ it to interact with the client.
 <!-- YAML
 added: v0.3.4
 changes:
+  - version: v24.15.0
+    pr-url: https://github.com/nodejs/node/pull/61503
+    description: Added `typeOfService` option.
   - version: v15.14.0
     pr-url: https://github.com/nodejs/node/pull/37735
     description: AbortSignal support was added.
@@ -750,6 +772,12 @@ changes:
     access to specific IP addresses, IP ranges, or IP subnets.
   * `fd` {number} If specified, wrap around an existing socket with
     the given file descriptor, otherwise a new socket will be created.
+  * `handle` {net.BoundSocket} If specified, wrap around the bound socket from a
+    [`BoundSocket`][]. A subsequent
+    [`socket.connect()`][`socket.connect()`] uses the bound socket as the
+    connection's source binding (honoring the bound local address and port).
+    Adoption consumes the bound socket (see
+    [ownership transfer][`BoundSocket`]).
   * `keepAlive` {boolean} If set to `true`, it enables keep-alive functionality on
     the socket immediately after the connection is established, similarly on what
     is done in [`socket.setKeepAlive()`][]. **Default:** `false`.
@@ -774,6 +802,7 @@ changes:
     otherwise ignored. **Default:** `false`.
   * `signal` {AbortSignal} An Abort signal that may be used to destroy the
     socket.
+  * `typeOfService` {number} The initial Type of Service (TOS) value.
   * `writable` {boolean} Allow writes on the socket when an `fd` is passed,
     otherwise ignored. **Default:** `false`.
 * Returns: {net.Socket}
@@ -1360,11 +1389,76 @@ added: v0.1.90
 Set the encoding for the socket as a [Readable Stream][]. See
 [`readable.setEncoding()`][] for more information.
 
-### `socket.setKeepAlive([enable][, initialDelay])`
+### `socket.setKeepAlive()`
+
+Enable/disable keep-alive functionality, and optionally configure the
+keepalive probe timing. Returns the socket itself.
+
+Possible signatures:
+
+* [`socket.setKeepAlive([options])`][`socket.setKeepAlive(options)`]
+* [`socket.setKeepAlive([enable][, initialDelay][, interval][, count])`][`socket.setKeepAlive(enable)`]
+
+Enabling keep-alive sets the initial delay before the first keepalive probe is
+sent on an idle socket.
+
+Set `initialDelay` (in milliseconds) to set the delay between the last
+data packet received and the first keepalive probe. Setting `0` for
+`initialDelay` will leave the value unchanged from the default
+(or previous) setting.
+
+Set `interval` (in milliseconds) to set the delay between successive
+keepalive probes once they begin (`TCP_KEEPINTVL`). Set `count` to the
+number of unacknowledged probes sent before the connection is dropped
+(`TCP_KEEPCNT`). Both are only applied when keep-alive is enabled.
+Omitting `interval` or `count` uses the defaults of `1000` ms and `10`.
+As with `initialDelay`, a non-positive `interval` or `count` leaves the
+corresponding system default unchanged.
+
+`initialDelay` and `interval` are specified in milliseconds but the
+underlying socket options are configured in whole seconds; the values are
+divided by `1000` and rounded down before being applied.
+
+Enabling the keep-alive functionality will set the following socket options:
+
+* `SO_KEEPALIVE=1`
+* `TCP_KEEPIDLE=initialDelay / 1000`
+* `TCP_KEEPCNT=count`
+* `TCP_KEEPINTVL=interval / 1000`
+
+On Windows versions older than build 1709, keep-alive is configured through
+`SIO_KEEPALIVE_VALS`, which has no probe-count field, so `count` is ignored on
+those platforms.
+
+#### `socket.setKeepAlive([options])`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+* `options` {Object}
+  * `enable` {boolean} **Default:** `false`
+  * `initialDelay` {number} **Default:** `0`
+  * `interval` {number} **Default:** `1000`
+  * `count` {number} **Default:** `10`
+* Returns: {net.Socket} The socket itself.
+
+Configure keep-alive using an options object. See [`socket.setKeepAlive()`][]
+for a description of each property.
+
+```js
+socket.setKeepAlive({ enable: true, initialDelay: 1000, interval: 1000, count: 10 });
+```
+
+#### `socket.setKeepAlive([enable][, initialDelay][, interval][, count])`
 
 <!-- YAML
 added: v0.1.92
 changes:
+  - version: v24.19.0
+    pr-url: https://github.com/nodejs/node/pull/63825
+    description: Added the `interval` and `count` arguments to configure
+                 `TCP_KEEPINTVL` and `TCP_KEEPCNT`.
   - version:
     - v13.12.0
     - v12.17.0
@@ -1374,22 +1468,12 @@ changes:
 
 * `enable` {boolean} **Default:** `false`
 * `initialDelay` {number} **Default:** `0`
+* `interval` {number} **Default:** `1000`
+* `count` {number} **Default:** `10`
 * Returns: {net.Socket} The socket itself.
 
-Enable/disable keep-alive functionality, and optionally set the initial
-delay before the first keepalive probe is sent on an idle socket.
-
-Set `initialDelay` (in milliseconds) to set the delay between the last
-data packet received and the first keepalive probe. Setting `0` for
-`initialDelay` will leave the value unchanged from the default
-(or previous) setting.
-
-Enabling the keep-alive functionality will set the following socket options:
-
-* `SO_KEEPALIVE=1`
-* `TCP_KEEPIDLE=initialDelay`
-* `TCP_KEEPCNT=10`
-* `TCP_KEEPINTVL=1`
+Configure keep-alive using positional arguments. See
+[`socket.setKeepAlive()`][] for a description of each argument.
 
 ### `socket.setNoDelay([noDelay])`
 
@@ -1446,6 +1530,45 @@ If `timeout` is 0, then the existing idle timeout is disabled.
 
 The optional `callback` parameter will be added as a one-time listener for the
 [`'timeout'`][] event.
+
+### `socket.getTypeOfService()`
+
+<!-- YAML
+added: v24.15.0
+-->
+
+* Returns: {integer} The current TOS value.
+
+Returns the current Type of Service (TOS) field for IPv4 packets or Traffic
+Class for IPv6 packets for this socket.
+
+`setTypeOfService()` may be called before the socket is connected; the value
+will be cached and applied when the socket establishes a connection.
+`getTypeOfService()` will return the currently set value even before connection.
+
+On some platforms (e.g., Linux), certain TOS/ECN bits may be masked or ignored,
+and behavior can differ between IPv4 and IPv6 or dual-stack sockets. Callers
+should verify platform-specific semantics.
+
+### `socket.setTypeOfService(tos)`
+
+<!-- YAML
+added: v24.15.0
+-->
+
+* `tos` {integer} The TOS value to set (0-255).
+* Returns: {net.Socket} The socket itself.
+
+Sets the Type of Service (TOS) field for IPv4 packets or Traffic Class for IPv6
+Packets sent from this socket. This can be used to prioritize network traffic.
+
+`setTypeOfService()` may be called before the socket is connected; the value
+will be cached and applied when the socket establishes a connection.
+`getTypeOfService()` will return the currently set value even before connection.
+
+On some platforms (e.g., Linux), certain TOS/ECN bits may be masked or ignored,
+and behavior can differ between IPv4 and IPv6 or dual-stack sockets. Callers
+should verify platform-specific semantics.
 
 ### `socket.timeout`
 
@@ -1508,6 +1631,94 @@ This property represents the state of the connection as a string.
 * If the stream is readable and writable, it is `open`.
 * If the stream is readable and not writable, it is `readOnly`.
 * If the stream is not readable and writable, it is `writeOnly`.
+
+## Class: `net.BoundSocket`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+Allows for the synchronous creation of a pre-bound socket, that can be passed
+to `listen()` or `new net.Socket()` later on. For `listen()` this enables
+synchronous port reservation, while for `new net.Socket()`, it allows control
+over the local egress port/IP, via `bind(2)` semantics.
+
+Adoption transfers ownership of the socket; afterwards `address()` and `close()`
+throw [`ERR_SOCKET_HANDLE_ADOPTED`][]. A handle that is never adopted must be
+closed to avoid leaking the socket.
+
+```mjs
+import net from 'node:net';
+
+const bound = new net.BoundSocket();
+const { port } = bound.address();
+console.log(`Reserved port ${port} for server`);
+
+const server = net.createServer();
+server.listen(bound); // Adopt as a server, or pass to new net.Socket() instead.
+```
+
+### `new net.BoundSocket([options])`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+* `options` {Object}
+  * `host` {string} Local address to bind. Must be a numeric IP literal; no DNS
+    resolution is performed. **Default:** `'0.0.0.0'`, or `'::'` when
+    `ipv6Only` is `true`.
+  * `port` {number} Local port. `0` requests an OS-assigned ephemeral port.
+    **Default:** `0`.
+  * `ipv6Only` {boolean} Sets `IPV6_V6ONLY`, disabling dual-stack support so the
+    socket binds IPv6 only. Only meaningful for IPv6 binds. **Default:**
+    `false`.
+  * `reusePort` {boolean} Sets `SO_REUSEPORT`, allowing multiple sockets to bind
+    the same address and port for kernel-level load balancing. Support is
+    platform-dependent. **Default:** `false`.
+
+### `boundSocket.address()`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+* Returns: {Object} An object with `address`, `family`, and `port` properties,
+  as [`server.address()`][] returns.
+
+Returns the bound local address. When bound with `port: 0`, `port` is the
+OS-assigned ephemeral port.
+
+### `boundSocket.fd()`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+* Returns: {integer} The underlying OS file descriptor, or `-1` on platforms
+  that do not expose one for sockets (such as Windows).
+
+Returns the file descriptor of the bound socket. Ownership remains with the
+`BoundSocket`, so the descriptor must not be closed by the caller. The
+descriptor is only available before the handle is adopted; afterwards it belongs
+to the adopting [`net.Server`][] or [`net.Socket`][] and `fd()` throws
+[`ERR_SOCKET_HANDLE_ADOPTED`][].
+
+### `boundSocket.close()`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+Releases the bound socket. Only needed when the handle is never adopted.
+
+### `boundSocket[Symbol.dispose]()`
+
+<!-- YAML
+added: v24.19.0
+-->
+
+Closes the handle if it has not been adopted or closed; otherwise a no-op.
 
 ## `net.connect()`
 
@@ -1603,6 +1814,9 @@ and [`socket.connect(options[, connectListener])`][`socket.connect(options)`].
 
 Additional options:
 
+* `handle` {net.BoundSocket} A pre-bound [`BoundSocket`][] used as the
+  connection's source binding, honoring its local address and port. Adoption
+  consumes the bound socket (see [ownership transfer][`BoundSocket`]).
 * `timeout` {number} If set, will be used to call
   [`socket.setTimeout(timeout)`][] after the socket is created, but before
   it starts the connection.
@@ -1979,6 +2193,8 @@ net.isIPv6('fhqwhgads'); // returns false
 [`'error'`]: #event-error_1
 [`'listening'`]: #event-listening
 [`'timeout'`]: #event-timeout
+[`BoundSocket`]: #class-netboundsocket
+[`ERR_SOCKET_HANDLE_ADOPTED`]: errors.md#err_socket_handle_adopted
 [`EventEmitter`]: events.md#class-eventemitter
 [`child_process.fork()`]: child_process.md#child_processforkmodulepath-args-options
 [`dns.lookup()`]: dns.md#dnslookuphostname-options-callback
@@ -1998,7 +2214,9 @@ net.isIPv6('fhqwhgads'); // returns false
 [`net.getDefaultAutoSelectFamilyAttemptTimeout()`]: #netgetdefaultautoselectfamilyattempttimeout
 [`new net.Socket(options)`]: #new-netsocketoptions
 [`readable.setEncoding()`]: stream.md#readablesetencodingencoding
+[`server.address()`]: #serveraddress
 [`server.close()`]: #serverclosecallback
+[`server.dropMaxConnection`]: #serverdropmaxconnection
 [`server.listen()`]: #serverlisten
 [`server.listen(handle)`]: #serverlistenhandle-backlog-callback
 [`server.listen(options)`]: #serverlistenoptions-callback
@@ -2016,7 +2234,9 @@ net.isIPv6('fhqwhgads'); // returns false
 [`socket.pause()`]: #socketpause
 [`socket.resume()`]: #socketresume
 [`socket.setEncoding()`]: #socketsetencodingencoding
-[`socket.setKeepAlive()`]: #socketsetkeepaliveenable-initialdelay
+[`socket.setKeepAlive()`]: #socketsetkeepalive
+[`socket.setKeepAlive(enable)`]: #socketsetkeepaliveenable-initialdelay-interval-count
+[`socket.setKeepAlive(options)`]: #socketsetkeepaliveoptions
 [`socket.setTimeout()`]: #socketsettimeouttimeout-callback
 [`socket.setTimeout(timeout)`]: #socketsettimeouttimeout-callback
 [`stream.getDefaultHighWaterMark()`]: stream.md#streamgetdefaulthighwatermarkobjectmode

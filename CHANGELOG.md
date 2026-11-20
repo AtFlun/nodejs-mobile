@@ -1,4 +1,4 @@
-# Changelog
+# 变更日志
 
 所有重要的项目变更都将记录在此文件中;
 
@@ -6,12 +6,32 @@
 org/lang/zh-CN/);
 
 ---
+## [24.19.0] - 2026-11-20 08:51
 
+### 升级
+- 从 Node.js v22.23.2 升级到 v24.19.0
+- NODE_MODULE_VERSION 从 127 升级到 137
+- V8 从 v12 升级到 v13.6
 
+### 新增
+- 支持 Node.js 24 的 C++20 编译要求（V8 13.6 headers 使用 `concept`/`requires`）
+- 保留 `--with-intl=full-icu`，继续支持 `\p{...}` Unicode 属性转义
+
+### 修复
+- 补齐 v24 缺失的 trap-handler 桩函数（`TryHandleSignal` / `RegisterDefaultTrapHandler`），解决 host `mksnapshot` 链接失败
+- 确认 `V8_TRAP_HANDLER_SUPPORTED` 在 Android 目标下强制为 false
+
+### 升级注意事项
+- **原生模块需重编**：v24 的 NODE_MODULE_VERSION 为 137，此前为 v22（127）编译的原生模块不兼容
+- **原生模块开发者需启用 C++20**：在 `binding.gyp` 中加 `-std=c++20`，否则编译报 `"C++20 or later required"`
+- **纯 JS 用户不受影响**：C++20 仅涉及原生代码编译，业务 JS 无需任何改动
+- 发布物仍为 `libnode.zip`，结构不变（`bin/<arch>/libnode.so` + `include/node/`）
+
+---
 ## [22.23.2] - 2026-09-25 02:45
 
 ### 优化
-- **rn-bridge 入口解析**:CJS loader 补丁从硬编码 `rn-bridge/index.js` 改为传目录路径 `rn-bridge`,让 Node 按该目录 
+- **rn-bridge 入口解析**:CJS loader 补丁从硬编码 `rn-bridge/index.js` 改为传目录路径 `rn-bridge`,让 Node 按该目录
   `package.json` 的 `main` 字段解析
 
 ### 增强
@@ -20,7 +40,7 @@ org/lang/zh-CN/);
 
 ### 背景
 - `@flun/nodejs-mobile-react-native` 因 `type: module` 将 rn-bridge 入口从 `index.js` 改名为 `index.cjs`
-- 原先 loader 补丁按 `index.js` 定位;当入口改名后 Node 会回退到 `process._linkedBinding('rn_bridge')` 拿裸 binding(无 
+- 原先 loader 补丁按 `index.js` 定位;当入口改名后 Node 会回退到 `process._linkedBinding('rn_bridge')` 拿裸 binding(无
   `channel` 属性)
 - 触发运行时崩溃:`FORTIFY: pthread_mutex_lock called on a destroyed mutex` + `Fatal signal 6 (SIGABRT)`
 - 本次改动从根源解决:loader 只负责定位 rn-bridge 目录,入口文件名交给 package.json 决定
@@ -64,7 +84,7 @@ org/lang/zh-CN/);
   - `deps/v8/src/trap-handler/handler-outside.cc`:添加 `TryHandleSignal` 桩函数、禁用 `RegisterDefaultTrapHandler`
   - `deps/v8/src/execution/arm64/simulator-arm64.cc`:添加 `v8_internal_simulator_ProbeMemory` 桩函数
 - **Node.js 源码**
-  - `lib/internal/modules/cjs/loader.js`:修改 `Module._load`,使 `require('rn-bridge')` 从 `NODE_PATH` 加载 JS 
+  - `lib/internal/modules/cjs/loader.js`:修改 `Module._load`,使 `require('rn-bridge')` 从 `NODE_PATH` 加载 JS
     包装文件(适配 Node.js 20+ 模块解析机制)
 - **JNI 适配(Android 项目侧)**
   - `node_modules/nodejs-mobile-react-native/android/src/main/cpp/rn-bridge.cpp`:
@@ -78,29 +98,23 @@ org/lang/zh-CN/);
   - `android/gradle.properties`:`reactNativeArchitectures=arm64-v8a,x86_64`
 
 ### 发布产物
-- **`android-libnode.zip`**(约 88M):完整包,含 `bin/arm64-v8a/libnode.so`、`bin/x86_64/libnode.so`、`include/node/`(官方 
+- **`android-libnode.zip`**(约 88M):完整包,含 `bin/arm64-v8a/libnode.so`、`bin/x86_64/libnode.so`、`include/node/`(官方
   v22 headers);
 - 用户下载后直接替换插件 `android/libnode/` 整个目录,**无需再手动修改头文件**;
 - 单架构 zip(`arm64-v8a.zip`、`x86_64.zip`)已废弃,不再发布;
 
 ### 兼容性说明
-- **armeabi-v7a 已放弃**:V8 v22 官方不支持在 x64 主机上交叉编译 32 位 ARM 目标(`v8config.h:914` 硬性拒绝,且 Torque 
+- **armeabi-v7a 已放弃**:V8 v22 官方不支持在 x64 主机上交叉编译 32 位 ARM 目标(`v8config.h:914` 硬性拒绝,且 Torque
   工具会报 8 字节对齐错误);如需 32 位 ARM 支持,请使用 Node.js v18 或 v20;
-- **V8 ABI 与 v18 不兼容**:使用 `android-libnode.zip` 整目录替换后,插件的 `include/node/` 被替换为官方 v22 
+- **V8 ABI 与 v18 不兼容**:使用 `android-libnode.zip` 整目录替换后,插件的 `include/node/` 被替换为官方 v22
   headers(已含正确 ABI),但仍需修改 `rn-bridge.cpp` 源码;
 
 ### 已知问题
-- 应用需重新编译所有原生 Node.js 模块(设置 `NODEJS_MOBILE_BUILD_NATIVE_MODULES=1`),否则会因 ABI 不匹配报 
+- 应用需重新编译所有原生 Node.js 模块(设置 `NODEJS_MOBILE_BUILD_NATIVE_MODULES=1`),否则会因 ABI 不匹配报
   `NODE_MODULE_VERSION` 错误;
-- full-icu 是 Express 5 的硬性前提:未启用 ICU 的 `libnode.so` 加载 `path-to-regexp@8`(Express 5 依赖)时会报 
+- full-icu 是 Express 5 的硬性前提:未启用 ICU 的 `libnode.so` 加载 `path-to-regexp@8`(Express 5 依赖)时会报
   `Invalid regular expression` 或 `number 116 is not a function`;
 
 ### 文档
 - 详见 `UPGRADE.md`:完整升级流程、常见问题、长期维护策略
 - 详见 `自定义libnode指南.md`:替换 `libnode.zip` 后的 Android 端适配操作
-
----
-
-## [18.20.4] - 2024-08(历史版本)
-
-初始版本,基于 Node.js v18.20.4 LTS;

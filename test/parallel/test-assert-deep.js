@@ -1,6 +1,6 @@
 'use strict';
 
-const { hasCrypto } = require('../common');
+const { mustCall, hasCrypto } = require('../common');
 const assert = require('assert');
 const util = require('util');
 const { test } = require('node:test');
@@ -126,6 +126,11 @@ test('deepEqual', () => {
   }
 });
 
+test('loose deepEqual', () => {
+  assertOnlyDeepEqual([null, undefined, undefined], [null, undefined, null]);
+  assertNotDeepOrStrict([null, undefined, undefined, 1], [null, undefined, null, 2]);
+});
+
 test('date', () => {
   assertNotDeepOrStrict(date, date2);
   assert.throws(
@@ -223,10 +228,10 @@ function assertNotDeepOrStrict(a, b, err, options) {
     () => assert.deepStrictEqual(b, a),
     err || { code: 'ERR_ASSERTION' }
   );
-  const partial = () => {
+  const partial = mustCall(() => {
     assert.partialDeepStrictEqual(b, a);
     assert.partialDeepStrictEqual(a, b);
-  };
+  });
   if (options?.partial === 'pass') {
     partial();
   } else {
@@ -246,6 +251,21 @@ function assertOnlyDeepEqual(a, b, err) {
     () => assert.deepStrictEqual(b, a),
     err || { code: 'ERR_ASSERTION' }
   );
+
+  const partial = mustCall(() => {
+    assert.partialDeepStrictEqual(b, a);
+    assert.partialDeepStrictEqual(a, b);
+  });
+
+  assert.throws(partial, err || { code: 'ERR_ASSERTION' });
+}
+
+function activateMemoizedCycleDetection() {
+  const circA = {};
+  circA.self = circA;
+  const circB = {};
+  circB.self = circB;
+  assert.deepStrictEqual(circA, circB);
 }
 
 test('es6 Maps and Sets', () => {
@@ -573,7 +593,7 @@ test('GH-14441. Circular structures should be consistent', () => {
     b.a = {};
     b.a.a = a;
 
-    assertDeepAndStrictEqual(a, b);
+    assertNotDeepOrStrict(a, b);
   }
 
   {
@@ -583,7 +603,7 @@ test('GH-14441. Circular structures should be consistent', () => {
     b.a = b;
     const c = {};
     c.a = a;
-    assertDeepAndStrictEqual(b, c);
+    assertNotDeepOrStrict(b, c);
   }
 
   {
@@ -593,8 +613,38 @@ test('GH-14441. Circular structures should be consistent', () => {
     b.add(b);
     const c = new Set();
     c.add(a);
-    assertDeepAndStrictEqual(b, c);
+    assertNotDeepOrStrict(b, c);
   }
+});
+
+test('deepStrictEqual handles shared expected array elements after cycle detection', () => {
+  const sharedExpected = { outer: { inner: 0 } };
+  const actualValues = [{ outer: { inner: 0 } }, { outer: { inner: 0 } }];
+  const expectedValues = [sharedExpected, sharedExpected];
+
+  activateMemoizedCycleDetection();
+
+  assertDeepAndStrictEqual(actualValues[0], expectedValues[0]);
+  assertDeepAndStrictEqual(actualValues[1], expectedValues[1]);
+  assertDeepAndStrictEqual(actualValues, expectedValues);
+});
+
+test('deepStrictEqual handles cross-root aliases after cycle detection', () => {
+  activateMemoizedCycleDetection();
+
+  const nestedExpected = {};
+  nestedExpected.loop = nestedExpected;
+  nestedExpected.payload = { value: 1 };
+
+  const expected = {};
+  expected.loop = nestedExpected;
+  expected.payload = { value: 1 };
+
+  const actual = {};
+  actual.loop = expected;
+  actual.payload = { value: 1 };
+
+  assertDeepAndStrictEqual(actual, expected);
 });
 
 // https://github.com/nodejs/node-v0.x-archive/pull/7178
@@ -766,6 +816,19 @@ test('Additional tests', () => {
   );
 
   assertNotDeepOrStrict(new Date(), new Date(2000, 3, 14));
+
+  {
+    // Invalid dates deep comparison.
+    const date1 = new Date('foo');
+    const date2 = new Date('bar');
+    date1.foo = true;
+    date2.foo = true;
+    assertDeepAndStrictEqual(date1, date2);
+
+    date1.bar = false;
+    date2.bar = true;
+    assertNotDeepOrStrict(date1, date2);
+  }
 
   assertDeepAndStrictEqual(/a/, /a/);
   assertDeepAndStrictEqual(/a/g, /a/g);

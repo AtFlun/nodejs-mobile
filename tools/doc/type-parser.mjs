@@ -46,6 +46,8 @@ const customTypesMap = {
 
   'WebAssembly.Instance':
     `${jsDocPrefix}Reference/Global_Objects/WebAssembly/Instance`,
+  'WebAssembly.Memory':
+    `${jsDocPrefix}Reference/Global_Objects/WebAssembly/Memory`,
 
   'Blob': 'buffer.html#class-blob',
   'File': 'buffer.html#class-file',
@@ -64,7 +66,7 @@ const customTypesMap = {
 
   'AsyncLocalStorage': 'async_context.html#class-asynclocalstorage',
 
-  'AsyncHook': 'async_hooks.html#async_hookscreatehookcallbacks',
+  'AsyncHook': 'async_hooks.html#async_hookscreatehookoptions',
   'AsyncResource': 'async_hooks.html#class-asyncresource',
 
   'brotli options': 'zlib.html#class-brotlioptions',
@@ -75,8 +77,8 @@ const customTypesMap = {
 
   'cluster.Worker': 'cluster.html#class-worker',
 
-  'Cipher': 'crypto.html#class-cipher',
-  'Decipher': 'crypto.html#class-decipher',
+  'Cipheriv': 'crypto.html#class-cipheriv',
+  'Decipheriv': 'crypto.html#class-decipheriv',
   'DiffieHellman': 'crypto.html#class-diffiehellman',
   'DiffieHellmanGroup': 'crypto.html#class-diffiehellmangroup',
   'ECDH': 'crypto.html#class-ecdh',
@@ -91,16 +93,19 @@ const customTypesMap = {
   'CryptoKey': 'webcrypto.html#class-cryptokey',
   'CryptoKeyPair': 'webcrypto.html#class-cryptokeypair',
   'Crypto': 'webcrypto.html#class-crypto',
+  'EncapsulatedBits': 'webcrypto.html#class-encapsulatedbits',
+  'EncapsulatedKey': 'webcrypto.html#class-encapsulatedkey',
   'SubtleCrypto': 'webcrypto.html#class-subtlecrypto',
   'RsaOaepParams': 'webcrypto.html#class-rsaoaepparams',
   'AesCtrParams': 'webcrypto.html#class-aesctrparams',
   'AesCbcParams': 'webcrypto.html#class-aescbcparams',
   'AesDerivedKeyParams': 'webcrypto.html#class-aesderivedkeyparams',
-  'AesGcmParams': 'webcrypto.html#class-aesgcmparams',
+  'AeadParams': 'webcrypto.html#class-aeadparams',
   'EcdhKeyDeriveParams': 'webcrypto.html#class-ecdhkeyderiveparams',
   'HkdfParams': 'webcrypto.html#class-hkdfparams',
   'KeyAlgorithm': 'webcrypto.html#class-keyalgorithm',
   'Pbkdf2Params': 'webcrypto.html#class-pbkdf2params',
+  'Argon2Params': 'webcrypto.html#class-argon2params',
   'HmacKeyAlgorithm': 'webcrypto.html#class-hmackeyalgorithm',
   'HmacKeyGenParams': 'webcrypto.html#class-hmackeygenparams',
   'AesKeyAlgorithm': 'webcrypto.html#class-aeskeyalgorithm',
@@ -117,7 +122,14 @@ const customTypesMap = {
   'HmacImportParams': 'webcrypto.html#class-hmacimportparams',
   'EcdsaParams': 'webcrypto.html#class-ecdsaparams',
   'RsaPssParams': 'webcrypto.html#class-rsapssparams',
-  'Ed448Params': 'webcrypto.html#class-ed448params',
+  'ContextParams': 'webcrypto.html#class-contextparams',
+  'CShakeParams': 'webcrypto.html#class-cshakeparams',
+  'KangarooTwelveParams': 'webcrypto.html#class-kangarootwelveparams',
+  'KmacImportParams': 'webcrypto.html#class-kmacimportparams',
+  'KmacKeyAlgorithm': 'webcrypto.html#class-kmackeyalgorithm',
+  'KmacKeyGenParams': 'webcrypto.html#class-kmackeygenparams',
+  'KmacParams': 'webcrypto.html#class-kmacparams',
+  'TurboShakeParams': 'webcrypto.html#class-turboshakeparams',
 
   'dgram.Socket': 'dgram.html#class-dgramsocket',
 
@@ -189,6 +201,7 @@ const customTypesMap = {
   'require': 'modules.html#requireid',
 
   'Handle': 'net.html#serverlistenhandle-backlog-callback',
+  'net.BoundSocket': 'net.html#class-netboundsocket',
   'net.BlockList': 'net.html#class-netblocklist',
   'net.Server': 'net.html#class-netserver',
   'net.Socket': 'net.html#class-netsocket',
@@ -200,8 +213,8 @@ const customTypesMap = {
   'os.constants.dlopen': 'os.html#dlopen-constants',
 
   'Histogram': 'perf_hooks.html#class-histogram',
-  'IntervalHistogram':
-     'perf_hooks.html#class-intervalhistogram-extends-histogram',
+  'ELDHistogram':
+     'perf_hooks.html#class-eldhistogram-extends-histogram',
   'RecordableHistogram':
      'perf_hooks.html#class-recordablehistogram-extends-histogram',
   'PerformanceEntry': 'perf_hooks.html#class-performanceentry',
@@ -223,6 +236,7 @@ const customTypesMap = {
 
   'Session': 'sqlite.html#class-session',
   'StatementSync': 'sqlite.html#class-statementsync',
+  'SQLTagStore': 'sqlite.html#class-sqltagstore',
 
   'Stream': 'stream.html#stream',
   'stream.Duplex': 'stream.html#class-streamduplex',
@@ -239,6 +253,8 @@ const customTypesMap = {
   'Timer': 'timers.html#timers',
 
   'TestsStream': 'test.html#class-testsstream',
+  'TestContext': 'test.html#class-testcontext',
+  'SuiteContext': 'test.html#class-suitecontext',
 
   'tls.SecureContext': 'tls.html#tlscreatesecurecontextoptions',
   'tls.Server': 'tls.html#class-tlsserver',
@@ -307,6 +323,38 @@ const customTypesMap = {
   'Response': 'https://developer.mozilla.org/en-US/docs/Web/API/Response',
   'Request': 'https://developer.mozilla.org/en-US/docs/Web/API/Request',
   'Disposable': 'https://tc39.es/proposal-explicit-resource-management/#sec-disposable-interface',
+
+  'quic.QuicEndpoint': 'quic.html#class-quicendpoint',
+  'quic.QuicEndpoint.Stats': 'quic.html#class-quicendpointstats',
+  'quic.QuicSession': 'quic.html#class-quicsession',
+  'quic.QuicSession.Stats': 'quic.html#class-quicsessionstats',
+  'quic.QuicStream': 'quic.html#class-quicstream',
+  'quic.QuicStream.Stats': 'quic.html#class-quicstreamstats',
+  'quic.EndpointOptions': 'quic.html#type-endpointoptions',
+  'quic.SessionOptions': 'quic.html#type-sessionoptions',
+  'quic.ApplicationOptions': 'quic.html#type-applicationoptions',
+  'quic.TlsOptions': 'quic.html#type-tlsoptions',
+  'quic.TransportParams': 'quic.html#type-transportparams',
+  'quic.OnSessionCallback': 'quic.html#callback-onsessioncallback',
+  'quic.OnStreamCallback': 'quic.html#callback-onstreamcallback',
+  'quic.OnDatagramCallback': 'quic.html#callback-ondatagramcallback',
+  'quic.OnDatagramStatusCallback': 'quic.html#callback-ondatagramstatuscallback',
+  'quic.OnPathValidationCallback': 'quic.html#callback-onpathvalidationcallback',
+  'quic.OnSessionTicketCallback': 'quic.html#callback-onsessionticketcallback',
+  'quic.OnVersionNegotiationCallback': 'quic.html#callback-onversionnegotiationcallback',
+  'quic.OnHandshakeCallback': 'quic.html#callback-onhandshakecallback',
+  'quic.OnBlockedCallback': 'quic.html#callback-onblockedcallback',
+  'quic.OnStreamErrorCallback': 'quic.html#callback-onstreamerrorcallback',
+  'quic.OnHeadersCallback': 'quic.html#callback-onheaderscallback',
+  'quic.OnTrailersCallback': 'quic.html#callback-ontrailerscallback',
+  'quic.OnPullCallback': 'quic.html#callback-onpullcallback',
+
+  'Lock': 'worker_threads.html#class-lock',
+  'LockManager': 'worker_threads.html#class-lockmanager',
+  'LockManagerSnapshot': 'https://developer.mozilla.org/en-US/docs/Web/API/LockManagerSnapshot',
+  'CPUProfileHandle': 'v8.html#class-cpuprofilehandle',
+  'HeapProfileHandle': 'v8.html#class-heapprofilehandle',
+  'SyncCPUProfileHandle': 'v8.html#class-synccpuprofilehandle',
 };
 
 const arrayPart = /(?:\[])+$/;

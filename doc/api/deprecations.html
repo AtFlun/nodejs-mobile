@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Deprecated APIs | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Deprecated APIs | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="deprecations" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -327,15 +327,23 @@
 <li><a href="#DEP0187">DEP0187: Passing invalid argument types to <code>fs.existsSync</code></a></li>
 <li><a href="#DEP0188">DEP0188: <code>process.features.ipv6</code> and <code>process.features.uv</code></a></li>
 <li><a href="#DEP0189">DEP0189: <code>process.features.tls_*</code></a></li>
-<li><a href="#DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option <code>true</code></a></li>
+<li><a href="#DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option</a></li>
 <li><a href="#DEP0191">DEP0191: <code>repl.builtinModules</code></a></li>
 <li><a href="#DEP0192">DEP0192: <code>require('node:_tls_common')</code> and <code>require('node:_tls_wrap')</code></a></li>
 <li><a href="#DEP0193">DEP0193: <code>require('node:_stream_*')</code></a></li>
 <li><a href="#DEP0194">DEP0194: HTTP/2 priority signaling</a></li>
 <li><a href="#DEP0195">DEP0195: Instantiating <code>node:http</code> classes without <code>new</code></a></li>
 <li><a href="#DEP0196">DEP0196: Calling <code>node:child_process</code> functions with <code>options.shell</code> as an empty string</a></li>
+<li><a href="#DEP0197">DEP0197: <code>util.types.isNativeError()</code></a></li>
 <li><a href="#DEP0198">DEP0198: Creating SHAKE-128 and SHAKE-256 digests without an explicit <code>options.outputLength</code></a></li>
 <li><a href="#DEP0199">DEP0199: <code>require('node:_http_*')</code></a></li>
+<li><a href="#DEP0200">DEP0200: Closing fs.Dir on garbage collection</a></li>
+<li><a href="#DEP0201">DEP0201: Passing <code>options.type</code> to <code>Duplex.toWeb()</code></a></li>
+<li><a href="#DEP0202">DEP0202: <code>Http1IncomingMessage</code> and <code>Http1ServerResponse</code> options of HTTP/2 servers</a></li>
+<li><a href="#DEP0203">DEP0203: Passing <code>CryptoKey</code> to <code>node:crypto</code> APIs</a></li>
+<li><a href="#DEP0204">DEP0204: <code>KeyObject.from()</code> with non-extractable <code>CryptoKey</code></a></li>
+<li><a href="#DEP0205">DEP0205: <code>module.register()</code></a></li>
+<li><a href="#DEP0206">DEP0206: Calling <code>digest()</code> on an already-finalized <code>Hmac</code> instance</a></li>
 </ul>
 </li>
 </ul>
@@ -673,15 +681,23 @@
 <li><a href="#DEP0187">DEP0187: Passing invalid argument types to <code>fs.existsSync</code></a></li>
 <li><a href="#DEP0188">DEP0188: <code>process.features.ipv6</code> and <code>process.features.uv</code></a></li>
 <li><a href="#DEP0189">DEP0189: <code>process.features.tls_*</code></a></li>
-<li><a href="#DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option <code>true</code></a></li>
+<li><a href="#DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option</a></li>
 <li><a href="#DEP0191">DEP0191: <code>repl.builtinModules</code></a></li>
 <li><a href="#DEP0192">DEP0192: <code>require('node:_tls_common')</code> and <code>require('node:_tls_wrap')</code></a></li>
 <li><a href="#DEP0193">DEP0193: <code>require('node:_stream_*')</code></a></li>
 <li><a href="#DEP0194">DEP0194: HTTP/2 priority signaling</a></li>
 <li><a href="#DEP0195">DEP0195: Instantiating <code>node:http</code> classes without <code>new</code></a></li>
 <li><a href="#DEP0196">DEP0196: Calling <code>node:child_process</code> functions with <code>options.shell</code> as an empty string</a></li>
+<li><a href="#DEP0197">DEP0197: <code>util.types.isNativeError()</code></a></li>
 <li><a href="#DEP0198">DEP0198: Creating SHAKE-128 and SHAKE-256 digests without an explicit <code>options.outputLength</code></a></li>
 <li><a href="#DEP0199">DEP0199: <code>require('node:_http_*')</code></a></li>
+<li><a href="#DEP0200">DEP0200: Closing fs.Dir on garbage collection</a></li>
+<li><a href="#DEP0201">DEP0201: Passing <code>options.type</code> to <code>Duplex.toWeb()</code></a></li>
+<li><a href="#DEP0202">DEP0202: <code>Http1IncomingMessage</code> and <code>Http1ServerResponse</code> options of HTTP/2 servers</a></li>
+<li><a href="#DEP0203">DEP0203: Passing <code>CryptoKey</code> to <code>node:crypto</code> APIs</a></li>
+<li><a href="#DEP0204">DEP0204: <code>KeyObject.from()</code> with non-extractable <code>CryptoKey</code></a></li>
+<li><a href="#DEP0205">DEP0205: <code>module.register()</code></a></li>
+<li><a href="#DEP0206">DEP0206: Calling <code>digest()</code> on an already-finalized <code>Hmac</code> instance</a></li>
 </ul>
 </li>
 </ul>
@@ -926,7 +942,7 @@ in Node.js 6.0 because the method defaulted to using the non-recommended
 <code>'SHA1'</code> digest. Previously, a deprecation warning was printed. Starting in
 Node.js 8.0.0, calling <code>crypto.pbkdf2()</code> or <code>crypto.pbkdf2Sync()</code> with
 <code>digest</code> set to <code>undefined</code> will throw a <code>TypeError</code>.</p>
-<p>Beginning in Node.js v11.0.0, calling these functions with <code>digest</code> set to
+<p>Beginning in Node.js 11.0.0, calling these functions with <code>digest</code> set to
 <code>null</code> would print a deprecation warning to align with the behavior when <code>digest</code>
 is <code>undefined</code>.</p>
 <p>Now, however, passing either <code>undefined</code> or <code>null</code> will throw a <code>TypeError</code>.</p>
@@ -1126,7 +1142,7 @@ This behavior has been removed.</p>
 </details>
 </div>
 <p>Type: End-of-Life</p>
-<p>The <code>Server.connections</code> property was deprecated in Node.js v0.9.7 and has
+<p>The <code>Server.connections</code> property was deprecated in Node.js 0.9.7 and has
 been removed. Please use the <a href="net.html#servergetconnectionscallback"><code>Server.getConnections()</code></a> method instead.</p>
 </div><div>
 <h4 id="DEP0021">DEP0021: <code>Server.listenFD</code><span><a class="mark" href="#dep0021-serverlistenfd" id="dep0021-serverlistenfd">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0021_server_listenfd"></a></h4>
@@ -1162,7 +1178,7 @@ been removed. Please use the <a href="net.html#servergetconnectionscallback"><co
 <p>Type: End-of-Life</p>
 <p>The <code>os.tmpDir()</code> API was deprecated in Node.js 7.0.0 and has since been
 removed. Please use <a href="os.html#ostmpdir"><code>os.tmpdir()</code></a> instead.</p>
-<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/tmpDir-to-tmpdir">source</a>):</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/tmpdir-to-tmpdir">source</a>):</p>
 <pre><code class="language-bash">npx codemod@latest @nodejs/tmpDir-to-tmpdir</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0023">DEP0023: <code>os.getNetworkInterfaces()</code><span><a class="mark" href="#dep0023-osgetnetworkinterfaces" id="dep0023-osgetnetworkinterfaces">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0023_os_getnetworkinterfaces"></a></h4>
@@ -1267,8 +1283,8 @@ removed. Please use <a href="os.html#ostmpdir"><code>os.tmpdir()</code></a> inst
 </div>
 <p>Type: End-of-Life</p>
 <p><code>util.debug()</code> has been removed. Please use <a href="console.html#consoleerrordata-args"><code>console.error()</code></a> instead.</p>
-<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-debug-to-console-error">source</a>):</p>
-<pre><code class="language-bash">npx codemod@latest @nodejs/util-debug-to-console-error</code> <button class="copy-button">copy</button></pre>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-print-to-console-log">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-print-to-console-log</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0029">DEP0029: <code>util.error()</code><span><a class="mark" href="#dep0029-utilerror" id="dep0029-utilerror">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0029_util_error"></a></h4>
 <div class="api_metadata">
@@ -1294,6 +1310,8 @@ removed. Please use <a href="os.html#ostmpdir"><code>os.tmpdir()</code></a> inst
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0</td>
 <td><p>A deprecation code has been assigned.</p></td></tr>
 <tr><td>v6.0.0</td>
@@ -1301,9 +1319,11 @@ removed. Please use <a href="os.html#ostmpdir"><code>os.tmpdir()</code></a> inst
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>The <a href="buffer.html#class-slowbuffer"><code>SlowBuffer</code></a> class is deprecated. Please use
 <a href="buffer.html#static-method-bufferallocunsafeslowsize"><code>Buffer.allocUnsafeSlow(size)</code></a> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/slow-buffer-to-buffer-alloc-unsafe-slow">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/slow-buffer-to-buffer-alloc-unsafe-slow</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0031">DEP0031: <code>ecdh.setPublicKey()</code><span><a class="mark" href="#dep0031-ecdhsetpublickey" id="dep0031-ecdhsetpublickey">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0031_ecdh_setpublickey"></a></h4>
 <div class="api_metadata">
@@ -1341,6 +1361,8 @@ API is not useful.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.14.0</td>
+<td><p>Deprecation revoked.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
 <td><p>A deprecation code has been assigned.</p></td></tr>
 <tr><td>v3.2.0</td>
@@ -1348,9 +1370,11 @@ API is not useful.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
-<p>The <a href="events.html#eventslistenercountemitter-eventname"><code>events.listenerCount(emitter, eventName)</code></a> API is
-deprecated. Please use <a href="events.html#emitterlistenercounteventname-listener"><code>emitter.listenerCount(eventName)</code></a> instead.</p>
+<p>Type: Revoked</p>
+<p>The <a href="events.html#eventslistenercountemitterortarget-eventname"><code>events.listenerCount(emitter, eventName)</code></a> API was deprecated, as it
+provided identical functionality to <a href="events.html#emitterlistenercounteventname-listener"><code>emitter.listenerCount(eventName)</code></a>. The
+deprecation was revoked because this function has been repurposed to also
+accept <a href="events.html#class-eventtarget" class="type">&#x3C;EventTarget></a> arguments.</p>
 </div><div>
 <h4 id="DEP0034">DEP0034: <code>fs.exists(path, callback)</code><span><a class="mark" href="#dep0034-fsexistspath-callback" id="dep0034-fsexistspath-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0034_fs_exists_path_callback"></a></h4>
 <div class="api_metadata">
@@ -1455,6 +1479,8 @@ revoked because the requisite supporting APIs were added in libuv.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.7.0, v22.14.0</td>
+<td><p>Application deprecation.</p></td></tr>
 <tr><td>v21.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v16.6.0</td>
@@ -1464,7 +1490,7 @@ revoked because the requisite supporting APIs were added in libuv.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: Application (non-<code>node_modules</code> code only)</p>
 <p>The <a href="punycode.html"><code>punycode</code></a> module is deprecated. Please use a userland alternative
 instead.</p>
 </div><div>
@@ -1509,6 +1535,8 @@ instead.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v8.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0</td>
@@ -1522,8 +1550,8 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
-<p>The <a href="tls.html#class-tlssecurepair"><code>tls.SecurePair</code></a> class is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>tls.SecurePair</code> class is deprecated. Please use
 <a href="tls.html#class-tlstlssocket"><code>tls.TLSSocket</code></a> instead.</p>
 </div><div>
 <h4 id="DEP0044">DEP0044: <code>util.isArray()</code><span><a class="mark" href="#dep0044-utilisarray" id="dep0044-utilisarray">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0044_util_isarray"></a></h4>
@@ -1543,12 +1571,16 @@ instead.</p>
 <p>Type: Runtime</p>
 <p>The <a href="util.html#utilisarrayobject"><code>util.isArray()</code></a> API is deprecated. Please use <code>Array.isArray()</code>
 instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0045">DEP0045: <code>util.isBoolean()</code><span><a class="mark" href="#dep0045-utilisboolean" id="dep0045-utilisboolean">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0045_util_isboolean"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1558,15 +1590,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisbooleanobject"><code>util.isBoolean()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isBoolean()</code> API has been removed. Please use
 <code>typeof arg === 'boolean'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0046">DEP0046: <code>util.isBuffer()</code><span><a class="mark" href="#dep0046-utilisbuffer" id="dep0046-utilisbuffer">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0046_util_isbuffer"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1576,15 +1612,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisbufferobject"><code>util.isBuffer()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isBuffer()</code> API has been removed. Please use
 <a href="buffer.html#static-method-bufferisbufferobj"><code>Buffer.isBuffer()</code></a> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0047">DEP0047: <code>util.isDate()</code><span><a class="mark" href="#dep0047-utilisdate" id="dep0047-utilisdate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0047_util_isdate"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1594,15 +1634,22 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisdateobject"><code>util.isDate()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isDate()</code> API has been removed. Please use
 <code>arg instanceof Date</code> instead.</p>
+<p>Also for stronger approaches, consider using:
+<code>Date.prototype.toString.call(arg) === '[object Date]' &#x26;&#x26; !isNaN(arg)</code>.
+This can also be used in a <code>try/catch</code> block to handle invalid date objects.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0048">DEP0048: <code>util.isError()</code><span><a class="mark" href="#dep0048-utiliserror" id="dep0048-utiliserror">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0048_util_iserror"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1612,16 +1659,18 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utiliserrorobject"><code>util.isError()</code></a> API is deprecated. Please use
-<code>Object.prototype.toString(arg) === '[object Error]' || arg instanceof Error</code>
-instead.</p>
+<p>Type: End-of-Life</p>
+<p>The <code>util.isError()</code> API has been removed. Please use <code>Error.isError(arg)</code>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0049">DEP0049: <code>util.isFunction()</code><span><a class="mark" href="#dep0049-utilisfunction" id="dep0049-utilisfunction">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0049_util_isfunction"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1631,15 +1680,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisfunctionobject"><code>util.isFunction()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isFunction()</code> API has been removed. Please use
 <code>typeof arg === 'function'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0050">DEP0050: <code>util.isNull()</code><span><a class="mark" href="#dep0050-utilisnull" id="dep0050-utilisnull">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0050_util_isnull"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1649,15 +1702,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisnullobject"><code>util.isNull()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isNull()</code> API has been removed. Please use
 <code>arg === null</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0051">DEP0051: <code>util.isNullOrUndefined()</code><span><a class="mark" href="#dep0051-utilisnullorundefined" id="dep0051-utilisnullorundefined">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0051_util_isnullorundefined"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1667,15 +1724,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisnullorundefinedobject"><code>util.isNullOrUndefined()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isNullOrUndefined()</code> API has been removed. Please use
 <code>arg === null || arg === undefined</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0052">DEP0052: <code>util.isNumber()</code><span><a class="mark" href="#dep0052-utilisnumber" id="dep0052-utilisnumber">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0052_util_isnumber"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1685,15 +1746,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisnumberobject"><code>util.isNumber()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isNumber()</code> API has been removed. Please use
 <code>typeof arg === 'number'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0053">DEP0053: <code>util.isObject()</code><span><a class="mark" href="#dep0053-utilisobject" id="dep0053-utilisobject">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0053_util_isobject"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1703,15 +1768,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisobjectobject"><code>util.isObject()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isObject()</code> API has been removed. Please use
 <code>arg &#x26;&#x26; typeof arg === 'object'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0054">DEP0054: <code>util.isPrimitive()</code><span><a class="mark" href="#dep0054-utilisprimitive" id="dep0054-utilisprimitive">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0054_util_isprimitive"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1721,16 +1790,18 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisprimitiveobject"><code>util.isPrimitive()</code></a> API is deprecated. Please use
-<code>arg === null || (typeof arg !=='object' &#x26;&#x26; typeof arg !== 'function')</code>
-instead.</p>
+<p>Type: End-of-Life</p>
+<p>The <code>util.isPrimitive()</code> API has been removed. Please use <code>Object(arg) !== arg</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0055">DEP0055: <code>util.isRegExp()</code><span><a class="mark" href="#dep0055-utilisregexp" id="dep0055-utilisregexp">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0055_util_isregexp"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1740,15 +1811,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisregexpobject"><code>util.isRegExp()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isRegExp()</code> API has been removed. Please use
 <code>arg instanceof RegExp</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0056">DEP0056: <code>util.isString()</code><span><a class="mark" href="#dep0056-utilisstring" id="dep0056-utilisstring">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0056_util_isstring"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1758,15 +1833,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisstringobject"><code>util.isString()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isString()</code> API has been removed. Please use
 <code>typeof arg === 'string'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0057">DEP0057: <code>util.isSymbol()</code><span><a class="mark" href="#dep0057-utilissymbol" id="dep0057-utilissymbol">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0057_util_issymbol"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1776,15 +1855,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilissymbolobject"><code>util.isSymbol()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isSymbol()</code> API has been removed. Please use
 <code>typeof arg === 'symbol'</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0058">DEP0058: <code>util.isUndefined()</code><span><a class="mark" href="#dep0058-utilisundefined" id="dep0058-utilisundefined">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0058_util_isundefined"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0, v4.8.6</td>
@@ -1794,15 +1877,19 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utilisundefinedobject"><code>util.isUndefined()</code></a> API is deprecated. Please use
+<p>Type: End-of-Life</p>
+<p>The <code>util.isUndefined()</code> API has been removed. Please use
 <code>arg === undefined</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-is</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0059">DEP0059: <code>util.log()</code><span><a class="mark" href="#dep0059-utillog" id="dep0059-utillog">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0059_util_log"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life deprecation.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0</td>
@@ -1812,8 +1899,8 @@ instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="util.html#utillogstring"><code>util.log()</code></a> API has been deprecated because it's an unmaintained
+<p>Type: End-of-Life</p>
+<p>The <code>util.log()</code> API has been removed because it's an unmaintained
 legacy API that was exposed to user land by accident. Instead,
 consider the following alternatives based on your specific needs:</p>
 <ul>
@@ -1848,6 +1935,8 @@ requirements and complexity of your application.</p>
 <p>The <a href="util.html#util_extendtarget-source"><code>util._extend()</code></a> API is deprecated because it's an unmaintained
 legacy API that was exposed to user land by accident.
 Please use <code>target = Object.assign(target, source)</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/util-extend-to-object-assign">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/util-extend-to-object-assign</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0061">DEP0061: <code>fs.SyncWriteStream</code><span><a class="mark" href="#dep0061-fssyncwritestream" id="dep0061-fssyncwritestream">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0061_fs_syncwritestream"></a></h4>
 <div class="api_metadata">
@@ -1906,6 +1995,8 @@ officially supported API.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v8.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v6.12.0</td>
@@ -1919,7 +2010,7 @@ officially supported API.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p>The <code>tls.createSecurePair()</code> API was deprecated in documentation in Node.js
 0.11.3. Users should use <code>tls.Socket</code> instead.</p>
 </div><div>
@@ -1949,6 +2040,8 @@ removed. Please use <code>sloppy</code> instead.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v8.0.0</td>
@@ -1956,7 +2049,7 @@ removed. Please use <code>sloppy</code> instead.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p>The <code>node:http</code> module <code>OutgoingMessage.prototype._headers</code> and
 <code>OutgoingMessage.prototype._headerNames</code> properties are deprecated. Use one of
 the public methods (e.g. <code>OutgoingMessage.prototype.getHeader()</code>,
@@ -1969,6 +2062,8 @@ the public methods (e.g. <code>OutgoingMessage.prototype.getHeader()</code>,
 <p>The <code>OutgoingMessage.prototype._headers</code> and
 <code>OutgoingMessage.prototype._headerNames</code> properties were never documented as
 officially supported properties.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/http-outgoingmessage-headers">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/http-outgoingmessage-headers</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0067">DEP0067: <code>OutgoingMessage.prototype._renderHeaders</code><span><a class="mark" href="#dep0067-outgoingmessageprototype_renderheaders" id="dep0067-outgoingmessageprototype_renderheaders">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0067_outgoingmessage_prototype_renderheaders"></a></h4>
 <div class="api_metadata">
@@ -2212,15 +2307,19 @@ and replaced with an identical, public <code>path.toNamespacedPath()</code> meth
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v9.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p><code>fs.truncate()</code> <code>fs.truncateSync()</code> usage with a file descriptor is
 deprecated. Please use <code>fs.ftruncate()</code> or <code>fs.ftruncateSync()</code> to work with
 file descriptors.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/fs-truncate-fd-deprecation">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/fs-truncate-fd-deprecation</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0082">DEP0082: <code>REPLServer.prototype.memory()</code><span><a class="mark" href="#dep0082-replserverprototypememory" id="dep0082-replserverprototypememory">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0082_replserver_prototype_memory"></a></h4>
 <div class="api_metadata">
@@ -2402,14 +2501,18 @@ or <code>module.exports</code> instead.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>The <a href="crypto.html#cryptofips"><code>crypto.fips</code></a> property is deprecated. Please use <code>crypto.setFips()</code>
 and <code>crypto.getFips()</code> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/crypto-fips-to-getFips">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/crypto-fips-to-getFips</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0094">DEP0094: Using <code>assert.fail()</code> with more than one argument<span><a class="mark" href="#dep0094-using-assertfail-with-more-than-one-argument" id="dep0094-using-assertfail-with-more-than-one-argument">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0094_using_assert_fail_with_more_than_one_argument"></a></h4>
 <div class="api_metadata">
@@ -2431,13 +2534,15 @@ method.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p><code>timers.enroll()</code> is deprecated. Please use the publicly documented
+<p>Type: End-of-Life</p>
+<p><code>timers.enroll()</code> has been removed. Please use the publicly documented
 <a href="timers.html#settimeoutcallback-delay-args"><code>setTimeout()</code></a> or <a href="timers.html#setintervalcallback-delay-args"><code>setInterval()</code></a> instead.</p>
 </div><div>
 <h4 id="DEP0096">DEP0096: <code>timers.unenroll()</code><span><a class="mark" href="#dep0096-timersunenroll" id="dep0096-timersunenroll">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0096_timers_unenroll"></a></h4>
@@ -2445,13 +2550,15 @@ method.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p><code>timers.unenroll()</code> is deprecated. Please use the publicly documented
+<p>Type: End-of-Life</p>
+<p><code>timers.unenroll()</code> has been removed. Please use the publicly documented
 <a href="timers.html#cleartimeouttimeout"><code>clearTimeout()</code></a> or <a href="timers.html#clearintervaltimeout"><code>clearInterval()</code></a> instead.</p>
 </div><div>
 <h4 id="DEP0097">DEP0097: <code>MakeCallback</code> with <code>domain</code> property<span><a class="mark" href="#dep0097-makecallback-with-domain-property" id="dep0097-makecallback-with-domain-property">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0097_makecallback_with_domain_property"></a></h4>
@@ -2509,6 +2616,8 @@ parameter.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v0.3.7</td>
@@ -2516,9 +2625,11 @@ parameter.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p><code>process.assert()</code> is deprecated. Please use the <a href="assert.html"><code>assert</code></a> module instead.</p>
 <p>This was never a documented feature.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/process-assert-to-node-assert">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/process-assert-to-node-assert</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0101">DEP0101: <code>--with-lttng</code><span><a class="mark" href="#dep0101---with-lttng" id="dep0101---with-lttng">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0101_with_lttng"></a></h4>
 <div class="api_metadata">
@@ -2621,7 +2732,7 @@ initialization vectors.
 It is recommended to derive a key using
 <a href="crypto.html#cryptopbkdf2password-salt-iterations-keylen-digest-callback"><code>crypto.pbkdf2()</code></a> or <a href="crypto.html#cryptoscryptpassword-salt-keylen-options-callback"><code>crypto.scrypt()</code></a> with random salts and to use
 <a href="crypto.html#cryptocreatecipherivalgorithm-key-iv-options"><code>crypto.createCipheriv()</code></a> and <a href="crypto.html#cryptocreatedecipherivalgorithm-key-iv-options"><code>crypto.createDecipheriv()</code></a> to obtain the
-<a href="crypto.html#class-cipher"><code>Cipher</code></a> and <a href="crypto.html#class-decipher"><code>Decipher</code></a> objects respectively.</p>
+<a href="crypto.html#class-cipheriv"><code>Cipheriv</code></a> and <a href="crypto.html#class-decipheriv"><code>Decipheriv</code></a> objects respectively.</p>
 </div><div>
 <h4 id="DEP0107">DEP0107: <code>tls.convertNPNProtocols()</code><span><a class="mark" href="#dep0107-tlsconvertnpnprotocols" id="dep0107-tlsconvertnpnprotocols">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0107_tls_convertnpnprotocols"></a></h4>
 <div class="api_metadata">
@@ -2644,6 +2755,8 @@ core and obsoleted by the removal of NPN (Next Protocol Negotiation) support.</p
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v11.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v10.0.0</td>
@@ -2651,11 +2764,13 @@ core and obsoleted by the removal of NPN (Next Protocol Negotiation) support.</p
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p>Deprecated alias for <a href="zlib.html#zlibbyteswritten"><code>zlib.bytesWritten</code></a>. This original name was chosen
 because it also made sense to interpret the value as the number of bytes
 read by the engine, but is inconsistent with other streams in Node.js that
 expose values under these names.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/zlib-bytesread-to-byteswritten">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/zlib-bytesread-to-byteswritten</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0109">DEP0109: <code>http</code>, <code>https</code>, and <code>tls</code> support for invalid URLs<span><a class="mark" href="#dep0109-http-https-and-tls-support-for-invalid-urls" id="dep0109-http-https-and-tls-support-for-invalid-urls">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0109_http_https_and_tls_support_for_invalid_urls"></a></h4>
 <div class="api_metadata">
@@ -2782,8 +2897,10 @@ future release.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>DEP0169 covers also <code>url.format()</code> and <code>url.resolve()</code>.</p></td></tr>
 <tr><td>v19.0.0, v18.13.0</td>
-<td><p>`url.parse()` is deprecated again in DEP0169.</p></td></tr>
+<td><p>DEP0169 deprecates <code>url.parse()</code> again.</p></td></tr>
 <tr><td>v15.13.0, v14.17.0</td>
 <td><p>Deprecation revoked. Status changed to "Legacy".</p></td></tr>
 <tr><td>v11.0.0</td>
@@ -2795,6 +2912,8 @@ future release.</p>
 <p>The <a href="url.html#legacy-url-api">legacy URL API</a> is deprecated. This includes <a href="url.html#urlformaturlobject"><code>url.format()</code></a>,
 <a href="url.html#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a>, <a href="url.html#urlresolvefrom-to"><code>url.resolve()</code></a>, and the <a href="url.html#legacy-urlobject">legacy <code>urlObject</code></a>. Please
 use the <a href="url.html#the-whatwg-url-api">WHATWG URL API</a> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/node-url-to-whatwg-url">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/node-url-to-whatwg-url</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0117">DEP0117: Native crypto handles<span><a class="mark" href="#dep0117-native-crypto-handles" id="dep0117-native-crypto-handles">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0117_native_crypto_handles"></a></h4>
 <div class="api_metadata">
@@ -2869,12 +2988,14 @@ undocumented <code>COUNTER_NET_SERVER_CONNECTION()</code>,
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p>The undocumented <code>net._setSimultaneousAccepts()</code> function was originally
 intended for debugging and performance tuning when using the
 <code>node:child_process</code> and <code>node:cluster</code> modules on Windows. The function is not
@@ -2886,12 +3007,14 @@ generally useful and is being removed. See discussion here:
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
+<p>Type: End-of-Life</p>
 <p>Please use <code>Server.prototype.setSecureContext()</code> instead.</p>
 </div><div>
 <h4 id="DEP0123">DEP0123: setting the TLS ServerName to an IP address<span><a class="mark" href="#dep0123-setting-the-tls-servername-to-an-ip-address" id="dep0123-setting-the-tls-servername-to-an-ip-address">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0123_setting_the_tls_servername_to_an_ip_address"></a></h4>
@@ -2941,13 +3064,15 @@ generally useful and is being removed. See discussion here:
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v11.14.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The previously undocumented <code>timers.active()</code> is deprecated.
+<p>Type: End-of-Life</p>
+<p>The previously undocumented <code>timers.active()</code> has been removed.
 Please use the publicly documented <a href="timers.html#timeoutrefresh"><code>timeout.refresh()</code></a> instead.
 If re-referencing the timeout is necessary, <a href="timers.html#timeoutref"><code>timeout.ref()</code></a> can be used
 with no performance impact since Node.js 10.</p>
@@ -2957,13 +3082,15 @@ with no performance impact since Node.js 10.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v11.14.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The previously undocumented and "private" <code>timers._unrefActive()</code> is deprecated.
+<p>Type: End-of-Life</p>
+<p>The previously undocumented and "private" <code>timers._unrefActive()</code> has been removed.
 Please use the publicly documented <a href="timers.html#timeoutrefresh"><code>timeout.refresh()</code></a> instead.
 If unreferencing the timeout is necessary, <a href="timers.html#timeoutunref"><code>timeout.unref()</code></a> can be used
 with no performance impact since Node.js 10.</p>
@@ -3222,6 +3349,8 @@ instead of <code>.inputStream</code> and <code>.output</code> instead of <code>.
 <p>The <code>node:repl</code> module exports a <code>_builtinLibs</code> property that contains an array
 of built-in modules. It was incomplete so far and instead it's better to rely
 upon <code>require('node:module').builtinModules</code>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/repl-builtin-modules">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/repl-builtin-modules</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0143">DEP0143: <code>Transform._transformState</code><span><a class="mark" href="#dep0143-transform_transformstate" id="dep0143-transform_transformstate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0143_transform_transformstate"></a></h4>
 <div class="api_metadata">
@@ -3436,6 +3565,8 @@ option, or a non-nullish non-boolean value for <code>verbatim</code> option in
 <p>Type: Runtime</p>
 <p>The <code>'hash'</code> and <code>'mgf1Hash'</code> options are replaced with <code>'hashAlgorithm'</code>
 and <code>'mgf1HashAlgorithm'</code>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/crypto-rsa-pss-update">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/crypto-rsa-pss-update</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0155">DEP0155: Trailing slashes in pattern specifier resolutions<span><a class="mark" href="#dep0155-trailing-slashes-in-pattern-specifier-resolutions" id="dep0155-trailing-slashes-in-pattern-specifier-resolutions">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0155_trailing_slashes_in_pattern_specifier_resolutions"></a></h4>
 <div class="api_metadata">
@@ -3588,7 +3719,7 @@ Convert them to primitive strings.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.8.0</td>
 <td><p>Deprecation revoked.</p></td></tr>
 <tr><td>v18.7.0, v16.17.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
@@ -3627,6 +3758,8 @@ garbage collection when the channel has active subscribers.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v18.8.0, v16.18.0</td>
@@ -3634,8 +3767,8 @@ garbage collection when the channel has active subscribers.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Runtime</p>
-<p>The <a href="cli.html#--trace-atomics-wait"><code>--trace-atomics-wait</code></a> flag is deprecated because
+<p>Type: End-of-Life</p>
+<p>The <code>--trace-atomics-wait</code> flag has been removed because
 it uses the V8 hook <code>SetAtomicsWaitCallback</code>,
 that will be removed in a future V8 release.</p>
 </div><div>
@@ -3696,6 +3829,8 @@ Node-API callbacks.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>Application deprecation.</p></td></tr>
 <tr><td>v19.9.0, v18.17.0</td>
 <td><p>Added support for <code>--pending-deprecation</code>.</p></td></tr>
 <tr><td>v19.0.0, v18.13.0</td>
@@ -3703,10 +3838,12 @@ Node-API callbacks.</p>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>Type: Application (non-<code>node_modules</code> code only)</p>
 <p><a href="url.html#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a> behavior is not standardized and prone to errors that
 have security implications. Use the <a href="url.html#the-whatwg-url-api">WHATWG URL API</a> instead. CVEs are not
 issued for <code>url.parse()</code> vulnerabilities.</p>
+<p>Calling <a href="url.html#urlformaturlstring"><code>url.format(urlString)</code></a> or <a href="url.html#urlresolvefrom-to"><code>url.resolve()</code></a> invokes <code>url.parse()</code>
+internally, and is therefore also covered by this deprecation.</p>
 </div><div>
 <h4 id="DEP0170">DEP0170: Invalid port when using <code>url.parse()</code><span><a class="mark" href="#dep0170-invalid-port-when-using-urlparse" id="dep0170-invalid-port-when-using-urlparse">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0170_invalid_port_when_using_url_parse"></a></h4>
 <div class="api_metadata">
@@ -3804,12 +3941,14 @@ the result of said promise, which can lead to unhandled promise rejections.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v20.8.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p><code>F_OK</code>, <code>R_OK</code>, <code>W_OK</code> and <code>X_OK</code> getters exposed directly on <code>node:fs</code> are
 deprecated. Get them from <code>fs.constants</code> or <code>fs.promises.constants</code> instead.</p>
 <p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/fs-access-mode-constants">source</a>):</p>
@@ -3838,14 +3977,20 @@ Please use <code>value instanceof WebAssembly.Module</code> instead.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v23.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
 <tr><td>v21.5.0, v20.12.0, v18.20.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
-<p>The <a href="fs.html#direntpath"><code>dirent.path</code></a> is deprecated due to its lack of consistency across
+<p>Type: End-of-Life</p>
+<p>The <code>dirent.path</code> property has been removed due to its lack of consistency across
 release lines. Please use <a href="fs.html#direntparentpath"><code>dirent.parentPath</code></a> instead.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/dirent-path-to-parent-path">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/dirent-path-to-parent-path</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0179">DEP0179: <code>Hash</code> constructor<span><a class="mark" href="#dep0179-hash-constructor" id="dep0179-hash-constructor">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0179_hash_constructor"></a></h4>
 <div class="api_metadata">
@@ -3871,7 +4016,7 @@ Please use the <a href="crypto.html#cryptocreatehashalgorithm-options"><code>cry
 <tbody><tr><th>Version</th><th>Changes</th></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v20.13.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -3887,7 +4032,7 @@ deprecated due to being internals, not intended for public use.</p>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
 <tr><td>v22.0.0</td>
 <td><p>Runtime deprecation.</p></td></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v20.13.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -3902,14 +4047,16 @@ Please use the <a href="crypto.html#cryptocreatehmacalgorithm-key-options"><code
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v23.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v20.13.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>Type: Runtime</p>
 <p>Applications that intend to use authentication tags that are shorter than the
-default authentication tag length should set the <code>authTagLength</code> option of the
+default authentication tag length must set the <code>authTagLength</code> option of the
 <a href="crypto.html#cryptocreatedecipherivalgorithm-key-iv-options"><code>crypto.createDecipheriv()</code></a> function to the appropriate length.</p>
 <p>For ciphers in GCM mode, the <a href="crypto.html#deciphersetauthtagbuffer-encoding"><code>decipher.setAuthTag()</code></a> function accepts
 authentication tags of any valid length (see <a href="#DEP0090">DEP0090</a>). This behavior
@@ -3920,7 +4067,7 @@ is deprecated to better align with recommendations per <a href="https://nvlpubs.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -3937,12 +4084,14 @@ and <a href="crypto.html#cryptosetengineengine-flags"><code>crypto.setEngine()</
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.9.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v22.9.0, v20.18.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>Instantiating classes without the <code>new</code> qualifier exported by the <code>node:zlib</code> module is deprecated.
 It is recommended to use the <code>new</code> qualifier instead. This applies to all Zlib classes, such as <code>Deflate</code>,
 <code>DeflateRaw</code>, <code>Gunzip</code>, <code>Inflate</code>, <code>InflateRaw</code>, <code>Unzip</code>, and <code>Zlib</code>.</p>
@@ -3952,15 +4101,19 @@ It is recommended to use the <code>new</code> qualifier instead. This applies to
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.9.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v22.9.0, v20.18.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>Instantiating classes without the <code>new</code> qualifier exported by the <code>node:repl</code> module is deprecated.
 It is recommended to use the <code>new</code> qualifier instead. This applies to all REPL classes, including
 <code>REPLServer</code> and <code>Recoverable</code>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/repl-classes-with-new">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/repl-classes-with-new</code> <button class="copy-button">copy</button></pre>
 <!-- md-lint skip-deprecation DEP0186 -->
 </div><div>
 <h4 id="DEP0187">DEP0187: Passing invalid argument types to <code>fs.existsSync</code><span><a class="mark" href="#dep0187-passing-invalid-argument-types-to-fsexistssync" id="dep0187-passing-invalid-argument-types-to-fsexistssync">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0187_passing_invalid_argument_types_to_fs_existssync"></a></h4>
@@ -3968,12 +4121,14 @@ It is recommended to use the <code>new</code> qualifier instead. This applies to
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>Documentation-only.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>Passing non-supported argument types is deprecated and, instead of returning <code>false</code>,
 will throw an error in a future version.</p>
 </div><div>
@@ -3982,7 +4137,7 @@ will throw an error in a future version.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -3995,7 +4150,7 @@ will throw an error in a future version.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4004,26 +4159,29 @@ will throw an error in a future version.</p>
 <p><code>process.features.tls_alpn</code>, <code>process.features.tls_ocsp</code>, and <code>process.features.tls_sni</code> are
 deprecated, as their values are guaranteed to be identical to that of <code>process.features.tls</code>.</p>
 </div><div>
-<h4 id="DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option <code>true</code><span><a class="mark" href="#dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option-true" id="dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option-true">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0190_passing_args_to_node_child_process_execfile_spawn_with_shell_option_true"></a></h4>
+<h4 id="DEP0190">DEP0190: Passing <code>args</code> to <code>node:child_process</code> <code>execFile</code>/<code>spawn</code> with <code>shell</code> option<span><a class="mark" href="#dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option" id="dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0190_passing_args_to_node_child_process_execfile_spawn_with_shell_option"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v24.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p>Type: Documentation-only</p>
+<p>Type: Runtime</p>
 <p>When an <code>args</code> array is passed to <a href="child_process.html#child_processexecfilefile-args-options-callback"><code>child_process.execFile</code></a> or <a href="child_process.html#child_processspawncommand-args-options"><code>child_process.spawn</code></a> with the option
-<code>{ shell: true }</code>, the values are not escaped, only space-separated, which can lead to shell injection.</p>
+<code>{ shell: true }</code> or <code>{ shell: '/path/to/shell' }</code>, the values are not escaped, only space-separated,
+which can lead to shell injection.</p>
 </div><div>
 <h4 id="DEP0191">DEP0191: <code>repl.builtinModules</code><span><a class="mark" href="#dep0191-replbuiltinmodules" id="dep0191-replbuiltinmodules">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0191_repl_builtinmodules"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.16.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Documentation-only deprecation with <code>--pending-deprecation</code> support.</p></td></tr>
 </tbody></table>
 </details>
@@ -4033,13 +4191,15 @@ deprecated, as their values are guaranteed to be identical to that of <code>proc
 of built-in modules. This was incomplete and matched the already deprecated
 <code>repl._builtinLibs</code> (<a href="#dep0142-repl_builtinlibs">DEP0142</a>) instead it's better to rely
 upon <code>require('node:module').builtinModules</code>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/repl-builtin-modules">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/repl-builtin-modules</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4 id="DEP0192">DEP0192: <code>require('node:_tls_common')</code> and <code>require('node:_tls_wrap')</code><span><a class="mark" href="#dep0192-requirenode_tls_common-and-requirenode_tls_wrap" id="dep0192-requirenode_tls_common-and-requirenode_tls_wrap">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0192_require_node_tls_common_and_require_node_tls_wrap"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4053,7 +4213,7 @@ an internal nodejs implementation rather than a public facing API, use <code>nod
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4068,9 +4228,9 @@ an internal nodejs implementation rather than a public facing API, use <code>nod
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.23.0</td>
+<tr><td>v24.2.0</td>
 <td><p>End-of-Life.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4083,7 +4243,7 @@ an internal nodejs implementation rather than a public facing API, use <code>nod
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4100,7 +4260,7 @@ It is recommended to use the <code>new</code> qualifier instead. This applies to
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4115,7 +4275,19 @@ nullish value.</p>
 <p>To make <a href="child_process.html#child_processexeccommand-options-callback"><code>child_process.exec</code></a> invoke the default shell, either omit the
 <code>shell</code> option, or set it to a nullish value. If the intention is not to invoke
 a shell, use <a href="child_process.html#child_processexecfilefile-args-options-callback"><code>child_process.execFile</code></a> instead.</p>
-<!-- md-lint skip-deprecation DEP0197 -->
+</div><div>
+<h4 id="DEP0197">DEP0197: <code>util.types.isNativeError()</code><span><a class="mark" href="#dep0197-utiltypesisnativeerror" id="dep0197-utiltypesisnativeerror">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0197_util_types_isnativeerror"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utiltypesisnativeerrorvalue"><code>util.types.isNativeError</code></a> API is deprecated. Please use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/isError"><code>Error.isError</code></a> instead.</p>
 <p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/types-is-native-error">source</a>):</p>
 <pre><code class="language-bash">npx codemod@latest @nodejs/types-is-native-error</code> <button class="copy-button">copy</button></pre>
 </div><div>
@@ -4124,7 +4296,7 @@ a shell, use <a href="child_process.html#child_processexecfilefile-args-options-
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v24.4.0</td>
 <td><p>Documentation-only deprecation with support for <code>--pending-deprecation</code>.</p></td></tr>
 </tbody></table>
 </details>
@@ -4137,7 +4309,7 @@ a shell, use <a href="child_process.html#child_processexecfilefile-args-options-
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.19.0</td>
+<tr><td>v24.6.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
 </tbody></table>
 </details>
@@ -4145,7 +4317,167 @@ a shell, use <a href="child_process.html#child_processexecfilefile-args-options-
 <p>Type: Documentation-only</p>
 <p>The <code>node:_http_agent</code>, <code>node:_http_client</code>, <code>node:_http_common</code>, <code>node:_http_incoming</code>,
 <code>node:_http_outgoing</code> and <code>node:_http_server</code> modules are deprecated as they should be considered
-an internal nodejs implementation rather than a public facing API, use <code>node:http</code> instead.</p></div></section>
+an internal nodejs implementation rather than a public facing API, use <code>node:http</code> instead.</p>
+</div><div>
+<h4 id="DEP0200">DEP0200: Closing fs.Dir on garbage collection<span><a class="mark" href="#dep0200-closing-fsdir-on-garbage-collection" id="dep0200-closing-fsdir-on-garbage-collection">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0200_closing_fs_dir_on_garbage_collection"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.9.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Allowing a <a href="fs.html#class-fsdir"><code>fs.Dir</code></a> object to be closed on garbage collection is
+deprecated. In the future, doing so might result in a thrown error that will
+terminate the process.</p>
+<p>Please ensure that all <code>fs.Dir</code> objects are explicitly closed using
+<code>Dir.prototype.close()</code> or <code>using</code> keyword:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { opendir } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+{
+  <span class="hljs-keyword">await</span> <span class="hljs-keyword">using</span> dir = <span class="hljs-keyword">await</span> <span class="hljs-title function_">opendir</span>(<span class="hljs-string">'/async/disposable/directory'</span>);
+} <span class="hljs-comment">// Closed by dir[Symbol.asyncDispose]()</span>
+
+{
+  <span class="hljs-keyword">using</span> dir = <span class="hljs-keyword">await</span> <span class="hljs-title function_">opendir</span>(<span class="hljs-string">'/sync/disposable/directory'</span>);
+} <span class="hljs-comment">// Closed by dir[Symbol.dispose]()</span>
+
+{
+  <span class="hljs-keyword">const</span> dir = <span class="hljs-keyword">await</span> <span class="hljs-title function_">opendir</span>(<span class="hljs-string">'/unconditionally/iterated/directory'</span>);
+  <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> entry <span class="hljs-keyword">of</span> dir) {
+    <span class="hljs-comment">// process an entry</span>
+  } <span class="hljs-comment">// Closed by iterator</span>
+}
+
+{
+  <span class="hljs-keyword">let</span> dir;
+  <span class="hljs-keyword">try</span> {
+    dir = <span class="hljs-keyword">await</span> <span class="hljs-title function_">opendir</span>(<span class="hljs-string">'/legacy/closeable/directory'</span>);
+  } <span class="hljs-keyword">finally</span> {
+    <span class="hljs-keyword">await</span> dir?.<span class="hljs-title function_">close</span>();
+  }
+}</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h4 id="DEP0201">DEP0201: Passing <code>options.type</code> to <code>Duplex.toWeb()</code><span><a class="mark" href="#dep0201-passing-optionstype-to-duplextoweb" id="dep0201-passing-optionstype-to-duplextoweb">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0201_passing_options_type_to_duplex_toweb"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Passing the <code>type</code> option to <a href="stream.html#streamduplextowebstreamduplex-options"><code>Duplex.toWeb()</code></a> is deprecated. To specify the
+type of the readable half of the constructed readable-writable pair, use the
+<code>readableType</code> option instead.</p>
+</div><div>
+<h4 id="DEP0202">DEP0202: <code>Http1IncomingMessage</code> and <code>Http1ServerResponse</code> options of HTTP/2 servers<span><a class="mark" href="#dep0202-http1incomingmessage-and-http1serverresponse-options-of-http2-servers" id="dep0202-http1incomingmessage-and-http1serverresponse-options-of-http2-servers">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0202_http1incomingmessage_and_http1serverresponse_options_of_http_2_servers"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>Http1IncomingMessage</code> and <code>Http1ServerResponse</code> options of
+<a href="http2.html#http2createserveroptions-onrequesthandler"><code>http2.createServer()</code></a> and <a href="http2.html#http2createsecureserveroptions-onrequesthandler"><code>http2.createSecureServer()</code></a> are
+deprecated. Use <code>http1Options.IncomingMessage</code> and
+<code>http1Options.ServerResponse</code> instead.</p>
+<pre><code class="language-js cjs"><span class="hljs-comment">// Deprecated</span>
+<span class="hljs-keyword">const</span> server = http2.<span class="hljs-title function_">createSecureServer</span>({
+  <span class="hljs-attr">allowHTTP1</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-title class_">Http1IncomingMessage</span>: <span class="hljs-title class_">MyIncomingMessage</span>,
+  <span class="hljs-title class_">Http1ServerResponse</span>: <span class="hljs-title class_">MyServerResponse</span>,
+});</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-js cjs"><span class="hljs-comment">// Use this instead</span>
+<span class="hljs-keyword">const</span> server = http2.<span class="hljs-title function_">createSecureServer</span>({
+  <span class="hljs-attr">allowHTTP1</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">http1Options</span>: {
+    <span class="hljs-title class_">IncomingMessage</span>: <span class="hljs-title class_">MyIncomingMessage</span>,
+    <span class="hljs-title class_">ServerResponse</span>: <span class="hljs-title class_">MyServerResponse</span>,
+  },
+});</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h4 id="DEP0203">DEP0203: Passing <code>CryptoKey</code> to <code>node:crypto</code> APIs<span><a class="mark" href="#dep0203-passing-cryptokey-to-nodecrypto-apis" id="dep0203-passing-cryptokey-to-nodecrypto-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0203_passing_cryptokey_to_node_crypto_apis"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Passing a <a href="webcrypto.html#class-cryptokey"><code>CryptoKey</code></a> to <code>node:crypto</code> functions is deprecated and
+will throw an error in a future version. This includes
+<a href="crypto.html#cryptocreatepublickeykey"><code>crypto.createPublicKey()</code></a>, <a href="crypto.html#cryptocreateprivatekeykey"><code>crypto.createPrivateKey()</code></a>,
+<a href="crypto.html#cryptosignalgorithm-data-key-callback"><code>crypto.sign()</code></a>, <a href="crypto.html#cryptoverifyalgorithm-data-key-signature-callback"><code>crypto.verify()</code></a>,
+<a href="crypto.html#cryptopublicencryptkey-buffer"><code>crypto.publicEncrypt()</code></a>, <a href="crypto.html#cryptopublicdecryptkey-buffer"><code>crypto.publicDecrypt()</code></a>,
+<a href="crypto.html#cryptoprivateencryptprivatekey-buffer"><code>crypto.privateEncrypt()</code></a>, <a href="crypto.html#cryptoprivatedecryptprivatekey-buffer"><code>crypto.privateDecrypt()</code></a>,
+<a href="crypto.html#signsignprivatekey-outputencoding"><code>Sign.prototype.sign()</code></a>, <a href="crypto.html#verifyverifykey-signature-signatureencoding"><code>Verify.prototype.verify()</code></a>,
+<a href="crypto.html#cryptocreatehmacalgorithm-key-options"><code>crypto.createHmac()</code></a>, <a href="crypto.html#cryptocreatecipherivalgorithm-key-iv-options"><code>crypto.createCipheriv()</code></a>,
+<a href="crypto.html#cryptocreatedecipherivalgorithm-key-iv-options"><code>crypto.createDecipheriv()</code></a>, <a href="crypto.html#cryptoencapsulatekey-callback"><code>crypto.encapsulate()</code></a>, and
+<a href="crypto.html#cryptodecapsulatekey-ciphertext-callback"><code>crypto.decapsulate()</code></a>.</p>
+</div><div>
+<h4 id="DEP0204">DEP0204: <code>KeyObject.from()</code> with non-extractable <code>CryptoKey</code><span><a class="mark" href="#dep0204-keyobjectfrom-with-non-extractable-cryptokey" id="dep0204-keyobjectfrom-with-non-extractable-cryptokey">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0204_keyobject_from_with_non_extractable_cryptokey"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Passing a non-extractable <a href="webcrypto.html#class-cryptokey"><code>CryptoKey</code></a> to <a href="crypto.html#static-method-keyobjectfromkey"><code>KeyObject.from()</code></a> is
+deprecated and will throw an error in a future version.</p>
+</div><div>
+<h4 id="DEP0205">DEP0205: <code>module.register()</code><span><a class="mark" href="#dep0205-moduleregister" id="dep0205-moduleregister">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0205_module_register"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p><a href="module.html#moduleregisterspecifier-parenturl-options"><code>module.register()</code></a> is deprecated. Use <a href="module.html#moduleregisterhooksoptions"><code>module.registerHooks()</code></a>
+instead.</p>
+<p>The <code>module.register()</code> API provides off-thread async hooks for customizing ES modules;
+the <code>module.registerHooks()</code> API provides similar hooks that are synchronous, in-thread, and
+work for all types of modules.
+Supporting async hooks has proven to be complex, involving worker threads orchestration, and there are issues
+that have proven unresolveable. See <a href="module.html#caveats-of-asynchronous-customization-hooks">caveats of asynchronous customization hooks</a>. Please migrate to
+<code>module.registerHooks()</code> as soon as possible as <code>module.register()</code> will be
+removed in a future version of Node.js.</p>
+</div><div>
+<h4 id="DEP0206">DEP0206: Calling <code>digest()</code> on an already-finalized <code>Hmac</code> instance<span><a class="mark" href="#dep0206-calling-digest-on-an-already-finalized-hmac-instance" id="dep0206-calling-digest-on-an-already-finalized-hmac-instance">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0206_calling_digest_on_an_already_finalized_hmac_instance"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.18.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Calling <code>hmac.digest()</code> more than once returns an empty buffer instead of
+throwing an error. This behavior is inconsistent with <code>hash.digest()</code> and
+may lead to subtle bugs. Calling <code>hmac.digest()</code> on a finalized <code>Hmac</code> instance
+will throw an error in a future version.</p></div></section>
         <!-- API END -->
       </div>
     </div>

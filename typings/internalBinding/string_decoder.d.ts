@@ -16,3 +16,4 @@ export interface StringDecoderBinding {
   decode(decoder: InternalStringDecoderBinding.Buffer, buffer: ArrayBufferView): string;
   flush(decoder: InternalStringDecoderBinding.Buffer): string;
 }
+

@@ -20,16 +20,7 @@
         {
           "textRaw": "Program entry point",
           "name": "program_entry_point",
-          "desc": "<p>The program entry point is a specifier-like string. If the string is not an\nabsolute path, it's resolved as a relative path from the current working\ndirectory. That path is then resolved by <a href=\"modules.html\">CommonJS</a> module loader, or by the\n<a href=\"packages.html#modules-loaders\">ES module loader</a> if <a href=\"#--experimental-default-typetype\"><code>--experimental-default-type=module</code></a>\nis passed. If no corresponding file is found, an error is thrown.</p>\n<p>If a file is found, its path will be passed to the\n<a href=\"packages.html#modules-loaders\">ES module loader</a> under any of the following conditions:</p>\n<ul>\n<li>The program was started with a command-line flag that forces the entry\npoint to be loaded with ECMAScript module loader, such as <code>--import</code> or\n<a href=\"#--experimental-default-typetype\"><code>--experimental-default-type=module</code></a>.</li>\n<li>The file has an <code>.mjs</code> extension.</li>\n<li>The file has an <code>.mjs</code> or <code>.wasm</code> extension.</li>\n<li>The file does not have a <code>.cjs</code> extension, and the nearest parent\n<code>package.json</code> file contains a top-level <a href=\"packages.html#type\"><code>\"type\"</code></a> field with a value of\n<code>\"module\"</code>.</li>\n</ul>\n<p>Otherwise, the file is loaded using the CommonJS module loader. See\n<a href=\"packages.html#modules-loaders\">Modules loaders</a> for more details.</p>",
-          "modules": [
-            {
-              "textRaw": "ECMAScript modules loader entry point caveat",
-              "name": "ecmascript_modules_loader_entry_point_caveat",
-              "desc": "<p>When loading, the <a href=\"packages.html#modules-loaders\">ES module loader</a> loads the program\nentry point, the <code>node</code> command will accept as input only files with <code>.js</code>,\n<code>.mjs</code>, <code>.cjs</code> or <code>.wasm</code> extensions; and with no extension when\n<a href=\"#--experimental-default-typetype\"><code>--experimental-default-type=module</code></a> is passed. With the following flags,\nadditional file extensions are enabled:</p>\n<ul>\n<li><a href=\"#--experimental-addon-modules\"><code>--experimental-addon-modules</code></a> for files with <code>.node</code> extension.</li>\n</ul>",
-              "type": "module",
-              "displayName": "ECMAScript modules loader entry point caveat"
-            }
-          ],
+          "desc": "<p>The program entry point is a specifier-like string. If the string is not an\nabsolute path, it's resolved as a relative path from the current working\ndirectory. That entry point string is then resolved as if it's been requested\nby <code>require()</code> from the current working directory. If no corresponding file\nis found, an error is thrown.</p>\n<p>By default, the resolved path is also loaded as if it's been requested by <code>require()</code>,\nunless one of the conditions below apply—then it's loaded as if it's been requested\nby <code>import()</code>:</p>\n<ul>\n<li>The program was started with a command-line flag that forces the entry\npoint to be loaded with ECMAScript module loader, such as <code>--import</code>.</li>\n<li>The file has an <code>.mjs</code>, <code>.mts</code> or <code>.wasm</code> extension.</li>\n<li>The file does not have a <code>.cjs</code> extension, and the nearest parent\n<code>package.json</code> file contains a top-level <a href=\"packages.html#type\"><code>\"type\"</code></a> field with a value of\n<code>\"module\"</code>.</li>\n</ul>\n<p>See <a href=\"packages.html#module-resolution-and-loading\">module resolution and loading</a> for more details.</p>",
           "type": "misc",
           "displayName": "Program entry point"
         },
@@ -113,7 +104,7 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.18.0",
+                    "version": "v24.4.0",
                     "pr-url": "https://github.com/nodejs/node/pull/58853",
                     "description": "When spawning process with the permission model enabled. The flags are inherit to the child Node.js process through NODE_OPTIONS environment variable."
                   }
@@ -134,12 +125,15 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.17.0",
+                    "version": "v24.2.0",
                     "pr-url": "https://github.com/nodejs/node/pull/58579",
                     "description": "Entrypoints of your application are allowed to be read implicitly."
                   },
                   {
-                    "version": "v22.13.0",
+                    "version": [
+                      "v23.5.0",
+                      "v22.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56201",
                     "description": "Permission Model and --allow-fs flags are stable."
                   },
@@ -150,7 +144,7 @@
                   }
                 ]
               },
-              "desc": "<p>This flag configures file system read permissions using\nthe <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>\n<p>The valid arguments for the <code>--allow-fs-read</code> flag are:</p>\n<ul>\n<li><code>*</code> - To allow all <code>FileSystemRead</code> operations.</li>\n<li>Multiple paths can be allowed using multiple <code>--allow-fs-read</code> flags.\nExample <code>--allow-fs-read=/folder1/ --allow-fs-read=/folder1/</code></li>\n</ul>\n<p>Examples can be found in the <a href=\"permissions.html#file-system-permissions\">File System Permissions</a> documentation.</p>\n<p>The initializer module and custom <code>--require</code> modules has a implicit\nread permission.</p>\n<pre><code class=\"language-console\">$ node --permission -r custom-require.js -r custom-require-2.js index.js\n</code></pre>\n<ul>\n<li>The <code>custom-require.js</code>, <code>custom-require-2.js</code>, and <code>index.js</code> will be\nby default in the allowed read list.</li>\n</ul>\n<pre><code class=\"language-js\">process.has('fs.read', 'index.js'); // true\nprocess.has('fs.read', 'custom-require.js'); // true\nprocess.has('fs.read', 'custom-require-2.js'); // true\n</code></pre>",
+              "desc": "<p>This flag configures file system read permissions using\nthe <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>\n<p>The valid arguments for the <code>--allow-fs-read</code> flag are:</p>\n<ul>\n<li><code>*</code> - To allow all <code>FileSystemRead</code> operations.</li>\n<li>Multiple paths can be allowed using multiple <code>--allow-fs-read</code> flags.\nExample <code>--allow-fs-read=/folder1/ --allow-fs-read=/folder2/</code></li>\n</ul>\n<p>Examples can be found in the <a href=\"permissions.html#file-system-permissions\">File System Permissions</a> documentation.</p>\n<p>The initializer module and custom <code>--require</code> modules has a implicit\nread permission.</p>\n<pre><code class=\"language-console\">$ node --permission -r custom-require.js -r custom-require-2.js index.js\n</code></pre>\n<ul>\n<li>The <code>custom-require.js</code>, <code>custom-require-2.js</code>, and <code>index.js</code> will be\nby default in the allowed read list.</li>\n</ul>\n<pre><code class=\"language-js\">process.has('fs.read', 'index.js'); // true\nprocess.has('fs.read', 'custom-require.js'); // true\nprocess.has('fs.read', 'custom-require-2.js'); // true\n</code></pre>",
               "type": "module",
               "displayName": "`--allow-fs-read`"
             },
@@ -163,7 +157,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.0",
+                    "version": [
+                      "v23.5.0",
+                      "v22.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56201",
                     "description": "Permission Model and --allow-fs flags are stable."
                   },
@@ -174,16 +171,32 @@
                   }
                 ]
               },
-              "desc": "<p>This flag configures file system write permissions using\nthe <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>\n<p>The valid arguments for the <code>--allow-fs-write</code> flag are:</p>\n<ul>\n<li><code>*</code> - To allow all <code>FileSystemWrite</code> operations.</li>\n<li>Multiple paths can be allowed using multiple <code>--allow-fs-write</code> flags.\nExample <code>--allow-fs-write=/folder1/ --allow-fs-write=/folder1/</code></li>\n</ul>\n<p>Paths delimited by comma (<code>,</code>) are no longer allowed.\nWhen passing a single flag with a comma a warning will be displayed.</p>\n<p>Examples can be found in the <a href=\"permissions.html#file-system-permissions\">File System Permissions</a> documentation.</p>",
+              "desc": "<p>This flag configures file system write permissions using\nthe <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>\n<p>The valid arguments for the <code>--allow-fs-write</code> flag are:</p>\n<ul>\n<li><code>*</code> - To allow all <code>FileSystemWrite</code> operations.</li>\n<li>Multiple paths can be allowed using multiple <code>--allow-fs-write</code> flags.\nExample <code>--allow-fs-write=/folder1/ --allow-fs-write=/folder2/</code></li>\n</ul>\n<p>Paths delimited by comma (<code>,</code>) are no longer allowed.\nWhen passing a single flag with a comma a warning will be displayed.</p>\n<p>Examples can be found in the <a href=\"permissions.html#file-system-permissions\">File System Permissions</a> documentation.</p>",
               "type": "module",
               "displayName": "`--allow-fs-write`"
+            },
+            {
+              "textRaw": "`--allow-inspector`",
+              "name": "`--allow-inspector`",
+              "meta": {
+                "added": [
+                  "v24.12.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>When using the <a href=\"permissions.html#permission-model\">Permission Model</a>, the process will not be able to connect\nthrough inspector protocol.</p>\n<p>Attempts to do so will throw an <code>ERR_ACCESS_DENIED</code> unless the\nuser explicitly passes the <code>--allow-inspector</code> flag when starting Node.js.</p>\n<p>Example:</p>\n<pre><code class=\"language-js\">const { Session } = require('node:inspector/promises');\n\nconst session = new Session();\nsession.connect();\n</code></pre>\n<pre><code class=\"language-console\">$ node --permission index.js\nError: connect ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-inspector to manage permissions.\n  code: 'ERR_ACCESS_DENIED',\n}\n</code></pre>",
+              "type": "module",
+              "displayName": "`--allow-inspector`"
             },
             {
               "textRaw": "`--allow-wasi`",
               "name": "`--allow-wasi`",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.16.0"
                 ],
                 "changes": []
               },
@@ -215,11 +228,17 @@
                 "added": [
                   "v18.8.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": [
+                      "v24.13.1"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/60954",
+                    "description": "The snapshot building process is no longer experimental."
+                  }
+                ]
               },
-              "stability": 1,
-              "stabilityText": "Experimental",
-              "desc": "<p>Generates a snapshot blob when the process exits and writes it to\ndisk, which can be loaded later with <code>--snapshot-blob</code>.</p>\n<p>When building the snapshot, if <code>--snapshot-blob</code> is not specified,\nthe generated blob will be written, by default, to <code>snapshot.blob</code>\nin the current working directory. Otherwise it will be written to\nthe path specified by <code>--snapshot-blob</code>.</p>\n<pre><code class=\"language-console\">$ echo \"globalThis.foo = 'I am from the snapshot'\" > snapshot.js\n\n# Run snapshot.js to initialize the application and snapshot the\n# state of it into snapshot.blob.\n$ node --snapshot-blob snapshot.blob --build-snapshot snapshot.js\n\n$ echo \"console.log(globalThis.foo)\" > index.js\n\n# Load the generated snapshot and start the application from index.js.\n$ node --snapshot-blob snapshot.blob index.js\nI am from the snapshot\n</code></pre>\n<p>The <a href=\"v8.html#startup-snapshot-api\"><code>v8.startupSnapshot</code> API</a> can be used to specify an entry point at\nsnapshot building time, thus avoiding the need of an additional entry\nscript at deserialization time:</p>\n<pre><code class=\"language-console\">$ echo \"require('v8').startupSnapshot.setDeserializeMainFunction(() => console.log('I am from the snapshot'))\" > snapshot.js\n$ node --snapshot-blob snapshot.blob --build-snapshot snapshot.js\n$ node --snapshot-blob snapshot.blob\nI am from the snapshot\n</code></pre>\n<p>For more information, check out the <a href=\"v8.html#startup-snapshot-api\"><code>v8.startupSnapshot</code> API</a> documentation.</p>\n<p>Currently the support for run-time snapshot is experimental in that:</p>\n<ol>\n<li>User-land modules are not yet supported in the snapshot, so only\none single file can be snapshotted. Users can bundle their applications\ninto a single script with their bundler of choice before building\na snapshot, however.</li>\n<li>Only a subset of the built-in modules work in the snapshot, though the\nNode.js core test suite checks that a few fairly complex applications\ncan be snapshotted. Support for more modules are being added. If any\ncrashes or buggy behaviors occur when building a snapshot, please file\na report in the <a href=\"https://github.com/nodejs/node/issues\">Node.js issue tracker</a> and link to it in the\n<a href=\"https://github.com/nodejs/node/issues/44014\">tracking issue for user-land snapshots</a>.</li>\n</ol>",
+              "desc": "<p>Generates a snapshot blob when the process exits and writes it to\ndisk, which can be loaded later with <code>--snapshot-blob</code>.</p>\n<p>When building the snapshot, if <code>--snapshot-blob</code> is not specified,\nthe generated blob will be written, by default, to <code>snapshot.blob</code>\nin the current working directory. Otherwise it will be written to\nthe path specified by <code>--snapshot-blob</code>.</p>\n<pre><code class=\"language-console\">$ echo \"globalThis.foo = 'I am from the snapshot'\" > snapshot.js\n\n# Run snapshot.js to initialize the application and snapshot the\n# state of it into snapshot.blob.\n$ node --snapshot-blob snapshot.blob --build-snapshot snapshot.js\n\n$ echo \"console.log(globalThis.foo)\" > index.js\n\n# Load the generated snapshot and start the application from index.js.\n$ node --snapshot-blob snapshot.blob index.js\nI am from the snapshot\n</code></pre>\n<p>The <a href=\"v8.html#startup-snapshot-api\"><code>v8.startupSnapshot</code> API</a> can be used to specify an entry point at\nsnapshot building time, thus avoiding the need of an additional entry\nscript at deserialization time:</p>\n<pre><code class=\"language-console\">$ echo \"require('v8').startupSnapshot.setDeserializeMainFunction(() => console.log('I am from the snapshot'))\" > snapshot.js\n$ node --snapshot-blob snapshot.blob --build-snapshot snapshot.js\n$ node --snapshot-blob snapshot.blob\nI am from the snapshot\n</code></pre>\n<p>For more information, check out the <a href=\"v8.html#startup-snapshot-api\"><code>v8.startupSnapshot</code> API</a> documentation.</p>\n<p>The snapshot currently only supports loading a single entrypoint during the\nsnapshot building process, which can load built-in modules, but not additional user-land modules.\nUsers can bundle their applications into a single script with their bundler\nof choice before building a snapshot.</p>\n<p>As it's complicated to ensure the serializablility of all built-in modules,\nwhich are also growing over time, only a subset of the built-in modules are\nwell tested to be serializable during the snapshot building process.\nThe Node.js core test suite checks that a few fairly complex applications\ncan be snapshotted. The list of built-in modules being\n<a href=\"https://github.com/nodejs/node/blob/b19525a33cc84033af4addd0f80acd4dc33ce0cf/test/parallel/test-bootstrap-modules.js#L24\">captured by the built-in snapshot of Node.js</a> is considered supported.\nWhen the snapshot builder encounters a built-in module that cannot be\nserialized, it may crash the snapshot building process. In that case a typical\nworkaround would be to delay loading that module until\nruntime, using either <a href=\"v8.html#v8startupsnapshotsetdeserializemainfunctioncallback-data\"><code>v8.startupSnapshot.setDeserializeMainFunction()</code></a> or\n<a href=\"v8.html#v8startupsnapshotadddeserializecallbackcallback-data\"><code>v8.startupSnapshot.addDeserializeCallback()</code></a>. If serialization for\nan additional module during the snapshot building process is needed,\nplease file a request in the <a href=\"https://github.com/nodejs/node/issues\">Node.js issue tracker</a> and link to it in the\n<a href=\"https://github.com/nodejs/node/issues/44014\">tracking issue for user-land snapshots</a>.</p>",
               "type": "module",
               "displayName": "`--build-snapshot`"
             },
@@ -231,10 +250,16 @@
                   "v21.6.0",
                   "v20.12.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": [
+                      "v24.13.1"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/60954",
+                    "description": "The snapshot building process is no longer experimental."
+                  }
+                ]
               },
-              "stability": 1,
-              "stabilityText": "Experimental",
               "desc": "<p>Specifies the path to a JSON configuration file which configures snapshot\ncreation behavior.</p>\n<p>The following options are currently supported:</p>\n<ul>\n<li><code>builder</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> Required. Provides the name to the script that is executed\nbefore building the snapshot, as if <a href=\"#--build-snapshot\"><code>--build-snapshot</code></a> had been passed\nwith <code>builder</code> as the main script name.</li>\n<li><code>withoutCodeCache</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> Optional. Including the code cache reduces the\ntime spent on compiling functions included in the snapshot at the expense\nof a bigger snapshot size and potentially breaking portability of the\nsnapshot.</li>\n</ul>\n<p>When using this flag, additional script files provided on the command line will\nnot be executed and instead be interpreted as regular command line arguments.</p>",
               "type": "module",
               "displayName": "`--build-snapshot-config`"
@@ -283,7 +308,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.9.0"
+                      "v22.9.0",
+                      "v20.18.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/54209",
                     "description": "The flag is no longer experimental."
@@ -304,7 +330,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--cpu-prof` flags are now stable."
@@ -325,7 +352,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--cpu-prof` flags are now stable."
@@ -346,7 +374,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--cpu-prof` flags are now stable."
@@ -367,7 +396,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--cpu-prof` flags are now stable."
@@ -404,11 +434,12 @@
               "name": "`--disable-sigusr1`",
               "meta": {
                 "added": [
+                  "v23.7.0",
                   "v22.14.0"
                 ],
                 "changes": [
                   {
-                    "version": "v22.20.0",
+                    "version": "v24.8.0",
                     "pr-url": "https://github.com/nodejs/node/pull/59707",
                     "description": "The option is no longer experimental."
                   }
@@ -439,11 +470,20 @@
               "name": "`--disable-wasm-trap-handler`",
               "meta": {
                 "added": [
-                  "v22.2.0"
+                  "v22.2.0",
+                  "v20.15.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": [
+                      "v24.19.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/62132",
+                    "description": "Node.js now automatically disables the trap handler when there is not enough virtual memory available at startup to allocate one cage."
+                  }
+                ]
               },
-              "desc": "<p>By default, Node.js enables trap-handler-based WebAssembly bound\nchecks. As a result, V8 does not need to insert inline bound checks\nint the code compiled from WebAssembly which may speedup WebAssembly\nexecution significantly, but this optimization requires allocating\na big virtual memory cage (currently 10GB). If the Node.js process\ndoes not have access to a large enough virtual memory address space\ndue to system configurations or hardware limitations, users won't\nbe able to run any WebAssembly that involves allocation in this\nvirtual memory cage and will see an out-of-memory error.</p>\n<pre><code class=\"language-console\">$ ulimit -v 5000000\n$ node -p \"new WebAssembly.Memory({ initial: 10, maximum: 100 });\"\n[eval]:1\nnew WebAssembly.Memory({ initial: 10, maximum: 100 });\n^\n\nRangeError: WebAssembly.Memory(): could not allocate memory\n    at [eval]:1:1\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:118:14\n    at [eval]-wrapper:6:24\n    at runScript (node:internal/process/execution:101:62)\n    at evalScript (node:internal/process/execution:136:3)\n    at node:internal/main/eval_string:49:3\n\n</code></pre>\n<p><code>--disable-wasm-trap-handler</code> disables this optimization so that\nusers can at least run WebAssembly (with less optimal performance)\nwhen the virtual memory address space available to their Node.js\nprocess is lower than what the V8 WebAssembly memory cage needs.</p>",
+              "desc": "<p>Node.js enables V8's trap-handler-based WebAssembly bound checks on 64-bit platforms,\nwhich significantly improves WebAssembly performance by eliminating the need for\ninline bound checks. This optimization requires allocating a large virtual memory\ncage per WebAssembly memory instance (currently typically 8GB for 32-bit WebAssembly memory,\n16GB for 64-bit WebAssembly memory) to trap out-of-bound accesses. On most 64-bit\nplatforms, the virtual memory address space is usually large enough (around 128TB)\nto accommodate typical WebAssembly usages, but if the machine has manual limits\non virtual memory (e.g. through <code>ulimit -v</code>), WebAssembly memory allocation is\nmore likely to fail with <code>WebAssembly.Memory(): could not allocate memory</code>.</p>\n<p>At startup, Node.js automatically checks whether there is enough virtual memory\navailable to allocate at least one cage, and if not, the trap-handler optimization\nis automatically disabled so that WebAssembly can still run using inline\nbound checks (with less optimal performance). But if the application needs to create\nmany WebAssembly memory instances and the machine still configures a relatively high\nlimit on virtual memory, allocation of WebAssembly memory instances may still fail\nmore quickly than expected due to the raised virtual memory usage.</p>\n<p><code>--disable-wasm-trap-handler</code> fully disables this optimization so that WebAssembly memory\ninstances always use inline bound checks instead of reserving large virtual memory cages.\nThis allows more instances to be created when the virtual memory address space available\nto the Node.js process is limited.</p>",
               "type": "module",
               "displayName": "`--disable-wasm-trap-handler`"
             },
@@ -470,7 +510,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.1.0",
+                    "version": [
+                      "v22.1.0",
+                      "v20.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/52492",
                     "description": "The `ipv6first` is supported now."
                   },
@@ -538,6 +581,7 @@
               "name": "`--entry-url`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.10.0"
                 ],
                 "changes": []
@@ -557,7 +601,7 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.21.0",
+                    "version": "v24.10.0",
                     "pr-url": "https://github.com/nodejs/node/pull/59925",
                     "description": "The `--env-file-if-exists` flag is no longer experimental."
                   }
@@ -576,7 +620,7 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.21.0",
+                    "version": "v24.10.0",
                     "pr-url": "https://github.com/nodejs/node/pull/59925",
                     "description": "The `--env-file` flag is no longer experimental."
                   },
@@ -614,7 +658,7 @@
                   }
                 ]
               },
-              "desc": "<p>Evaluate the following argument as JavaScript. The modules which are\npredefined in the REPL can also be used in <code>script</code>.</p>\n<p>On Windows, using <code>cmd.exe</code> a single quote will not work correctly because it\nonly recognizes double <code>\"</code> for quoting. In Powershell or Git bash, both <code>'</code>\nand <code>\"</code> are usable.</p>\n<p>It is possible to run code containing inline types unless the\n<a href=\"#--no-experimental-strip-types\"><code>--no-experimental-strip-types</code></a> flag is provided.</p>",
+              "desc": "<p>Evaluate the following argument as JavaScript. The modules which are\npredefined in the REPL can also be used in <code>script</code>.</p>\n<p>If <code>script</code> starts with <code>-</code>, pass it using <code>=</code> (for example,\n<code>node --print --eval=-42</code>) so it is parsed as the value of <code>--eval</code>.</p>\n<p>On Windows, using <code>cmd.exe</code> a single quote will not work correctly because it\nonly recognizes double <code>\"</code> for quoting. In Powershell or Git bash, both <code>'</code>\nand <code>\"</code> are usable.</p>\n<p>It is possible to run code containing inline types unless the\n<a href=\"#--no-strip-types\"><code>--no-strip-types</code></a> flag is provided.</p>",
               "type": "module",
               "displayName": "`-e`, `--eval \"script\"`"
             },
@@ -623,84 +667,59 @@
               "name": "`--experimental-addon-modules`",
               "meta": {
                 "added": [
-                  "v22.20.0"
+                  "v23.6.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.19.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/64221",
+                    "description": "This is enabled by default."
+                  }
+                ]
               },
               "stability": 1,
-              "stabilityText": ".0 - Early development",
+              "stabilityText": ".2 - Release candidate",
               "desc": "<p>Enable experimental import support for <code>.node</code> addons.</p>",
               "type": "module",
               "displayName": "`--experimental-addon-modules`"
             },
             {
-              "textRaw": "`--experimental-async-context-frame`",
-              "name": "`--experimental-async-context-frame`",
+              "textRaw": "`--experimental-config-file=path`, `--experimental-config-file`",
+              "name": "`--experimental-config-file=path`,_`--experimental-config-file`",
               "meta": {
                 "added": [
-                  "v22.7.0"
-                ],
-                "changes": []
-              },
-              "stability": 1,
-              "stabilityText": "Experimental",
-              "desc": "<p>Enables the use of <a href=\"async_context.html#class-asynclocalstorage\"><code>AsyncLocalStorage</code></a> backed by <code>AsyncContextFrame</code> rather\nthan the default implementation which relies on async_hooks. This new model is\nimplemented very differently and so could have differences in how context data\nflows within the application. As such, it is presently recommended to be sure\nyour application behaviour is unaffected by this change before using it in\nproduction.</p>",
-              "type": "module",
-              "displayName": "`--experimental-async-context-frame`"
-            },
-            {
-              "textRaw": "`--experimental-config-file=config`",
-              "name": "`--experimental-config-file=config`",
-              "meta": {
-                "added": [
-                  "v22.16.0"
+                  "v23.10.0"
                 ],
                 "changes": []
               },
               "stability": 1,
               "stabilityText": ".0 - Early development",
-              "desc": "<p>If present, Node.js will look for a\nconfiguration file at the specified path.\nNode.js will read the configuration file and apply the settings.\nThe configuration file should be a JSON file\nwith the following structure:</p>\n<blockquote>\n<p>[!NOTE]\nReplace <code>vX.Y.Z</code> in the <code>$schema</code> with the version of Node.js you are using.</p>\n</blockquote>\n<pre><code class=\"language-json\">{\n  \"$schema\": \"https://nodejs.org/dist/vX.Y.Z/docs/node-config-schema.json\",\n  \"nodeOptions\": {\n    \"import\": [\n      \"amaro/strip\"\n    ],\n    \"watch-path\": \"src\",\n    \"watch-preserve-output\": true\n  }\n}\n</code></pre>\n<p>In the <code>nodeOptions</code> field, only flags that are allowed in <a href=\"#node_optionsoptions\"><code>NODE_OPTIONS</code></a> are supported.\nNo-op flags are not supported.\nNot all V8 flags are currently supported.</p>\n<p>It is possible to use the <a href=\"../node-config-schema.json\">official JSON schema</a>\nto validate the configuration file, which may vary depending on the Node.js version.\nEach key in the configuration file corresponds to a flag that can be passed\nas a command-line argument. The value of the key is the value that would be\npassed to the flag.</p>\n<p>For example, the configuration file above is equivalent to\nthe following command-line arguments:</p>\n<pre><code class=\"language-bash\">node --import amaro/strip --watch-path=src --watch-preserve-output\n</code></pre>\n<p>The priority in configuration is as follows:</p>\n<ol>\n<li>NODE_OPTIONS and command-line options</li>\n<li>Configuration file</li>\n<li>Dotenv NODE_OPTIONS</li>\n</ol>\n<p>Values in the configuration file will not override the values in the environment\nvariables and command-line options, but will override the values in the <code>NODE_OPTIONS</code>\nenv file parsed by the <code>--env-file</code> flag.</p>\n<p>If duplicate keys are present in the configuration file, only\nthe first key will be used.</p>\n<p>The configuration parser will throw an error if the configuration file contains\nunknown keys or keys that cannot used in <code>NODE_OPTIONS</code>.</p>\n<p>Node.js will not sanitize or perform validation on the user-provided configuration,\nso <strong>NEVER</strong> use untrusted configuration files.</p>",
+              "desc": "<p>If present, Node.js will look for a configuration file at the specified path.\nIf the path is not specified, Node.js will look for a <code>node.config.json</code> file\nin the current working directory.\nTo specify a custom path, use the <code>--experimental-config-file=path</code> form.\nThe space-separated <code>--experimental-config-file path</code> form is not supported.\nThe alias <code>--experimental-default-config-file</code> is equivalent to\n<code>--experimental-config-file</code> without an argument.\nNode.js will read the configuration file and apply the settings. The\nconfiguration file should be a JSON file with the following structure. <code>vX.Y.Z</code>\nin the <code>$schema</code> must be replaced with the version of Node.js you are using or\n<code>latest-vX.x</code> for the latest version of that major release line.</p>\n<pre><code class=\"language-json\">{\n  \"$schema\": \"https://nodejs.org/dist/vX.Y.Z/docs/node-config-schema.json\",\n  \"nodeOptions\": {\n    \"import\": [\n      \"amaro/strip\"\n    ],\n    \"watch-path\": \"src\",\n    \"watch-preserve-output\": true\n  },\n  \"test\": {\n    \"test-isolation\": \"process\"\n  },\n  \"watch\": {\n    \"watch-preserve-output\": true\n  }\n}\n</code></pre>\n<p>The configuration file supports namespace-specific options:</p>\n<ul>\n<li>\n<p>The <code>nodeOptions</code> field contains CLI flags that are allowed in <a href=\"#node_optionsoptions\"><code>NODE_OPTIONS</code></a>.</p>\n</li>\n<li>\n<p>Namespace fields like <code>test</code> contain configuration specific to that subsystem.</p>\n</li>\n</ul>\n<p>No-op flags are not supported.\nNot all V8 flags are currently supported.</p>\n<p>It is possible to use the <a href=\"../node-config-schema.json\">official JSON schema</a>\nto validate the configuration file, which may vary depending on the Node.js version.\nEach key in the configuration file corresponds to a flag that can be passed\nas a command-line argument. The value of the key is the value that would be\npassed to the flag.</p>\n<p>For example, the configuration file above is equivalent to\nthe following command-line arguments:</p>\n<pre><code class=\"language-bash\">node --import amaro/strip --watch-path=src --watch-preserve-output --test-isolation=process\n</code></pre>\n<p>The priority in configuration is as follows:</p>\n<ol>\n<li>NODE_OPTIONS and command-line options</li>\n<li>Dotenv NODE_OPTIONS</li>\n<li>Configuration file</li>\n</ol>\n<p>Values in the configuration file will not override the values in the environment\nvariables, command-line options, or the <code>NODE_OPTIONS</code> env file parsed by the\n<code>--env-file</code> flag.</p>\n<p>Keys cannot be duplicated within the same or different namespaces.</p>\n<p>The configuration parser will throw an error if the configuration file contains\nunknown keys or keys that cannot be used in a namespace.</p>\n<p>Node.js will not sanitize or perform validation on the user-provided configuration,\nso <strong>NEVER</strong> use untrusted configuration files.</p>",
               "type": "module",
-              "displayName": "`--experimental-config-file=config`"
+              "displayName": "`--experimental-config-file=path`, `--experimental-config-file`"
             },
             {
               "textRaw": "`--experimental-default-config-file`",
               "name": "`--experimental-default-config-file`",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v23.10.0"
                 ],
                 "changes": []
               },
               "stability": 1,
               "stabilityText": ".0 - Early development",
-              "desc": "<p>If the <code>--experimental-default-config-file</code> flag is present, Node.js will look for a\n<code>node.config.json</code> file in the current working directory and load it as a\nas configuration file.</p>",
+              "desc": "<p>This flag is an alias for <code>--experimental-config-file</code> without an argument.\nIf present, Node.js will look for a\n<code>node.config.json</code> file in the current working directory and load it as a\nconfiguration file.</p>",
               "type": "module",
               "displayName": "`--experimental-default-config-file`"
-            },
-            {
-              "textRaw": "`--experimental-default-type=type`",
-              "name": "`--experimental-default-type=type`",
-              "meta": {
-                "added": [
-                  "v21.0.0",
-                  "v20.10.0",
-                  "v18.19.0"
-                ],
-                "changes": []
-              },
-              "stability": 1,
-              "stabilityText": ".0 - Early development",
-              "desc": "<p>Define which module system, <code>module</code> or <code>commonjs</code>, to use for the following:</p>\n<ul>\n<li>\n<p>String input provided via <code>--eval</code> or STDIN, if <code>--input-type</code> is unspecified.</p>\n</li>\n<li>\n<p>Files ending in <code>.js</code> or with no extension, if there is no <code>package.json</code> file\npresent in the same folder or any parent folder.</p>\n</li>\n<li>\n<p>Files ending in <code>.js</code> or with no extension, if the nearest parent\n<code>package.json</code> field lacks a <code>\"type\"</code> field; unless the <code>package.json</code> folder\nor any parent folder is inside a <code>node_modules</code> folder.</p>\n</li>\n</ul>\n<p>In other words, <code>--experimental-default-type=module</code> flips all the places where\nNode.js currently defaults to CommonJS to instead default to ECMAScript modules,\nwith the exception of folders and subfolders below <code>node_modules</code>, for backward\ncompatibility.</p>\n<p>Files with no extension will be treated as WebAssembly if they begin with the\nWebAssembly magic number (<code>\\0asm</code>); otherwise they will be treated as ES module\nJavaScript.</p>",
-              "type": "module",
-              "displayName": "`--experimental-default-type=type`"
             },
             {
               "textRaw": "`--experimental-eventsource`",
               "name": "`--experimental-eventsource`",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.18.0"
                 ],
                 "changes": []
               },
@@ -732,11 +751,26 @@
               "displayName": "`--experimental-import-meta-resolve`"
             },
             {
+              "textRaw": "`--experimental-import-text`",
+              "name": "`--experimental-import-text`",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>Enable experimental support for importing modules with\n<code>with { type: 'text' }</code>.</p>",
+              "type": "module",
+              "displayName": "`--experimental-import-text`"
+            },
+            {
               "textRaw": "`--experimental-inspector-network-resource`",
               "name": "`--experimental-inspector-network-resource`",
               "meta": {
                 "added": [
-                  "v22.19.0"
+                  "v24.5.0"
                 ],
                 "changes": []
               },
@@ -755,7 +789,11 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.1",
+                    "version": [
+                      "v23.6.1",
+                      "v22.13.1",
+                      "v20.18.2"
+                    ],
                     "pr-url": "https://github.com/nodejs-private/node-private/pull/629",
                     "description": "Using this feature with the permission model enabled requires passing `--allow-worker`."
                   },
@@ -766,7 +804,7 @@
                   }
                 ]
               },
-              "desc": "<blockquote>\n<p>This flag is discouraged and may be removed in a future version of Node.js.\nPlease use\n<a href=\"module.html#enabling\"><code>--import</code> with <code>register()</code></a> instead.</p>\n</blockquote>\n<p>Specify the <code>module</code> containing exported <a href=\"module.html#customization-hooks\">module customization hooks</a>.\n<code>module</code> may be any string accepted as an <a href=\"esm.html#import-specifiers\"><code>import</code> specifier</a>.</p>\n<p>This feature requires <code>--allow-worker</code> if used with the <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>",
+              "desc": "<blockquote>\n<p>This flag is discouraged and may be removed in a future version of Node.js.\nPlease use\n<a href=\"module.html#registration-of-asynchronous-customization-hooks\"><code>--import</code> with <code>register()</code></a> instead.</p>\n</blockquote>\n<p>Specify the <code>module</code> containing exported <a href=\"module.html#asynchronous-customization-hooks\">asynchronous module customization hooks</a>.\n<code>module</code> may be any string accepted as an <a href=\"esm.html#import-specifiers\"><code>import</code> specifier</a>.</p>\n<p>This feature requires <code>--allow-worker</code> if used with the <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>",
               "type": "module",
               "displayName": "`--experimental-loader=module`"
             },
@@ -775,7 +813,8 @@
               "name": "`--experimental-network-inspection`",
               "meta": {
                 "added": [
-                  "v22.6.0"
+                  "v22.6.0",
+                  "v20.18.0"
                 ],
                 "changes": []
               },
@@ -790,7 +829,8 @@
               "name": "`--experimental-print-required-tla`",
               "meta": {
                 "added": [
-                  "v22.0.0"
+                  "v22.0.0",
+                  "v20.17.0"
                 ],
                 "changes": []
               },
@@ -799,25 +839,19 @@
               "displayName": "`--experimental-print-required-tla`"
             },
             {
-              "textRaw": "`--experimental-require-module`",
-              "name": "`--experimental-require-module`",
+              "textRaw": "`--experimental-quic`",
+              "name": "`--experimental-quic`",
               "meta": {
                 "added": [
-                  "v22.0.0"
+                  "v24.16.0"
                 ],
-                "changes": [
-                  {
-                    "version": "v22.12.0",
-                    "pr-url": "https://github.com/nodejs/node/pull/55085",
-                    "description": "This is now true by default."
-                  }
-                ]
+                "changes": []
               },
               "stability": 1,
-              "stabilityText": ".1 - Active Development",
-              "desc": "<p>Supports loading a synchronous ES module graph in <code>require()</code>.</p>\n<p>See <a href=\"modules.html#loading-ecmascript-modules-using-require\">Loading ECMAScript modules using <code>require()</code></a>.</p>",
+              "stabilityText": ".1 - Active development",
+              "desc": "<p>Enable experimental support for the QUIC protocol.</p>",
               "type": "module",
-              "displayName": "`--experimental-require-module`"
+              "displayName": "`--experimental-quic`"
             },
             {
               "textRaw": "`--experimental-sea-config`",
@@ -849,6 +883,21 @@
               "displayName": "`--experimental-shadow-realm`"
             },
             {
+              "textRaw": "`--experimental-storage-inspection`",
+              "name": "`--experimental-storage-inspection`",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".1 - Active Development",
+              "desc": "<p>Enable experimental support for storage inspection</p>",
+              "type": "module",
+              "displayName": "`--experimental-storage-inspection`"
+            },
+            {
               "textRaw": "`--experimental-test-coverage`",
               "name": "`--experimental-test-coverage`",
               "meta": {
@@ -872,30 +921,20 @@
               "displayName": "`--experimental-test-coverage`"
             },
             {
-              "textRaw": "`--experimental-test-isolation=mode`",
-              "name": "`--experimental-test-isolation=mode`",
-              "meta": {
-                "added": [
-                  "v22.8.0"
-                ],
-                "changes": []
-              },
-              "stability": 1,
-              "stabilityText": ".0 - Early development",
-              "desc": "<p>Configures the type of test isolation used in the test runner. When <code>mode</code> is\n<code>'process'</code>, each test file is run in a separate child process. When <code>mode</code> is\n<code>'none'</code>, all test files run in the same process as the test runner. The default\nisolation mode is <code>'process'</code>. This flag is ignored if the <code>--test</code> flag is not\npresent. See the <a href=\"test.html#test-runner-execution-model\">test runner execution model</a> section for more information.</p>",
-              "type": "module",
-              "displayName": "`--experimental-test-isolation=mode`"
-            },
-            {
               "textRaw": "`--experimental-test-module-mocks`",
               "name": "`--experimental-test-module-mocks`",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.18.0"
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.1",
+                    "version": [
+                      "v23.6.1",
+                      "v22.13.1",
+                      "v20.18.2"
+                    ],
                     "pr-url": "https://github.com/nodejs-private/node-private/pull/629",
                     "description": "Using this feature with the permission model enabled requires passing `--allow-worker`."
                   }
@@ -906,6 +945,21 @@
               "desc": "<p>Enable module mocking in the test runner.</p>\n<p>This feature requires <code>--allow-worker</code> if used with the <a href=\"permissions.html#permission-model\">Permission Model</a>.</p>",
               "type": "module",
               "displayName": "`--experimental-test-module-mocks`"
+            },
+            {
+              "textRaw": "`--experimental-test-tag-filter=<tag>`",
+              "name": "`--experimental-test-tag-filter=<tag>`",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>Run only tests whose tag set contains <code>&#x3C;tag></code>. Tests declare tags via the\n<code>tags</code> option on <code>test()</code>, <code>it()</code>, <code>suite()</code>, or <code>describe()</code>; tags\ninherit from suites to nested tests by union. Filtering is\ncase-insensitive.</p>\n<p>The flag may be specified more than once; tests must contain <strong>every</strong>\nfilter value to run. See <a href=\"test.html#test-tags\">Test tags</a> for details on declaring and\ninheriting tags.</p>",
+              "type": "module",
+              "displayName": "`--experimental-test-tag-filter=<tag>`"
             },
             {
               "textRaw": "`--experimental-transform-types`",
@@ -983,7 +1037,7 @@
               "name": "`--experimental-worker-inspection`",
               "meta": {
                 "added": [
-                  "v22.17.0"
+                  "v24.1.0"
                 ],
                 "changes": []
               },
@@ -998,7 +1052,8 @@
               "name": "`--expose-gc`",
               "meta": {
                 "added": [
-                  "v22.3.0"
+                  "v22.3.0",
+                  "v20.18.0"
                 ],
                 "changes": []
               },
@@ -1073,7 +1128,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--heap-prof` flags are now stable."
@@ -1094,7 +1150,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--heap-prof` flags are now stable."
@@ -1115,7 +1172,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--heap-prof` flags are now stable."
@@ -1136,7 +1194,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.4.0"
+                      "v22.4.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53343",
                     "description": "The `--heap-prof` flags are now stable."
@@ -1158,7 +1217,7 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.22.1"
+                      "v24.13.1"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/60956",
                     "description": "The flag is no longer experimental."
@@ -1233,7 +1292,7 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.18.0",
+                    "version": "v23.6.0",
                     "pr-url": "https://github.com/nodejs/node/pull/56350",
                     "description": "Add support for `-typescript` values."
                   },
@@ -1247,7 +1306,7 @@
                   }
                 ]
               },
-              "desc": "<p>This configures Node.js to interpret <code>--eval</code> or <code>STDIN</code> input as CommonJS or\nas an ES module. Valid values are <code>\"commonjs\"</code>, <code>\"module\"</code>, <code>\"module-typescript\"</code> and <code>\"commonjs-typescript\"</code>.\nThe <code>\"-typescript\"</code> values are not available with the flag <code>--no-experimental-strip-types</code>.\nThe default is no value, or <code>\"commonjs\"</code> if <code>--no-experimental-detect-module</code> is passed.</p>\n<p>If <code>--input-type</code> is not provided,\nNode.js will try to detect the syntax with the following steps:</p>\n<ol>\n<li>Run the input as CommonJS.</li>\n<li>If step 1 fails, run the input as an ES module.</li>\n<li>If step 2 fails with a SyntaxError, strip the types.</li>\n<li>If step 3 fails with an error code <a href=\"errors.html#err_unsupported_typescript_syntax\"><code>ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX</code></a>\nor <a href=\"errors.html#err_invalid_typescript_syntax\"><code>ERR_INVALID_TYPESCRIPT_SYNTAX</code></a>,\nthrow the error from step 2, including the TypeScript error in the message,\nelse run as CommonJS.</li>\n<li>If step 4 fails, run the input as an ES module.</li>\n</ol>\n<p>To avoid the delay of multiple syntax detection passes, the <code>--input-type=type</code> flag can be used to specify\nhow the <code>--eval</code> input should be interpreted.</p>\n<p>The REPL does not support this option. Usage of <code>--input-type=module</code> with\n<a href=\"#-p---print-script\"><code>--print</code></a> will throw an error, as <code>--print</code> does not support ES module\nsyntax.</p>",
+              "desc": "<p>This configures Node.js to interpret <code>--eval</code> or <code>STDIN</code> input as CommonJS or\nas an ES module. Valid values are <code>\"commonjs\"</code>, <code>\"module\"</code>, <code>\"module-typescript\"</code> and <code>\"commonjs-typescript\"</code>.\nThe <code>\"-typescript\"</code> values are not available with the flag <code>--no-strip-types</code>.\nThe default is no value, or <code>\"commonjs\"</code> if <code>--no-experimental-detect-module</code> is passed.</p>\n<p>If <code>--input-type</code> is not provided,\nNode.js will try to detect the syntax with the following steps:</p>\n<ol>\n<li>Run the input as CommonJS.</li>\n<li>If step 1 fails, run the input as an ES module.</li>\n<li>If step 2 fails with a SyntaxError, strip the types.</li>\n<li>If step 3 fails with an error code <a href=\"errors.html#err_unsupported_typescript_syntax\"><code>ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX</code></a>\nor <a href=\"errors.html#err_invalid_typescript_syntax\"><code>ERR_INVALID_TYPESCRIPT_SYNTAX</code></a>,\nthrow the error from step 2, including the TypeScript error in the message,\nelse run as CommonJS.</li>\n<li>If step 4 fails, run the input as an ES module.</li>\n</ol>\n<p>To avoid the delay of multiple syntax detection passes, the <code>--input-type=type</code> flag can be used to specify\nhow the <code>--eval</code> input should be interpreted.</p>\n<p>The REPL does not support this option. Usage of <code>--input-type=module</code> with\n<a href=\"#-p---print-script\"><code>--print</code></a> will throw an error, as <code>--print</code> does not support ES module\nsyntax.</p>",
               "type": "module",
               "displayName": "`--input-type=type`"
             },
@@ -1275,7 +1334,7 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>Activate inspector on <code>host:port</code> and break at start of user script.\nDefault <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,\na random available port will be used.</p>\n<p>See <a href=\"debugger.html#v8-inspector-integration-for-nodejs\">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>",
+              "desc": "<p>Activate inspector on <code>host:port</code> and break at start of user script.\nDefault <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,\na random available port will be used.</p>\n<p>See <a href=\"debugger.html#v8-inspector-integration-for-nodejs\">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>\n<p>See the <a href=\"#warning-binding-inspector-to-a-public-ipport-combination-is-insecure\">security warning</a> below regarding the <code>host</code>\nparameter usage.</p>",
               "type": "module",
               "displayName": "`--inspect-brk[=[host:]port]`"
             },
@@ -1304,11 +1363,12 @@
               "name": "`--inspect-wait[=[host:]port]`",
               "meta": {
                 "added": [
-                  "v22.2.0"
+                  "v22.2.0",
+                  "v20.15.0"
                 ],
                 "changes": []
               },
-              "desc": "<p>Activate inspector on <code>host:port</code> and wait for debugger to be attached.\nDefault <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,\na random available port will be used.</p>\n<p>See <a href=\"debugger.html#v8-inspector-integration-for-nodejs\">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>",
+              "desc": "<p>Activate inspector on <code>host:port</code> and wait for debugger to be attached.\nDefault <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,\na random available port will be used.</p>\n<p>See <a href=\"debugger.html#v8-inspector-integration-for-nodejs\">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>\n<p>See the <a href=\"#warning-binding-inspector-to-a-public-ipport-combination-is-insecure\">security warning</a> below regarding the <code>host</code>\nparameter usage.</p>",
               "type": "module",
               "displayName": "`--inspect-wait[=[host:]port]`"
             },
@@ -1422,7 +1482,8 @@
               "name": "`--network-family-autoselection-attempt-timeout`",
               "meta": {
                 "added": [
-                  "v22.1.0"
+                  "v22.1.0",
+                  "v20.13.0"
                 ],
                 "changes": []
               },
@@ -1443,6 +1504,19 @@
               "desc": "<p>Disable the <code>node-addons</code> exports condition as well as disable loading\nnative addons. When <code>--no-addons</code> is specified, calling <code>process.dlopen</code> or\nrequiring a native C++ addon will fail and throw an exception.</p>",
               "type": "module",
               "displayName": "`--no-addons`"
+            },
+            {
+              "textRaw": "`--no-async-context-frame`",
+              "name": "`--no-async-context-frame`",
+              "meta": {
+                "added": [
+                  "v24.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Disables the use of <a href=\"async_context.html#class-asynclocalstorage\"><code>AsyncLocalStorage</code></a> backed by <code>AsyncContextFrame</code> and\nuses the prior implementation which relied on async_hooks. The previous model\nis retained for compatibility with Electron and for cases where the context\nflow may differ. However, if a difference in flow is found please report it.</p>",
+              "type": "module",
+              "displayName": "`--no-async-context-frame`"
             },
             {
               "textRaw": "`--no-deprecation`",
@@ -1468,7 +1542,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.7.0"
+                      "v22.7.0",
+                      "v20.19.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/53619",
                     "description": "Syntax detection is enabled by default."
@@ -1478,32 +1553,6 @@
               "desc": "<p>Disable using <a href=\"packages.html#syntax-detection\">syntax detection</a> to determine module type.</p>",
               "type": "module",
               "displayName": "`--no-experimental-detect-module`"
-            },
-            {
-              "textRaw": "`--no-experimental-fetch`",
-              "name": "`--no-experimental-fetch`",
-              "meta": {
-                "added": [
-                  "v18.0.0"
-                ],
-                "changes": []
-              },
-              "desc": "<p>Disable exposition of <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API\">Fetch API</a> on the global scope.</p>",
-              "type": "module",
-              "displayName": "`--no-experimental-fetch`"
-            },
-            {
-              "textRaw": "`--no-experimental-global-customevent`",
-              "name": "`--no-experimental-global-customevent`",
-              "meta": {
-                "added": [
-                  "v19.0.0"
-                ],
-                "changes": []
-              },
-              "desc": "<p>Disable exposition of <a href=\"https://dom.spec.whatwg.org/#customevent\">CustomEvent Web API</a> on the global scope.</p>",
-              "type": "module",
-              "displayName": "`--no-experimental-global-customevent`"
             },
             {
               "textRaw": "`--no-experimental-global-navigator`",
@@ -1519,19 +1568,6 @@
               "desc": "<p>Disable exposition of <a href=\"globals.html#navigator\">Navigator API</a> on the global scope.</p>",
               "type": "module",
               "displayName": "`--no-experimental-global-navigator`"
-            },
-            {
-              "textRaw": "`--no-experimental-global-webcrypto`",
-              "name": "`--no-experimental-global-webcrypto`",
-              "meta": {
-                "added": [
-                  "v19.0.0"
-                ],
-                "changes": []
-              },
-              "desc": "<p>Disable exposition of <a href=\"webcrypto.html\">Web Crypto API</a> on the global scope.</p>",
-              "type": "module",
-              "displayName": "`--no-experimental-global-webcrypto`"
             },
             {
               "textRaw": "`--no-experimental-repl-await`",
@@ -1551,19 +1587,31 @@
               "name": "`--no-experimental-require-module`",
               "meta": {
                 "added": [
-                  "v22.0.0"
+                  "v22.0.0",
+                  "v20.17.0"
                 ],
                 "changes": [
                   {
-                    "version": "v22.12.0",
+                    "version": [
+                      "v24.15.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/60959",
+                    "description": "The flag was renamed from `--no-experimental-require-module` to `--no-require-module`, with the former marked as legacy."
+                  },
+                  {
+                    "version": [
+                      "v23.0.0",
+                      "v22.12.0",
+                      "v20.19.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/55085",
                     "description": "This is now false by default."
                   }
                 ]
               },
-              "stability": 1,
-              "stabilityText": ".1 - Active Development",
-              "desc": "<p>Disable support for loading a synchronous ES module graph in <code>require()</code>.</p>\n<p>See <a href=\"modules.html#loading-ecmascript-modules-using-require\">Loading ECMAScript modules using <code>require()</code></a>.</p>",
+              "stability": 3,
+              "stabilityText": "Legacy: Use [`--no-require-module`][] instead.",
+              "desc": "<p>Legacy alias for <a href=\"#--no-require-module\"><code>--no-require-module</code></a>.</p>",
               "type": "module",
               "displayName": "`--no-experimental-require-module`"
             },
@@ -1576,7 +1624,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.0",
+                    "version": [
+                      "v23.4.0",
+                      "v22.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/55890",
                     "description": "SQLite is unflagged but still experimental."
                   }
@@ -1585,27 +1636,6 @@
               "desc": "<p>Disable the experimental <a href=\"sqlite.html\"><code>node:sqlite</code></a> module.</p>",
               "type": "module",
               "displayName": "`--no-experimental-sqlite`"
-            },
-            {
-              "textRaw": "`--no-experimental-strip-types`",
-              "name": "`--no-experimental-strip-types`",
-              "meta": {
-                "added": [
-                  "v22.6.0"
-                ],
-                "changes": [
-                  {
-                    "version": "v22.18.0",
-                    "pr-url": "https://github.com/nodejs/node/pull/56350",
-                    "description": "Type stripping is enabled by default."
-                  }
-                ]
-              },
-              "stability": 1,
-              "stabilityText": ".2 - Release candidate",
-              "desc": "<p>Disable experimental type-stripping for TypeScript files.\nFor more information, see the <a href=\"typescript.html#type-stripping\">TypeScript type-stripping</a> documentation.</p>",
-              "type": "module",
-              "displayName": "`--no-experimental-strip-types`"
             },
             {
               "textRaw": "`--no-experimental-websocket`",
@@ -1674,9 +1704,74 @@
                   }
                 ]
               },
-              "desc": "<p>Disables the family autoselection algorithm unless connection options explicitly\nenables it.</p>",
+              "desc": "<p>Disables the family autoselection algorithm unless connection options explicitly\nenables it.</p>\n<p><a id=\"--experimental-require-module\"></a></p>",
               "type": "module",
               "displayName": "`--no-network-family-autoselection`"
+            },
+            {
+              "textRaw": "`--no-require-module`",
+              "name": "`--no-require-module`",
+              "meta": {
+                "added": [
+                  "v22.0.0",
+                  "v20.17.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v24.15.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/60959",
+                    "description": "This flag is no longer experimental."
+                  },
+                  {
+                    "version": [
+                      "v24.15.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/60959",
+                    "description": "This flag was renamed from `--no-experimental-require-module` to `--no-require-module`."
+                  },
+                  {
+                    "version": [
+                      "v23.0.0",
+                      "v22.12.0",
+                      "v20.19.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/55085",
+                    "description": "This is now false by default."
+                  }
+                ]
+              },
+              "desc": "<p>Disable support for loading a synchronous ES module graph in <code>require()</code>.</p>\n<p>See <a href=\"modules.html#loading-ecmascript-modules-using-require\">Loading ECMAScript modules using <code>require()</code></a>.</p>",
+              "type": "module",
+              "displayName": "`--no-require-module`"
+            },
+            {
+              "textRaw": "`--no-strip-types`",
+              "name": "`--no-strip-types`",
+              "meta": {
+                "added": [
+                  "v22.6.0"
+                ],
+                "changes": [
+                  {
+                    "version": "v24.12.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/60600",
+                    "description": "Type stripping is now stable, the flag was renamed from `--no-experimental-strip-types` to `--no-strip-types`."
+                  },
+                  {
+                    "version": [
+                      "v23.6.0",
+                      "v22.18.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/56350",
+                    "description": "Type stripping is enabled by default."
+                  }
+                ]
+              },
+              "desc": "<p>Disable type-stripping for TypeScript files.\nFor more information, see the <a href=\"typescript.html#type-stripping\">TypeScript type-stripping</a> documentation.</p>",
+              "type": "module",
+              "displayName": "`--no-strip-types`"
             },
             {
               "textRaw": "`--no-warnings`",
@@ -1769,7 +1864,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.0",
+                    "version": [
+                      "v23.5.0",
+                      "v22.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56201",
                     "description": "Permission Model is now stable."
                   }
@@ -1909,6 +2007,7 @@
               "name": "`--report-exclude-env`",
               "meta": {
                 "added": [
+                  "v23.3.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -1922,7 +2021,8 @@
               "name": "`--report-exclude-network`",
               "meta": {
                 "added": [
-                  "v22.0.0"
+                  "v22.0.0",
+                  "v20.13.0"
                 ],
                 "changes": []
               },
@@ -2222,7 +2322,7 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>The maximum number of test files that the test runner CLI will execute\nconcurrently. If <code>--experimental-test-isolation</code> is set to <code>'none'</code>, this flag\nis ignored and concurrency is one. Otherwise, concurrency defaults to\n<code>os.availableParallelism() - 1</code>.</p>",
+              "desc": "<p>The maximum number of test files that the test runner CLI will execute\nconcurrently. If <code>--test-isolation</code> is set to <code>'none'</code>, this flag is ignored and\nconcurrency is one. Otherwise, concurrency defaults to\n<code>os.availableParallelism() - 1</code>.</p>",
               "type": "module",
               "displayName": "`--test-concurrency`"
             },
@@ -2252,7 +2352,7 @@
               },
               "stability": 1,
               "stabilityText": "Experimental",
-              "desc": "<p>Excludes specific files from code coverage using a glob pattern, which can match\nboth absolute and relative file paths.</p>\n<p>This option may be specified multiple times to exclude multiple glob patterns.</p>\n<p>If both <code>--test-coverage-exclude</code> and <code>--test-coverage-include</code> are provided,\nfiles must meet <strong>both</strong> criteria to be included in the coverage report.</p>",
+              "desc": "<p>Excludes specific files from code coverage using a glob pattern, which can match\nboth absolute and relative file paths.</p>\n<p>This option may be specified multiple times to exclude multiple glob patterns.</p>\n<p>If both <code>--test-coverage-exclude</code> and <code>--test-coverage-include</code> are provided,\nfiles must meet <strong>both</strong> criteria to be included in the coverage report.</p>\n<p>By default all the matching test files are excluded from the coverage report.\nSpecifying this option will override the default behavior.</p>",
               "type": "module",
               "displayName": "`--test-coverage-exclude`"
             },
@@ -2306,13 +2406,48 @@
               "name": "`--test-force-exit`",
               "meta": {
                 "added": [
-                  "v22.0.0"
+                  "v22.0.0",
+                  "v20.14.0"
                 ],
                 "changes": []
               },
               "desc": "<p>Configures the test runner to exit the process once all known tests have\nfinished executing even if the event loop would otherwise remain active.</p>",
               "type": "module",
               "displayName": "`--test-force-exit`"
+            },
+            {
+              "textRaw": "`--test-global-setup=module`",
+              "name": "`--test-global-setup=module`",
+              "meta": {
+                "added": [
+                  "v24.0.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": ".0 - Early development",
+              "desc": "<p>Specify a module that will be evaluated before all tests are executed and\ncan be used to setup global state or fixtures for tests.</p>\n<p>See the documentation on <a href=\"test.html#global-setup-and-teardown\">global setup and teardown</a> for more details.</p>",
+              "type": "module",
+              "displayName": "`--test-global-setup=module`"
+            },
+            {
+              "textRaw": "`--test-isolation=mode`",
+              "name": "`--test-isolation=mode`",
+              "meta": {
+                "added": [
+                  "v22.8.0"
+                ],
+                "changes": [
+                  {
+                    "version": "v23.6.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/56298",
+                    "description": "This flag was renamed from `--experimental-test-isolation` to `--test-isolation`."
+                  }
+                ]
+              },
+              "desc": "<p>Configures the type of test isolation used in the test runner. When <code>mode</code> is\n<code>'process'</code>, each test file is run in a separate child process. When <code>mode</code> is\n<code>'none'</code>, all test files run in the same process as the test runner. The default\nisolation mode is <code>'process'</code>. This flag is ignored if the <code>--test</code> flag is not\npresent. See the <a href=\"test.html#test-runner-execution-model\">test runner execution model</a> section for more information.</p>",
+              "type": "module",
+              "displayName": "`--test-isolation=mode`"
             },
             {
               "textRaw": "`--test-name-pattern`",
@@ -2354,6 +2489,32 @@
               "displayName": "`--test-only`"
             },
             {
+              "textRaw": "`--test-random-seed`",
+              "name": "`--test-random-seed`",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Set the seed used to randomize test execution order. This applies to both test\nfile execution order and queued tests within each file. Providing this flag\nenables randomization implicitly, even without <code>--test-randomize</code>.</p>\n<p>The value must be an integer between <code>0</code> and <code>4294967295</code>.</p>\n<p>This flag cannot be used with <code>--watch</code> or <code>--test-rerun-failures</code>.</p>",
+              "type": "module",
+              "displayName": "`--test-random-seed`"
+            },
+            {
+              "textRaw": "`--test-randomize`",
+              "name": "`--test-randomize`",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Randomize test execution order. This applies to both test file execution order\nand queued tests within each file. This can help detect tests that rely on\nshared state or execution order.</p>\n<p>The seed used for randomization is printed in the test summary and can be\nreused with <code>--test-random-seed</code>.</p>\n<p>For detailed behavior and examples, see\n<a href=\"test.html#randomizing-tests-execution-order\">randomizing tests execution order</a>.</p>\n<p>This flag cannot be used with <code>--watch</code> or <code>--test-rerun-failures</code>.</p>",
+              "type": "module",
+              "displayName": "`--test-randomize`"
+            },
+            {
               "textRaw": "`--test-reporter`",
               "name": "`--test-reporter`",
               "meta": {
@@ -2392,6 +2553,19 @@
               "desc": "<p>The destination for the corresponding test reporter. See the documentation on\n<a href=\"test.html#test-reporters\">test reporters</a> for more details.</p>",
               "type": "module",
               "displayName": "`--test-reporter-destination`"
+            },
+            {
+              "textRaw": "`--test-rerun-failures`",
+              "name": "`--test-rerun-failures`",
+              "meta": {
+                "added": [
+                  "v24.7.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>A path to a file allowing the test runner to persist the state of the test\nsuite between runs. The test runner will use this file to determine which tests\nhave already succeeded or failed, allowing for re-running of failed tests\nwithout having to re-run the entire test suite. The test runner will create this\nfile if it does not exist.\nSee the documentation on <a href=\"test.html#rerunning-failed-tests\">test reruns</a> for more details.</p>",
+              "type": "module",
+              "displayName": "`--test-rerun-failures`"
             },
             {
               "textRaw": "`--test-shard`",
@@ -2443,7 +2617,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.13.0",
+                    "version": [
+                      "v23.4.0",
+                      "v22.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/55897",
                     "description": "Snapshot testing is no longer experimental."
                   }
@@ -2589,25 +2766,6 @@
               "displayName": "`--tls-min-v1.3`"
             },
             {
-              "textRaw": "`--trace-atomics-wait`",
-              "name": "`--trace-atomics-wait`",
-              "meta": {
-                "added": [
-                  "v14.3.0"
-                ],
-                "deprecated": [
-                  "v18.8.0",
-                  "v16.18.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated",
-              "desc": "<p>Print short summaries of calls to <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/wait\"><code>Atomics.wait()</code></a> to stderr.\nThe output could look like this:</p>\n<pre><code class=\"language-text\">(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 1, inf) started\n(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 1, inf) did not wait because the values mismatched\n(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 0, 10) started\n(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 0, 10) timed out\n(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 4, 0, inf) started\n(node:15701) [Thread 1] Atomics.wait(&#x26;lt;address> + 4, -1, inf) started\n(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 4, 0, inf) was woken up by another thread\n(node:15701) [Thread 1] Atomics.wait(&#x26;lt;address> + 4, -1, inf) was woken up by another thread\n</code></pre>\n<p>The fields here correspond to:</p>\n<ul>\n<li>The thread id as given by <a href=\"worker_threads.html#workerthreadid\"><code>worker_threads.threadId</code></a></li>\n<li>The base address of the <code>SharedArrayBuffer</code> in question, as well as the\nbyte offset corresponding to the index passed to <code>Atomics.wait()</code></li>\n<li>The expected value that was passed to <code>Atomics.wait()</code></li>\n<li>The timeout passed to <code>Atomics.wait</code></li>\n</ul>",
-              "type": "module",
-              "displayName": "`--trace-atomics-wait`"
-            },
-            {
               "textRaw": "`--trace-deprecation`",
               "name": "`--trace-deprecation`",
               "meta": {
@@ -2625,6 +2783,7 @@
               "name": "`--trace-env`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2638,6 +2797,7 @@
               "name": "`--trace-env-js-stack`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2651,6 +2811,7 @@
               "name": "`--trace-env-native-stack`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2717,7 +2878,9 @@
               "name": "`--trace-require-module=mode`",
               "meta": {
                 "added": [
-                  "v22.13.0"
+                  "v23.5.0",
+                  "v22.13.0",
+                  "v20.19.0"
                 ],
                 "changes": []
               },
@@ -2842,7 +3005,7 @@
               "name": "`--use-env-proxy`",
               "meta": {
                 "added": [
-                  "v22.21.0"
+                  "v24.5.0"
                 ],
                 "changes": []
               },
@@ -2871,8 +3034,7 @@
               "name": "`--use-system-ca`",
               "meta": {
                 "added": [
-                  "v23.8.0",
-                  "v22.15.0"
+                  "v23.8.0"
                 ],
                 "changes": [
                   {
@@ -2935,7 +3097,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.0.0",
+                    "version": [
+                      "v22.0.0",
+                      "v20.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/52074",
                     "description": "Watch mode is now stable."
                   },
@@ -2958,7 +3123,7 @@
               "name": "`--watch-kill-signal`",
               "meta": {
                 "added": [
-                  "v22.18.0"
+                  "v24.4.0"
                 ],
                 "changes": []
               },
@@ -2978,7 +3143,10 @@
                 ],
                 "changes": [
                   {
-                    "version": "v22.0.0",
+                    "version": [
+                      "v22.0.0",
+                      "v20.13.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/52074",
                     "description": "Watch mode is now stable."
                   }
@@ -3039,13 +3207,24 @@
                 "added": [
                   "v22.1.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.15.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/60971",
+                    "description": "This feature is no longer experimental."
+                  }
+                ]
               },
-              "stability": 1,
-              "stabilityText": ".1 - Active Development",
               "desc": "<p>Enable the <a href=\"module.html#module-compile-cache\">module compile cache</a> for the Node.js instance. See the documentation of\n<a href=\"module.html#module-compile-cache\">module compile cache</a> for details.</p>",
               "type": "module",
               "displayName": "`NODE_COMPILE_CACHE=dir`"
+            },
+            {
+              "textRaw": "`NODE_COMPILE_CACHE_PORTABLE=1`",
+              "name": "`node_compile_cache_portable=1`",
+              "desc": "<p>When set to 1, the <a href=\"module.html#module-compile-cache\">module compile cache</a>  can be reused across different directory\nlocations as long as the module layout relative to the cache directory remains the same.</p>",
+              "type": "module",
+              "displayName": "`NODE_COMPILE_CACHE_PORTABLE=1`"
             },
             {
               "textRaw": "`NODE_DEBUG=module[,…]`",
@@ -3143,7 +3322,7 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>A space-separated list of command-line options. <code>options...</code> are interpreted\nbefore command-line options, so command-line options will override or\ncompound after anything in <code>options...</code>. Node.js will exit with an error if\nan option that is not allowed in the environment is used, such as <code>-p</code> or a\nscript file.</p>\n<p>If an option value contains a space, it can be escaped using double quotes:</p>\n<pre><code class=\"language-bash\">NODE_OPTIONS='--require \"./my path/file.js\"'\n</code></pre>\n<p>A singleton flag passed as a command-line option will override the same flag\npassed into <code>NODE_OPTIONS</code>:</p>\n<pre><code class=\"language-bash\"># The inspector will be available on port 5555\nNODE_OPTIONS='--inspect=localhost:4444' node --inspect=localhost:5555\n</code></pre>\n<p>A flag that can be passed multiple times will be treated as if its\n<code>NODE_OPTIONS</code> instances were passed first, and then its command-line\ninstances afterwards:</p>\n<pre><code class=\"language-bash\">NODE_OPTIONS='--require \"./a.js\"' node --require \"./b.js\"\n# is equivalent to:\nnode --require \"./a.js\" --require \"./b.js\"\n</code></pre>\n<p>Node.js options that are allowed are in the following list. If an option\nsupports both --XX and --no-XX variants, they are both supported but only\none is included in the list below.</p>\n<!-- node-options-node start -->\n<ul>\n<li><code>--allow-addons</code></li>\n<li><code>--allow-child-process</code></li>\n<li><code>--allow-fs-read</code></li>\n<li><code>--allow-fs-write</code></li>\n<li><code>--allow-wasi</code></li>\n<li><code>--allow-worker</code></li>\n<li><code>--conditions</code>, <code>-C</code></li>\n<li><code>--cpu-prof-dir</code></li>\n<li><code>--cpu-prof-interval</code></li>\n<li><code>--cpu-prof-name</code></li>\n<li><code>--cpu-prof</code></li>\n<li><code>--diagnostic-dir</code></li>\n<li><code>--disable-proto</code></li>\n<li><code>--disable-sigusr1</code></li>\n<li><code>--disable-warning</code></li>\n<li><code>--disable-wasm-trap-handler</code></li>\n<li><code>--dns-result-order</code></li>\n<li><code>--enable-fips</code></li>\n<li><code>--enable-network-family-autoselection</code></li>\n<li><code>--enable-source-maps</code></li>\n<li><code>--entry-url</code></li>\n<li><code>--experimental-abortcontroller</code></li>\n<li><code>--experimental-addon-modules</code></li>\n<li><code>--experimental-async-context-frame</code></li>\n<li><code>--experimental-default-type</code></li>\n<li><code>--experimental-detect-module</code></li>\n<li><code>--experimental-eventsource</code></li>\n<li><code>--experimental-import-meta-resolve</code></li>\n<li><code>--experimental-json-modules</code></li>\n<li><code>--experimental-loader</code></li>\n<li><code>--experimental-modules</code></li>\n<li><code>--experimental-permission</code></li>\n<li><code>--experimental-print-required-tla</code></li>\n<li><code>--experimental-require-module</code></li>\n<li><code>--experimental-shadow-realm</code></li>\n<li><code>--experimental-specifier-resolution</code></li>\n<li><code>--experimental-top-level-await</code></li>\n<li><code>--experimental-transform-types</code></li>\n<li><code>--experimental-vm-modules</code></li>\n<li><code>--experimental-wasi-unstable-preview1</code></li>\n<li><code>--experimental-webstorage</code></li>\n<li><code>--force-context-aware</code></li>\n<li><code>--force-fips</code></li>\n<li><code>--force-node-api-uncaught-exceptions-policy</code></li>\n<li><code>--frozen-intrinsics</code></li>\n<li><code>--heap-prof-dir</code></li>\n<li><code>--heap-prof-interval</code></li>\n<li><code>--heap-prof-name</code></li>\n<li><code>--heap-prof</code></li>\n<li><code>--heapsnapshot-near-heap-limit</code></li>\n<li><code>--heapsnapshot-signal</code></li>\n<li><code>--http-parser</code></li>\n<li><code>--icu-data-dir</code></li>\n<li><code>--import</code></li>\n<li><code>--input-type</code></li>\n<li><code>--insecure-http-parser</code></li>\n<li><code>--inspect-brk</code></li>\n<li><code>--inspect-port</code>, <code>--debug-port</code></li>\n<li><code>--inspect-publish-uid</code></li>\n<li><code>--inspect-wait</code></li>\n<li><code>--inspect</code></li>\n<li><code>--localstorage-file</code></li>\n<li><code>--max-http-header-size</code></li>\n<li><code>--max-old-space-size-percentage</code></li>\n<li><code>--napi-modules</code></li>\n<li><code>--network-family-autoselection-attempt-timeout</code></li>\n<li><code>--no-addons</code></li>\n<li><code>--no-deprecation</code></li>\n<li><code>--no-experimental-fetch</code></li>\n<li><code>--no-experimental-global-customevent</code></li>\n<li><code>--no-experimental-global-navigator</code></li>\n<li><code>--no-experimental-global-webcrypto</code></li>\n<li><code>--no-experimental-repl-await</code></li>\n<li><code>--no-experimental-sqlite</code></li>\n<li><code>--no-experimental-strip-types</code></li>\n<li><code>--no-experimental-websocket</code></li>\n<li><code>--no-extra-info-on-fatal-exception</code></li>\n<li><code>--no-force-async-hooks-checks</code></li>\n<li><code>--no-global-search-paths</code></li>\n<li><code>--no-network-family-autoselection</code></li>\n<li><code>--no-warnings</code></li>\n<li><code>--node-memory-debug</code></li>\n<li><code>--openssl-config</code></li>\n<li><code>--openssl-legacy-provider</code></li>\n<li><code>--openssl-shared-config</code></li>\n<li><code>--pending-deprecation</code></li>\n<li><code>--permission</code></li>\n<li><code>--preserve-symlinks-main</code></li>\n<li><code>--preserve-symlinks</code></li>\n<li><code>--prof-process</code></li>\n<li><code>--redirect-warnings</code></li>\n<li><code>--report-compact</code></li>\n<li><code>--report-dir</code>, <code>--report-directory</code></li>\n<li><code>--report-exclude-env</code></li>\n<li><code>--report-exclude-network</code></li>\n<li><code>--report-filename</code></li>\n<li><code>--report-on-fatalerror</code></li>\n<li><code>--report-on-signal</code></li>\n<li><code>--report-signal</code></li>\n<li><code>--report-uncaught-exception</code></li>\n<li><code>--require</code>, <code>-r</code></li>\n<li><code>--secure-heap-min</code></li>\n<li><code>--secure-heap</code></li>\n<li><code>--snapshot-blob</code></li>\n<li><code>--test-coverage-branches</code></li>\n<li><code>--test-coverage-exclude</code></li>\n<li><code>--test-coverage-functions</code></li>\n<li><code>--test-coverage-include</code></li>\n<li><code>--test-coverage-lines</code></li>\n<li><code>--test-name-pattern</code></li>\n<li><code>--test-only</code></li>\n<li><code>--test-reporter-destination</code></li>\n<li><code>--test-reporter</code></li>\n<li><code>--test-shard</code></li>\n<li><code>--test-skip-pattern</code></li>\n<li><code>--throw-deprecation</code></li>\n<li><code>--title</code></li>\n<li><code>--tls-cipher-list</code></li>\n<li><code>--tls-keylog</code></li>\n<li><code>--tls-max-v1.2</code></li>\n<li><code>--tls-max-v1.3</code></li>\n<li><code>--tls-min-v1.0</code></li>\n<li><code>--tls-min-v1.1</code></li>\n<li><code>--tls-min-v1.2</code></li>\n<li><code>--tls-min-v1.3</code></li>\n<li><code>--trace-atomics-wait</code></li>\n<li><code>--trace-deprecation</code></li>\n<li><code>--trace-env-js-stack</code></li>\n<li><code>--trace-env-native-stack</code></li>\n<li><code>--trace-env</code></li>\n<li><code>--trace-event-categories</code></li>\n<li><code>--trace-event-file-pattern</code></li>\n<li><code>--trace-events-enabled</code></li>\n<li><code>--trace-exit</code></li>\n<li><code>--trace-require-module</code></li>\n<li><code>--trace-sigint</code></li>\n<li><code>--trace-sync-io</code></li>\n<li><code>--trace-tls</code></li>\n<li><code>--trace-uncaught</code></li>\n<li><code>--trace-warnings</code></li>\n<li><code>--track-heap-objects</code></li>\n<li><code>--unhandled-rejections</code></li>\n<li><code>--use-bundled-ca</code></li>\n<li><code>--use-env-proxy</code></li>\n<li><code>--use-largepages</code></li>\n<li><code>--use-openssl-ca</code></li>\n<li><code>--use-system-ca</code></li>\n<li><code>--v8-pool-size</code></li>\n<li><code>--watch-kill-signal</code></li>\n<li><code>--watch-path</code></li>\n<li><code>--watch-preserve-output</code></li>\n<li><code>--watch</code></li>\n<li><code>--zero-fill-buffers</code></li>\n</ul>\n<!-- node-options-node end -->\n<p>V8 options that are allowed are:</p>\n<!-- node-options-v8 start -->\n<ul>\n<li><code>--abort-on-uncaught-exception</code></li>\n<li><code>--disallow-code-generation-from-strings</code></li>\n<li><code>--enable-etw-stack-walking</code></li>\n<li><code>--expose-gc</code></li>\n<li><code>--huge-max-old-generation-size</code></li>\n<li><code>--interpreted-frames-native-stack</code></li>\n<li><code>--jitless</code></li>\n<li><code>--max-old-space-size</code></li>\n<li><code>--max-semi-space-size</code></li>\n<li><code>--perf-basic-prof-only-functions</code></li>\n<li><code>--perf-basic-prof</code></li>\n<li><code>--perf-prof-unwinding-info</code></li>\n<li><code>--perf-prof</code></li>\n<li><code>--stack-trace-limit</code></li>\n</ul>\n<!-- node-options-v8 end -->\n<!-- node-options-others start -->\n<p><code>--perf-basic-prof-only-functions</code>, <code>--perf-basic-prof</code>,\n<code>--perf-prof-unwinding-info</code>, and <code>--perf-prof</code> are only available on Linux.</p>\n<p><code>--enable-etw-stack-walking</code> is only available on Windows.</p>\n<!-- node-options-others end -->",
+              "desc": "<p>A space-separated list of command-line options. <code>options...</code> are interpreted\nbefore command-line options, so command-line options will override or\ncompound after anything in <code>options...</code>. Node.js will exit with an error if\nan option that is not allowed in the environment is used, such as <code>-p</code> or a\nscript file.</p>\n<p>If an option value contains a space, it can be escaped using double quotes:</p>\n<pre><code class=\"language-bash\">NODE_OPTIONS='--require \"./my path/file.js\"'\n</code></pre>\n<p>A singleton flag passed as a command-line option will override the same flag\npassed into <code>NODE_OPTIONS</code>:</p>\n<pre><code class=\"language-bash\"># The inspector will be available on port 5555\nNODE_OPTIONS='--inspect=localhost:4444' node --inspect=localhost:5555\n</code></pre>\n<p>A flag that can be passed multiple times will be treated as if its\n<code>NODE_OPTIONS</code> instances were passed first, and then its command-line\ninstances afterwards:</p>\n<pre><code class=\"language-bash\">NODE_OPTIONS='--require \"./a.js\"' node --require \"./b.js\"\n# is equivalent to:\nnode --require \"./a.js\" --require \"./b.js\"\n</code></pre>\n<p>Node.js options that are allowed are in the following list. If an option\nsupports both --XX and --no-XX variants, they are both supported but only\none is included in the list below.</p>\n<!-- node-options-node start -->\n<ul>\n<li><code>--allow-addons</code></li>\n<li><code>--allow-child-process</code></li>\n<li><code>--allow-fs-read</code></li>\n<li><code>--allow-fs-write</code></li>\n<li><code>--allow-inspector</code></li>\n<li><code>--allow-wasi</code></li>\n<li><code>--allow-worker</code></li>\n<li><code>--conditions</code>, <code>-C</code></li>\n<li><code>--cpu-prof-dir</code></li>\n<li><code>--cpu-prof-interval</code></li>\n<li><code>--cpu-prof-name</code></li>\n<li><code>--cpu-prof</code></li>\n<li><code>--diagnostic-dir</code></li>\n<li><code>--disable-proto</code></li>\n<li><code>--disable-sigusr1</code></li>\n<li><code>--disable-warning</code></li>\n<li><code>--disable-wasm-trap-handler</code></li>\n<li><code>--dns-result-order</code></li>\n<li><code>--enable-fips</code></li>\n<li><code>--enable-network-family-autoselection</code></li>\n<li><code>--enable-source-maps</code></li>\n<li><code>--entry-url</code></li>\n<li><code>--experimental-abortcontroller</code></li>\n<li><code>--experimental-addon-modules</code></li>\n<li><code>--experimental-detect-module</code></li>\n<li><code>--experimental-eventsource</code></li>\n<li><code>--experimental-import-meta-resolve</code></li>\n<li><code>--experimental-import-text</code></li>\n<li><code>--experimental-json-modules</code></li>\n<li><code>--experimental-loader</code></li>\n<li><code>--experimental-modules</code></li>\n<li><code>--experimental-print-required-tla</code></li>\n<li><code>--experimental-quic</code></li>\n<li><code>--experimental-require-module</code></li>\n<li><code>--experimental-shadow-realm</code></li>\n<li><code>--experimental-specifier-resolution</code></li>\n<li><code>--experimental-test-isolation</code></li>\n<li><code>--experimental-top-level-await</code></li>\n<li><code>--experimental-transform-types</code></li>\n<li><code>--experimental-vm-modules</code></li>\n<li><code>--experimental-wasi-unstable-preview1</code></li>\n<li><code>--experimental-webstorage</code></li>\n<li><code>--force-context-aware</code></li>\n<li><code>--force-fips</code></li>\n<li><code>--force-node-api-uncaught-exceptions-policy</code></li>\n<li><code>--frozen-intrinsics</code></li>\n<li><code>--heap-prof-dir</code></li>\n<li><code>--heap-prof-interval</code></li>\n<li><code>--heap-prof-name</code></li>\n<li><code>--heap-prof</code></li>\n<li><code>--heapsnapshot-near-heap-limit</code></li>\n<li><code>--heapsnapshot-signal</code></li>\n<li><code>--http-parser</code></li>\n<li><code>--icu-data-dir</code></li>\n<li><code>--import</code></li>\n<li><code>--input-type</code></li>\n<li><code>--insecure-http-parser</code></li>\n<li><code>--inspect-brk</code></li>\n<li><code>--inspect-port</code>, <code>--debug-port</code></li>\n<li><code>--inspect-publish-uid</code></li>\n<li><code>--inspect-wait</code></li>\n<li><code>--inspect</code></li>\n<li><code>--localstorage-file</code></li>\n<li><code>--max-http-header-size</code></li>\n<li><code>--max-old-space-size-percentage</code></li>\n<li><code>--napi-modules</code></li>\n<li><code>--network-family-autoselection-attempt-timeout</code></li>\n<li><code>--no-addons</code></li>\n<li><code>--no-async-context-frame</code></li>\n<li><code>--no-deprecation</code></li>\n<li><code>--no-experimental-global-navigator</code></li>\n<li><code>--no-experimental-repl-await</code></li>\n<li><code>--no-experimental-sqlite</code></li>\n<li><code>--no-experimental-strip-types</code></li>\n<li><code>--no-experimental-websocket</code></li>\n<li><code>--no-extra-info-on-fatal-exception</code></li>\n<li><code>--no-force-async-hooks-checks</code></li>\n<li><code>--no-global-search-paths</code></li>\n<li><code>--no-network-family-autoselection</code></li>\n<li><code>--no-strip-types</code></li>\n<li><code>--no-warnings</code></li>\n<li><code>--node-memory-debug</code></li>\n<li><code>--openssl-config</code></li>\n<li><code>--openssl-legacy-provider</code></li>\n<li><code>--openssl-shared-config</code></li>\n<li><code>--pending-deprecation</code></li>\n<li><code>--permission</code></li>\n<li><code>--preserve-symlinks-main</code></li>\n<li><code>--preserve-symlinks</code></li>\n<li><code>--prof-process</code></li>\n<li><code>--redirect-warnings</code></li>\n<li><code>--report-compact</code></li>\n<li><code>--report-dir</code>, <code>--report-directory</code></li>\n<li><code>--report-exclude-env</code></li>\n<li><code>--report-exclude-network</code></li>\n<li><code>--report-filename</code></li>\n<li><code>--report-on-fatalerror</code></li>\n<li><code>--report-on-signal</code></li>\n<li><code>--report-signal</code></li>\n<li><code>--report-uncaught-exception</code></li>\n<li><code>--require-module</code></li>\n<li><code>--require</code>, <code>-r</code></li>\n<li><code>--secure-heap-min</code></li>\n<li><code>--secure-heap</code></li>\n<li><code>--snapshot-blob</code></li>\n<li><code>--test-coverage-branches</code></li>\n<li><code>--test-coverage-exclude</code></li>\n<li><code>--test-coverage-functions</code></li>\n<li><code>--test-coverage-include</code></li>\n<li><code>--test-coverage-lines</code></li>\n<li><code>--test-global-setup</code></li>\n<li><code>--test-isolation</code></li>\n<li><code>--test-name-pattern</code></li>\n<li><code>--test-only</code></li>\n<li><code>--test-random-seed</code></li>\n<li><code>--test-randomize</code></li>\n<li><code>--test-reporter-destination</code></li>\n<li><code>--test-reporter</code></li>\n<li><code>--test-rerun-failures</code></li>\n<li><code>--test-shard</code></li>\n<li><code>--test-skip-pattern</code></li>\n<li><code>--throw-deprecation</code></li>\n<li><code>--title</code></li>\n<li><code>--tls-cipher-list</code></li>\n<li><code>--tls-keylog</code></li>\n<li><code>--tls-max-v1.2</code></li>\n<li><code>--tls-max-v1.3</code></li>\n<li><code>--tls-min-v1.0</code></li>\n<li><code>--tls-min-v1.1</code></li>\n<li><code>--tls-min-v1.2</code></li>\n<li><code>--tls-min-v1.3</code></li>\n<li><code>--trace-deprecation</code></li>\n<li><code>--trace-env-js-stack</code></li>\n<li><code>--trace-env-native-stack</code></li>\n<li><code>--trace-env</code></li>\n<li><code>--trace-event-categories</code></li>\n<li><code>--trace-event-file-pattern</code></li>\n<li><code>--trace-events-enabled</code></li>\n<li><code>--trace-exit</code></li>\n<li><code>--trace-require-module</code></li>\n<li><code>--trace-sigint</code></li>\n<li><code>--trace-sync-io</code></li>\n<li><code>--trace-tls</code></li>\n<li><code>--trace-uncaught</code></li>\n<li><code>--trace-warnings</code></li>\n<li><code>--track-heap-objects</code></li>\n<li><code>--unhandled-rejections</code></li>\n<li><code>--use-bundled-ca</code></li>\n<li><code>--use-env-proxy</code></li>\n<li><code>--use-largepages</code></li>\n<li><code>--use-openssl-ca</code></li>\n<li><code>--use-system-ca</code></li>\n<li><code>--v8-pool-size</code></li>\n<li><code>--watch-kill-signal</code></li>\n<li><code>--watch-path</code></li>\n<li><code>--watch-preserve-output</code></li>\n<li><code>--watch</code></li>\n<li><code>--zero-fill-buffers</code></li>\n</ul>\n<!-- node-options-node end -->\n<p>V8 options that are allowed are:</p>\n<!-- node-options-v8 start -->\n<ul>\n<li><code>--abort-on-uncaught-exception</code></li>\n<li><code>--disallow-code-generation-from-strings</code></li>\n<li><code>--enable-etw-stack-walking</code></li>\n<li><code>--expose-gc</code></li>\n<li><code>--interpreted-frames-native-stack</code></li>\n<li><code>--jitless</code></li>\n<li><code>--max-heap-size</code></li>\n<li><code>--max-old-space-size</code></li>\n<li><code>--max-semi-space-size</code></li>\n<li><code>--perf-basic-prof-only-functions</code></li>\n<li><code>--perf-basic-prof</code></li>\n<li><code>--perf-prof-unwinding-info</code></li>\n<li><code>--perf-prof</code></li>\n<li><code>--stack-trace-limit</code></li>\n</ul>\n<!-- node-options-v8 end -->\n<!-- node-options-others start -->\n<p><code>--perf-basic-prof-only-functions</code>, <code>--perf-basic-prof</code>,\n<code>--perf-prof-unwinding-info</code>, and <code>--perf-prof</code> are only available on Linux.</p>\n<p><code>--enable-etw-stack-walking</code> is only available on Windows.</p>\n<!-- node-options-others end -->",
               "type": "module",
               "displayName": "`NODE_OPTIONS=options...`"
             },
@@ -3217,7 +3396,8 @@
                 "changes": [
                   {
                     "version": [
-                      "v22.3.0"
+                      "v22.3.0",
+                      "v20.16.0"
                     ],
                     "pr-url": "https://github.com/nodejs/node/pull/52905",
                     "description": "Remove the possibility to use this env var with kDisableNodeOptionsEnv for embedders."
@@ -3273,7 +3453,7 @@
               "name": "`node_use_env_proxy=1`",
               "meta": {
                 "added": [
-                  "v22.21.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
@@ -3288,7 +3468,7 @@
               "name": "`node_use_system_ca=1`",
               "meta": {
                 "added": [
-                  "v22.19.0"
+                  "v24.6.0"
                 ],
                 "changes": []
               },
@@ -3442,24 +3622,30 @@
               "displayName": "`--harmony-shadow-realm`"
             },
             {
-              "textRaw": "`--huge-max-old-generation-size`",
-              "name": "`--huge-max-old-generation-size`",
+              "textRaw": "`--heap-snapshot-on-oom`",
+              "name": "`--heap-snapshot-on-oom`",
               "type": "module",
-              "displayName": "`--huge-max-old-generation-size`"
+              "displayName": "`--heap-snapshot-on-oom`"
             },
             {
               "textRaw": "`--interpreted-frames-native-stack`",
               "name": "`--interpreted-frames-native-stack`",
-              "desc": "<!-- Anchor to make sure old links find a target -->\n<p><a id=\"--max-old-space-sizesize-in-megabytes\"></a></p>",
               "type": "module",
               "displayName": "`--interpreted-frames-native-stack`"
             },
             {
               "textRaw": "`--jitless`",
               "name": "`--jitless`",
-              "desc": "<!-- Anchor to make sure old links find a target -->\n<p><a id=\"--max-old-space-sizesize-in-megabytes\"></a></p>",
+              "desc": "<p>Specifies the maximum heap size (in megabytes) for the process.</p>\n<p>This option is typically used to limit the amount of memory the process can use for its JavaScript heap.</p>\n<!-- Anchor to make sure old links find a target -->\n<p><a id=\"--max-old-space-sizesize-in-megabytes\"></a></p>",
               "type": "module",
               "displayName": "`--jitless`"
+            },
+            {
+              "textRaw": "`--max-heap-size`",
+              "name": "`--max-heap-size`",
+              "desc": "<p>Specifies the maximum heap size (in megabytes) for the process.</p>\n<p>This option is typically used to limit the amount of memory the process can use for its JavaScript heap.</p>\n<!-- Anchor to make sure old links find a target -->\n<p><a id=\"--max-old-space-sizesize-in-megabytes\"></a></p>",
+              "type": "module",
+              "displayName": "`--max-heap-size`"
             },
             {
               "textRaw": "`--max-old-space-size=SIZE` (in MiB)",

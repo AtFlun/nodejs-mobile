@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Zlib | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Zlib | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="zlib" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -182,7 +182,6 @@
 <li><a href="#class-zlibunzip">Class: <code>zlib.Unzip</code></a></li>
 <li><a href="#class-zlibzlibbase">Class: <code>zlib.ZlibBase</code></a>
 <ul>
-<li><span class="stability_0"><a href="#zlibbytesread"><code>zlib.bytesRead</code></a></span></li>
 <li><a href="#zlibbyteswritten"><code>zlib.bytesWritten</code></a></li>
 <li><a href="#zlibclosecallback"><code>zlib.close([callback])</code></a></li>
 <li><a href="#zlibflushkind-callback"><code>zlib.flush([kind, ]callback)</code></a></li>
@@ -427,7 +426,6 @@
 <li><a href="#class-zlibunzip">Class: <code>zlib.Unzip</code></a></li>
 <li><a href="#class-zlibzlibbase">Class: <code>zlib.ZlibBase</code></a>
 <ul>
-<li><span class="stability_0"><a href="#zlibbytesread"><code>zlib.bytesRead</code></a></span></li>
 <li><a href="#zlibbyteswritten"><code>zlib.bytesWritten</code></a></li>
 <li><a href="#zlibclosecallback"><code>zlib.close([callback])</code></a></li>
 <li><a href="#zlibflushkind-callback"><code>zlib.flush([kind, ]callback)</code></a></li>
@@ -485,7 +483,7 @@
         <h2>Zlib<span><a class="mark" href="#zlib" id="zlib">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/zlib.js">lib/zlib.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/zlib.js">lib/zlib.js</a></p>
 <p>The <code>node:zlib</code> module provides compression functionality implemented using
 Gzip, Deflate/Inflate, Brotli, and Zstd.</p>
 <p>To access it:</p>
@@ -517,7 +515,6 @@ stream:</p>
   createReadStream,
   createWriteStream,
 } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 <span class="hljs-keyword">const</span> { createGzip } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:zlib'</span>);
 <span class="hljs-keyword">const</span> { pipeline } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
 
@@ -551,7 +548,6 @@ stream:</p>
   createReadStream,
   createWriteStream,
 } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 <span class="hljs-keyword">const</span> { createGzip } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:zlib'</span>);
 <span class="hljs-keyword">const</span> { pipeline } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/promises'</span>);
 
@@ -868,8 +864,7 @@ decompressed result is valid.</p>
 <h4>For zlib-based streams<span><a class="mark" href="#for-zlib-based-streams" id="for-zlib-based-streams">#</a></span><a aria-hidden="true" class="legacy" id="zlib_for_zlib_based_streams"></a></h4>
 <p>From <code>zlib/zconf.h</code>, modified for Node.js usage:</p>
 <p>The memory requirements for deflate are (in bytes):</p>
-<!-- eslint-disable @stylistic/js/semi -->
-<pre><code class="language-js">(<span class="hljs-number">1</span> &#x3C;&#x3C; (windowBits + <span class="hljs-number">2</span>)) + (<span class="hljs-number">1</span> &#x3C;&#x3C; (memLevel + <span class="hljs-number">9</span>))</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-js">(<span class="hljs-number">1</span> &#x3C;&#x3C; (windowBits + <span class="hljs-number">2</span>)) + (<span class="hljs-number">1</span> &#x3C;&#x3C; (memLevel + <span class="hljs-number">9</span>));</code> <button class="copy-button">copy</button></pre>
 <p>That is: 128K for <code>windowBits</code> = 15 + 128K for <code>memLevel</code> = 8
 (default values) plus a few kilobytes for small objects.</p>
 <p>For example, to reduce the default memory requirements from 256K to 128K, the
@@ -1143,7 +1138,7 @@ Brotli format as standardized in <a href="https://www.rfc-editor.org/rfc/rfc7932
 <h4>Zstd constants<span><a class="mark" href="#zstd-constants" id="zstd-constants">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zstd_constants"></a></h4>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <p>There are several options and other constants available for Zstd-based
 streams:</p>
@@ -1219,6 +1214,8 @@ unreasonable memory requirements.</li>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>The <code>rejectGarbageAfterEnd</code> option was added.</p></td></tr>
 <tr><td>v14.5.0, v12.19.0</td>
 <td><p>The <code>maxOutputLength</code> option is supported now.</p></td></tr>
 <tr><td>v9.4.0</td>
@@ -1249,6 +1246,10 @@ empty dictionary by default)</li>
 <li><code>info</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> (If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>.)</li>
 <li><code>maxOutputLength</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> Limits output size when using
 <a href="#convenience-methods">convenience methods</a>. <strong>Default:</strong> <a href="buffer.html#bufferkmaxlength"><code>buffer.kMaxLength</code></a></li>
+<li><code>rejectGarbageAfterEnd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, decompression fails when
+trailing input is detected after the end of the compressed stream. This
+includes unreadable bytes and, when decompressing gzip, additional gzip
+members following the first member. <strong>Default:</strong> <code>false</code></li>
 </ul>
 <p>See the <a href="https://zlib.net/manual.html#Advanced"><code>deflateInit2</code> and <code>inflateInit2</code></a> documentation for more
 information.</p>
@@ -1257,6 +1258,8 @@ information.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>The <code>rejectGarbageAfterEnd</code> option was added.</p></td></tr>
 <tr><td>v14.5.0, v12.19.0</td>
 <td><p>The <code>maxOutputLength</code> option is supported now.</p></td></tr>
 <tr><td>v11.7.0</td>
@@ -1274,6 +1277,8 @@ information.</p>
 <li><code>maxOutputLength</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> Limits output size when using
 <a href="#convenience-methods">convenience methods</a>. <strong>Default:</strong> <a href="buffer.html#bufferkmaxlength"><code>buffer.kMaxLength</code></a></li>
 <li><code>info</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>. <strong>Default:</strong> <code>false</code></li>
+<li><code>rejectGarbageAfterEnd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, decompression fails when
+input remains after the first complete compressed stream. <strong>Default:</strong> <code>false</code></li>
 </ul>
 <p>For example:</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> stream = zlib.<span class="hljs-title function_">createBrotliCompress</span>({
@@ -1407,19 +1412,6 @@ base class of the compressor/decompressor classes.</p>
 <p>This class inherits from <a href="stream.html#class-streamtransform"><code>stream.Transform</code></a>, allowing <code>node:zlib</code> objects to
 be used in pipes and similar stream operations.</p>
 <div>
-<h4><code>zlib.bytesRead</code><span><a class="mark" href="#zlibbytesread" id="zlibbytesread">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_bytesread"></a></h4>
-<div class="api_metadata">
-<span>Added in: v8.1.0</span><span>Deprecated since: v10.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#zlibbyteswritten"><code>zlib.bytesWritten</code></a> instead.</div><p></p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
-</ul>
-<p>Deprecated alias for <a href="#zlibbyteswritten"><code>zlib.bytesWritten</code></a>. This original name was chosen
-because it also made sense to interpret the value as the number of bytes
-read by the engine, but is inconsistent with other streams in Node.js that
-expose values under these names.</p>
-</div><div>
 <h4><code>zlib.bytesWritten</code><span><a class="mark" href="#zlibbyteswritten" id="zlibbyteswritten">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_byteswritten"></a></h4>
 <div class="api_metadata">
 <span>Added in: v10.0.0</span>
@@ -1479,7 +1471,15 @@ the inflate and deflate algorithms.</p>
 </section><section><h3>Class: <code>ZstdOptions</code><span><a class="mark" href="#class-zstdoptions" id="class-zstdoptions">#</a></span><a aria-hidden="true" class="legacy" id="zlib_class_zstdoptions"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>The <code>rejectGarbageAfterEnd</code> option was added.</p></td></tr>
+<tr><td>v23.8.0, v22.15.0</td>
+<td><p><span>Added in: v23.8.0, v22.15.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 
 <p>Each Zstd-based class takes an <code>options</code> object. All options are optional.</p>
@@ -1494,6 +1494,8 @@ the inflate and deflate algorithms.</p>
 <li><code>dictionary</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> Optional dictionary used to
 improve compression efficiency when compressing or decompressing data that
 shares common patterns with the dictionary.</li>
+<li><code>rejectGarbageAfterEnd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, decompression fails when
+input remains after the first complete compressed stream. <strong>Default:</strong> <code>false</code></li>
 </ul>
 <p>For example:</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> stream = zlib.<span class="hljs-title function_">createZstdCompress</span>({
@@ -1506,13 +1508,13 @@ shares common patterns with the dictionary.</li>
 </section><section><h3>Class: <code>zlib.ZstdCompress</code><span><a class="mark" href="#class-zlibzstdcompress" id="class-zlibzstdcompress">#</a></span><a aria-hidden="true" class="legacy" id="zlib_class_zlib_zstdcompress"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <p>Compress data using the Zstd algorithm.</p>
 </section><section><h3>Class: <code>zlib.ZstdDecompress</code><span><a class="mark" href="#class-zlibzstddecompress" id="class-zlibzstddecompress">#</a></span><a aria-hidden="true" class="legacy" id="zlib_class_zlib_zstddecompress"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <p>Decompress data using the Zstd algorithm.</p>
 </section><section><h3><code>zlib.constants</code><span><a class="mark" href="#zlibconstants" id="zlibconstants">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_constants_1"></a></h3>
@@ -1522,7 +1524,7 @@ shares common patterns with the dictionary.</li>
 <p>Provides an object enumerating Zlib-related constants.</p>
 </section><section><h3><code>zlib.crc32(data[, value])</code><span><a class="mark" href="#zlibcrc32data-value" id="zlibcrc32data-value">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_crc32_data_value"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.2.0</span>
+<span>Added in: v22.2.0, v20.15.0</span>
 </div>
 <ul>
 <li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> When <code>data</code> is a string,
@@ -1653,7 +1655,7 @@ See <a href="#zlib">example</a>.</p>
 </section><section><h3><code>zlib.createZstdCompress([options])</code><span><a class="mark" href="#zlibcreatezstdcompressoptions" id="zlibcreatezstdcompressoptions">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_createzstdcompress_options"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>options</code> <a href="zlib.html#class-zstdoptions" class="type">&#x3C;zstd options></a></li>
@@ -1662,7 +1664,7 @@ See <a href="#zlib">example</a>.</p>
 </section><section><h3><code>zlib.createZstdDecompress([options])</code><span><a class="mark" href="#zlibcreatezstddecompressoptions" id="zlibcreatezstddecompressoptions">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_createzstddecompress_options"></a></h3>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>options</code> <a href="zlib.html#class-zstdoptions" class="type">&#x3C;zstd options></a></li>
@@ -2026,7 +2028,7 @@ without a callback.</p>
 <h4><code>zlib.zstdCompress(buffer[, options], callback)</code><span><a class="mark" href="#zlibzstdcompressbuffer-options-callback" id="zlibzstdcompressbuffer-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_zstdcompress_buffer_options_callback"></a></h4>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" class="type">&#x3C;ArrayBuffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
@@ -2037,7 +2039,7 @@ without a callback.</p>
 <h4><code>zlib.zstdCompressSync(buffer[, options])</code><span><a class="mark" href="#zlibzstdcompresssyncbuffer-options" id="zlibzstdcompresssyncbuffer-options">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_zstdcompresssync_buffer_options"></a></h4>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" class="type">&#x3C;ArrayBuffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
@@ -2047,7 +2049,7 @@ without a callback.</p>
 </div><div>
 <h4><code>zlib.zstdDecompress(buffer[, options], callback)</code><span><a class="mark" href="#zlibzstddecompressbuffer-options-callback" id="zlibzstddecompressbuffer-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_zstddecompress_buffer_options_callback"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" class="type">&#x3C;ArrayBuffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
@@ -2058,7 +2060,7 @@ without a callback.</p>
 <h4><code>zlib.zstdDecompressSync(buffer[, options])</code><span><a class="mark" href="#zlibzstddecompresssyncbuffer-options" id="zlibzstddecompresssyncbuffer-options">#</a></span><a aria-hidden="true" class="legacy" id="zlib_zlib_zstddecompresssync_buffer_options"></a></h4>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.8.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>buffer</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" class="type">&#x3C;ArrayBuffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>

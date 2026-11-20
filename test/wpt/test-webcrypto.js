@@ -1,5 +1,3 @@
-// Flags: --js-float16array
-// TODO(LiviaMedeiros): once `Float16Array` is unflagged in v8, remove the line above
 'use strict';
 
 const common = require('../common');
@@ -9,6 +7,19 @@ if (!common.hasCrypto)
 const { WPTRunner } = require('../common/wpt');
 
 const runner = new WPTRunner('WebCryptoAPI');
+
+runner.setInitScript(`
+if (Uint8Array.fromHex === undefined) {
+  Object.defineProperty(Uint8Array, 'fromHex', {
+    __proto__: null,
+    configurable: true,
+    writable: true,
+    value(hex) {
+      return new Uint8Array(Buffer.from(hex, 'hex'));
+    },
+  });
+}
+`);
 
 runner.pretendGlobalThisAs('Window');
 

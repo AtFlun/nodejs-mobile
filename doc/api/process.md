@@ -13,6 +13,8 @@ Node.js process.
 import process from 'node:process';
 ```
 
+<!-- eslint-disable no-restricted-syntax -->
+
 ```cjs
 const process = require('node:process');
 ```
@@ -62,8 +64,6 @@ console.log('This message is displayed first.');
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('beforeExit', (code) => {
   console.log('Process beforeExit event with code: ', code);
 });
@@ -120,8 +120,6 @@ process.on('exit', (code) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('exit', (code) => {
   console.log(`About to exit with code: ${code}`);
 });
@@ -143,8 +141,6 @@ process.on('exit', (code) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('exit', (code) => {
   setTimeout(() => {
     console.log('This will not run');
@@ -237,8 +233,6 @@ main().then(console.log);
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('multipleResolves', (type, promise, reason) => {
   console.error(type, promise, reason);
   setImmediate(() => process.exit(1));
@@ -310,8 +304,6 @@ process.on('rejectionHandled', (promise) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 const unhandledRejections = new Map();
 process.on('unhandledRejection', (reason, promise) => {
   unhandledRejections.set(promise, reason);
@@ -330,7 +322,9 @@ most convenient for scripts).
 ### Event: `'workerMessage'`
 
 <!-- YAML
-added: v22.5.0
+added:
+- v22.5.0
+- v20.19.0
 -->
 
 * `value` {any} A value transmitted using [`postMessageToThread()`][].
@@ -392,7 +386,6 @@ console.log('This will not run.');
 ```
 
 ```cjs
-const process = require('node:process');
 const fs = require('node:fs');
 
 process.on('uncaughtException', (err, origin) => {
@@ -481,8 +474,6 @@ nonexistentFunc();
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('uncaughtExceptionMonitor', (err, origin) => {
   MyMonitoringTool.logSync(err, origin);
 });
@@ -532,8 +523,6 @@ somePromise.then((res) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', promise, 'reason:', reason);
   // Application specific logging, throwing an error, or other logic here
@@ -560,8 +549,6 @@ const resource = new SomeResource();
 ```
 
 ```cjs
-const process = require('node:process');
-
 function SomeResource() {
   // Initially set the loaded status to a rejected promise
   this.loaded = Promise.reject(new Error('Resource not yet loaded!'));
@@ -613,8 +600,6 @@ process.on('warning', (warning) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('warning', (warning) => {
   console.warn(warning.name);    // Print the warning name
   console.warn(warning.message); // Print the warning message
@@ -692,6 +677,10 @@ A few of the warning types that are most common include:
 * `'TimeoutOverflowWarning'` - Indicates that a numeric value that cannot fit
   within a 32-bit signed integer has been provided to either the `setTimeout()`
   or `setInterval()` functions.
+* `'TimeoutNegativeWarning'` - Indicates that a negative number has provided to
+  either the `setTimeout()` or `setInterval()` functions.
+* `'TimeoutNaNWarning'` - Indicates that a value which is not a number has
+  provided to either the `setTimeout()` or `setInterval()` functions.
 * `'UnsupportedWarning'` - Indicates use of an unsupported option or feature
   that will be ignored rather than treated as an error. One example is use of
   the HTTP response status message when using the HTTP/2 compatibility API.
@@ -746,8 +735,6 @@ process.on('SIGTERM', handle);
 ```
 
 ```cjs
-const process = require('node:process');
-
 // Begin reading from stdin so the process does not exit.
 process.stdin.resume();
 
@@ -892,7 +879,7 @@ added: v0.5.0
 
 The operating system CPU architecture for which the Node.js binary was compiled.
 Possible values are: `'arm'`, `'arm64'`, `'ia32'`, `'loong64'`, `'mips'`,
-`'mipsel'`, `'ppc'`, `'ppc64'`, `'riscv64'`, `'s390'`, `'s390x'`, and `'x64'`.
+`'mipsel'`, `'ppc64'`, `'riscv64'`, `'s390'`, `'s390x'`, and `'x64'`.
 
 ```mjs
 import { arch } from 'node:process';
@@ -979,9 +966,11 @@ $ bash -c 'exec -a customArgv0 ./node'
 ## `process.availableMemory()`
 
 <!-- YAML
-added: v22.0.0
+added:
+  - v22.0.0
+  - v20.13.0
 changes:
-  - version: v22.16.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57765
     description: Change stability index for this feature from Experimental to Stable.
 -->
@@ -1097,30 +1086,28 @@ when running the `./configure` script.
 
 An example of the possible output looks like:
 
-<!-- eslint-skip -->
-
-```js
+```json
 {
-  target_defaults:
-   { cflags: [],
-     default_configuration: 'Release',
-     defines: [],
-     include_dirs: [],
-     libraries: [] },
-  variables:
+  "target_defaults":
+   { "cflags": [],
+     "default_configuration": "Release",
+     "defines": [],
+     "include_dirs": [],
+     "libraries": [] },
+  "variables":
    {
-     host_arch: 'x64',
-     napi_build_version: 5,
-     node_install_npm: 'true',
-     node_prefix: '',
-     node_shared_cares: 'false',
-     node_shared_http_parser: 'false',
-     node_shared_libuv: 'false',
-     node_shared_zlib: 'false',
-     node_use_openssl: 'true',
-     node_shared_openssl: 'false',
-     target_arch: 'x64',
-     v8_use_snapshot: 1
+     "host_arch": "x64",
+     "napi_build_version": 5,
+     "node_install_npm": "true",
+     "node_prefix": "",
+     "node_shared_cares": "false",
+     "node_shared_http_parser": "false",
+     "node_shared_libuv": "false",
+     "node_shared_zlib": "false",
+     "node_use_openssl": "true",
+     "node_shared_openssl": "false",
+     "target_arch": "x64",
+     "v8_use_snapshot": 1
    }
 }
 ```
@@ -1148,10 +1135,12 @@ added:
   - v19.6.0
   - v18.15.0
 changes:
-  - version: v22.16.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57765
     description: Change stability index for this feature from Experimental to Stable.
-  - version: v22.0.0
+  - version:
+    - v22.0.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52039
     description: Aligned return value with `uv_get_constrained_memory`.
 -->
@@ -1254,8 +1243,6 @@ process.debugPort = 5858;
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.debugPort = 5858;
 ```
 
@@ -1392,8 +1379,6 @@ process.on('warning', (warning) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('warning', (warning) => {
   console.warn(warning.name);    // 'Warning'
   console.warn(warning.message); // 'Something happened!'
@@ -1485,8 +1470,6 @@ process.on('warning', (warning) => {
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('warning', (warning) => {
   console.warn(warning.name);
   console.warn(warning.message);
@@ -1598,20 +1581,18 @@ See environ(7).
 
 An example of this object looks like:
 
-<!-- eslint-skip -->
-
-```js
+```json
 {
-  TERM: 'xterm-256color',
-  SHELL: '/usr/local/bin/bash',
-  USER: 'maciej',
-  PATH: '~/.bin/:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
-  PWD: '/Users/maciej',
-  EDITOR: 'vim',
-  SHLVL: '1',
-  HOME: '/Users/maciej',
-  LOGNAME: 'maciej',
-  _: '/usr/local/bin/node'
+  "TERM": "xterm-256color",
+  "SHELL": "/usr/local/bin/bash",
+  "USER": "maciej",
+  "PATH": "~/.bin/:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin",
+  "PWD": "/Users/maciej",
+  "EDITOR": "vim",
+  "SHLVL": "1",
+  "HOME": "/Users/maciej",
+  "LOGNAME": "maciej",
+  "_": "/usr/local/bin/node"
 }
 ```
 
@@ -1740,10 +1721,8 @@ Results in `process.execArgv`:
 
 And `process.argv`:
 
-<!-- eslint-disable @stylistic/js/semi -->
-
-```js
-['/usr/local/bin/node', 'script.js', '--version']
+```json
+["/usr/local/bin/node", "script.js", "--version"]
 ```
 
 Refer to [`Worker` constructor][] for the detailed behavior of worker
@@ -1760,16 +1739,16 @@ added: v0.1.100
 The `process.execPath` property returns the absolute pathname of the executable
 that started the Node.js process. Symbolic links, if any, are resolved.
 
-<!-- eslint-disable @stylistic/js/semi -->
-
-```js
-'/usr/local/bin/node'
+```json
+"/usr/local/bin/node"
 ```
 
 ## `process.execve(file[, args[, env]])`
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.11.0
+  - v22.15.0
 -->
 
 > Stability: 1 - Experimental
@@ -1884,8 +1863,6 @@ if (someConditionNotMet()) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 // How to properly set the exit code while letting
 // the process exit gracefully.
 if (someConditionNotMet()) {
@@ -1976,7 +1953,9 @@ A boolean value that is `true` if the current Node.js build includes the inspect
 
 <!-- YAML
 added: v0.5.3
-deprecated: v22.13.0
+deprecated:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 0 - Deprecated. This property is always true, and any checks based on it are
@@ -1991,7 +1970,10 @@ Since all Node.js builds have IPv6 support, this value is always `true`.
 ## `process.features.require_module`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
+ - v20.19.0
 -->
 
 * Type: {boolean}
@@ -2013,7 +1995,9 @@ A boolean value that is `true` if the current Node.js build includes support for
 
 <!-- YAML
 added: v4.8.0
-deprecated: v22.13.0
+deprecated:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -2029,7 +2013,9 @@ This value is therefore identical to that of `process.features.tls`.
 
 <!-- YAML
 added: v0.11.13
-deprecated: v22.13.0
+deprecated:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -2045,7 +2031,9 @@ This value is therefore identical to that of `process.features.tls`.
 
 <!-- YAML
 added: v0.5.3
-deprecated: v22.13.0
+deprecated:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -2060,7 +2048,13 @@ This value is therefore identical to that of `process.features.tls`.
 ## `process.features.typescript`
 
 <!-- YAML
-added: v22.10.0
+added:
+ - v23.0.0
+ - v22.10.0
+changes:
+  - version: v24.12.0
+    pr-url: https://github.com/nodejs/node/pull/60600
+    description: Type stripping is now stable.
 -->
 
 > Stability: 1.2 - Release candidate
@@ -2069,13 +2063,15 @@ added: v22.10.0
 
 A value that is `"strip"` by default,
 `"transform"` if Node.js is run with `--experimental-transform-types`, and `false` if
-Node.js is run with `--no-experimental-strip-types`.
+Node.js is run with `--no-strip-types`.
 
 ## `process.features.uv`
 
 <!-- YAML
 added: v0.5.3
-deprecated: v22.13.0
+deprecated:
+  - v23.4.0
+  - v22.13.0
 -->
 
 > Stability: 0 - Deprecated. This property is always true, and any checks based on it are
@@ -2307,7 +2303,7 @@ added:
   - v17.3.0
   - v16.14.0
 changes:
-  - version: v22.16.0
+  - version: v24.0.0
     pr-url: https://github.com/nodejs/node/pull/57765
     description: Change stability index for this feature from Experimental to Stable.
 -->
@@ -2345,7 +2341,9 @@ console.log('After:', getActiveResourcesInfo());
 ## `process.getBuiltinModule(id)`
 
 <!-- YAML
-added: v22.3.0
+added:
+- v22.3.0
+- v20.16.0
 -->
 
 * `id` {string} ID of the built-in module being requested.
@@ -2400,8 +2398,6 @@ if (process.getegid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getegid) {
   console.log(`Current gid: ${process.getegid()}`);
 }
@@ -2430,8 +2426,6 @@ if (process.geteuid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.geteuid) {
   console.log(`Current uid: ${process.geteuid()}`);
 }
@@ -2460,8 +2454,6 @@ if (process.getgid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getgid) {
   console.log(`Current gid: ${process.getgid()}`);
 }
@@ -2491,8 +2483,6 @@ if (process.getgroups) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getgroups) {
   console.log(process.getgroups()); // [ 16, 21, 297 ]
 }
@@ -2521,8 +2511,6 @@ if (process.getuid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getuid) {
   console.log(`Current uid: ${process.getuid()}`);
 }
@@ -2727,8 +2715,6 @@ kill(process.pid, 'SIGHUP');
 ```
 
 ```cjs
-const process = require('node:process');
-
 process.on('SIGHUP', () => {
   console.log('Got SIGHUP signal.');
 });
@@ -2751,7 +2737,7 @@ added:
   - v21.7.0
   - v20.12.0
 changes:
-  - version: v22.21.0
+  - version: v24.10.0
     pr-url: https://github.com/nodejs/node/pull/59925
     description: This API is no longer experimental.
 -->
@@ -2909,7 +2895,9 @@ console.log(memoryUsage.rss());
 <!-- YAML
 added: v0.1.26
 changes:
-  - version: v22.7.0
+  - version:
+    - v22.7.0
+    - v20.18.0
     pr-url: https://github.com/nodejs/node/pull/51280
     description: Changed stability to Legacy.
   - version: v18.0.0
@@ -3289,7 +3277,9 @@ console.log(`The parent process is pid ${ppid}`);
 ## `process.ref(maybeRefable)`
 
 <!-- YAML
-added: v22.14.0
+added:
+  - v23.6.0
+  - v22.14.0
 -->
 
 > Stability: 1 - Experimental
@@ -3343,15 +3333,13 @@ tarball.
   * `'Hydrogen'` for the 18.x LTS line beginning with 18.12.0.
     For other LTS Release code names, see [Node.js Changelog Archive](https://github.com/nodejs/node/blob/HEAD/doc/changelogs/CHANGELOG_ARCHIVE.md)
 
-<!-- eslint-skip -->
-
-```js
+```json
 {
-  name: 'node',
-  lts: 'Hydrogen',
-  sourceUrl: 'https://nodejs.org/download/release/v18.12.0/node-v18.12.0.tar.gz',
-  headersUrl: 'https://nodejs.org/download/release/v18.12.0/node-v18.12.0-headers.tar.gz',
-  libUrl: 'https://nodejs.org/download/release/v18.12.0/win-x64/node.lib'
+  "name": "node",
+  "lts": "Hydrogen",
+  "sourceUrl": "https://nodejs.org/download/release/v18.12.0/node-v18.12.0.tar.gz",
+  "headersUrl": "https://nodejs.org/download/release/v18.12.0/node-v18.12.0-headers.tar.gz",
+  "libUrl": "https://nodejs.org/download/release/v18.12.0/win-x64/node.lib"
 }
 ```
 
@@ -3600,7 +3588,9 @@ console.log(`Report on exception: ${report.reportOnUncaughtException}`);
 ### `process.report.excludeEnv`
 
 <!-- YAML
-added: v22.13.0
+added:
+  - v23.3.0
+  - v22.13.0
 -->
 
 * Type: {boolean}
@@ -3835,8 +3825,6 @@ if (process.getegid && process.setegid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getegid && process.setegid) {
   console.log(`Current gid: ${process.getegid()}`);
   try {
@@ -3880,8 +3868,6 @@ if (process.geteuid && process.seteuid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.geteuid && process.seteuid) {
   console.log(`Current uid: ${process.geteuid()}`);
   try {
@@ -3925,8 +3911,6 @@ if (process.getgid && process.setgid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getgid && process.setgid) {
   console.log(`Current gid: ${process.getgid()}`);
   try {
@@ -3970,8 +3954,6 @@ if (process.getgroups && process.setgroups) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getgroups && process.setgroups) {
   try {
     process.setgroups([501]);
@@ -4014,8 +3996,6 @@ if (process.getuid && process.setuid) {
 ```
 
 ```cjs
-const process = require('node:process');
-
 if (process.getuid && process.setuid) {
   console.log(`Current uid: ${process.getuid()}`);
   try {
@@ -4259,11 +4239,11 @@ Thrown:
 ## `process.threadCpuUsage([previousValue])`
 
 <!-- YAML
-added: v22.19.0
+added: v23.9.0
 -->
 
 * `previousValue` {Object} A previous return value from calling
-  `process.cpuUsage()`
+  `process.threadCpuUsage()`
 * Returns: {Object}
   * `user` {integer}
   * `system` {integer}
@@ -4291,7 +4271,7 @@ When a new value is assigned, different platforms will impose different maximum
 length restrictions on the title. Usually such restrictions are quite limited.
 For instance, on Linux and macOS, `process.title` is limited to the size of the
 binary name plus the length of the command-line arguments because setting the
-`process.title` overwrites the `argv` memory of the process. Node.js v0.8
+`process.title` overwrites the `argv` memory of the process. Node.js 0.8
 allowed for longer process title strings by also overwriting the `environ`
 memory but that was potentially insecure and confusing in some (rather obscure)
 cases.
@@ -4393,7 +4373,9 @@ In [`Worker`][] threads, `process.umask(mask)` will throw an exception.
 ## `process.unref(maybeRefable)`
 
 <!-- YAML
-added: v22.14.0
+added:
+  - v23.6.0
+  - v22.14.0
 -->
 
 > Stability: 1 - Experimental
@@ -4485,32 +4467,35 @@ console.log(versions);
 Will generate an object similar to:
 
 ```console
-{ node: '23.0.0',
-  acorn: '8.11.3',
-  ada: '2.7.8',
-  ares: '1.28.1',
-  base64: '0.5.2',
-  brotli: '1.1.0',
-  cjs_module_lexer: '1.2.2',
-  cldr: '45.0',
-  icu: '75.1',
-  llhttp: '9.2.1',
-  modules: '127',
-  napi: '9',
-  nghttp2: '1.61.0',
-  nghttp3: '0.7.0',
-  ngtcp2: '1.3.0',
-  openssl: '3.0.13+quic',
-  simdjson: '3.8.0',
-  simdutf: '5.2.4',
-  sqlite: '3.46.0',
-  tz: '2024a',
-  undici: '6.13.0',
-  unicode: '15.1',
-  uv: '1.48.0',
-  uvwasi: '0.0.20',
-  v8: '12.4.254.14-node.11',
-  zlib: '1.3.0.1-motley-7d77fb7' }
+{ node: '26.0.0-pre',
+  acorn: '8.15.0',
+  ada: '3.4.1',
+  amaro: '1.1.5',
+  ares: '1.34.6',
+  brotli: '1.2.0',
+  merve: '1.0.0',
+  cldr: '48.0',
+  icu: '78.2',
+  llhttp: '9.3.0',
+  modules: '144',
+  napi: '10',
+  nbytes: '0.1.1',
+  ncrypto: '0.0.1',
+  nghttp2: '1.68.0',
+  nghttp3: '',
+  ngtcp2: '',
+  openssl: '3.5.4',
+  simdjson: '4.2.4',
+  simdutf: '7.3.3',
+  sqlite: '3.51.2',
+  tz: '2025c',
+  undici: '7.18.2',
+  unicode: '17.0',
+  uv: '1.51.0',
+  uvwasi: '0.0.23',
+  v8: '14.3.127.18-node.10',
+  zlib: '1.3.1-e00f703',
+  zstd: '1.5.7' }
 ```
 
 ## Exit codes
@@ -4604,7 +4589,7 @@ cases:
 [`net.Server`]: net.md#class-netserver
 [`net.Socket`]: net.md#class-netsocket
 [`os.constants.dlopen`]: os.md#dlopen-constants
-[`postMessageToThread()`]: worker_threads.md#workerpostmessagetothreadthreadid-value-transferlist-timeout
+[`postMessageToThread()`]: worker_threads.md#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout
 [`process.argv`]: #processargv
 [`process.config`]: #processconfig
 [`process.execPath`]: #processexecpath

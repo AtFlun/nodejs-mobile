@@ -57,7 +57,8 @@ struct Argv {
 
 using ArrayBufferUniquePtr = std::unique_ptr<node::ArrayBufferAllocator,
       decltype(&node::FreeArrayBufferAllocator)>;
-using TracingAgentUniquePtr = std::unique_ptr<node::tracing::Agent>;
+using TracingAgentUniquePtr =
+    std::unique_ptr<node::tracing::Agent, node::tracing::Agent::Deleter>;
 using NodePlatformUniquePtr = std::unique_ptr<node::NodePlatform>;
 
 class NodeTestEnvironment final : public ::testing::Environment {
@@ -123,8 +124,7 @@ class NodeTestFixture : public NodeZeroIsolateTestFixture {
   void TearDown() override {
     platform->DrainTasks(isolate_);
     isolate_->Exit();
-    platform->UnregisterIsolate(isolate_);
-    isolate_->Dispose();
+    platform->DisposeIsolate(isolate_);
     isolate_ = nullptr;
     NodeZeroIsolateTestFixture::TearDown();
   }

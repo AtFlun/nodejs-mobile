@@ -4,7 +4,7 @@ const common = require('../common');
 const fixtures = require('../common/fixtures');
 const assert = require('assert');
 const { builtinModules } = require('module');
-const publicModules = builtinModules.filter((lib) => !lib.startsWith('_'));
+const publicUnprefixedModules = builtinModules.filter((lib) => !lib.startsWith('_') && !lib.startsWith('node:'));
 
 const { isMainThread } = require('worker_threads');
 
@@ -24,7 +24,7 @@ const { replServer, input } = startNewREPLServer();
 
 // Tab complete provides built in libs for import()
 replServer.complete('import(\'', common.mustSucceed((data) => {
-  publicModules.forEach((lib) => {
+  publicUnprefixedModules.forEach((lib) => {
     assert(
       data[0].includes(lib) && data[0].includes(`node:${lib}`),
       `${lib} not found`,
@@ -47,7 +47,7 @@ replServer.complete("import\t( 'n", common.mustSucceed((data) => {
   // import(...) completions include `node:` URL modules:
   let lastIndex = -1;
 
-  publicModules.forEach((lib, index) => {
+  publicUnprefixedModules.forEach((lib, index) => {
     lastIndex = completions.indexOf(`node:${lib}`);
     assert.notStrictEqual(lastIndex, -1);
   });
@@ -56,9 +56,9 @@ replServer.complete("import\t( 'n", common.mustSucceed((data) => {
   assert.strictEqual(completions[lastIndex + 2], 'net');
   assert.strictEqual(completions[lastIndex + 3], '');
   // It's possible to pick up non-core modules too
-  completions.slice(lastIndex + 4).forEach((completion) => {
+  for (const completion of completions.slice(lastIndex + 4)) {
     assert.match(completion, /^n/);
-  });
+  }
 }));
 
 {

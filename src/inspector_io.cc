@@ -7,6 +7,7 @@
 #include "inspector/node_json.h"
 #include "inspector/node_string.h"
 #include "inspector/target_agent.h"
+#include "inspector/target_manager.h"
 #include "inspector_socket_server.h"
 #include "ncrypto.h"
 #include "node.h"
@@ -286,6 +287,11 @@ void InspectorIo::ThreadMain(void* io) {
 }
 
 void InspectorIo::ThreadMain() {
+  int thread_name_error = uv_thread_setname("InspectorIo");
+  if (!thread_name_error) [[unlikely]] {
+    per_process::Debug(node::DebugCategory::INSPECTOR_SERVER,
+                       "Failed to set thread name for Inspector\n");
+  }
   uv_loop_t loop;
   loop.data = nullptr;
   int err = uv_loop_init(&loop);
@@ -348,6 +354,9 @@ std::optional<std::string> InspectorIoDelegate::GetTargetSessionId(
   std::string_view view(message.data(), message.size());
   std::unique_ptr<protocol::DictionaryValue> value =
       protocol::DictionaryValue::cast(JsonUtil::parseJSON(view));
+  if (!value) {
+    return std::nullopt;
+  }
   protocol::String target_session_id;
   protocol::Value* target_session_id_value = value->get("sessionId");
   if (target_session_id_value) {
@@ -372,8 +381,7 @@ void InspectorIoDelegate::MessageReceived(int session_id,
                                  ::isdigit);
     if (is_number) {
       int target_session_id = std::stoi(*target_session_id_str);
-      worker = protocol::TargetAgent::target_session_id_worker_map_
-          [target_session_id];
+      worker = TargetManager::WorkerForSession(target_session_id);
       if (worker) {
         merged_session_id += target_session_id << 16;
       }

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Modules: CommonJS modules | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Modules: CommonJS modules | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="modules" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -141,7 +141,7 @@
 <li><a href="#enabling">Enabling</a></li>
 <li><a href="#accessing-the-main-module">Accessing the main module</a></li>
 <li><a href="#package-manager-tips">Package manager tips</a></li>
-<li><span class="stability_1.2"><a href="#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a></span></li>
+<li><a href="#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a></li>
 <li><a href="#all-together">All together</a></li>
 <li><a href="#caching">Caching</a>
 <ul>
@@ -353,7 +353,7 @@
 <li><a href="#enabling">Enabling</a></li>
 <li><a href="#accessing-the-main-module">Accessing the main module</a></li>
 <li><a href="#package-manager-tips">Package manager tips</a></li>
-<li><span class="stability_1.2"><a href="#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a></span></li>
+<li><a href="#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a></li>
 <li><a href="#all-together">All together</a></li>
 <li><a href="#caching">Caching</a>
 <ul>
@@ -550,18 +550,19 @@ relative, and based on the real path of the files making the calls to
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
-<td><p>This feature no longer emits an experimental warning by default, though the warning can still be emitted by --trace-require-module.</p></td></tr>
+<tr><td>v24.15.0</td>
+<td><p>This feature is no longer experimental.</p></td></tr>
 <tr><td>v23.0.0, v22.12.0</td>
-<td><p>This feature is no longer behind the <code>--experimental-require-module</code> CLI flag.</p></td></tr>
-<tr><td>v22.12.0</td>
 <td><p>Support <code>'module.exports'</code> interop export in <code>require(esm)</code>.</p></td></tr>
-<tr><td>v22.0.0</td>
-<td><p><span>Added in: v22.0.0</span></p></td></tr>
+<tr><td>v23.5.0, v22.13.0, v20.19.0</td>
+<td><p>This feature no longer emits an experimental warning by default, though the warning can still be emitted by --trace-require-module.</p></td></tr>
+<tr><td>v23.0.0, v22.12.0, v20.19.0</td>
+<td><p>This feature is no longer behind the <code>--experimental-require-module</code> CLI flag.</p></td></tr>
+<tr><td>v22.0.0, v20.17.0</td>
+<td><p><span>Added in: v22.0.0, v20.17.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.2</a> - Release candidate</div><p></p>
 <p>The <code>.mjs</code> extension is reserved for <a href="esm.html">ECMAScript Modules</a>.
 See <a href="packages.html#determining-module-system">Determining module system</a> section for more info
 regarding which files are parsed as ECMAScript modules.</p>
@@ -613,7 +614,6 @@ conventions. Code authored directly in CommonJS should avoid depending on it.</p
 the default export in the <code>.default</code> property, similar to the results returned by <code>import()</code>.
 To customize what should be returned by <code>require(esm)</code> directly, the ES Module can export the
 desired value using the string name <code>"module.exports"</code>.</p>
-<!-- eslint-disable @stylistic/js/semi -->
 <pre><code class="language-js mjs"><span class="hljs-comment">// point.mjs</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">x, y</span>) { <span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> = x; <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> = y; }
@@ -622,7 +622,7 @@ desired value using the string name <code>"module.exports"</code>.</p>
 <span class="hljs-comment">// `distance` is lost to CommonJS consumers of this module, unless it's</span>
 <span class="hljs-comment">// added to `Point` as a static property.</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">distance</span>(<span class="hljs-params">a, b</span>) { <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">sqrt</span>((b.<span class="hljs-property">x</span> - a.<span class="hljs-property">x</span>) ** <span class="hljs-number">2</span> + (b.<span class="hljs-property">y</span> - a.<span class="hljs-property">y</span>) ** <span class="hljs-number">2</span>); }
-<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Point</span> <span class="hljs-keyword">as</span> <span class="hljs-string">'module.exports'</span> }</code> <button class="copy-button">copy</button></pre>
+<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Point</span> <span class="hljs-keyword">as</span> <span class="hljs-string">'module.exports'</span> };</code> <button class="copy-button">copy</button></pre>
 <!-- eslint-disable node-core/no-duplicate-requires -->
 <pre><code class="language-js cjs"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Point</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./point.mjs'</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Point</span>); <span class="hljs-comment">// [class Point]</span>
@@ -631,11 +631,10 @@ desired value using the string name <code>"module.exports"</code>.</p>
 <span class="hljs-keyword">const</span> { distance } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./point.mjs'</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(distance); <span class="hljs-comment">// undefined</span></code> <button class="copy-button">copy</button></pre>
 <p>Notice in the example above, when the <code>module.exports</code> export name is used, named exports
-will be lost to CommonJS consumers. To allow  CommonJS consumers to continue accessing
+will be lost to CommonJS consumers. To allow CommonJS consumers to continue accessing
 named exports, the module can make sure that the default export is an object with the
 named exports attached to it as properties. For example with the example above,
 <code>distance</code> can be attached to the default export, the <code>Point</code> class, as a static method.</p>
-<!-- eslint-disable @stylistic/js/semi -->
 <pre><code class="language-js mjs"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">distance</span>(<span class="hljs-params">a, b</span>) { <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">sqrt</span>((b.<span class="hljs-property">x</span> - a.<span class="hljs-property">x</span>) ** <span class="hljs-number">2</span> + (b.<span class="hljs-property">y</span> - a.<span class="hljs-property">y</span>) ** <span class="hljs-number">2</span>); }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span> {
@@ -643,7 +642,7 @@ named exports attached to it as properties. For example with the example above,
   <span class="hljs-keyword">static</span> distance = distance;
 }
 
-<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Point</span> <span class="hljs-keyword">as</span> <span class="hljs-string">'module.exports'</span> }</code> <button class="copy-button">copy</button></pre>
+<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Point</span> <span class="hljs-keyword">as</span> <span class="hljs-string">'module.exports'</span> };</code> <button class="copy-button">copy</button></pre>
 <!-- eslint-disable node-core/no-duplicate-requires -->
 <pre><code class="language-js cjs"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Point</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./point.mjs'</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Point</span>); <span class="hljs-comment">// [class Point]</span>
@@ -658,8 +657,8 @@ load the asynchronous module using <a href="https://developer.mozilla.org/en-US/
 <code>ERR_REQUIRE_ASYNC_MODULE</code> before evaluation, Node.js will evaluate the
 module, try to locate the top-level awaits, and print their location to
 help users fix them.</p>
-<p>Support for loading ES modules using <code>require()</code> is currently
-experimental and can be disabled using <code>--no-experimental-require-module</code>.
+<p>If support for loading ES modules using <code>require()</code> results in unexpected
+breakage, it can be disabled using <code>--no-require-module</code>.
 To print where this feature is used, use <a href="cli.html#--trace-require-modulemode"><code>--trace-require-module</code></a>.</p>
 <p>This feature can be detected by checking if
 <a href="process.html#processfeaturesrequire_module"><code>process.features.require_module</code></a> is <code>true</code>.</p>
@@ -688,8 +687,7 @@ in pseudocode of what <code>require()</code> does:</p>
 MAYBE_DETECT_AND_LOAD(X)
 1. If X parses as a CommonJS module, load X as a CommonJS module. STOP.
 2. Else, if the source code of X can be parsed as ECMAScript module using
-  &#x3C;a href="esm.md#resolver-algorithm-specification">DETECT_MODULE_SYNTAX defined in
-  the ESM resolver&#x3C;/a>,
+  DETECT_MODULE_SYNTAX defined in the ESM resolver,
   a. Load X as an ECMAScript module. STOP.
 3. THROW the SyntaxError from attempting to parse X as CommonJS in 1. STOP.
 
@@ -749,11 +747,11 @@ LOAD_PACKAGE_IMPORTS(X, DIR)
 1. Find the closest package scope SCOPE to DIR.
 2. If no scope was found, return.
 3. If the SCOPE/package.json "imports" is null or undefined, return.
-4. If `--experimental-require-module` is enabled
+4. If `--no-require-module` is not enabled
   a. let CONDITIONS = ["node", "require", "module-sync"]
   b. Else, let CONDITIONS = ["node", "require"]
 5. let MATCH = PACKAGE_IMPORTS_RESOLVE(X, pathToFileURL(SCOPE),
-  CONDITIONS) &#x3C;a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver&#x3C;/a>.
+  CONDITIONS) defined in the ESM resolver.
 6. RESOLVE_ESM_MATCH(MATCH).
 
 LOAD_PACKAGE_EXPORTS(X, DIR)
@@ -763,11 +761,11 @@ LOAD_PACKAGE_EXPORTS(X, DIR)
    return.
 3. Parse DIR/NAME/package.json, and look for "exports" field.
 4. If "exports" is null or undefined, return.
-5. If `--experimental-require-module` is enabled
+5. If `--no-require-module` is not enabled
   a. let CONDITIONS = ["node", "require", "module-sync"]
   b. Else, let CONDITIONS = ["node", "require"]
 6. let MATCH = PACKAGE_EXPORTS_RESOLVE(pathToFileURL(DIR/NAME), "." + SUBPATH,
-   `package.json` "exports", CONDITIONS) &#x3C;a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver&#x3C;/a>.
+   `package.json` "exports", CONDITIONS) defined in the ESM resolver.
 7. RESOLVE_ESM_MATCH(MATCH)
 
 LOAD_PACKAGE_SELF(X, DIR)
@@ -777,7 +775,7 @@ LOAD_PACKAGE_SELF(X, DIR)
 4. If the SCOPE/package.json "name" is not the first segment of X, return.
 5. let MATCH = PACKAGE_EXPORTS_RESOLVE(pathToFileURL(SCOPE),
    "." + X.slice("name".length), `package.json` "exports", ["node", "require"])
-   &#x3C;a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver&#x3C;/a>.
+   defined in the ESM resolver.
 6. RESOLVE_ESM_MATCH(MATCH)
 
 RESOLVE_ESM_MATCH(MATCH)
@@ -785,6 +783,7 @@ RESOLVE_ESM_MATCH(MATCH)
 2. If the file at RESOLVED_PATH exists, load RESOLVED_PATH as its extension
    format. STOP
 3. THROW "not found"</code> <button class="copy-button">copy</button></pre>
+<p>The "ESM resolver" is defined <a href="esm.html#resolution-and-loading-algorithm">in the ESM documentation</a>.</p>
 </section><section><h3>Caching<span><a class="mark" href="#caching" id="caching">#</a></span><a aria-hidden="true" class="legacy" id="modules_caching"></a></h3>
 
 <p>Modules are cached after the first time they are loaded. This means (among other
@@ -830,9 +829,10 @@ always return the built in HTTP module, even if there is <code>require.cache</co
 by that name.</p>
 <p>Some built-in modules are always preferentially loaded if their identifier is
 passed to <code>require()</code>. For instance, <code>require('http')</code> will always
-return the built-in HTTP module, even if there is a file by that name. The list
-of built-in modules that can be loaded without using the <code>node:</code> prefix is exposed
-as <a href="module.html#modulebuiltinmodules"><code>module.builtinModules</code></a>.</p>
+return the built-in HTTP module, even if there is a file by that name.</p>
+<p>The list of all the built-in modules can be retrieved from <a href="module.html#modulebuiltinmodules"><code>module.builtinModules</code></a>.
+The modules being all listed without the <code>node:</code> prefix, except those that mandate such
+prefix (as explained in the next section).</p>
 <div>
 <h4>Built-in modules with mandatory <code>node:</code> prefix<span><a class="mark" href="#built-in-modules-with-mandatory-node-prefix" id="built-in-modules-with-mandatory-node-prefix">#</a></span><a aria-hidden="true" class="legacy" id="modules_built_in_modules_with_mandatory_node_prefix"></a></h4>
 <p>When being loaded by <code>require()</code>, some built-in modules must be requested with the
@@ -845,6 +845,7 @@ taken the name. Currently the built-in modules that requires the <code>node:</co
 <li><a href="test.html"><code>node:test</code></a></li>
 <li><a href="test.html#test-reporters"><code>node:test/reporters</code></a></li>
 </ul>
+<p>The list of these modules is exposed in <a href="module.html#modulebuiltinmodules"><code>module.builtinModules</code></a>, including the prefix.</p>
 </div>
 </section><section><h3>Cycles<span><a class="mark" href="#cycles" id="cycles">#</a></span><a aria-hidden="true" class="legacy" id="modules_cycles"></a></h3>
 

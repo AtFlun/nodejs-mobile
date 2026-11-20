@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>HTTP | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>HTTP | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="http" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -140,6 +140,7 @@
 <ul>
 <li><a href="#class-httpagent">Class: <code>http.Agent</code></a>
 <ul>
+<li><a href="#response-ordering-with-connection-reuse">Response ordering with connection reuse</a></li>
 <li><a href="#new-agentoptions"><code>new Agent([options])</code></a></li>
 <li><a href="#agentcreateconnectionoptions-callback"><code>agent.createConnection(options[, callback])</code></a></li>
 <li><a href="#agentkeepsocketalivesocket"><code>agent.keepSocketAlive(socket)</code></a></li>
@@ -225,7 +226,7 @@
 <li><a href="#servertimeout"><code>server.timeout</code></a></li>
 <li><a href="#serverkeepalivetimeout"><code>server.keepAliveTimeout</code></a></li>
 <li><a href="#serverkeepalivetimeoutbuffer"><code>server.keepAliveTimeoutBuffer</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-httpserverresponse">Class: <code>http.ServerResponse</code></a>
@@ -259,6 +260,7 @@
 <li><a href="#responsewritecontinue"><code>response.writeContinue()</code></a></li>
 <li><a href="#responsewriteearlyhintshints-callback"><code>response.writeEarlyHints(hints[, callback])</code></a></li>
 <li><a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead(statusCode[, statusMessage][, headers])</code></a></li>
+<li><a href="#responsewriteinformationstatuscode-headers-callback"><code>response.writeInformation(statusCode[, headers][, callback])</code></a></li>
 <li><a href="#responsewriteprocessing"><code>response.writeProcessing()</code></a></li>
 </ul>
 </li>
@@ -277,6 +279,7 @@
 <li><a href="#messagerawheaders"><code>message.rawHeaders</code></a></li>
 <li><a href="#messagerawtrailers"><code>message.rawTrailers</code></a></li>
 <li><a href="#messagesettimeoutmsecs-callback"><code>message.setTimeout(msecs[, callback])</code></a></li>
+<li><a href="#messagesignal"><code>message.signal</code></a></li>
 <li><a href="#messagesocket"><code>message.socket</code></a></li>
 <li><a href="#messagestatuscode"><code>message.statusCode</code></a></li>
 <li><a href="#messagestatusmessage"><code>message.statusMessage</code></a></li>
@@ -330,6 +333,7 @@
 <li><a href="#httpvalidateheadernamename-label"><code>http.validateHeaderName(name[, label])</code></a></li>
 <li><a href="#httpvalidateheadervaluename-value"><code>http.validateHeaderValue(name, value)</code></a></li>
 <li><a href="#httpsetmaxidlehttpparsersmax"><code>http.setMaxIdleHTTPParsers(max)</code></a></li>
+<li><a href="#httpsetglobalproxyfromenvproxyenv"><code>http.setGlobalProxyFromEnv([proxyEnv])</code></a></li>
 <li><a href="#class-websocket">Class: <code>WebSocket</code></a></li>
 <li><span class="stability_1.1"><a href="#built-in-proxy-support">Built-in Proxy Support</a></span>
 <ul>
@@ -491,6 +495,7 @@
 <ul>
 <li><a href="#class-httpagent">Class: <code>http.Agent</code></a>
 <ul>
+<li><a href="#response-ordering-with-connection-reuse">Response ordering with connection reuse</a></li>
 <li><a href="#new-agentoptions"><code>new Agent([options])</code></a></li>
 <li><a href="#agentcreateconnectionoptions-callback"><code>agent.createConnection(options[, callback])</code></a></li>
 <li><a href="#agentkeepsocketalivesocket"><code>agent.keepSocketAlive(socket)</code></a></li>
@@ -576,7 +581,7 @@
 <li><a href="#servertimeout"><code>server.timeout</code></a></li>
 <li><a href="#serverkeepalivetimeout"><code>server.keepAliveTimeout</code></a></li>
 <li><a href="#serverkeepalivetimeoutbuffer"><code>server.keepAliveTimeoutBuffer</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#class-httpserverresponse">Class: <code>http.ServerResponse</code></a>
@@ -610,6 +615,7 @@
 <li><a href="#responsewritecontinue"><code>response.writeContinue()</code></a></li>
 <li><a href="#responsewriteearlyhintshints-callback"><code>response.writeEarlyHints(hints[, callback])</code></a></li>
 <li><a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead(statusCode[, statusMessage][, headers])</code></a></li>
+<li><a href="#responsewriteinformationstatuscode-headers-callback"><code>response.writeInformation(statusCode[, headers][, callback])</code></a></li>
 <li><a href="#responsewriteprocessing"><code>response.writeProcessing()</code></a></li>
 </ul>
 </li>
@@ -628,6 +634,7 @@
 <li><a href="#messagerawheaders"><code>message.rawHeaders</code></a></li>
 <li><a href="#messagerawtrailers"><code>message.rawTrailers</code></a></li>
 <li><a href="#messagesettimeoutmsecs-callback"><code>message.setTimeout(msecs[, callback])</code></a></li>
+<li><a href="#messagesignal"><code>message.signal</code></a></li>
 <li><a href="#messagesocket"><code>message.socket</code></a></li>
 <li><a href="#messagestatuscode"><code>message.statusCode</code></a></li>
 <li><a href="#messagestatusmessage"><code>message.statusMessage</code></a></li>
@@ -681,6 +688,7 @@
 <li><a href="#httpvalidateheadernamename-label"><code>http.validateHeaderName(name[, label])</code></a></li>
 <li><a href="#httpvalidateheadervaluename-value"><code>http.validateHeaderValue(name, value)</code></a></li>
 <li><a href="#httpsetmaxidlehttpparsersmax"><code>http.setMaxIdleHTTPParsers(max)</code></a></li>
+<li><a href="#httpsetglobalproxyfromenvproxyenv"><code>http.setGlobalProxyFromEnv([proxyEnv])</code></a></li>
 <li><a href="#class-websocket">Class: <code>WebSocket</code></a></li>
 <li><span class="stability_1.1"><a href="#built-in-proxy-support">Built-in Proxy Support</a></span>
 <ul>
@@ -697,7 +705,7 @@
         <h2>HTTP<span><a class="mark" href="#http" id="http">#</a></span><a aria-hidden="true" class="legacy" id="http_http"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/http.js">lib/http.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/http.js">lib/http.js</a></p>
 <p>This module, containing both a client and server, can be imported via
 <code>require('node:http')</code> (CommonJS) or <code>import * as http from 'node:http'</code> (ES module).</p>
 <p>The HTTP interfaces in Node.js are designed to support many features
@@ -721,13 +729,12 @@ parse the actual headers or the body.</p>
 property, which is an array of <code>[key, value, key2, value2, ...]</code>. For
 example, the previous message header object might have a <code>rawHeaders</code>
 list like the following:</p>
-<!-- eslint-disable @stylistic/js/semi -->
-<pre><code class="language-js">[ <span class="hljs-string">'ConTent-Length'</span>, <span class="hljs-string">'123456'</span>,
-  <span class="hljs-string">'content-LENGTH'</span>, <span class="hljs-string">'123'</span>,
-  <span class="hljs-string">'content-type'</span>, <span class="hljs-string">'text/plain'</span>,
-  <span class="hljs-string">'CONNECTION'</span>, <span class="hljs-string">'keep-alive'</span>,
-  <span class="hljs-string">'Host'</span>, <span class="hljs-string">'example.com'</span>,
-  <span class="hljs-string">'accepT'</span>, <span class="hljs-string">'*/*'</span> ]</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">[</span> <span class="hljs-string">"ConTent-Length"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"123456"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"content-LENGTH"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"123"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"content-type"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"text/plain"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"CONNECTION"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"keep-alive"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"Host"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"example.com"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"accepT"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"*/*"</span> <span class="hljs-punctuation">]</span></code> <button class="copy-button">copy</button></pre>
 <section><h3>Class: <code>http.Agent</code><span><a class="mark" href="#class-httpagent" id="class-httpagent">#</a></span><a aria-hidden="true" class="legacy" id="http_class_http_agent"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.3.4</span>
@@ -746,6 +753,13 @@ that host and port. Servers may also refuse to allow multiple requests
 over the same connection, in which case the connection will have to be
 remade for every request and cannot be pooled. The <code>Agent</code> will still make
 the requests to that server, but each one will occur over a new connection.</p>
+<div>
+<h4>Response ordering with connection reuse<span><a class="mark" href="#response-ordering-with-connection-reuse" id="response-ordering-with-connection-reuse">#</a></span><a aria-hidden="true" class="legacy" id="http_response_ordering_with_connection_reuse"></a></h4>
+<p>On a reused HTTP/1.1 keep-alive connection, responses are associated with
+requests by their order on that connection. HTTP/1.1 keep-alive does not provide
+per-request response attribution beyond that ordering. Applications that require
+per-request connection isolation can use a separate <code>Agent</code>, disable keep-alive,
+or pass <code>agent: false</code>.</p>
 <p>When a connection is closed by the client or the server, it is removed
 from the pool. Any unused sockets in the pool will be unrefed so as not
 to keep the Node.js process running when there are no outstanding requests.
@@ -774,18 +788,19 @@ for the client connection.</p>
 }, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
   <span class="hljs-comment">// Do stuff with response</span>
 });</code> <button class="copy-button">copy</button></pre>
-<div>
+<p>Use <code>agent: false</code> to avoid connection reuse for a request.</p>
+</div><div>
 <h4><code>new Agent([options])</code><span><a class="mark" href="#new-agentoptions" id="new-agentoptions">#</a></span><a aria-hidden="true" class="legacy" id="http_new_agent_options"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
-<td><p>Add support for <code>proxyEnv</code>.</p></td></tr>
-<tr><td>v22.21.0</td>
-<td><p>Add support for <code>defaultPort</code> and <code>protocol</code>.</p></td></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>Add support for <code>agentKeepAliveTimeoutBuffer</code>.</p></td></tr>
+<tr><td>v24.5.0</td>
+<td><p>Add support for <code>proxyEnv</code>.</p></td></tr>
+<tr><td>v24.5.0</td>
+<td><p>Add support for <code>defaultPort</code> and <code>protocol</code>.</p></td></tr>
 <tr><td>v15.6.0, v14.17.0</td>
 <td><p>Change the default scheduling from 'fifo' to 'lifo'.</p></td></tr>
 <tr><td>v14.5.0, v12.20.0</td>
@@ -810,7 +825,7 @@ header is explicitly specified or when the <code>keepAlive</code> and <code>maxS
 options are respectively set to <code>false</code> and <code>Infinity</code>, in which case
 <code>Connection: close</code> will be used. <strong>Default:</strong> <code>false</code>.</li>
 <li><code>keepAliveMsecs</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> When using the <code>keepAlive</code> option, specifies
-the <a href="net.html#socketsetkeepaliveenable-initialdelay">initial delay</a>
+the <a href="net.html#socketsetkeepaliveenable-initialdelay-interval-count">initial delay</a>
 for TCP Keep-Alive packets. Ignored when the
 <code>keepAlive</code> option is <code>false</code> or <code>undefined</code>. <strong>Default:</strong> <code>1000</code>.</li>
 <li><code>agentKeepAliveTimeoutBuffer</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Milliseconds to subtract from
@@ -1540,7 +1555,8 @@ is finished.</p>
 </ul>
 <p>Destroy the request. Optionally emit an <code>'error'</code> event,
 and emit a <code>'close'</code> event. Calling this will cause remaining data
-in the response to be dropped and the socket to be destroyed.</p>
+in the response to be dropped, and the socket to be destroyed if used,
+or returned to the corresponding Agent pool otherwise if possible.</p>
 <p>See <a href="stream.html#writabledestroyerror"><code>writable.destroy()</code></a> for further details.</p>
 <div>
 <h5><code>request.destroyed</code><span><a class="mark" href="#requestdestroyed" id="requestdestroyed">#</a></span><a aria-hidden="true" class="legacy" id="http_request_destroyed"></a></h5>
@@ -1838,7 +1854,7 @@ request.<span class="hljs-title function_">setHeader</span>(<span class="hljs-st
 <li><code>initialDelay</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
 </ul>
 <p>Once a socket is assigned to this request and is connected
-<a href="net.html#socketsetkeepaliveenable-initialdelay"><code>socket.setKeepAlive()</code></a> will be called.</p>
+<a href="net.html#socketsetkeepalive"><code>socket.setKeepAlive()</code></a> will be called.</p>
 </div><div>
 <h4><code>request.setTimeout(timeout[, callback])</code><span><a class="mark" href="#requestsettimeouttimeout-callback" id="requestsettimeouttimeout-callback">#</a></span><a aria-hidden="true" class="legacy" id="http_request_settimeout_timeout_callback"></a></h4>
 <div class="api_metadata">
@@ -2005,7 +2021,7 @@ not be emitted.</p>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
 <tr><td>v12.0.0</td>
-<td><p>The default behavior will return a 431 Request Header Fields Too Large if a HPE_HEADER_OVERFLOW error occurs.</p></td></tr>
+<td><p>The default behavior will return a 431 Request Header Fields Too Large if an HPE_HEADER_OVERFLOW error occurs.</p></td></tr>
 <tr><td>v9.4.0</td>
 <td><p>The <code>rawPacket</code> is the current buffer that just parsed. Adding this buffer to the error object of <code>'clientError'</code> event is to make it possible that developers can log the broken packet.</p></td></tr>
 <tr><td>v6.0.0</td>
@@ -2027,8 +2043,8 @@ custom HTTP response instead of abruptly severing the connection. The socket
 <p>This event is guaranteed to be passed an instance of the <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a> class,
 a subclass of <a href="stream.html#class-streamduplex" class="type">&#x3C;stream.Duplex></a>, unless the user specifies a socket
 type other than <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a>.</p>
-<p>Default behavior is to try close the socket with a HTTP '400 Bad Request',
-or a HTTP '431 Request Header Fields Too Large' in the case of a
+<p>Default behavior is to try close the socket with an HTTP '400 Bad Request',
+or an HTTP '431 Request Header Fields Too Large' in the case of an
 <a href="errors.html#hpe_header_overflow"><code>HPE_HEADER_OVERFLOW</code></a> error. If the socket is not writable or headers
 of the current attached <a href="#class-httpserverresponse"><code>http.ServerResponse</code></a> has been sent, it is
 immediately destroyed.</p>
@@ -2149,7 +2165,7 @@ per connection (in the case of HTTP Keep-Alive connections).</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.9.0</td>
 <td><p>Whether this event is fired can now be controlled by the <code>shouldUpgradeCallback</code> and sockets will be destroyed if upgraded while no event handler is listening.</p></td></tr>
 <tr><td>v10.0.0</td>
 <td><p>Not listening to this event no longer causes the socket to be destroyed if a client sends an Upgrade header.</p></td></tr>
@@ -2441,7 +2457,7 @@ affects new connections to the server, not any existing connections.</p>
 </div><div>
 <h4><code>server.keepAliveTimeoutBuffer</code><span><a class="mark" href="#serverkeepalivetimeoutbuffer" id="serverkeepalivetimeoutbuffer">#</a></span><a aria-hidden="true" class="legacy" id="http_server_keepalivetimeoutbuffer"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.19.0</span>
+<span>Added in: v24.6.0</span>
 </div>
 <ul>
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Timeout in milliseconds. <strong>Default:</strong> <code>1000</code> (1 second).</li>
@@ -2454,9 +2470,16 @@ the socket timeout slightly beyond the advertised keep-alive timeout.</p>
 </div><div>
 <h4><code>server[Symbol.asyncDispose]()</code><span><a class="mark" href="#serversymbolasyncdispose" id="serversymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="http_server_symbol_asyncdispose"></a></h4>
 <div class="api_metadata">
-<span>Added in: v20.4.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.4.0</td>
+<td><p><span>Added in: v20.4.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#serverclosecallback"><code>server.close()</code></a> and returns a promise that fulfills when the
 server has closed.</p>
 </div>
@@ -2985,11 +3008,35 @@ been transmitted are equal or not.</p>
 <p>Attempting to set a header field name or value that contains invalid characters
 will result in a <a href="errors.html#class-typeerror"><code>TypeError</code></a> being thrown.</p>
 </div><div>
+<h4><code>response.writeInformation(statusCode[, headers][, callback])</code><span><a class="mark" href="#responsewriteinformationstatuscode-headers-callback" id="responsewriteinformationstatuscode-headers-callback">#</a></span><a aria-hidden="true" class="legacy" id="http_response_writeinformation_statuscode_headers_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.18.0</span>
+</div>
+<ul>
+<li><code>statusCode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> An HTTP 1xx informational status code, between <code>100</code>
+and <code>199</code> inclusive, excluding <code>101</code> (Switching Protocols) which is only
+available through the <a href="#event-upgrade"><code>'upgrade'</code></a> event.</li>
+<li><code>headers</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An optional set of headers to send with the
+informational response. Accepts the same shapes as
+<a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead()</code></a>.</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Optional, called once the message has been written
+to the socket.</li>
+</ul>
+<p>Sends an arbitrary HTTP/1.1 1xx informational response to the client. This
+is a generic equivalent of <a href="#responsewritecontinue"><code>response.writeContinue()</code></a>,
+<a href="#responsewriteprocessing"><code>response.writeProcessing()</code></a> and <a href="#responsewriteearlyhintshints-callback"><code>response.writeEarlyHints()</code></a>, and
+can be called multiple times before the final response. After the final
+response headers have been sent (via <a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead()</code></a> or an
+implicit header), calling this method throws <code>ERR_HTTP_HEADERS_SENT</code>.</p>
+<p>Clients receive these responses via the <a href="#event-information"><code>'information'</code></a>
+event on <code>http.ClientRequest</code>.</p>
+<pre><code class="language-js">response.<span class="hljs-title function_">writeInformation</span>(<span class="hljs-number">110</span>, { <span class="hljs-string">'X-Progress'</span>: <span class="hljs-string">'50%'</span> });</code> <button class="copy-button">copy</button></pre>
+</div><div>
 <h4><code>response.writeProcessing()</code><span><a class="mark" href="#responsewriteprocessing" id="responsewriteprocessing">#</a></span><a aria-hidden="true" class="legacy" id="http_response_writeprocessing"></a></h4>
 <div class="api_metadata">
 <span>Added in: v10.0.0</span>
 </div>
-<p>Sends a HTTP/1.1 102 Processing message to the client, indicating that
+<p>Sends an HTTP/1.1 102 Processing message to the client, indicating that
 the request body should be sent.</p>
 </div>
 </section><section><h3>Class: <code>http.IncomingMessage</code><span><a class="mark" href="#class-httpincomingmessage" id="class-httpincomingmessage">#</a></span><a aria-hidden="true" class="legacy" id="http_class_http_incomingmessage"></a></h3>
@@ -3225,6 +3272,43 @@ received. Only populated at the <code>'end'</code> event.</p>
 <li>Returns: <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a></li>
 </ul>
 <p>Calls <code>message.socket.setTimeout(msecs, callback)</code>.</p>
+</div><div>
+<h4><code>message.signal</code><span><a class="mark" href="#messagesignal" id="messagesignal">#</a></span><a aria-hidden="true" class="legacy" id="http_message_signal"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<ul>
+<li>Type: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a></li>
+</ul>
+<p>An <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> that is aborted when the underlying socket closes or the
+request is destroyed. The signal is created lazily on first access — no
+<a href="globals.html#class-abortcontroller" class="type">&#x3C;AbortController></a> is allocated for requests that never use this property.</p>
+<p>This is useful for cancelling downstream asynchronous work such as database
+queries or <code>fetch</code> calls when a client disconnects mid-request.</p>
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+
+http.<span class="hljs-title function_">createServer</span>(<span class="hljs-title function_">async</span> (req, res) => {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://example.com/api'</span>, { <span class="hljs-attr">signal</span>: req.<span class="hljs-property">signal</span> });
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(<span class="hljs-keyword">await</span> data.<span class="hljs-title function_">json</span>()));
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-keyword">if</span> (err.<span class="hljs-property">name</span> === <span class="hljs-string">'AbortError'</span>) <span class="hljs-keyword">return</span>;
+    res.<span class="hljs-property">statusCode</span> = <span class="hljs-number">500</span>;
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'Internal Server Error'</span>);
+  }
+}).<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+
+http.<span class="hljs-title function_">createServer</span>(<span class="hljs-title function_">async</span> (req, res) => {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://example.com/api'</span>, { <span class="hljs-attr">signal</span>: req.<span class="hljs-property">signal</span> });
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(<span class="hljs-keyword">await</span> data.<span class="hljs-title function_">json</span>()));
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-keyword">if</span> (err.<span class="hljs-property">name</span> === <span class="hljs-string">'AbortError'</span>) <span class="hljs-keyword">return</span>;
+    res.<span class="hljs-property">statusCode</span> = <span class="hljs-number">500</span>;
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'Internal Server Error'</span>);
+  }
+}).<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>);</code><button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>message.socket</code><span><a class="mark" href="#messagesocket" id="messagesocket">#</a></span><a aria-hidden="true" class="legacy" id="http_message_socket"></a></h4>
 <div class="api_metadata">
@@ -3712,7 +3796,11 @@ short description of each. For example, <code>http.STATUS_CODES[404] === 'Not Fo
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.19.0</td>
+<td><p>The <code>httpValidation</code> option is supported now.</p></td></tr>
+<tr><td>v24.12.0</td>
+<td><p>Add optimizeEmptyRequests option.</p></td></tr>
+<tr><td>v24.9.0</td>
 <td><p>The <code>shouldUpgradeCallback</code> option is now supported.</p></td></tr>
 <tr><td>v20.1.0, v18.17.0</td>
 <td><p>The <code>highWaterMark</code> option is supported now.</p></td></tr>
@@ -3748,7 +3836,20 @@ See <a href="#serverheaderstimeout"><code>server.headersTimeout</code></a> for m
 <code>readableHighWaterMark</code> and <code>writableHighWaterMark</code>. This affects
 <code>highWaterMark</code> property of both <code>IncomingMessage</code> and <code>ServerResponse</code>.
 <strong>Default:</strong> See <a href="stream.html#streamgetdefaulthighwatermarkobjectmode"><code>stream.getDefaultHighWaterMark()</code></a>.</li>
-<li><code>insecureHTTPParser</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, it will use a HTTP parser
+<li><code>httpValidation</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Controls HTTP header value validation strictness
+for incoming requests. Accepted values are:
+<ul>
+<li><code>'strict'</code>: Strictest validation; rejects any non-ASCII or control
+characters in header values.</li>
+<li><code>'relaxed'</code>: Allows a limited set of non-ASCII characters in header
+values, aligning with the
+<a href="https://fetch.spec.whatwg.org/">Fetch specification</a>.</li>
+<li><code>'insecure'</code>: Disables all header value validation (equivalent to
+<code>insecureHTTPParser: true</code>).
+Cannot be used together with <code>insecureHTTPParser</code>. <strong>Default:</strong> <code>'strict'</code>.</li>
+</ul>
+</li>
+<li><code>insecureHTTPParser</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, it will use an HTTP parser
 with leniency flags enabled. Using the insecure parser should be avoided.
 See <a href="cli.html#--insecure-http-parser"><code>--insecure-http-parser</code></a> for more information.
 <strong>Default:</strong> <code>false</code>.</li>
@@ -3762,7 +3863,7 @@ For more information, refer to <a href="#messageheaders"><code>message.headers</
 <strong>Default:</strong> <code>false</code>.</li>
 <li><code>keepAlive</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, it enables keep-alive functionality
 on the socket immediately after a new incoming connection is received,
-similarly on what is done in [<code>socket.setKeepAlive([enable][, initialDelay])</code>][<code>socket.setKeepAlive(enable, initialDelay)</code>].
+similarly on what is done in <a href="net.html#socketsetkeepalive"><code>socket.setKeepAlive()</code></a>.
 <strong>Default:</strong> <code>false</code>.</li>
 <li><code>keepAliveInitialDelay</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> If set to a positive number, it sets the
 initial delay before the first keepalive probe is sent on an idle socket.
@@ -3771,7 +3872,7 @@ initial delay before the first keepalive probe is sent on an idle socket.
 needs to wait for additional incoming data, after it has finished writing
 the last response, before a socket will be destroyed.
 See <a href="#serverkeepalivetimeout"><code>server.keepAliveTimeout</code></a> for more information.
-<strong>Default:</strong> <code>5000</code>.</li>
+<strong>Default:</strong> <code>65000</code>.</li>
 <li><code>maxHeaderSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Optionally overrides the value of
 <a href="cli.html#--max-http-header-sizesize"><code>--max-http-header-size</code></a> for requests received by this server, i.e.
 the maximum length of request headers in bytes.
@@ -3803,6 +3904,11 @@ once. If the header's value is an array, the items will be joined
 using <code>; </code>.</li>
 <li><code>rejectNonStandardBodyWrites</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, an error is thrown
 when writing to an HTTP response which does not have a body.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>optimizeEmptyRequests</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, requests without <code>Content-Length</code>
+or <code>Transfer-Encoding</code> headers (indicating no body) will be initialized with an
+already-ended body stream, so they will never emit any stream events
+(like <code>'data'</code> or <code>'end'</code>). You can use <code>req.readableEnded</code> to detect this case.
 <strong>Default:</strong> <code>false</code>.</li>
 </ul>
 </li>
@@ -3977,6 +4083,8 @@ option.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>The <code>httpValidation</code> option is supported now.</p></td></tr>
 <tr><td>v16.7.0, v14.18.0</td>
 <td><p>When using a <code>URL</code> object parsed username and password will now be properly URI decoded.</p></td></tr>
 <tr><td>v15.3.0, v14.17.0</td>
@@ -4025,7 +4133,20 @@ headers. The array is in the same format as <a href="#messagerawheaders"><code>m
 request to. <strong>Default:</strong> <code>'localhost'</code>.</li>
 <li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Alias for <code>host</code>. To support <a href="url.html#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a>,
 <code>hostname</code> will be used if both <code>host</code> and <code>hostname</code> are specified.</li>
-<li><code>insecureHTTPParser</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, it will use a HTTP parser
+<li><code>httpValidation</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Controls HTTP header value validation strictness
+for outgoing requests. Accepted values are:
+<ul>
+<li><code>'strict'</code>: Strictest validation; rejects any non-ASCII or control
+characters in header values.</li>
+<li><code>'relaxed'</code>: Allows a limited set of non-ASCII characters in header
+values, aligning with the
+<a href="https://fetch.spec.whatwg.org/">Fetch specification</a>.</li>
+<li><code>'insecure'</code>: Disables all header value validation (equivalent to
+<code>insecureHTTPParser: true</code>).
+Cannot be used together with <code>insecureHTTPParser</code>. <strong>Default:</strong> <code>'strict'</code>.</li>
+</ul>
+</li>
+<li><code>insecureHTTPParser</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If set to <code>true</code>, it will use an HTTP parser
 with leniency flags enabled. Using the insecure parser should be avoided.
 See <a href="cli.html#--insecure-http-parser"><code>--insecure-http-parser</code></a> for more information.
 <strong>Default:</strong> <code>false</code></li>
@@ -4045,7 +4166,19 @@ bytes) for responses received from the server.
 <li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Request path. Should include query string if any.
 E.G. <code>'/index.html?page=12'</code>. An exception is thrown when the request path
 contains illegal characters. Currently, only spaces are rejected but that
-may change in the future. <strong>Default:</strong> <code>'/'</code>.</li>
+may change in the future. <strong>Default:</strong> <code>'/'</code>.
+The content in <code>path</code> is sent as the <a href="https://datatracker.ietf.org/doc/html/rfc9112#section-3.2">request target</a> in the HTTP 1.1 message.
+When <code>path</code> is an absolute URL, this means the request target in the message in <a href="https://datatracker.ietf.org/doc/html/rfc9112#section-3.2.2">absolute form</a>.
+If the receiving server is a proxy, the server typically forwards the request to the
+destination specified in the request target, and ignores the <code>Host</code> header.
+The user needs to make sure that <code>path</code>, <code>host</code> and the Host headers conform to the
+requirement of the <a href="https://datatracker.ietf.org/doc/html/rfc9112#section-3.2">request target</a> in the HTTP specification.
+When the receiving server is known to be a proxy because the request is routed through
+<a href="#built-in-proxy-support">Built-in Proxy Support</a>, <code>http.request</code> will additionally perform a best-effort
+check to see that the <code>host</code> option or <code>Host</code> in <code>headers</code> agrees with the authority
+in <code>path</code> during the initial construction of the request. It gives up rewriting the
+request target for proxying and throws an error if they don't match at request
+construction time, though there won't be checks for later header mutations done by the user.</li>
 <li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> Port of remote server. <strong>Default:</strong> <code>defaultPort</code> if set,
 else <code>80</code>.</li>
 <li><code>protocol</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Protocol to use. <strong>Default:</strong> <code>'http:'</code>.</li>
@@ -4408,6 +4541,27 @@ or response. The HTTP module will automatically validate such headers.</p>
 <li><code>max</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> <strong>Default:</strong> <code>1000</code>.</li>
 </ul>
 <p>Set the maximum number of idle HTTP parsers.</p>
+</section><section><h3><code>http.setGlobalProxyFromEnv([proxyEnv])</code><span><a class="mark" href="#httpsetglobalproxyfromenvproxyenv" id="httpsetglobalproxyfromenvproxyenv">#</a></span><a aria-hidden="true" class="legacy" id="http_http_setglobalproxyfromenv_proxyenv"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.14.0</span>
+</div>
+<ul>
+<li><code>proxyEnv</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An object containing proxy configuration. This accepts the
+same options as the <code>proxyEnv</code> option accepted by <a href="#class-httpagent"><code>Agent</code></a>. <strong>Default:</strong>
+<code>process.env</code>.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A function that restores the original agent and dispatcher
+settings to the state before this <code>http.setGlobalProxyFromEnv()</code> is invoked.</li>
+</ul>
+<p>Dynamically resets the global configurations to enable built-in proxy support for
+<code>fetch()</code> and <code>http.request()</code>/<code>https.request()</code> at runtime, as an alternative
+to using the <code>--use-env-proxy</code> flag or <code>NODE_USE_ENV_PROXY</code> environment variable.
+It can also be used to override settings configured from the environment variables.</p>
+<p>As this function resets the global configurations, any previously configured
+<code>http.globalAgent</code>, <code>https.globalAgent</code> or undici global dispatcher would be
+overridden after this function is invoked. It's recommended to invoke it before any
+requests are made and avoid invoking it in the middle of any requests.</p>
+<p>See <a href="#built-in-proxy-support">Built-in Proxy Support</a> for details on proxy URL formats and <code>NO_PROXY</code>
+syntax.</p>
 </section><section><h3>Class: <code>WebSocket</code><span><a class="mark" href="#class-websocket" id="class-websocket">#</a></span><a aria-hidden="true" class="legacy" id="http_class_websocket"></a></h3>
 <div class="api_metadata">
 <span>Added in: v22.5.0</span>
@@ -4415,13 +4569,14 @@ or response. The HTTP module will automatically validate such headers.</p>
 <p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" class="type">&#x3C;WebSocket></a>.</p>
 </section><section><h3>Built-in Proxy Support<span><a class="mark" href="#built-in-proxy-support" id="built-in-proxy-support">#</a></span><a aria-hidden="true" class="legacy" id="http_built_in_proxy_support"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.21.0</span>
+<span>Added in: v24.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
 <p>When Node.js creates the global agent, if the <code>NODE_USE_ENV_PROXY</code> environment variable is
 set to <code>1</code> or <code>--use-env-proxy</code> is enabled, the global agent will be constructed
-with <code>proxyEnv: process.env</code>, enabling proxy support based on the environment variables.
-Custom agents can also be created with proxy support by passing a
+with <code>proxyEnv: process.env</code>, enabling proxy support based on the environment variables.</p>
+<p>To enable proxy support dynamically and globally, use <a href="#httpsetglobalproxyfromenvproxyenv"><code>http.setGlobalProxyFromEnv()</code></a>.</p>
+<p>Custom agents can also be created with proxy support by passing a
 <code>proxyEnv</code> option when constructing the agent. The value can be <code>process.env</code>
 if they just want to inherit the configuration from the environment variables,
 or an object with specific setting overriding the environment.</p>
@@ -4465,6 +4620,72 @@ variable:</p>
 <pre><code class="language-console">NODE_USE_ENV_PROXY=1 HTTP_PROXY=http://proxy.example.com:8080 NO_PROXY=localhost,127.0.0.1 node client.js</code> <button class="copy-button">copy</button></pre>
 <p>Or the <code>--use-env-proxy</code> flag.</p>
 <pre><code class="language-console">HTTP_PROXY=http://proxy.example.com:8080 NO_PROXY=localhost,127.0.0.1 node --use-env-proxy client.js</code> <button class="copy-button">copy</button></pre>
+<p>To enable proxy support dynamically and globally with <code>process.env</code> (the default option of <code>http.setGlobalProxyFromEnv()</code>):</p>
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+
+<span class="hljs-comment">// Reads proxy-related environment variables from process.env</span>
+<span class="hljs-keyword">const</span> restore = http.<span class="hljs-title function_">setGlobalProxyFromEnv</span>();
+
+<span class="hljs-comment">// Subsequent requests will use the configured proxies from environment variables</span>
+http.<span class="hljs-title function_">get</span>(<span class="hljs-string">'http://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied if HTTP_PROXY or http_proxy is set</span>
+});
+
+<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied if HTTPS_PROXY or https_proxy is set</span>
+});
+
+<span class="hljs-comment">// To restore the original global agent and dispatcher settings, call the returned function.</span>
+<span class="hljs-comment">// restore();</span></code><code class="language-js mjs"><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+
+<span class="hljs-comment">// Reads proxy-related environment variables from process.env</span>
+http.<span class="hljs-title function_">setGlobalProxyFromEnv</span>();
+
+<span class="hljs-comment">// Subsequent requests will use the configured proxies from environment variables</span>
+http.<span class="hljs-title function_">get</span>(<span class="hljs-string">'http://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied if HTTP_PROXY or http_proxy is set</span>
+});
+
+<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied if HTTPS_PROXY or https_proxy is set</span>
+});
+
+<span class="hljs-comment">// To restore the original global agent and dispatcher settings, call the returned function.</span>
+<span class="hljs-comment">// restore();</span></code><button class="copy-button">copy</button></pre>
+<p>To enable proxy support dynamically and globally with custom settings:</p>
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+
+<span class="hljs-keyword">const</span> restore = http.<span class="hljs-title function_">setGlobalProxyFromEnv</span>({
+  <span class="hljs-attr">http_proxy</span>: <span class="hljs-string">'http://proxy.example.com:8080'</span>,
+  <span class="hljs-attr">https_proxy</span>: <span class="hljs-string">'https://proxy.example.com:8443'</span>,
+  <span class="hljs-attr">no_proxy</span>: <span class="hljs-string">'localhost,127.0.0.1,.internal.example.com'</span>,
+});
+
+<span class="hljs-comment">// Subsequent requests will use the configured proxies</span>
+http.<span class="hljs-title function_">get</span>(<span class="hljs-string">'http://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied through proxy.example.com:8080</span>
+});
+
+<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied through proxy.example.com:8443</span>
+});</code><code class="language-js mjs"><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+
+http.<span class="hljs-title function_">setGlobalProxyFromEnv</span>({
+  <span class="hljs-attr">http_proxy</span>: <span class="hljs-string">'http://proxy.example.com:8080'</span>,
+  <span class="hljs-attr">https_proxy</span>: <span class="hljs-string">'https://proxy.example.com:8443'</span>,
+  <span class="hljs-attr">no_proxy</span>: <span class="hljs-string">'localhost,127.0.0.1,.internal.example.com'</span>,
+});
+
+<span class="hljs-comment">// Subsequent requests will use the configured proxies</span>
+http.<span class="hljs-title function_">get</span>(<span class="hljs-string">'http://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied through proxy.example.com:8080</span>
+});
+
+<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'https://www.example.com'</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =></span> {
+  <span class="hljs-comment">// This request will be proxied through proxy.example.com:8443</span>
+});</code><button class="copy-button">copy</button></pre>
 <p>To create a custom agent with built-in proxy support:</p>
 <pre><code class="language-js cjs"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
 

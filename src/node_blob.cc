@@ -21,6 +21,8 @@ using v8::Array;
 using v8::ArrayBuffer;
 using v8::ArrayBufferView;
 using v8::BackingStore;
+using v8::BackingStoreInitializationMode;
+using v8::BackingStoreOnFailureMode;
 using v8::Context;
 using v8::Function;
 using v8::FunctionCallbackInfo;
@@ -81,8 +83,15 @@ void Concat(const FunctionCallbackInfo<Value>& args) {
     }
   }
 
-  std::shared_ptr<BackingStore> store =
-      ArrayBuffer::NewBackingStore(isolate, total);
+  std::shared_ptr<BackingStore> store = ArrayBuffer::NewBackingStore(
+      isolate,
+      total,
+      BackingStoreInitializationMode::kUninitialized,
+      BackingStoreOnFailureMode::kReturnNull);
+  if (!store) [[unlikely]] {
+    THROW_ERR_MEMORY_ALLOCATION_FAILED(isolate);
+    return;
+  }
   uint8_t* ptr = static_cast<uint8_t*>(store->Data());
   for (size_t n = 0; n < views.size(); n++) {
     uint8_t* from =
@@ -146,8 +155,7 @@ Local<FunctionTemplate> Blob::GetConstructorTemplate(Environment* env) {
   if (tmpl.IsEmpty()) {
     Isolate* isolate = env->isolate();
     tmpl = NewFunctionTemplate(isolate, nullptr);
-    tmpl->InstanceTemplate()->SetInternalFieldCount(
-        BaseObject::kInternalFieldCount);
+    tmpl->InstanceTemplate()->SetInternalFieldCount(Blob::kInternalFieldCount);
     tmpl->SetClassName(
         FIXED_ONE_BYTE_STRING(env->isolate(), "Blob"));
     SetProtoMethod(isolate, tmpl, "getReader", GetReader);
@@ -209,8 +217,8 @@ void Blob::New(const FunctionCallbackInfo<Value>& args) {
       }
 
       // If the ArrayBuffer is not detachable, we will copy from it instead.
-      std::shared_ptr<BackingStore> store =
-          ArrayBuffer::NewBackingStore(isolate, byte_length);
+      std::shared_ptr<BackingStore> store = ArrayBuffer::NewBackingStore(
+          isolate, byte_length, BackingStoreInitializationMode::kUninitialized);
       uint8_t* ptr = static_cast<uint8_t*>(buf->Data()) + byte_offset;
       std::copy(ptr, ptr + byte_length, static_cast<uint8_t*>(store->Data()));
       return DataQueue::CreateInMemoryEntryFromBackingStore(
@@ -309,9 +317,10 @@ Local<FunctionTemplate> Blob::Reader::GetConstructorTemplate(Environment* env) {
     Isolate* isolate = env->isolate();
     tmpl = NewFunctionTemplate(isolate, nullptr);
     tmpl->InstanceTemplate()->SetInternalFieldCount(
-        BaseObject::kInternalFieldCount);
+        Blob::Reader::kInternalFieldCount);
     tmpl->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "BlobReader"));
     SetProtoMethod(env->isolate(), tmpl, "pull", Pull);
+    SetProtoMethod(env->isolate(), tmpl, "setWakeup", SetWakeup);
     env->set_blob_reader_constructor_template(tmpl);
   }
   return tmpl;
@@ -374,8 +383,10 @@ void Blob::Reader::Pull(const FunctionCallbackInfo<Value>& args) {
       size_t total = 0;
       for (size_t n = 0; n < count; n++) total += vecs[n].len;
 
-      std::shared_ptr<BackingStore> store =
-          ArrayBuffer::NewBackingStore(env->isolate(), total);
+      std::shared_ptr<BackingStore> store = ArrayBuffer::NewBackingStore(
+          env->isolate(),
+          total,
+          BackingStoreInitializationMode::kUninitialized);
       auto ptr = static_cast<uint8_t*>(store->Data());
       for (size_t n = 0; n < count; n++) {
         std::copy(vecs[n].base, vecs[n].base + vecs[n].len, ptr);
@@ -398,6 +409,20 @@ void Blob::Reader::Pull(const FunctionCallbackInfo<Value>& args) {
 
   args.GetReturnValue().Set(reader->inner_->Pull(
       std::move(next), node::bob::OPTIONS_END, nullptr, 0));
+}
+
+void Blob::Reader::SetWakeup(const FunctionCallbackInfo<Value>& args) {
+  Blob::Reader* reader;
+  ASSIGN_OR_RETURN_UNWRAP(&reader, args.This());
+  CHECK(args[0]->IsFunction());
+  reader->wakeup_.Reset(args.GetIsolate(), args[0].As<Function>());
+}
+
+void Blob::Reader::NotifyPull() {
+  if (wakeup_.IsEmpty() || !env()->can_call_into_js()) return;
+  HandleScope handle_scope(env()->isolate());
+  Local<Function> fn = wakeup_.Get(env()->isolate());
+  MakeCallback(fn, 0, nullptr);
 }
 
 BaseObjectPtr<BaseObject>
@@ -580,6 +605,7 @@ void Blob::RegisterExternalReferences(ExternalReferenceRegistry* registry) {
   registry->Register(Blob::GetDataObject);
   registry->Register(Blob::RevokeObjectURL);
   registry->Register(Blob::Reader::Pull);
+  registry->Register(Blob::Reader::SetWakeup);
   registry->Register(Concat);
   registry->Register(BlobFromFilePath);
 }

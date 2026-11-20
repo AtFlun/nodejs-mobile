@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>HTTP/2 | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>HTTP/2 | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="http2" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -257,7 +257,7 @@
 <li><a href="#event-stream_1">Event: <code>'stream'</code></a></li>
 <li><a href="#event-timeout_2">Event: <code>'timeout'</code></a></li>
 <li><a href="#serverclosecallback"><code>server.close([callback])</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#serversettimeoutmsecs-callback"><code>server.setTimeout([msecs][, callback])</code></a></li>
 <li><a href="#servertimeout"><code>server.timeout</code></a></li>
 <li><a href="#serverupdatesettingssettings"><code>server.updateSettings([settings])</code></a></li>
@@ -359,6 +359,7 @@
 <li><a href="#responsewritechunk-encoding-callback"><code>response.write(chunk[, encoding][, callback])</code></a></li>
 <li><a href="#responsewritecontinue"><code>response.writeContinue()</code></a></li>
 <li><a href="#responsewriteearlyhintshints"><code>response.writeEarlyHints(hints)</code></a></li>
+<li><a href="#responsewriteinformationstatuscode-headers"><code>response.writeInformation(statusCode[, headers])</code></a></li>
 <li><a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead(statusCode[, statusMessage][, headers])</code></a></li>
 </ul>
 </li>
@@ -630,7 +631,7 @@
 <li><a href="#event-stream_1">Event: <code>'stream'</code></a></li>
 <li><a href="#event-timeout_2">Event: <code>'timeout'</code></a></li>
 <li><a href="#serverclosecallback"><code>server.close([callback])</code></a></li>
-<li><span class="stability_1"><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#serversymbolasyncdispose"><code>server[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#serversettimeoutmsecs-callback"><code>server.setTimeout([msecs][, callback])</code></a></li>
 <li><a href="#servertimeout"><code>server.timeout</code></a></li>
 <li><a href="#serverupdatesettingssettings"><code>server.updateSettings([settings])</code></a></li>
@@ -732,6 +733,7 @@
 <li><a href="#responsewritechunk-encoding-callback"><code>response.write(chunk[, encoding][, callback])</code></a></li>
 <li><a href="#responsewritecontinue"><code>response.writeContinue()</code></a></li>
 <li><a href="#responsewriteearlyhintshints"><code>response.writeEarlyHints(hints)</code></a></li>
+<li><a href="#responsewriteinformationstatuscode-headers"><code>response.writeInformation(statusCode[, headers])</code></a></li>
 <li><a href="#responsewriteheadstatuscode-statusmessage-headers"><code>response.writeHead(statusCode[, statusMessage][, headers])</code></a></li>
 </ul>
 </li>
@@ -762,7 +764,7 @@
 </div>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/http2.js">lib/http2.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/http2.js">lib/http2.js</a></p>
 <p>The <code>node:http2</code> module provides an implementation of the <a href="https://tools.ietf.org/html/rfc7540">HTTP/2</a> protocol.
 It can be accessed using:</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> http2 = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http2'</span>);</code> <button class="copy-button">copy</button></pre>
@@ -1649,11 +1651,11 @@ client.<span class="hljs-title function_">on</span>(<span class="hljs-string">'o
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.23.0</td>
+<tr><td>v24.2.0</td>
 <td><p>The <code>weight</code> option is now ignored, setting it will trigger a runtime warning.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Following the deprecation of priority signaling as of RFC 9113, <code>weight</code> option is deprecated.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0, v22.17.0</td>
 <td><p>Allow passing headers in raw array format.</p></td></tr>
 <tr><td>v8.4.0</td>
 <td><p><span>Added in: v8.4.0</span></p></td></tr>
@@ -1690,10 +1692,11 @@ request.</li>
 creates and returns an <code>Http2Stream</code> instance that can be used to send an
 HTTP/2 request to the connected server.</p>
 <p>When a <code>ClientHttp2Session</code> is first created, the socket may not yet be
-connected. if <code>clienthttp2session.request()</code> is called during this time, the
-actual request will be deferred until the socket is ready to go.
-If the <code>session</code> is closed before the actual request be executed, an
-<code>ERR_HTTP2_GOAWAY_SESSION</code> is thrown.</p>
+connected. If <code>clienthttp2session.request()</code> is called during this time, the
+actual request will be deferred until the socket is ready to go.</p>
+<p>If the session becomes unavailable before the request can be created, the
+returned stream will emit <code>ERR_HTTP2_GOAWAY_SESSION</code> or
+<code>ERR_HTTP2_INVALID_SESSION</code> asynchronously.</p>
 <p>This method is only available if <code>http2session.type</code> is equal to
 <code>http2.constants.NGHTTP2_SESSION_CLIENT</code>.</p>
 
@@ -1882,10 +1885,11 @@ Its listener does not expect any arguments.</p>
 <ul>
 <li><code>headers</code> <a href="http2.html#headers-object" class="type">&#x3C;HTTP/2 Headers Object></a> An object describing the headers</li>
 <li><code>flags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The associated numeric flags</li>
+<li><code>rawHeaders</code> <a href="http2.html#raw-headers" class="type">&#x3C;HTTP/2 Raw Headers></a></li>
 </ul>
 <p>The <code>'trailers'</code> event is emitted when a block of headers associated with
-trailing header fields is received. The listener callback is passed the
-<a href="#headers-object">HTTP/2 Headers Object</a> and flags associated with the headers.</p>
+trailing header fields is received. The listener callback is passed the <a href="#headers-object">HTTP/2 Headers Object</a>, flags associated
+with the headers, and the headers in raw format (see <a href="#raw-headers">HTTP/2 Raw Headers</a>).</p>
 <p>This event might not be emitted if <code>http2stream.end()</code> is called
 before trailers are received and the incoming data is not being read or
 listened for.</p>
@@ -1998,10 +2002,10 @@ numeric stream identifier.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.23.0</td>
+<tr><td>v24.2.0</td>
 <td><p>This method no longer sets the priority of the stream. Using it now triggers a runtime warning.</p></td></tr>
-<tr><td>v22.17.0</td>
-<td><p><span>Deprecated since: v22.17.0</span></p></td></tr>
+<tr><td>v24.2.0</td>
+<td><p><span>Deprecated since: v24.2.0</span></p></td></tr>
 <tr><td>v8.4.0</td>
 <td><p><span>Added in: v8.4.0</span></p></td></tr>
 </tbody></table>
@@ -2097,9 +2101,9 @@ req.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-number">5000
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.23.0</td>
+<tr><td>v24.2.0</td>
 <td><p>The <code>state.weight</code> property is now always set to 16 and <code>sumDependencyWeight</code> is always set to 0.</p></td></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Following the deprecation of priority signaling as of RFC 9113, <code>weight</code> and <code>sumDependencyWeight</code> options are deprecated.</p></td></tr>
 <tr><td>v8.4.0</td>
 <td><p><span>Added in: v8.4.0</span></p></td></tr>
@@ -2203,10 +2207,11 @@ with the headers, and the headers in raw format (see <a href="#raw-headers">HTTP
 <ul>
 <li><code>headers</code> <a href="http2.html#headers-object" class="type">&#x3C;HTTP/2 Headers Object></a></li>
 <li><code>flags</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+<li><code>rawHeaders</code> <a href="http2.html#raw-headers" class="type">&#x3C;HTTP/2 Raw Headers></a></li>
 </ul>
 <p>The <code>'push'</code> event is emitted when response headers for a Server Push stream
-are received. The listener callback is passed the <a href="#headers-object">HTTP/2 Headers Object</a> and
-flags associated with the headers.</p>
+are received. The listener callback is passed the <a href="#headers-object">HTTP/2 Headers Object</a>, flags associated
+with the headers, and the headers in raw format (see <a href="#raw-headers">HTTP/2 Raw Headers</a>).</p>
 <pre><code class="language-js">stream.<span class="hljs-title function_">on</span>(<span class="hljs-string">'push'</span>, <span class="hljs-function">(<span class="hljs-params">headers, flags</span>) =></span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(headers);
 });</code> <button class="copy-button">copy</button></pre>
@@ -2350,7 +2355,7 @@ and will throw an error.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>Allow passing headers in raw array format.</p></td></tr>
 <tr><td>v14.5.0, v12.19.0</td>
 <td><p>Allow explicitly setting date headers.</p></td></tr>
@@ -2385,7 +2390,7 @@ server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'s
 <p>Initiates a response. When the <code>options.waitForTrailers</code> option is set, the
 <code>'wantTrailers'</code> event will be emitted immediately after queuing the last chunk
 of payload data to be sent. The <code>http2stream.sendTrailers()</code> method can then be
-used to sent trailing header fields to the peer.</p>
+used to send trailing header fields to the peer.</p>
 <p>When <code>options.waitForTrailers</code> is set, the <code>Http2Stream</code> will not automatically
 close when the final <code>DATA</code> frame is transmitted. User code must call either
 <code>http2stream.sendTrailers()</code> or <code>http2stream.close()</code> to close the
@@ -2491,7 +2496,7 @@ is not supported and may result in data loss. Re-using a file descriptor
 after a stream has finished is supported.</p>
 <p>When the <code>options.waitForTrailers</code> option is set, the <code>'wantTrailers'</code> event
 will be emitted immediately after queuing the last chunk of payload data to be
-sent. The <code>http2stream.sendTrailers()</code> method can then be used to sent trailing
+sent. The <code>http2stream.sendTrailers()</code> method can then be used to send trailing
 header fields to the peer.</p>
 <p>When <code>options.waitForTrailers</code> is set, the <code>Http2Stream</code> will not automatically
 close when the final <code>DATA</code> frame is transmitted. User code <em>must</em> call either
@@ -2670,7 +2675,7 @@ that could happen before the delivery of the file is initiated. The
 default behavior is to destroy the stream.</p>
 <p>When the <code>options.waitForTrailers</code> option is set, the <code>'wantTrailers'</code> event
 will be emitted immediately after queuing the last chunk of payload data to be
-sent. The <code>http2stream.sendTrailers()</code> method can then be used to sent trailing
+sent. The <code>http2stream.sendTrailers()</code> method can then be used to send trailing
 header fields to the peer.</p>
 <p>When <code>options.waitForTrailers</code> is set, the <code>Http2Stream</code> will not automatically
 close when the final <code>DATA</code> frame is transmitted. User code must call either
@@ -2850,19 +2855,23 @@ a given number of milliseconds set using <code>http2server.setTimeout()</code>.
 <ul>
 <li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
 </ul>
-<p>Stops the server from establishing new sessions. This does not prevent new
-request streams from being created due to the persistent nature of HTTP/2
-sessions. To gracefully shut down the server, call <a href="#http2sessionclosecallback"><code>http2session.close()</code></a> on
-all active sessions.</p>
+<p>Stops the server from establishing new sessions and streams.</p>
 <p>If <code>callback</code> is provided, it is not invoked until all active sessions have been
 closed, although the server has already stopped allowing new sessions. See
 <a href="net.html#serverclosecallback"><code>net.Server.close()</code></a> for more details.</p>
 </div><div>
 <h5><code>server[Symbol.asyncDispose]()</code><span><a class="mark" href="#serversymbolasyncdispose" id="serversymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="http2_server_symbol_asyncdispose"></a></h5>
 <div class="api_metadata">
-<span>Added in: v20.4.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.4.0</td>
+<td><p><span>Added in: v20.4.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#serverclosecallback"><code>server.close()</code></a> and returns a promise that fulfills when the
 server has closed.</p>
 </div><div>
@@ -3060,11 +3069,19 @@ server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'s
 </div><div>
 <h5>Event: <code>'timeout'</code><span><a class="mark" href="#event-timeout_3" id="event-timeout_3">#</a></span><a aria-hidden="true" class="legacy" id="http2_event_timeout_3"></a></h5>
 <div class="api_metadata">
-<span>Added in: v8.4.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.0.0</td>
+<td><p>The default timeout changed from 120s to 0 (no timeout).</p></td></tr>
+<tr><td>v8.4.0</td>
+<td><p><span>Added in: v8.4.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <p>The <code>'timeout'</code> event is emitted when there is no activity on the Server for
 a given number of milliseconds set using <code>http2secureServer.setTimeout()</code>.
-<strong>Default:</strong> 2 minutes.</p>
+<strong>Default:</strong> 0 (no timeout)</p>
 </div><div>
 <h5>Event: <code>'unknownProtocol'</code><span><a class="mark" href="#event-unknownprotocol" id="event-unknownprotocol">#</a></span><a aria-hidden="true" class="legacy" id="http2_event_unknownprotocol"></a></h5>
 <div class="api_metadata">
@@ -3102,10 +3119,7 @@ handshake will fail and no secure connection will be established.</p>
 <ul>
 <li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
 </ul>
-<p>Stops the server from establishing new sessions. This does not prevent new
-request streams from being created due to the persistent nature of HTTP/2
-sessions. To gracefully shut down the server, call <a href="#http2sessionclosecallback"><code>http2session.close()</code></a> on
-all active sessions.</p>
+<p>Stops the server from establishing new sessions and streams.</p>
 <p>If <code>callback</code> is provided, it is not invoked until all active sessions have been
 closed, although the server has already stopped allowing new sessions. See
 <a href="tls.html#serverclosecallback"><code>tls.Server.close()</code></a> for more details.</p>
@@ -3171,7 +3185,11 @@ value only affects new connections to the server, not any existing connections.<
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.10.0</td>
+<tr><td>v24.15.0</td>
+<td><p>Added the <code>strictSingleValueFields</code> option.</p></td></tr>
+<tr><td>v24.15.0</td>
+<td><p>Added <code>http1Options</code> option. The <code>Http1IncomingMessage</code> and <code>Http1ServerResponse</code> options are now deprecated.</p></td></tr>
+<tr><td>v23.0.0, v22.10.0</td>
 <td><p>Added <code>streamResetBurst</code> and <code>streamResetRate</code>.</p></td></tr>
 <tr><td>v13.0.0</td>
 <td><p>The <code>PADDING_STRATEGY_CALLBACK</code> has been made equivalent to providing <code>PADDING_STRATEGY_ALIGNED</code> and <code>selectPadding</code> has been removed.</p></td></tr>
@@ -3267,10 +3285,31 @@ the <code>Http2Settings</code> object for more information,
 on the allowed setting types.</li>
 <li><code>Http1IncomingMessage</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a> Specifies the
 <code>IncomingMessage</code> class to used for HTTP/1 fallback. Useful for extending
-the original <code>http.IncomingMessage</code>. <strong>Default:</strong> <code>http.IncomingMessage</code>.</li>
+the original <code>http.IncomingMessage</code>. <strong>Default:</strong> <code>http.IncomingMessage</code>.
+<strong>Deprecated.</strong> Use <code>http1Options.IncomingMessage</code> instead. See
+<a href="deprecations.html#dep0202-http1incomingmessage-and-http1serverresponse-options-of-http2-servers">DEP0202</a>.</li>
 <li><code>Http1ServerResponse</code> <a href="http.html#class-httpserverresponse" class="type">&#x3C;http.ServerResponse></a> Specifies the <code>ServerResponse</code>
 class to used for HTTP/1 fallback. Useful for extending the original
-<code>http.ServerResponse</code>. <strong>Default:</strong> <code>http.ServerResponse</code>.</li>
+<code>http.ServerResponse</code>. <strong>Default:</strong> <code>http.ServerResponse</code>.
+<strong>Deprecated.</strong> Use <code>http1Options.ServerResponse</code> instead. See
+<a href="deprecations.html#dep0202-http1incomingmessage-and-http1serverresponse-options-of-http2-servers">DEP0202</a>.</li>
+<li><code>http1Options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An options object for configuring the HTTP/1
+fallback when <code>allowHTTP1</code> is <code>true</code>. These options are passed to the
+underlying HTTP/1 server. See <a href="http.html#httpcreateserveroptions-requestlistener"><code>http.createServer()</code></a> for available
+options. Among others, the following are supported:
+<ul>
+<li><code>IncomingMessage</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a> Specifies the
+<code>IncomingMessage</code> class to use for HTTP/1 fallback.
+<strong>Default:</strong> <code>http.IncomingMessage</code>.</li>
+<li><code>ServerResponse</code> <a href="http.html#class-httpserverresponse" class="type">&#x3C;http.ServerResponse></a> Specifies the <code>ServerResponse</code>
+class to use for HTTP/1 fallback.
+<strong>Default:</strong> <code>http.ServerResponse</code>.</li>
+<li><code>keepAliveTimeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The number of milliseconds of inactivity
+a server needs to wait for additional incoming data, after it has
+finished writing the last response, before a socket will be destroyed.
+<strong>Default:</strong> <code>5000</code>.</li>
+</ul>
+</li>
 <li><code>Http2ServerRequest</code> <a href="http2.html#class-http2http2serverrequest" class="type">&#x3C;http2.Http2ServerRequest></a> Specifies the
 <code>Http2ServerRequest</code> class to use.
 Useful for extending the original <code>Http2ServerRequest</code>.
@@ -3286,6 +3325,10 @@ socket has not been destroyed by that time the server will destroy it.
 <li><code>strictFieldWhitespaceValidation</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, it turns on strict leading
 and trailing whitespace validation for HTTP/2 header field names and values
 as per <a href="https://www.rfc-editor.org/rfc/rfc9113.html#section-8.2.1">RFC-9113</a>.
+<strong>Default:</strong> <code>true</code>.</li>
+<li><code>strictSingleValueFields</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, strict validation is used
+for headers and trailers defined as having only a single value, such that
+an error is thrown if multiple values are provided.
 <strong>Default:</strong> <code>true</code>.</li>
 <li><code>...options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Any <a href="net.html#netcreateserveroptions-connectionlistener"><code>net.createServer()</code></a> option can be provided.</li>
 </ul>
@@ -3339,6 +3382,10 @@ server.<span class="hljs-title function_">listen</span>(<span class="hljs-number
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>Added the <code>strictSingleValueFields</code> option.</p></td></tr>
+<tr><td>v24.15.0</td>
+<td><p>Added <code>http1Options</code> option.</p></td></tr>
 <tr><td>v13.0.0</td>
 <td><p>The <code>PADDING_STRATEGY_CALLBACK</code> has been made equivalent to providing <code>PADDING_STRATEGY_ALIGNED</code> and <code>selectPadding</code> has been removed.</p></td></tr>
 <tr><td>v13.3.0, v12.16.0</td>
@@ -3441,6 +3488,27 @@ the socket has not been destroyed by that time the server will destroy it.
 and trailing whitespace validation for HTTP/2 header field names and values
 as per <a href="https://www.rfc-editor.org/rfc/rfc9113.html#section-8.2.1">RFC-9113</a>.
 <strong>Default:</strong> <code>true</code>.</li>
+<li><code>strictSingleValueFields</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, strict validation is used
+for headers and trailers defined as having only a single value, such that
+an error is thrown if multiple values are provided.
+<strong>Default:</strong> <code>true</code>.</li>
+<li><code>http1Options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An options object for configuring the HTTP/1
+fallback when <code>allowHTTP1</code> is <code>true</code>. These options are passed to the
+underlying HTTP/1 server. See <a href="http.html#httpcreateserveroptions-requestlistener"><code>http.createServer()</code></a> for available
+options. Among others, the following are supported:
+<ul>
+<li><code>IncomingMessage</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a> Specifies the
+<code>IncomingMessage</code> class to use for HTTP/1 fallback.
+<strong>Default:</strong> <code>http.IncomingMessage</code>.</li>
+<li><code>ServerResponse</code> <a href="http.html#class-httpserverresponse" class="type">&#x3C;http.ServerResponse></a> Specifies the <code>ServerResponse</code>
+class to use for HTTP/1 fallback.
+<strong>Default:</strong> <code>http.ServerResponse</code>.</li>
+<li><code>keepAliveTimeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The number of milliseconds of inactivity
+a server needs to wait for additional incoming data, after it has
+finished writing the last response, before a socket will be destroyed.
+<strong>Default:</strong> <code>5000</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><code>onRequestHandler</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> See <a href="#compatibility-api">Compatibility API</a></li>
@@ -4189,7 +4257,7 @@ features of HTTP/2.</p>
 ).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">onRequest</span>(<span class="hljs-params">req, res</span>) {
-  <span class="hljs-comment">// Detects if it is a HTTPS request or HTTP/2</span>
+  <span class="hljs-comment">// Detects if it is an HTTPS request or HTTP/2</span>
   <span class="hljs-keyword">const</span> { <span class="hljs-attr">socket</span>: { alpnProtocol } } = req.<span class="hljs-property">httpVersion</span> === <span class="hljs-string">'2.0'</span> ?
     req.<span class="hljs-property">stream</span>.<span class="hljs-property">session</span> : req;
   res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>, { <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span> });
@@ -4209,7 +4277,7 @@ features of HTTP/2.</p>
 ).<span class="hljs-title function_">listen</span>(<span class="hljs-number">4443</span>);
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">onRequest</span>(<span class="hljs-params">req, res</span>) {
-  <span class="hljs-comment">// Detects if it is a HTTPS request or HTTP/2</span>
+  <span class="hljs-comment">// Detects if it is an HTTPS request or HTTP/2</span>
   <span class="hljs-keyword">const</span> { <span class="hljs-attr">socket</span>: { alpnProtocol } } = req.<span class="hljs-property">httpVersion</span> === <span class="hljs-string">'2.0'</span> ?
     req.<span class="hljs-property">stream</span>.<span class="hljs-property">session</span> : req;
   res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>, { <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span> });
@@ -4457,8 +4525,7 @@ HTTP request. If the request is:</p>
 <pre><code class="language-http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/status?name=ryan</span> <span class="hljs-meta">HTTP/1.1</span>
 <span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/plain</code> <button class="copy-button">copy</button></pre>
 <p>Then <code>request.url</code> will be:</p>
-<!-- eslint-disable @stylistic/js/semi -->
-<pre><code class="language-js"><span class="hljs-string">'/status?name=ryan'</span></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-string">"/status?name=ryan"</span></code> <button class="copy-button">copy</button></pre>
 <p>To parse the url into its parts, <code>new URL()</code> can be used:</p>
 <pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node</span>
 <span class="hljs-meta prompt_">> </span><span class="language-bash">new URL(<span class="hljs-string">'/status?name=ryan'</span>, <span class="hljs-string">'http://example.com'</span>)</span>
@@ -4900,6 +4967,25 @@ response.<span class="hljs-title function_">writeEarlyHints</span>({
 response.<span class="hljs-title function_">writeEarlyHints</span>({
   <span class="hljs-string">'link'</span>: earlyHintsLinks,
 });</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h5><code>response.writeInformation(statusCode[, headers])</code><span><a class="mark" href="#responsewriteinformationstatuscode-headers" id="responsewriteinformationstatuscode-headers">#</a></span><a aria-hidden="true" class="legacy" id="http2_response_writeinformation_statuscode_headers"></a></h5>
+<div class="api_metadata">
+<span>Added in: v24.18.0</span>
+</div>
+<ul>
+<li><code>statusCode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> An HTTP 1xx informational status code, between <code>100</code>
+and <code>199</code> inclusive, excluding <code>101</code> (Switching Protocols) which is not
+allowed in HTTP/2.</li>
+<li><code>headers</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An optional object of headers to send with the
+informational response.</li>
+</ul>
+<p>Sends an arbitrary HTTP 1xx informational response, equivalent in HTTP/2 to a
+<code>HEADERS</code> frame whose <code>:status</code> pseudo-header is a 1xx code. May be called
+multiple times before the final response. After the final response headers
+have been sent, this method is a no-op and returns <code>false</code>.</p>
+<p>This is the generic equivalent of <a href="#responsewritecontinue"><code>response.writeContinue()</code></a> and
+<a href="#responsewriteearlyhintshints"><code>response.writeEarlyHints()</code></a>.</p>
+<pre><code class="language-js">response.<span class="hljs-title function_">writeInformation</span>(<span class="hljs-number">110</span>, { <span class="hljs-string">'X-Progress'</span>: <span class="hljs-string">'50%'</span> });</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h5><code>response.writeHead(statusCode[, statusMessage][, headers])</code><span><a class="mark" href="#responsewriteheadstatuscode-statusmessage-headers" id="responsewriteheadstatuscode-statusmessage-headers">#</a></span><a aria-hidden="true" class="legacy" id="http2_response_writehead_statuscode_statusmessage_headers"></a></h5>
 <div class="api_metadata">

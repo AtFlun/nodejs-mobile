@@ -1,18 +1,18 @@
 #include "node_metadata.h"
-#include <algorithm>
 #include "acorn_version.h"
 #include "ada.h"
 #include "amaro_version.h"
 #include "ares.h"
 #include "brotli/encode.h"
-#include "cjs_module_lexer_version.h"
 #include "llhttp.h"
+#include "merve.h"
 #include "nbytes.h"
 #include "nghttp2/nghttp2ver.h"
 #include "node.h"
 #include "simdjson.h"
 #include "simdutf.h"
 #if HAVE_SQLITE
+#include "quic/guard.h"
 #include "sqlite3.h"
 #endif  // HAVE_SQLITE
 #include "undici_version.h"
@@ -31,12 +31,12 @@
 #if HAVE_OPENSSL
 #include <openssl/crypto.h>
 #include "ncrypto.h"
-#if NODE_OPENSSL_HAS_QUIC
+#ifndef OPENSSL_NO_QUIC
 #include <openssl/quic.h>
 #endif
 #endif  // HAVE_OPENSSL
 
-#ifdef NODE_OPENSSL_HAS_QUIC
+#ifndef OPENSSL_NO_QUIC
 #include <ngtcp2/version.h>
 #include <nghttp3/version.h>
 #endif
@@ -128,7 +128,7 @@ Metadata::Versions::Versions() {
 #endif
 
   acorn = ACORN_VERSION;
-  cjs_module_lexer = CJS_MODULE_LEXER_VERSION;
+  merve = MERVE_VERSION;
   uvwasi = UVWASI_VERSION_STRING;
   zstd = ZSTD_VERSION_STRING;
 
@@ -148,7 +148,7 @@ Metadata::Versions::Versions() {
   unicode = U_UNICODE_VERSION;
 #endif  // NODE_HAVE_I18N_SUPPORT
 
-#ifdef NODE_OPENSSL_HAS_QUIC
+#ifndef OPENSSL_NO_QUIC
   ngtcp2 = NGTCP2_VERSION;
   nghttp3 = NGHTTP3_VERSION;
 #endif
@@ -178,9 +178,8 @@ Metadata::Versions::pairs() const {
   NODE_VERSIONS_KEYS(V)
 #undef V
 
-  std::sort(versions_array.begin(),
-            versions_array.end(),
-            [](auto& a, auto& b) { return a.first < b.first; });
+  std::ranges::sort(versions_array,
+                    [](auto& a, auto& b) { return a.first < b.first; });
 
   return versions_array;
 }
@@ -197,9 +196,7 @@ Metadata::Release::Release() : name(NODE_RELEASE) {
   source_url = NODE_RELEASE_URLFPFX ".tar.gz";
   headers_url = NODE_RELEASE_URLFPFX "-headers.tar.gz";
 #ifdef _WIN32
-  lib_url = strcmp(NODE_ARCH, "ia32") ? NODE_RELEASE_URLPFX "win-" NODE_ARCH
-                                                           "/node.lib"
-                                     : NODE_RELEASE_URLPFX "win-x86/node.lib";
+  lib_url = NODE_RELEASE_URLPFX "win-" NODE_ARCH "/node.lib";
 #endif  // _WIN32
 
 #endif  // NODE_HAS_RELEASE_URLS

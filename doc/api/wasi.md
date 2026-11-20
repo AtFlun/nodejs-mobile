@@ -38,7 +38,6 @@ wasi.start(instance);
 ```
 
 ```cjs
-'use strict';
 const { readFile } = require('node:fs/promises');
 const { WASI } = require('node:wasi');
 const { argv, env } = require('node:process');
@@ -242,6 +241,28 @@ export, then an exception is thrown.
 `memory`. If `instance` does not have a `memory` export an exception is thrown.
 
 If `initialize()` is called more than once, an exception is thrown.
+
+### `wasi.finalizeBindings(instance[, options])`
+
+<!-- YAML
+added: v24.4.0
+-->
+
+* `instance` {WebAssembly.Instance}
+* `options` {Object}
+  * `memory` {WebAssembly.Memory} **Default:** `instance.exports.memory`.
+
+Set up WASI host bindings to `instance` without calling `initialize()`
+or `start()`. This method is useful when the WASI module is instantiated in
+child threads for sharing the memory across threads.
+
+`finalizeBindings()` requires that either `instance` exports a
+[`WebAssembly.Memory`][] named `memory` or user specify a
+[`WebAssembly.Memory`][] object in `options.memory`. If the `memory` is invalid
+an exception is thrown.
+
+`start()` and `initialize()` will call `finalizeBindings()` internally.
+If `finalizeBindings()` is called more than once, an exception is thrown.
 
 ### `wasi.wasiImport`
 

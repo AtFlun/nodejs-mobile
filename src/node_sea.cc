@@ -14,15 +14,6 @@
 #include "simdjson.h"
 #include "util-inl.h"
 
-// The POSTJECT_SENTINEL_FUSE macro is a string of random characters selected by
-// the Node.js project that is present only once in the entire binary. It is
-// used by the postject_has_resource() function to efficiently detect if a
-// resource has been injected. See
-// https://github.com/nodejs/postject/blob/35343439cac8c488f2596d7c4c1dddfec1fddcae/postject-api.h#L42-L45.
-#define POSTJECT_SENTINEL_FUSE "NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
-#include "postject-api.h"
-#undef POSTJECT_SENTINEL_FUSE
-
 #include <memory>
 #include <string_view>
 #include <tuple>
@@ -233,33 +224,6 @@ SeaResource SeaDeserializer::Read() {
           exec_argv};
 }
 
-std::string_view FindSingleExecutableBlob() {
-#if !defined(DISABLE_SINGLE_EXECUTABLE_APPLICATION)
-  CHECK(IsSingleExecutable());
-  static const std::string_view result = []() -> std::string_view {
-    size_t size;
-#ifdef __APPLE__
-    postject_options options;
-    postject_options_init(&options);
-    options.macho_segment_name = "NODE_SEA";
-    const char* blob = static_cast<const char*>(
-        postject_find_resource("NODE_SEA_BLOB", &size, &options));
-#else
-    const char* blob = static_cast<const char*>(
-        postject_find_resource("NODE_SEA_BLOB", &size, nullptr));
-#endif
-    return {blob, size};
-  }();
-  per_process::Debug(DebugCategory::SEA,
-                     "Found SEA blob %p, size=%zu\n",
-                     result.data(),
-                     result.size());
-  return result;
-#else
-  UNREACHABLE();
-#endif  // !defined(DISABLE_SINGLE_EXECUTABLE_APPLICATION)
-}
-
 }  // anonymous namespace
 
 bool SeaResource::use_snapshot() const {
@@ -283,9 +247,6 @@ SeaResource FindSingleExecutableResource() {
   return sea_resource;
 }
 
-bool IsSingleExecutable() {
-  return postject_has_resource();
-}
 
 void IsSea(const FunctionCallbackInfo<Value>& args) {
   args.GetReturnValue().Set(IsSingleExecutable());
@@ -591,10 +552,9 @@ ExitCode GenerateSnapshotForSEA(const SeaConfig& config,
     return exit_code;
   }
   auto& persistents = snapshot.env_info.principal_realm.persistent_values;
-  auto it = std::find_if(
-      persistents.begin(), persistents.end(), [](const PropInfo& prop) {
-        return prop.name == "snapshot_deserialize_main";
-      });
+  auto it = std::ranges::find_if(persistents, [](const PropInfo& prop) {
+    return prop.name == "snapshot_deserialize_main";
+  });
   if (it == persistents.end()) {
     FPrintF(
         stderr,
@@ -682,7 +642,7 @@ int BuildAssets(const std::unordered_map<std::string, std::string>& config,
     int r = ReadFileSync(&blob, path.c_str());
     if (r != 0) {
       const char* err = uv_strerror(r);
-      FPrintF(stderr, "Cannot read asset %s: %s\n", path.c_str(), err);
+      FPrintF(stderr, "Cannot read asset %s: %s\n", path, err);
       return r;
     }
     assets->emplace(key, std::move(blob));

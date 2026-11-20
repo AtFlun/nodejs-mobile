@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Performance measurement APIs | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Performance measurement APIs | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:1072px){.with-72-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:758px){.with-67-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:630px){.with-51-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:710px){.with-61-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:1072px){.with-72-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:630px){.with-51-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:758px){.with-67-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:702px){.with-60-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:710px){.with-61-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:1112px){.with-77-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-perf_hooks">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="perf_hooks" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -241,7 +241,9 @@
 </ul>
 </li>
 <li><a href="#perf_hookscreatehistogramoptions"><code>perf_hooks.createHistogram([options])</code></a></li>
+<li><a href="#perf_hookseventlooputilizationutilization1-utilization2"><code>perf_hooks.eventLoopUtilization([utilization1[, utilization2]])</code></a></li>
 <li><a href="#perf_hooksmonitoreventloopdelayoptions"><code>perf_hooks.monitorEventLoopDelay([options])</code></a></li>
+<li><a href="#perf_hookstimerifyfn-options"><code>perf_hooks.timerify(fn[, options])</code></a></li>
 <li><a href="#class-histogram">Class: <code>Histogram</code></a>
 <ul>
 <li><a href="#histogramcount"><code>histogram.count</code></a></li>
@@ -261,11 +263,12 @@
 <li><a href="#histogramstddev"><code>histogram.stddev</code></a></li>
 </ul>
 </li>
-<li><a href="#class-intervalhistogram-extends-histogram">Class: <code>IntervalHistogram extends Histogram</code></a>
+<li><a href="#class-eldhistogram-extends-histogram">Class: <code>ELDHistogram extends Histogram</code></a>
 <ul>
 <li><a href="#histogramdisable"><code>histogram.disable()</code></a></li>
 <li><a href="#histogramenable"><code>histogram.enable()</code></a></li>
-<li><a href="#cloning-an-intervalhistogram">Cloning an <code>IntervalHistogram</code></a></li>
+<li><a href="#histogramsymboldispose"><code>histogram[Symbol.dispose]()</code></a></li>
+<li><a href="#cloning-an-eldhistogram">Cloning an <code>ELDHistogram</code></a></li>
 </ul>
 </li>
 <li><a href="#class-recordablehistogram-extends-histogram">Class: <code>RecordableHistogram extends Histogram</code></a>
@@ -532,7 +535,9 @@
 </ul>
 </li>
 <li><a href="#perf_hookscreatehistogramoptions"><code>perf_hooks.createHistogram([options])</code></a></li>
+<li><a href="#perf_hookseventlooputilizationutilization1-utilization2"><code>perf_hooks.eventLoopUtilization([utilization1[, utilization2]])</code></a></li>
 <li><a href="#perf_hooksmonitoreventloopdelayoptions"><code>perf_hooks.monitorEventLoopDelay([options])</code></a></li>
+<li><a href="#perf_hookstimerifyfn-options"><code>perf_hooks.timerify(fn[, options])</code></a></li>
 <li><a href="#class-histogram">Class: <code>Histogram</code></a>
 <ul>
 <li><a href="#histogramcount"><code>histogram.count</code></a></li>
@@ -552,11 +557,12 @@
 <li><a href="#histogramstddev"><code>histogram.stddev</code></a></li>
 </ul>
 </li>
-<li><a href="#class-intervalhistogram-extends-histogram">Class: <code>IntervalHistogram extends Histogram</code></a>
+<li><a href="#class-eldhistogram-extends-histogram">Class: <code>ELDHistogram extends Histogram</code></a>
 <ul>
 <li><a href="#histogramdisable"><code>histogram.disable()</code></a></li>
 <li><a href="#histogramenable"><code>histogram.enable()</code></a></li>
-<li><a href="#cloning-an-intervalhistogram">Cloning an <code>IntervalHistogram</code></a></li>
+<li><a href="#histogramsymboldispose"><code>histogram[Symbol.dispose]()</code></a></li>
+<li><a href="#cloning-an-eldhistogram">Cloning an <code>ELDHistogram</code></a></li>
 </ul>
 </li>
 <li><a href="#class-recordablehistogram-extends-histogram">Class: <code>RecordableHistogram extends Histogram</code></a>
@@ -583,7 +589,7 @@
         <h2>Performance measurement APIs<span><a class="mark" href="#performance-measurement-apis" id="performance-measurement-apis">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_performance_measurement_apis"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/perf_hooks.js">lib/perf_hooks.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/perf_hooks.js">lib/perf_hooks.js</a></p>
 <p>This module provides an implementation of a subset of the W3C
 <a href="https://w3c.github.io/perf-timing-primer/">Web Performance APIs</a> as well as additional APIs for
 Node.js-specific performance measurements.</p>
@@ -689,7 +695,15 @@ the Resource Timeline. If <code>name</code> is provided, removes only the named 
 </div><div>
 <h4><code>performance.eventLoopUtilization([utilization1[, utilization2]])</code><span><a class="mark" href="#performanceeventlooputilizationutilization1-utilization2" id="performanceeventlooputilizationutilization1-utilization2">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_performance_eventlooputilization_utilization1_utilization2"></a></h4>
 <div class="api_metadata">
-<span>Added in: v14.10.0, v12.19.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.12.0</td>
+<td><p>Added <code>perf_hooks.eventLoopUtilization</code> alias.</p></td></tr>
+<tr><td>v14.10.0, v12.19.0</td>
+<td><p><span>Added in: v14.10.0, v12.19.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>utilization1</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The result of a previous call to
@@ -704,49 +718,8 @@ the Resource Timeline. If <code>name</code> is provided, removes only the named 
 </ul>
 </li>
 </ul>
-<p>The <code>eventLoopUtilization()</code> method returns an object that contains the
-cumulative duration of time the event loop has been both idle and active as a
-high resolution milliseconds timer. The <code>utilization</code> value is the calculated
-Event Loop Utilization (ELU).</p>
-<p>If bootstrapping has not yet finished on the main thread the properties have
-the value of <code>0</code>. The ELU is immediately available on <a href="worker_threads.html#worker-threads">Worker threads</a> since
-bootstrap happens within the event loop.</p>
-<p>Both <code>utilization1</code> and <code>utilization2</code> are optional parameters.</p>
-<p>If <code>utilization1</code> is passed, then the delta between the current call's <code>active</code>
-and <code>idle</code> times, as well as the corresponding <code>utilization</code> value are
-calculated and returned (similar to <a href="process.html#processhrtimetime"><code>process.hrtime()</code></a>).</p>
-<p>If <code>utilization1</code> and <code>utilization2</code> are both passed, then the delta is
-calculated between the two arguments. This is a convenience option because,
-unlike <a href="process.html#processhrtimetime"><code>process.hrtime()</code></a>, calculating the ELU is more complex than a
-single subtraction.</p>
-<p>ELU is similar to CPU utilization, except that it only measures event loop
-statistics and not CPU usage. It represents the percentage of time the event
-loop has spent outside the event loop's event provider (e.g. <code>epoll_wait</code>).
-No other CPU idle time is taken into consideration. The following is an example
-of how a mostly idle process will have a high ELU.</p>
-
-<pre class="with-72-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { eventLoopUtilization } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
-<span class="hljs-keyword">import</span> { spawnSync } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:child_process'</span>;
-
-<span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
-  <span class="hljs-keyword">const</span> elu = <span class="hljs-title function_">eventLoopUtilization</span>();
-  <span class="hljs-title function_">spawnSync</span>(<span class="hljs-string">'sleep'</span>, [<span class="hljs-string">'5'</span>]);
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">eventLoopUtilization</span>(elu).<span class="hljs-property">utilization</span>);
-});</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> { eventLoopUtilization } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>).<span class="hljs-property">performance</span>;
-<span class="hljs-keyword">const</span> { spawnSync } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
-
-<span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
-  <span class="hljs-keyword">const</span> elu = <span class="hljs-title function_">eventLoopUtilization</span>();
-  <span class="hljs-title function_">spawnSync</span>(<span class="hljs-string">'sleep'</span>, [<span class="hljs-string">'5'</span>]);
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">eventLoopUtilization</span>(elu).<span class="hljs-property">utilization</span>);
-});</code><button class="copy-button">copy</button></pre>
-<p>Although the CPU is mostly idle while running this script, the value of
-<code>utilization</code> is <code>1</code>. This is because the call to
-<a href="child_process.html#child_processspawnsynccommand-args-options"><code>child_process.spawnSync()</code></a> blocks the event loop from proceeding.</p>
-<p>Passing in a user-defined object instead of the result of a previous call to
-<code>eventLoopUtilization()</code> will lead to undefined behavior. The return values
-are not guaranteed to reflect any correct state of the event loop.</p>
+<p>This is an alias of <a href="#perf_hookseventlooputilizationutilization1-utilization2"><code>perf_hooks.eventLoopUtilization()</code></a>.</p>
+<p><em>This property is an extension by Node.js. It is not available in Web browsers.</em></p>
 </div><div>
 <h4><code>performance.getEntries()</code><span><a class="mark" href="#performancegetentries" id="performancegetentries">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_performance_getentries"></a></h4>
 <div class="api_metadata">
@@ -989,6 +962,8 @@ which the current <code>node</code> process began, measured in Unix time.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.12.0</td>
+<td><p>Added <code>perf_hooks.timerify</code> alias.</p></td></tr>
 <tr><td>v16.0.0</td>
 <td><p>Added the histogram option.</p></td></tr>
 <tr><td>v16.0.0</td>
@@ -1008,54 +983,8 @@ nanoseconds.</li>
 </ul>
 </li>
 </ul>
+<p>This is an alias of <a href="#perf_hookstimerifyfn-options"><code>perf_hooks.timerify()</code></a>.</p>
 <p><em>This property is an extension by Node.js. It is not available in Web browsers.</em></p>
-<p>Wraps a function within a new function that measures the running time of the
-wrapped function. A <code>PerformanceObserver</code> must be subscribed to the <code>'function'</code>
-event type in order for the timing details to be accessed.</p>
-
-<pre class="with-67-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { performance, <span class="hljs-title class_">PerformanceObserver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">someFunction</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'hello world'</span>);
-}
-
-<span class="hljs-keyword">const</span> wrapped = performance.<span class="hljs-title function_">timerify</span>(someFunction);
-
-<span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(list.<span class="hljs-title function_">getEntries</span>()[<span class="hljs-number">0</span>].<span class="hljs-property">duration</span>);
-
-  performance.<span class="hljs-title function_">clearMarks</span>();
-  performance.<span class="hljs-title function_">clearMeasures</span>();
-  obs.<span class="hljs-title function_">disconnect</span>();
-});
-obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'function'</span>] });
-
-<span class="hljs-comment">// A performance timeline entry will be created</span>
-<span class="hljs-title function_">wrapped</span>();</code><code class="language-js cjs"><span class="hljs-keyword">const</span> {
-  performance,
-  <span class="hljs-title class_">PerformanceObserver</span>,
-} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">someFunction</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'hello world'</span>);
-}
-
-<span class="hljs-keyword">const</span> wrapped = performance.<span class="hljs-title function_">timerify</span>(someFunction);
-
-<span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(list.<span class="hljs-title function_">getEntries</span>()[<span class="hljs-number">0</span>].<span class="hljs-property">duration</span>);
-
-  performance.<span class="hljs-title function_">clearMarks</span>();
-  performance.<span class="hljs-title function_">clearMeasures</span>();
-  obs.<span class="hljs-title function_">disconnect</span>();
-});
-obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'function'</span>] });
-
-<span class="hljs-comment">// A performance timeline entry will be created</span>
-<span class="hljs-title function_">wrapped</span>();</code><button class="copy-button">copy</button></pre>
-<p>If the wrapped function returns a promise, a finally handler will be attached
-to the promise and the duration will be reported once the finally handler is
-invoked.</p>
 </div><div>
 <h4><code>performance.toJSON()</code><span><a class="mark" href="#performancetojson" id="performancetojson">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_performance_tojson"></a></h4>
 <div class="api_metadata">
@@ -1302,6 +1231,7 @@ The value may be one of:</p>
 <ul>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MAJOR</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MINOR</code></li>
+<li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MINOR_MARK_SWEEP</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_INCREMENTAL</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_WEAKCB</code></li>
 </ul>
@@ -1314,6 +1244,7 @@ The value may be one of:</p>
 <ul>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MAJOR</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MINOR</code></li>
+<li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_MINOR_MARK_SWEEP</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_INCREMENTAL</code></li>
 <li><code>perf_hooks.constants.NODE_PERFORMANCE_GC_WEAKCB</code></li>
 </ul>
@@ -1490,7 +1421,7 @@ initialized.</p>
 </div><div>
 <h4><code>performanceNodeTiming.uvMetricsInfo</code><span><a class="mark" href="#performancenodetiminguvmetricsinfo" id="performancenodetiminguvmetricsinfo">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_performancenodetiming_uvmetricsinfo"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.8.0</span>
+<span>Added in: v22.8.0, v20.18.0</span>
 </div>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
@@ -2223,27 +2154,99 @@ value that is equal to or greater than two times <code>lowest</code>.
 <li>Returns: <a href="perf_hooks.html#class-recordablehistogram-extends-histogram" class="type">&#x3C;RecordableHistogram></a></li>
 </ul>
 <p>Returns a <a href="perf_hooks.html#class-recordablehistogram-extends-histogram" class="type">&#x3C;RecordableHistogram></a>.</p>
+</section><section><h3><code>perf_hooks.eventLoopUtilization([utilization1[, utilization2]])</code><span><a class="mark" href="#perf_hookseventlooputilizationutilization1-utilization2" id="perf_hookseventlooputilizationutilization1-utilization2">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_perf_hooks_eventlooputilization_utilization1_utilization2"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<ul>
+<li><code>utilization1</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The result of a previous call to
+<code>eventLoopUtilization()</code>.</li>
+<li><code>utilization2</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The result of a previous call to
+<code>eventLoopUtilization()</code> prior to <code>utilization1</code>.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>idle</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+<li><code>active</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+<li><code>utilization</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+<p>The <code>eventLoopUtilization()</code> function returns an object that contains the
+cumulative duration of time the event loop has been both idle and active as a
+high resolution milliseconds timer. The <code>utilization</code> value is the calculated
+Event Loop Utilization (ELU).</p>
+<p>If bootstrapping has not yet finished on the main thread the properties have
+the value of <code>0</code>. The ELU is immediately available on <a href="worker_threads.html#worker-threads">Worker threads</a> since
+bootstrap happens within the event loop.</p>
+<p>Both <code>utilization1</code> and <code>utilization2</code> are optional parameters.</p>
+<p>If <code>utilization1</code> is passed, then the delta between the current call's <code>active</code>
+and <code>idle</code> times, as well as the corresponding <code>utilization</code> value are
+calculated and returned (similar to <a href="process.html#processhrtimetime"><code>process.hrtime()</code></a>).</p>
+<p>If <code>utilization1</code> and <code>utilization2</code> are both passed, then the delta is
+calculated between the two arguments. This is a convenience option because,
+unlike <a href="process.html#processhrtimetime"><code>process.hrtime()</code></a>, calculating the ELU is more complex than a
+single subtraction.</p>
+<p>ELU is similar to CPU utilization, except that it only measures event loop
+statistics and not CPU usage. It represents the percentage of time the event
+loop has spent outside the event loop's event provider (e.g. <code>epoll_wait</code>).
+No other CPU idle time is taken into consideration. The following is an example
+of how a mostly idle process will have a high ELU.</p>
+
+<pre class="with-60-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { eventLoopUtilization } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
+<span class="hljs-keyword">import</span> { spawnSync } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:child_process'</span>;
+
+<span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> elu = <span class="hljs-title function_">eventLoopUtilization</span>();
+  <span class="hljs-title function_">spawnSync</span>(<span class="hljs-string">'sleep'</span>, [<span class="hljs-string">'5'</span>]);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">eventLoopUtilization</span>(elu).<span class="hljs-property">utilization</span>);
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { eventLoopUtilization } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+<span class="hljs-keyword">const</span> { spawnSync } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:child_process'</span>);
+
+<span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> elu = <span class="hljs-title function_">eventLoopUtilization</span>();
+  <span class="hljs-title function_">spawnSync</span>(<span class="hljs-string">'sleep'</span>, [<span class="hljs-string">'5'</span>]);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">eventLoopUtilization</span>(elu).<span class="hljs-property">utilization</span>);
+});</code><button class="copy-button">copy</button></pre>
+<p>Although the CPU is mostly idle while running this script, the value of
+<code>utilization</code> is <code>1</code>. This is because the call to
+<a href="child_process.html#child_processspawnsynccommand-args-options"><code>child_process.spawnSync()</code></a> blocks the event loop from proceeding.</p>
+<p>Passing in a user-defined object instead of the result of a previous call to
+<code>eventLoopUtilization()</code> will lead to undefined behavior. The return values
+are not guaranteed to reflect any correct state of the event loop.</p>
 </section><section><h3><code>perf_hooks.monitorEventLoopDelay([options])</code><span><a class="mark" href="#perf_hooksmonitoreventloopdelayoptions" id="perf_hooksmonitoreventloopdelayoptions">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_perf_hooks_monitoreventloopdelay_options"></a></h3>
 <div class="api_metadata">
-<span>Added in: v11.10.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Added the <code>samplePerIteration</code> option.</p></td></tr>
+<tr><td>v11.10.0</td>
+<td><p><span>Added in: v11.10.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
 <ul>
-<li><code>resolution</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The sampling rate in milliseconds. Must be greater
-than zero. <strong>Default:</strong> <code>10</code>.</li>
+<li><code>samplePerIteration</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, samples are taken once per
+event loop iteration. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>resolution</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> The sampling rate in milliseconds for interval-based
+sampling. Must be greater than zero. This option is ignored when
+<code>samplePerIteration</code> is <code>true</code>. <strong>Default:</strong> <code>10</code>.</li>
 </ul>
 </li>
-<li>Returns: <a href="perf_hooks.html#class-intervalhistogram-extends-histogram" class="type">&#x3C;IntervalHistogram></a></li>
+<li>Returns: <a href="perf_hooks.html#class-eldhistogram-extends-histogram" class="type">&#x3C;ELDHistogram></a></li>
 </ul>
 <p><em>This property is an extension by Node.js. It is not available in Web browsers.</em></p>
-<p>Creates an <code>IntervalHistogram</code> object that samples and reports the event loop
-delay over time. The delays will be reported in nanoseconds.</p>
-<p>Using a timer to detect approximate event loop delay works because the
-execution of timers is tied specifically to the lifecycle of the libuv
-event loop. That is, a delay in the loop will cause a delay in the execution
-of the timer, and those delays are specifically what this API is intended to
-detect.</p>
+<p>Creates a histogram object that samples and reports the event loop delay over
+time. The delays will be reported in nanoseconds.</p>
+<p>By default, the histogram is updated by a timer using the configured
+<code>resolution</code>. When <code>samplePerIteration</code> is <code>true</code>, samples are taken once per
+event loop iteration using <code>uv_prepare_t</code> and <code>uv_check_t</code> hooks. In that mode,
+the histogram does not keep the loop alive or force additional iterations when
+the application is idle.
+The two sampling modes produce significantly different results and should not
+be compared directly.</p>
 
 <pre class="with-61-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { monitorEventLoopDelay } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
 
@@ -2269,6 +2272,69 @@ h.<span class="hljs-title function_">disable</span>();
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(h.<span class="hljs-property">percentiles</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(h.<span class="hljs-title function_">percentile</span>(<span class="hljs-number">50</span>));
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(h.<span class="hljs-title function_">percentile</span>(<span class="hljs-number">99</span>));</code><button class="copy-button">copy</button></pre>
+</section><section><h3><code>perf_hooks.timerify(fn[, options])</code><span><a class="mark" href="#perf_hookstimerifyfn-options" id="perf_hookstimerifyfn-options">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_perf_hooks_timerify_fn_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>histogram</code> <a href="perf_hooks.html#class-recordablehistogram-extends-histogram" class="type">&#x3C;RecordableHistogram></a> A histogram object created using
+<code>perf_hooks.createHistogram()</code> that will record runtime durations in
+nanoseconds.</li>
+</ul>
+</li>
+</ul>
+<p><em>This property is an extension by Node.js. It is not available in Web browsers.</em></p>
+<p>Wraps a function within a new function that measures the running time of the
+wrapped function. A <code>PerformanceObserver</code> must be subscribed to the <code>'function'</code>
+event type in order for the timing details to be accessed.</p>
+
+<pre class="with-77-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { timerify, performance, <span class="hljs-title class_">PerformanceObserver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">someFunction</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'hello world'</span>);
+}
+
+<span class="hljs-keyword">const</span> wrapped = <span class="hljs-title function_">timerify</span>(someFunction);
+
+<span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(list.<span class="hljs-title function_">getEntries</span>()[<span class="hljs-number">0</span>].<span class="hljs-property">duration</span>);
+
+  performance.<span class="hljs-title function_">clearMarks</span>();
+  performance.<span class="hljs-title function_">clearMeasures</span>();
+  obs.<span class="hljs-title function_">disconnect</span>();
+});
+obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'function'</span>] });
+
+<span class="hljs-comment">// A performance timeline entry will be created</span>
+<span class="hljs-title function_">wrapped</span>();</code><code class="language-js cjs"><span class="hljs-keyword">const</span> {
+  timerify,
+  performance,
+  <span class="hljs-title class_">PerformanceObserver</span>,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">someFunction</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'hello world'</span>);
+}
+
+<span class="hljs-keyword">const</span> wrapped = <span class="hljs-title function_">timerify</span>(someFunction);
+
+<span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(list.<span class="hljs-title function_">getEntries</span>()[<span class="hljs-number">0</span>].<span class="hljs-property">duration</span>);
+
+  performance.<span class="hljs-title function_">clearMarks</span>();
+  performance.<span class="hljs-title function_">clearMeasures</span>();
+  obs.<span class="hljs-title function_">disconnect</span>();
+});
+obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'function'</span>] });
+
+<span class="hljs-comment">// A performance timeline entry will be created</span>
+<span class="hljs-title function_">wrapped</span>();</code><button class="copy-button">copy</button></pre>
+<p>If the wrapped function returns a promise, a finally handler will be attached
+to the promise and the duration will be reported once the finally handler is
+invoked.</p>
 </section><section><h3>Class: <code>Histogram</code><span><a class="mark" href="#class-histogram" id="class-histogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_class_histogram"></a></h3>
 <div class="api_metadata">
 <span>Added in: v11.10.0</span>
@@ -2410,8 +2476,9 @@ loop delay threshold.</p>
 </ul>
 <p>The standard deviation of the recorded event loop delays.</p>
 </div>
-</section><section><h3>Class: <code>IntervalHistogram extends Histogram</code><span><a class="mark" href="#class-intervalhistogram-extends-histogram" id="class-intervalhistogram-extends-histogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_class_intervalhistogram_extends_histogram"></a></h3>
-<p>A <code>Histogram</code> that is periodically updated on a given interval.</p>
+</section><section><h3>Class: <code>ELDHistogram extends Histogram</code><span><a class="mark" href="#class-eldhistogram-extends-histogram" id="class-eldhistogram-extends-histogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_class_eldhistogram_extends_histogram"></a></h3>
+<p>A <code>Histogram</code> that records event loop delay, returned by
+<a href="#perf_hooksmonitoreventloopdelayoptions"><code>perf_hooks.monitorEventLoopDelay()</code></a>.</p>
 <div>
 <h4><code>histogram.disable()</code><span><a class="mark" href="#histogramdisable" id="histogramdisable">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_histogram_disable"></a></h4>
 <div class="api_metadata">
@@ -2420,7 +2487,7 @@ loop delay threshold.</p>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
 </ul>
-<p>Disables the update interval timer. Returns <code>true</code> if the timer was
+<p>Disables event loop delay sampling. Returns <code>true</code> if sampling was
 stopped, <code>false</code> if it was already stopped.</p>
 </div><div>
 <h4><code>histogram.enable()</code><span><a class="mark" href="#histogramenable" id="histogramenable">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_histogram_enable"></a></h4>
@@ -2430,13 +2497,25 @@ stopped, <code>false</code> if it was already stopped.</p>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
 </ul>
-<p>Enables the update interval timer. Returns <code>true</code> if the timer was
+<p>Enables event loop delay sampling. Returns <code>true</code> if sampling was
 started, <code>false</code> if it was already started.</p>
 </div><div>
-<h4>Cloning an <code>IntervalHistogram</code><span><a class="mark" href="#cloning-an-intervalhistogram" id="cloning-an-intervalhistogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_cloning_an_intervalhistogram"></a></h4>
-<p><a href="perf_hooks.html#class-intervalhistogram-extends-histogram" class="type">&#x3C;IntervalHistogram></a> instances can be cloned via <a href="worker_threads.html#class-messageport" class="type">&#x3C;MessagePort></a>. On the receiving
-end, the histogram is cloned as a plain <a href="perf_hooks.html#class-histogram" class="type">&#x3C;Histogram></a> object that does not
-implement the <code>enable()</code> and <code>disable()</code> methods.</p>
+<h4><code>histogram[Symbol.dispose]()</code><span><a class="mark" href="#histogramsymboldispose" id="histogramsymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_histogram_symbol_dispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.2.0</span>
+</div>
+<p>Disables event loop delay sampling when the histogram is disposed.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { monitorEventLoopDelay } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+{
+  <span class="hljs-keyword">using</span> hist = <span class="hljs-title function_">monitorEventLoopDelay</span>({ <span class="hljs-attr">resolution</span>: <span class="hljs-number">20</span> });
+  hist.<span class="hljs-title function_">enable</span>();
+  <span class="hljs-comment">// The histogram will be disabled when the block is exited.</span>
+}</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h4>Cloning an <code>ELDHistogram</code><span><a class="mark" href="#cloning-an-eldhistogram" id="cloning-an-eldhistogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_cloning_an_eldhistogram"></a></h4>
+<p><a href="perf_hooks.html#class-eldhistogram-extends-histogram" class="type">&#x3C;ELDHistogram></a> instances can be cloned via <a href="worker_threads.html#class-messageport" class="type">&#x3C;MessagePort></a>. On the receiving end,
+the histogram is cloned as a plain <a href="perf_hooks.html#class-histogram" class="type">&#x3C;Histogram></a> object that does not implement
+the <code>enable()</code> and <code>disable()</code> methods.</p>
 </div>
 </section><section><h3>Class: <code>RecordableHistogram extends Histogram</code><span><a class="mark" href="#class-recordablehistogram-extends-histogram" id="class-recordablehistogram-extends-histogram">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_class_recordablehistogram_extends_histogram"></a></h3>
 <div class="api_metadata">
@@ -2505,8 +2584,7 @@ hook.<span class="hljs-title function_">enable</span>();
 });
 obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'measure'</span>], <span class="hljs-attr">buffered</span>: <span class="hljs-literal">true</span> });
 
-<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {}, <span class="hljs-number">1000</span>);</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> async_hooks = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:async_hooks'</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {}, <span class="hljs-number">1000</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> async_hooks = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:async_hooks'</span>);
 <span class="hljs-keyword">const</span> {
   performance,
   <span class="hljs-title class_">PerformanceObserver</span>,
@@ -2545,9 +2623,7 @@ obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">
 <h4>Measuring how long it takes to load dependencies<span><a class="mark" href="#measuring-how-long-it-takes-to-load-dependencies" id="measuring-how-long-it-takes-to-load-dependencies">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_measuring_how_long_it_takes_to_load_dependencies"></a></h4>
 <p>The following example measures the duration of <code>require()</code> operations to load
 dependencies:</p>
-<!-- eslint-disable no-global-assign -->
-
-<pre class="with-67-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { performance, <span class="hljs-title class_">PerformanceObserver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { performance, <span class="hljs-title class_">PerformanceObserver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
 
 <span class="hljs-comment">// Activate the observer</span>
 <span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">list</span>) =></span> {
@@ -2565,8 +2641,9 @@ obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-keyword">import</span>(<span class="hljs-variable language_">module</span>);
 });
 
-<span class="hljs-keyword">await</span> <span class="hljs-title function_">timedImport</span>(<span class="hljs-string">'some-module'</span>);</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> {
+<span class="hljs-keyword">await</span> <span class="hljs-title function_">timedImport</span>(<span class="hljs-string">'some-module'</span>);</code> <button class="copy-button">copy</button></pre>
+<!-- eslint-disable no-global-assign -->
+<pre><code class="language-js cjs"><span class="hljs-keyword">const</span> {
   performance,
   <span class="hljs-title class_">PerformanceObserver</span>,
 } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
@@ -2589,7 +2666,7 @@ mod.<span class="hljs-property">Module</span>.<span class="hljs-property"><span 
 });
 obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'function'</span>] });
 
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'some-module'</span>);</code><button class="copy-button">copy</button></pre>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">'some-module'</span>);</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4>Measuring how long one HTTP round-trip takes<span><a class="mark" href="#measuring-how-long-one-http-round-trip-takes" id="measuring-how-long-one-http-round-trip-takes">#</a></span><a aria-hidden="true" class="legacy" id="perf_hooks_measuring_how_long_one_http_round_trip_takes"></a></h4>
 <p>The following example is used to trace the time spent by HTTP client
@@ -2615,8 +2692,7 @@ obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">
   res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'ok'</span>);
 }).<span class="hljs-title function_">listen</span>(<span class="hljs-variable constant_">PORT</span>, <span class="hljs-function">() =></span> {
   <span class="hljs-title function_">get</span>(<span class="hljs-string">`http://127.0.0.1:<span class="hljs-subst">${PORT}</span>`</span>);
-});</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
 <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
 
 <span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">items</span>) =></span> {
@@ -2651,8 +2727,7 @@ obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">
   socket.<span class="hljs-title function_">destroy</span>();
 }).<span class="hljs-title function_">listen</span>(<span class="hljs-variable constant_">PORT</span>, <span class="hljs-function">() =></span> {
   <span class="hljs-title function_">connect</span>(<span class="hljs-variable constant_">PORT</span>);
-});</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
 <span class="hljs-keyword">const</span> net = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:net'</span>);
 <span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">items</span>) =></span> {
   items.<span class="hljs-title function_">getEntries</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =></span> {
@@ -2679,8 +2754,7 @@ net.<span class="hljs-title function_">createServer</span>(<span class="hljs-fun
 });
 obs.<span class="hljs-title function_">observe</span>({ <span class="hljs-attr">entryTypes</span>: [<span class="hljs-string">'dns'</span>] });
 <span class="hljs-title function_">lookup</span>(<span class="hljs-string">'localhost'</span>, <span class="hljs-function">() =></span> {});
-promises.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'localhost'</span>);</code><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+promises.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'localhost'</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">PerformanceObserver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
 <span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
 <span class="hljs-keyword">const</span> obs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PerformanceObserver</span>(<span class="hljs-function">(<span class="hljs-params">items</span>) =></span> {
   items.<span class="hljs-title function_">getEntries</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =></span> {

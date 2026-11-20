@@ -153,6 +153,7 @@ void FillStatFsArray(AliasedBufferBase<NativeT, V8T>* fields,
 
   SET_FIELD(kType, s->f_type);
   SET_FIELD(kBSize, s->f_bsize);
+  SET_FIELD(kFrSize, s->f_frsize);
   SET_FIELD(kBlocks, s->f_blocks);
   SET_FIELD(kBFree, s->f_bfree);
   SET_FIELD(kBAvail, s->f_bavail);
@@ -289,7 +290,7 @@ FSReqBase* GetReqWrap(const v8::FunctionCallbackInfo<v8::Value>& args,
   v8::Local<v8::Value> value = args[index];
   FSReqBase* result = nullptr;
   if (value->IsObject()) {
-    result = Unwrap<FSReqBase>(value.As<v8::Object>());
+    result = BaseObject::Unwrap<FSReqBase>(value.As<v8::Object>());
   } else {
     Realm* realm = Realm::GetCurrent(args);
     BindingData* binding_data = realm->GetBindingData<BindingData>();
@@ -347,23 +348,29 @@ FSReqBase* AsyncCall(Environment* env,
 // creating an error in the C++ land.
 // ctx must be checked using value->IsObject() before being passed.
 template <typename Func, typename... Args>
-int SyncCall(Environment* env, v8::Local<v8::Value> ctx,
-             FSReqWrapSync* req_wrap, const char* syscall,
-             Func fn, Args... args) {
+v8::Maybe<int> SyncCall(Environment* env,
+                        v8::Local<v8::Value> ctx,
+                        FSReqWrapSync* req_wrap,
+                        const char* syscall,
+                        Func fn,
+                        Args... args) {
   env->PrintSyncTrace();
   int err = fn(env->event_loop(), &(req_wrap->req), args..., nullptr);
   if (err < 0) {
     v8::Local<v8::Context> context = env->context();
     v8::Local<v8::Object> ctx_obj = ctx.As<v8::Object>();
     v8::Isolate* isolate = env->isolate();
-    ctx_obj->Set(context,
-                 env->errno_string(),
-                 v8::Integer::New(isolate, err)).Check();
-    ctx_obj->Set(context,
-                 env->syscall_string(),
-                 OneByteString(isolate, syscall)).Check();
+    if (ctx_obj
+            ->Set(context, env->errno_string(), v8::Integer::New(isolate, err))
+            .IsNothing() ||
+        ctx_obj
+            ->Set(
+                context, env->syscall_string(), OneByteString(isolate, syscall))
+            .IsNothing()) {
+      return v8::Nothing<int>();
+    }
   }
-  return err;
+  return v8::Just(err);
 }
 
 // Similar to SyncCall but throws immediately if there is an error.

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Web Streams API | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Web Streams API | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:358px){.with-17-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:654px){.with-54-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:334px){.with-14-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:678px){.with-57-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:638px){.with-52-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:358px){.with-17-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:654px){.with-54-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:334px){.with-14-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:678px){.with-57-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:638px){.with-52-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:630px){.with-51-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-webstreams">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="webstreams" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -146,6 +146,7 @@
 </li>
 <li><a href="#api">API</a>
 <ul>
+<li><span class="stability_1"><a href="#readablestreamteestream-cloneforbranch2"><code>ReadableStreamTee(stream[, cloneForBranch2])</code></a></span></li>
 <li><a href="#class-readablestream">Class: <code>ReadableStream</code></a>
 <ul>
 <li><a href="#new-readablestreamunderlyingsource--strategy"><code>new ReadableStream([underlyingSource [, strategy]])</code></a></li>
@@ -298,6 +299,7 @@
 <li><a href="#streamconsumersarraybufferstream"><code>streamConsumers.arrayBuffer(stream)</code></a></li>
 <li><a href="#streamconsumersblobstream"><code>streamConsumers.blob(stream)</code></a></li>
 <li><a href="#streamconsumersbufferstream"><code>streamConsumers.buffer(stream)</code></a></li>
+<li><a href="#streamconsumersbytesstream"><code>streamConsumers.bytes(stream)</code></a></li>
 <li><a href="#streamconsumersjsonstream"><code>streamConsumers.json(stream)</code></a></li>
 <li><a href="#streamconsumerstextstream"><code>streamConsumers.text(stream)</code></a></li>
 </ul>
@@ -449,6 +451,7 @@
 </li>
 <li><a href="#api">API</a>
 <ul>
+<li><span class="stability_1"><a href="#readablestreamteestream-cloneforbranch2"><code>ReadableStreamTee(stream[, cloneForBranch2])</code></a></span></li>
 <li><a href="#class-readablestream">Class: <code>ReadableStream</code></a>
 <ul>
 <li><a href="#new-readablestreamunderlyingsource--strategy"><code>new ReadableStream([underlyingSource [, strategy]])</code></a></li>
@@ -601,6 +604,7 @@
 <li><a href="#streamconsumersarraybufferstream"><code>streamConsumers.arrayBuffer(stream)</code></a></li>
 <li><a href="#streamconsumersblobstream"><code>streamConsumers.blob(stream)</code></a></li>
 <li><a href="#streamconsumersbufferstream"><code>streamConsumers.buffer(stream)</code></a></li>
+<li><a href="#streamconsumersbytesstream"><code>streamConsumers.bytes(stream)</code></a></li>
 <li><a href="#streamconsumersjsonstream"><code>streamConsumers.json(stream)</code></a></li>
 <li><a href="#streamconsumerstextstream"><code>streamConsumers.text(stream)</code></a></li>
 </ul>
@@ -702,12 +706,31 @@ is used to read the data from the stream.</p>
 <li><a href="stream.html#streamreadablefromwebreadablestream-options"><code>stream.Readable.fromWeb</code></a></li>
 <li><a href="stream.html#streamwritabletowebstreamwritable"><code>stream.Writable.toWeb</code></a></li>
 <li><a href="stream.html#streamwritablefromwebwritablestream-options"><code>stream.Writable.fromWeb</code></a></li>
-<li><a href="stream.html#streamduplextowebstreamduplex"><code>stream.Duplex.toWeb</code></a></li>
+<li><a href="stream.html#streamduplextowebstreamduplex-options"><code>stream.Duplex.toWeb</code></a></li>
 <li><a href="stream.html#streamduplexfromwebpair-options"><code>stream.Duplex.fromWeb</code></a></li>
 </ul>
 </div>
 </section><section><h3>API<span><a class="mark" href="#api" id="api">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_api"></a></h3>
 <div>
+<h4><code>ReadableStreamTee(stream[, cloneForBranch2])</code><span><a class="mark" href="#readablestreamteestream-cloneforbranch2" id="readablestreamteestream-cloneforbranch2">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamtee_stream_cloneforbranch2"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+<li><code>cloneForBranch2</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, chunks enqueued into the second
+branch are cloned from chunks enqueued into the first branch. <strong>Default:</strong>
+<code>false</code>.</li>
+<li>Returns: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream[]></a> Two <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> branches.</li>
+</ul>
+<p>Runs the WHATWG <code>ReadableStreamTee</code> abstract operation on <code>stream</code>.</p>
+<p>This differs from <code>readableStream.tee()</code> only when <code>cloneForBranch2</code> is
+<code>true</code>. The <code>tee()</code> method always passes <code>false</code>, while other web platform
+specifications, such as Fetch body cloning, pass <code>true</code> so that the second
+branch receives cloned chunks and consumption of one branch cannot mutate chunks
+seen by the other.</p>
+</div><div>
 <h4>Class: <code>ReadableStream</code><span><a class="mark" href="#class-readablestream" id="class-readablestream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestream"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -1255,7 +1278,7 @@ lock is released before the stream finishes closing.</li>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v21.7.0</td>
+<tr><td>v21.7.0, v20.17.0</td>
 <td><p>Added <code>min</code> option.</p></td></tr>
 <tr><td>v16.5.0</td>
 <td><p><span>Added in: v16.5.0</span></p></td></tr>
@@ -1734,7 +1757,15 @@ queue.</p>
 <div>
 <h5><code>new TransformStream([transformer[, writableStrategy[, readableStrategy]]])</code><span><a class="mark" href="#new-transformstreamtransformer-writablestrategy-readablestrategy" id="new-transformstreamtransformer-writablestrategy-readablestrategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_transformstream_transformer_writablestrategy_readablestrategy"></a></h5>
 <div class="api_metadata">
-<span>Added in: v16.5.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v21.5.0, v20.14.0</td>
+<td><p>Supports the <code>cancel</code> transformer callback.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
 <ul>
 <li><code>transformer</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
@@ -1760,6 +1791,14 @@ the writable side of the <code>TransformStream</code> is closed, signaling the e
 the transformation process.
 <ul>
 <li><code>controller</code> <a href="webstreams.html#class-transformstreamdefaultcontroller" class="type">&#x3C;TransformStreamDefaultController></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>cancel</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called when either the
+readable side of the <code>TransformStream</code> is canceled or the writable side is
+aborted.
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
 <li>Returns: A promise fulfilled with <code>undefined</code>.</li>
 </ul>
 </li>
@@ -2108,7 +2147,7 @@ mark.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>format now accepts <code>brotli</code> value.</p></td></tr>
 <tr><td>v21.2.0, v20.12.0</td>
 <td><p>format now accepts <code>deflate-raw</code> value.</p></td></tr>
@@ -2155,7 +2194,7 @@ mark.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>format now accepts <code>brotli</code> value.</p></td></tr>
 <tr><td>v21.2.0, v20.12.0</td>
 <td><p>format now accepts <code>deflate-raw</code> value.</p></td></tr>
@@ -2292,6 +2331,37 @@ contents of the stream.</li>
 
 <span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataBuffer);
 <span class="hljs-title function_">buffer</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 27</span>
+});</code><button class="copy-button">copy</button></pre>
+</div><div>
+<h5><code>streamConsumers.bytes(stream)</code><span><a class="mark" href="#streamconsumersbytesstream" id="streamconsumersbytesstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_bytes_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v24.14.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array" class="type">&#x3C;Uint8Array></a> containing the full
+contents of the stream.</li>
+</ul>
+
+<pre class="with-51-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { bytes } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Readable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> dataBuffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataBuffer);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">bytes</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 27</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { bytes } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Readable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">const</span> dataBuffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataBuffer);
+<span class="hljs-title function_">bytes</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
   <span class="hljs-comment">// Prints: from readable: 27</span>
 });</code><button class="copy-button">copy</button></pre>

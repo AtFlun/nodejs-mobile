@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Stream | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Stream | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="stream" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -178,7 +178,7 @@
 <li><a href="#writablewritablelength"><code>writable.writableLength</code></a></li>
 <li><a href="#writablewritableneeddrain"><code>writable.writableNeedDrain</code></a></li>
 <li><a href="#writablewritableobjectmode"><code>writable.writableObjectMode</code></a></li>
-<li><span class="stability_1"><a href="#writablesymbolasyncdispose"><code>writable[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#writablesymbolasyncdispose"><code>writable[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#writablewritechunk-encoding-callback"><code>writable.write(chunk[, encoding][, callback])</code></a></li>
 </ul>
 </li>
@@ -221,7 +221,7 @@
 <li><a href="#readableunshiftchunk-encoding"><code>readable.unshift(chunk[, encoding])</code></a></li>
 <li><a href="#readablewrapstream"><code>readable.wrap(stream)</code></a></li>
 <li><a href="#readablesymbolasynciterator"><code>readable[Symbol.asyncIterator]()</code></a></li>
-<li><span class="stability_1"><a href="#readablesymbolasyncdispose"><code>readable[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#readablesymbolasyncdispose"><code>readable[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#readablecomposestream-options"><code>readable.compose(stream[, options])</code></a></li>
 <li><a href="#readableiteratoroptions"><code>readable.iterator([options])</code></a></li>
 <li><span class="stability_1"><a href="#readablemapfn-options"><code>readable.map(fn[, options])</code></a></span></li>
@@ -257,7 +257,7 @@
 <li><a href="#streamfinishedstream-options-callback"><code>stream.finished(stream[, options], callback)</code></a></li>
 <li><a href="#streampipelinesource-transforms-destination-callback"><code>stream.pipeline(source[, ...transforms], destination, callback)</code></a></li>
 <li><a href="#streampipelinestreams-callback"><code>stream.pipeline(streams, callback)</code></a></li>
-<li><span class="stability_1"><a href="#streamcomposestreams"><code>stream.compose(...streams)</code></a></span></li>
+<li><a href="#streamcomposestreams"><code>stream.compose(...streams)</code></a></li>
 <li><a href="#streamiserroredstream"><code>stream.isErrored(stream)</code></a></li>
 <li><a href="#streamisreadablestream"><code>stream.isReadable(stream)</code></a></li>
 <li><a href="#streamiswritablestream"><code>stream.isWritable(stream)</code></a></li>
@@ -269,7 +269,7 @@
 <li><a href="#streamwritabletowebstreamwritable"><code>stream.Writable.toWeb(streamWritable)</code></a></li>
 <li><a href="#streamduplexfromsrc"><code>stream.Duplex.from(src)</code></a></li>
 <li><a href="#streamduplexfromwebpair-options"><code>stream.Duplex.fromWeb(pair[, options])</code></a></li>
-<li><a href="#streamduplextowebstreamduplex"><code>stream.Duplex.toWeb(streamDuplex)</code></a></li>
+<li><a href="#streamduplextowebstreamduplex-options"><code>stream.Duplex.toWeb(streamDuplex[, options])</code></a></li>
 <li><a href="#streamaddabortsignalsignal-stream"><code>stream.addAbortSignal(signal, stream)</code></a></li>
 <li><a href="#streamgetdefaulthighwatermarkobjectmode"><code>stream.getDefaultHighWaterMark(objectMode)</code></a></li>
 <li><a href="#streamsetdefaulthighwatermarkobjectmode-value"><code>stream.setDefaultHighWaterMark(objectMode, value)</code></a></li>
@@ -527,7 +527,7 @@
 <li><a href="#writablewritablelength"><code>writable.writableLength</code></a></li>
 <li><a href="#writablewritableneeddrain"><code>writable.writableNeedDrain</code></a></li>
 <li><a href="#writablewritableobjectmode"><code>writable.writableObjectMode</code></a></li>
-<li><span class="stability_1"><a href="#writablesymbolasyncdispose"><code>writable[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#writablesymbolasyncdispose"><code>writable[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#writablewritechunk-encoding-callback"><code>writable.write(chunk[, encoding][, callback])</code></a></li>
 </ul>
 </li>
@@ -570,7 +570,7 @@
 <li><a href="#readableunshiftchunk-encoding"><code>readable.unshift(chunk[, encoding])</code></a></li>
 <li><a href="#readablewrapstream"><code>readable.wrap(stream)</code></a></li>
 <li><a href="#readablesymbolasynciterator"><code>readable[Symbol.asyncIterator]()</code></a></li>
-<li><span class="stability_1"><a href="#readablesymbolasyncdispose"><code>readable[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#readablesymbolasyncdispose"><code>readable[Symbol.asyncDispose]()</code></a></li>
 <li><a href="#readablecomposestream-options"><code>readable.compose(stream[, options])</code></a></li>
 <li><a href="#readableiteratoroptions"><code>readable.iterator([options])</code></a></li>
 <li><span class="stability_1"><a href="#readablemapfn-options"><code>readable.map(fn[, options])</code></a></span></li>
@@ -606,7 +606,7 @@
 <li><a href="#streamfinishedstream-options-callback"><code>stream.finished(stream[, options], callback)</code></a></li>
 <li><a href="#streampipelinesource-transforms-destination-callback"><code>stream.pipeline(source[, ...transforms], destination, callback)</code></a></li>
 <li><a href="#streampipelinestreams-callback"><code>stream.pipeline(streams, callback)</code></a></li>
-<li><span class="stability_1"><a href="#streamcomposestreams"><code>stream.compose(...streams)</code></a></span></li>
+<li><a href="#streamcomposestreams"><code>stream.compose(...streams)</code></a></li>
 <li><a href="#streamiserroredstream"><code>stream.isErrored(stream)</code></a></li>
 <li><a href="#streamisreadablestream"><code>stream.isReadable(stream)</code></a></li>
 <li><a href="#streamiswritablestream"><code>stream.isWritable(stream)</code></a></li>
@@ -618,7 +618,7 @@
 <li><a href="#streamwritabletowebstreamwritable"><code>stream.Writable.toWeb(streamWritable)</code></a></li>
 <li><a href="#streamduplexfromsrc"><code>stream.Duplex.from(src)</code></a></li>
 <li><a href="#streamduplexfromwebpair-options"><code>stream.Duplex.fromWeb(pair[, options])</code></a></li>
-<li><a href="#streamduplextowebstreamduplex"><code>stream.Duplex.toWeb(streamDuplex)</code></a></li>
+<li><a href="#streamduplextowebstreamduplex-options"><code>stream.Duplex.toWeb(streamDuplex[, options])</code></a></li>
 <li><a href="#streamaddabortsignalsignal-stream"><code>stream.addAbortSignal(signal, stream)</code></a></li>
 <li><a href="#streamgetdefaulthighwatermarkobjectmode"><code>stream.getDefaultHighWaterMark(objectMode)</code></a></li>
 <li><a href="#streamsetdefaulthighwatermarkobjectmode-value"><code>stream.setDefaultHighWaterMark(objectMode, value)</code></a></li>
@@ -690,10 +690,10 @@
 </ul></details>
 
       <div role="main" id="apicontent">
-        <h2>Stream<a class="srclink" href="https://github.com/nodejs/node/blob/aa4c77582be995286fc6e00aaf530dc7ade102a9/lib/stream.js#L55">[src]</a><span><a class="mark" href="#stream" id="stream">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream"></a></h2>
+        <h2>Stream<a class="srclink" href="https://github.com/nodejs/node/blob/cdc1b38d40cb567b7ad0b39c86addf830a0af0ae/lib/stream.js#L55">[src]</a><span><a class="mark" href="#stream" id="stream">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/stream.js">lib/stream.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/stream.js">lib/stream.js</a></p>
 <p>A stream is an abstract interface for working with streaming data in Node.js.
 The <code>node:stream</code> module provides an API for implementing the stream interface.</p>
 <p>There are many stream objects provided by Node.js. For instance, a
@@ -744,6 +744,8 @@ or <code>require('node:stream').promises</code>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.7.0, v18.16.0</td>
+<td><p>Added support for webstreams.</p></td></tr>
 <tr><td>v18.0.0, v17.2.0, v16.14.0</td>
 <td><p>Add the <code>end</code> option, which can be set to <code>false</code> to prevent automatically closing the destination stream when the source ends.</p></td></tr>
 <tr><td>v15.0.0</td>
@@ -752,19 +754,19 @@ or <code>require('node:stream').promises</code>.</p>
 </details>
 </div>
 <ul>
-<li><code>streams</code> <a href="stream.html#stream" class="type">&#x3C;Stream[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable[]></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function[]></a></li>
-<li><code>source</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<li><code>streams</code> <a href="stream.html#stream" class="type">&#x3C;Stream[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable[]></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function[]></a> | <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream[]></a> | <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream[]></a> | <a href="webstreams.html#class-transformstream" class="type">&#x3C;TransformStream[]></a></li>
+<li><code>source</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a></li>
 </ul>
 </li>
-<li><code>...transforms</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<li><code>...transforms</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="webstreams.html#class-transformstream" class="type">&#x3C;TransformStream></a>
 <ul>
 <li><code>source</code> <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a></li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a></li>
 </ul>
 </li>
-<li><code>destination</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<li><code>destination</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a>
 <ul>
 <li><code>source</code> <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a></li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a></li>
@@ -1339,7 +1341,7 @@ myStream.<span class="hljs-title function_">destroy</span>();
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>TypedArray</code> or <code>DataView</code> instance.</p></td></tr>
 <tr><td>v15.0.0</td>
 <td><p>The <code>callback</code> is invoked before 'finish' or on error.</p></td></tr>
@@ -1438,7 +1440,7 @@ the stream has not been destroyed, errored, or ended.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0, v16.17.0</td>
 <td><p><span>Added in: v18.0.0, v16.17.0</span></p></td></tr>
@@ -1529,9 +1531,16 @@ the status of the <code>highWaterMark</code>.</p>
 </div><div>
 <h6><code>writable[Symbol.asyncDispose]()</code><span><a class="mark" href="#writablesymbolasyncdispose" id="writablesymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="stream_writable_symbol_asyncdispose"></a></h6>
 <div class="api_metadata">
-<span>Added in: v22.4.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v22.4.0, v20.16.0</td>
+<td><p><span>Added in: v22.4.0, v20.16.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#writabledestroyerror"><code>writable.destroy()</code></a> with an <code>AbortError</code> and returns
 a promise that fulfills when the stream is finished.</p>
 </div><div>
@@ -1540,7 +1549,7 @@ a promise that fulfills when the stream is finished.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>TypedArray</code> or <code>DataView</code> instance.</p></td></tr>
 <tr><td>v8.0.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>Uint8Array</code> instance.</p></td></tr>
@@ -2094,7 +2103,7 @@ the stream has not been destroyed or emitted <code>'error'</code> or <code>'end'
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.8.0</td>
 <td><p><span>Added in: v16.8.0</span></p></td></tr>
@@ -2111,7 +2120,7 @@ the stream has not been destroyed or emitted <code>'error'</code> or <code>'end'
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.7.0, v14.18.0</td>
 <td><p><span>Added in: v16.7.0, v14.18.0</span></p></td></tr>
@@ -2275,7 +2284,7 @@ readable.<span class="hljs-title function_">pipe</span>(writable);
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>TypedArray</code> or <code>DataView</code> instance.</p></td></tr>
 <tr><td>v8.0.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>Uint8Array</code> instance.</p></td></tr>
@@ -2410,9 +2419,16 @@ has less then 64 KiB of data because no <code>highWaterMark</code> option is pro
 </div><div>
 <h6><code>readable[Symbol.asyncDispose]()</code><span><a class="mark" href="#readablesymbolasyncdispose" id="readablesymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="stream_readable_symbol_asyncdispose"></a></h6>
 <div class="api_metadata">
-<span>Added in: v20.4.0, v18.18.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.2.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v20.4.0, v18.18.0</td>
+<td><p><span>Added in: v20.4.0, v18.18.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Calls <a href="#readabledestroyerror"><code>readable.destroy()</code></a> with an <code>AbortError</code> and returns
 a promise that fulfills when the stream is finished.</p>
 </div><div>
@@ -2421,7 +2437,7 @@ a promise that fulfills when the stream is finished.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v19.1.0, v18.13.0</td>
 <td><p><span>Added in: v19.1.0, v18.13.0</span></p></td></tr>
@@ -2429,7 +2445,7 @@ a promise that fulfills when the stream is finished.</p>
 </details>
 </div>
 <ul>
-<li><code>stream</code> <a href="stream.html#stream" class="type">&#x3C;Stream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+<li><code>stream</code> <a href="stream.html#class-streamwritable" class="type">&#x3C;Writable></a> | <a href="stream.html#class-streamduplex" class="type">&#x3C;Duplex></a> | <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> | <a href="webstreams.html#class-transformstream" class="type">&#x3C;TransformStream></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
 <ul>
 <li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> allows destroying the stream if the signal is
@@ -2450,18 +2466,21 @@ aborted.</li>
   }
 }
 
-<span class="hljs-keyword">const</span> wordsStream = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>([<span class="hljs-string">'this is'</span>, <span class="hljs-string">'compose as operator'</span>]).<span class="hljs-title function_">compose</span>(splitToWords);
+<span class="hljs-keyword">const</span> wordsStream = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>([<span class="hljs-string">'text passed through'</span>, <span class="hljs-string">'composed stream'</span>]).<span class="hljs-title function_">compose</span>(splitToWords);
 <span class="hljs-keyword">const</span> words = <span class="hljs-keyword">await</span> wordsStream.<span class="hljs-title function_">toArray</span>();
 
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(words); <span class="hljs-comment">// prints ['this', 'is', 'compose', 'as', 'operator']</span></code> <button class="copy-button">copy</button></pre>
-<p>See <a href="#streamcomposestreams"><code>stream.compose</code></a> for more information.</p>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(words); <span class="hljs-comment">// prints ['text', 'passed', 'through', 'composed', 'stream']</span></code> <button class="copy-button">copy</button></pre>
+<p><code>readable.compose(s)</code> is equivalent to <code>stream.compose(readable, s)</code>.</p>
+<p>This method also allows for an <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> to be provided, which will destroy
+the composed stream when aborted.</p>
+<p>See <a href="#streamcomposestreams"><code>stream.compose(...streams)</code></a> for more information.</p>
 </div><div>
 <h6><code>readable.iterator([options])</code><span><a class="mark" href="#readableiteratoroptions" id="readableiteratoroptions">#</a></span><a aria-hidden="true" class="legacy" id="stream_readable_iterator_options"></a></h6>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.3.0</td>
 <td><p><span>Added in: v16.3.0</span></p></td></tr>
@@ -3131,7 +3150,7 @@ further errors except from <code>_destroy()</code> may be emitted as <code>'erro
 </div></div><div>
 <h5><code>stream.duplexPair([options])</code><span><a class="mark" href="#streamduplexpairoptions" id="streamduplexpairoptions">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream_duplexpair_options"></a></h5>
 <div class="api_metadata">
-<span>Added in: v22.6.0</span>
+<span>Added in: v22.6.0, v20.17.0</span>
 </div>
 <ul>
 <li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> A value to pass to both <a href="#class-streamduplex"><code>Duplex</code></a> constructors,
@@ -3327,6 +3346,8 @@ See the example below:</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Marking the API stable.</p></td></tr>
 <tr><td>v21.1.0, v20.10.0</td>
 <td><p>Added support for stream class.</p></td></tr>
 <tr><td>v19.8.0, v18.16.0</td>
@@ -3336,7 +3357,6 @@ See the example below:</p>
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - <code>stream.compose</code> is experimental.</div><p></p>
 <ul>
 <li><code>streams</code> <a href="stream.html#stream" class="type">&#x3C;Stream[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable[]></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterable-interface" class="type">&#x3C;AsyncIterable[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function[]></a> | <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream[]></a> | <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream[]></a> | <a href="webstreams.html#class-transformstream" class="type">&#x3C;TransformStream[]></a> | <a href="stream.html#class-streamduplex" class="type">&#x3C;Duplex[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
 <li>Returns: <a href="stream.html#class-streamduplex" class="type">&#x3C;stream.Duplex></a></li>
@@ -3411,14 +3431,15 @@ either <code>null</code> or <code>undefined</code>.</li>
 <span class="hljs-keyword">await</span> <span class="hljs-title function_">finished</span>(<span class="hljs-title function_">compose</span>(s1, s2, s3));
 
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res); <span class="hljs-comment">// prints 'HELLOWORLD'</span></code> <button class="copy-button">copy</button></pre>
-<p>See <a href="#readablecomposestream-options"><code>readable.compose(stream)</code></a> for <code>stream.compose</code> as operator.</p>
+<p>For convenience, the <a href="#readablecomposestream-options"><code>readable.compose(stream)</code></a> method is available on
+<a href="stream.html#class-streamreadable" class="type">&#x3C;Readable></a> and <a href="stream.html#class-streamduplex" class="type">&#x3C;Duplex></a> streams as a wrapper for this function.</p>
 </div><div>
 <h4><code>stream.isErrored(stream)</code><span><a class="mark" href="#streamiserroredstream" id="streamiserroredstream">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream_iserrored_stream"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0, v22.17.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.3.0, v16.14.0</td>
 <td><p><span>Added in: v17.3.0, v16.14.0</span></p></td></tr>
@@ -3436,7 +3457,7 @@ either <code>null</code> or <code>undefined</code>.</li>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0, v22.17.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.4.0, v16.14.0</td>
 <td><p><span>Added in: v17.4.0, v16.14.0</span></p></td></tr>
@@ -3499,7 +3520,7 @@ it might result in unhandled rejection.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p><span>Added in: v17.0.0</span></p></td></tr>
@@ -3524,7 +3545,7 @@ it might result in unhandled rejection.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.8.0</td>
 <td><p><span>Added in: v16.8.0</span></p></td></tr>
@@ -3542,7 +3563,9 @@ it might result in unhandled rejection.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.14.0</td>
+<td><p>Add 'type' option to specify 'bytes'.</p></td></tr>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.7.0</td>
 <td><p>include strategy options on Readable.</p></td></tr>
@@ -3570,6 +3593,8 @@ If no value is provided, the size will be <code>1</code> for all the chunks.
 </li>
 </ul>
 </li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Specifies the type of the created <code>ReadableStream</code>. Must be
+<code>'bytes'</code> or undefined.</li>
 </ul>
 </li>
 <li>Returns: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
@@ -3580,7 +3605,7 @@ If no value is provided, the size will be <code>1</code> for all the chunks.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p><span>Added in: v17.0.0</span></p></td></tr>
@@ -3605,7 +3630,7 @@ If no value is provided, the size will be <code>1</code> for all the chunks.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p><span>Added in: v17.0.0</span></p></td></tr>
@@ -3668,7 +3693,7 @@ it might result in unhandled rejection.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p><span>Added in: v17.0.0</span></p></td></tr>
@@ -3750,12 +3775,16 @@ duplex.<span class="hljs-title function_">write</span>(<span class="hljs-string"
 duplex.<span class="hljs-title function_">write</span>(<span class="hljs-string">'hello'</span>);
 duplex.<span class="hljs-title function_">once</span>(<span class="hljs-string">'readable'</span>, <span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'readable'</span>, duplex.<span class="hljs-title function_">read</span>()));</code><button class="copy-button">copy</button></pre>
 </div><div>
-<h4><code>stream.Duplex.toWeb(streamDuplex)</code><span><a class="mark" href="#streamduplextowebstreamduplex" id="streamduplextowebstreamduplex">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream_duplex_toweb_streamduplex"></a></h4>
+<h4><code>stream.Duplex.toWeb(streamDuplex[, options])</code><span><a class="mark" href="#streamduplextowebstreamduplex-options" id="streamduplextowebstreamduplex-options">#</a></span><a aria-hidden="true" class="legacy" id="stream_stream_duplex_toweb_streamduplex_options"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.15.0</td>
+<td><p>Added the 'readableType' option to specify the ReadableStream type. The 'type' option is deprecated.</p></td></tr>
+<tr><td>v24.14.0</td>
+<td><p>Added the 'type' option to specify the ReadableStream type.</p></td></tr>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p><span>Added in: v17.0.0</span></p></td></tr>
@@ -3764,6 +3793,13 @@ duplex.<span class="hljs-title function_">once</span>(<span class="hljs-string">
 </div>
 <ul>
 <li><code>streamDuplex</code> <a href="stream.html#class-streamduplex" class="type">&#x3C;stream.Duplex></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>readableType</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> Specifies the type of the <code>ReadableStream</code> half of
+the created readable-writable pair. Must be <code>'bytes'</code> or undefined.
+(<code>options.type</code> is a deprecated alias for this option.)</li>
+</ul>
+</li>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
 <ul>
 <li><code>readable</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
@@ -3919,7 +3955,6 @@ implement streams using JavaScript's prototypal inheritance model.</p>
 of the four basic stream classes (<code>stream.Writable</code>, <code>stream.Readable</code>,
 <code>stream.Duplex</code>, or <code>stream.Transform</code>), making sure they call the appropriate
 parent class constructor:</p>
-<!-- eslint-disable no-useless-constructor -->
 <pre><code class="language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Writable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWritable</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Writable</span> {
@@ -4526,7 +4561,7 @@ It can be overridden by child classes but it <strong>must not</strong> be called
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>TypedArray</code> or <code>DataView</code> instance.</p></td></tr>
 <tr><td>v8.0.0</td>
 <td><p>The <code>chunk</code> argument can now be a <code>Uint8Array</code> instance.</p></td></tr>

@@ -2,19 +2,19 @@
 
 // Called from .github/workflows
 
-const generateReleaseNotes = async ({ github, owner, repo, versionTag, releaseBranch }) => {
+const generateReleaseNotes = async ({ github, owner, repo, versionTag, releaseBranch, commitHash }) => {
   const { data: releases } = await github.rest.repos.listReleases({
     owner,
     repo
   })
 
-  const previousRelease = releases.find((r) => r.tag_name.startsWith('v6'))
+  const previousRelease = releases.find((r) => r.tag_name.startsWith('v7'))
 
   const { data: { body } } = await github.rest.repos.generateReleaseNotes({
     owner,
     repo,
     tag_name: versionTag,
-    target_commitish: releaseBranch,
+    target_commitish: commitHash ?? releaseBranch,
     previous_tag_name: previousRelease?.tag_name
   })
 
@@ -25,9 +25,9 @@ const generateReleaseNotes = async ({ github, owner, repo, versionTag, releaseBr
   return bodyWithoutReleasePr
 }
 
-const generatePr = async ({ github, context, releaseBranch, versionTag }) => {
+const generatePr = async ({ github, context, releaseBranch, versionTag, commitHash }) => {
   const { owner, repo } = context.repo
-  const releaseNotes = await generateReleaseNotes({ github, owner, repo, versionTag, releaseBranch })
+  const releaseNotes = await generateReleaseNotes({ github, owner, repo, versionTag, releaseBranch, commitHash })
 
   await github.rest.pulls.create({
     owner,
@@ -39,16 +39,16 @@ const generatePr = async ({ github, context, releaseBranch, versionTag }) => {
   })
 }
 
-const release = async ({ github, context, releaseBranch, versionTag }) => {
+const release = async ({ github, context, releaseBranch, versionTag, commitHash }) => {
   const { owner, repo } = context.repo
-  const releaseNotes = await generateReleaseNotes({ github, owner, repo, versionTag, releaseBranch })
-  const makeLatest = releaseBranch === 'v6.x' ? 'false' : 'legacy'
+  const releaseNotes = await generateReleaseNotes({ github, owner, repo, versionTag, releaseBranch, commitHash })
+  const makeLatest = releaseBranch === 'v7.x' ? 'false' : 'legacy'
 
   await github.rest.repos.createRelease({
     owner,
     repo,
     tag_name: versionTag,
-    target_commitish: releaseBranch,
+    target_commitish: commitHash ?? releaseBranch,
     name: versionTag,
     body: releaseNotes,
     draft: false,

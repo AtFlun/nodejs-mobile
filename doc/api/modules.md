@@ -173,22 +173,31 @@ relative, and based on the real path of the files making the calls to
 <!-- YAML
 added:
   - v22.0.0
+  - v20.17.0
 changes:
   - version:
-    - v23.0.0
-    - v22.12.0
-    pr-url: https://github.com/nodejs/node/pull/55085
-    description: This feature is no longer behind the `--experimental-require-module` CLI flag.
-  - version: v22.13.0
+    - v24.15.0
+    pr-url: https://github.com/nodejs/node/pull/60959
+    description: This feature is no longer experimental.
+  - version:
+    - v23.5.0
+    - v22.13.0
+    - v20.19.0
     pr-url: https://github.com/nodejs/node/pull/56194
     description: This feature no longer emits an experimental warning by default,
                  though the warning can still be emitted by --trace-require-module.
-  - version: v22.12.0
+  - version:
+    - v23.0.0
+    - v22.12.0
+    - v20.19.0
+    pr-url: https://github.com/nodejs/node/pull/55085
+    description: This feature is no longer behind the `--experimental-require-module` CLI flag.
+  - version:
+    - v23.0.0
+    - v22.12.0
     pr-url: https://github.com/nodejs/node/pull/54563
     description: Support `'module.exports'` interop export in `require(esm)`.
 -->
-
-> Stability: 1.2 - Release candidate
 
 The `.mjs` extension is reserved for [ECMAScript Modules][].
 See [Determining module system][] section for more info
@@ -253,8 +262,6 @@ the default export in the `.default` property, similar to the results returned b
 To customize what should be returned by `require(esm)` directly, the ES Module can export the
 desired value using the string name `"module.exports"`.
 
-<!-- eslint-disable @stylistic/js/semi -->
-
 ```mjs
 // point.mjs
 export default class Point {
@@ -264,7 +271,7 @@ export default class Point {
 // `distance` is lost to CommonJS consumers of this module, unless it's
 // added to `Point` as a static property.
 export function distance(a, b) { return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2); }
-export { Point as 'module.exports' }
+export { Point as 'module.exports' };
 ```
 
 <!-- eslint-disable node-core/no-duplicate-requires -->
@@ -279,12 +286,10 @@ console.log(distance); // undefined
 ```
 
 Notice in the example above, when the `module.exports` export name is used, named exports
-will be lost to CommonJS consumers. To allow  CommonJS consumers to continue accessing
+will be lost to CommonJS consumers. To allow CommonJS consumers to continue accessing
 named exports, the module can make sure that the default export is an object with the
 named exports attached to it as properties. For example with the example above,
 `distance` can be attached to the default export, the `Point` class, as a static method.
-
-<!-- eslint-disable @stylistic/js/semi -->
 
 ```mjs
 export function distance(a, b) { return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2); }
@@ -294,7 +299,7 @@ export default class Point {
   static distance = distance;
 }
 
-export { Point as 'module.exports' }
+export { Point as 'module.exports' };
 ```
 
 <!-- eslint-disable node-core/no-duplicate-requires -->
@@ -317,8 +322,8 @@ If `--experimental-print-required-tla` is enabled, instead of throwing
 module, try to locate the top-level awaits, and print their location to
 help users fix them.
 
-Support for loading ES modules using `require()` is currently
-experimental and can be disabled using `--no-experimental-require-module`.
+If support for loading ES modules using `require()` results in unexpected
+breakage, it can be disabled using `--no-require-module`.
 To print where this feature is used, use [`--trace-require-module`][].
 
 This feature can be detected by checking if
@@ -354,8 +359,7 @@ require(X) from module at path Y
 MAYBE_DETECT_AND_LOAD(X)
 1. If X parses as a CommonJS module, load X as a CommonJS module. STOP.
 2. Else, if the source code of X can be parsed as ECMAScript module using
-  <a href="esm.md#resolver-algorithm-specification">DETECT_MODULE_SYNTAX defined in
-  the ESM resolver</a>,
+  DETECT_MODULE_SYNTAX defined in the ESM resolver,
   a. Load X as an ECMAScript module. STOP.
 3. THROW the SyntaxError from attempting to parse X as CommonJS in 1. STOP.
 
@@ -415,11 +419,11 @@ LOAD_PACKAGE_IMPORTS(X, DIR)
 1. Find the closest package scope SCOPE to DIR.
 2. If no scope was found, return.
 3. If the SCOPE/package.json "imports" is null or undefined, return.
-4. If `--experimental-require-module` is enabled
+4. If `--no-require-module` is not enabled
   a. let CONDITIONS = ["node", "require", "module-sync"]
   b. Else, let CONDITIONS = ["node", "require"]
 5. let MATCH = PACKAGE_IMPORTS_RESOLVE(X, pathToFileURL(SCOPE),
-  CONDITIONS) <a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver</a>.
+  CONDITIONS) defined in the ESM resolver.
 6. RESOLVE_ESM_MATCH(MATCH).
 
 LOAD_PACKAGE_EXPORTS(X, DIR)
@@ -429,11 +433,11 @@ LOAD_PACKAGE_EXPORTS(X, DIR)
    return.
 3. Parse DIR/NAME/package.json, and look for "exports" field.
 4. If "exports" is null or undefined, return.
-5. If `--experimental-require-module` is enabled
+5. If `--no-require-module` is not enabled
   a. let CONDITIONS = ["node", "require", "module-sync"]
   b. Else, let CONDITIONS = ["node", "require"]
 6. let MATCH = PACKAGE_EXPORTS_RESOLVE(pathToFileURL(DIR/NAME), "." + SUBPATH,
-   `package.json` "exports", CONDITIONS) <a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver</a>.
+   `package.json` "exports", CONDITIONS) defined in the ESM resolver.
 7. RESOLVE_ESM_MATCH(MATCH)
 
 LOAD_PACKAGE_SELF(X, DIR)
@@ -443,7 +447,7 @@ LOAD_PACKAGE_SELF(X, DIR)
 4. If the SCOPE/package.json "name" is not the first segment of X, return.
 5. let MATCH = PACKAGE_EXPORTS_RESOLVE(pathToFileURL(SCOPE),
    "." + X.slice("name".length), `package.json` "exports", ["node", "require"])
-   <a href="esm.md#resolver-algorithm-specification">defined in the ESM resolver</a>.
+   defined in the ESM resolver.
 6. RESOLVE_ESM_MATCH(MATCH)
 
 RESOLVE_ESM_MATCH(MATCH)
@@ -452,6 +456,8 @@ RESOLVE_ESM_MATCH(MATCH)
    format. STOP
 3. THROW "not found"
 ```
+
+The "ESM resolver" is defined [in the ESM documentation](esm.md#resolution-and-loading-algorithm).
 
 ## Caching
 
@@ -510,9 +516,11 @@ by that name.
 
 Some built-in modules are always preferentially loaded if their identifier is
 passed to `require()`. For instance, `require('http')` will always
-return the built-in HTTP module, even if there is a file by that name. The list
-of built-in modules that can be loaded without using the `node:` prefix is exposed
-as [`module.builtinModules`][].
+return the built-in HTTP module, even if there is a file by that name.
+
+The list of all the built-in modules can be retrieved from [`module.builtinModules`][].
+The modules being all listed without the `node:` prefix, except those that mandate such
+prefix (as explained in the next section).
 
 ### Built-in modules with mandatory `node:` prefix
 
@@ -525,6 +533,8 @@ taken the name. Currently the built-in modules that requires the `node:` prefix 
 * [`node:sqlite`][]
 * [`node:test`][]
 * [`node:test/reporters`][]
+
+The list of these modules is exposed in [`module.builtinModules`][], including the prefix.
 
 ## Cycles
 

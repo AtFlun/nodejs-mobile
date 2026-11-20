@@ -180,6 +180,7 @@
           'type': 'static_library',
           'sources': [
             '<!@pymod_do_main(GN-scraper "<(ZLIB_ROOT)/BUILD.gn" "\\"zlib\\".*?sources = ")',
+            '<(ZLIB_ROOT)/cpu-features.c',
           ],
           'include_dirs': [ '<(ZLIB_ROOT)' ],
           'direct_dependent_settings': {

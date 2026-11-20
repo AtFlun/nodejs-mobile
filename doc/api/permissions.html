@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Permissions | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Permissions | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="permissions" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -148,8 +148,10 @@
 </ul>
 </li>
 <li><a href="#file-system-permissions">File System Permissions</a></li>
+<li><a href="#configuration-file-support">Configuration file support</a></li>
 <li><a href="#using-the-permission-model-with-npx">Using the Permission Model with <code>npx</code></a></li>
 <li><a href="#permission-model-constraints">Permission Model constraints</a></li>
+<li><a href="#process_debugprocess-and-cross-process-inspector-activation">process._debugProcess() and cross-process Inspector activation</a></li>
 <li><a href="#limitations-and-known-issues">Limitations and Known Issues</a></li>
 </ul>
 </li>
@@ -298,8 +300,10 @@
 </ul>
 </li>
 <li><a href="#file-system-permissions">File System Permissions</a></li>
+<li><a href="#configuration-file-support">Configuration file support</a></li>
 <li><a href="#using-the-permission-model-with-npx">Using the Permission Model with <code>npx</code></a></li>
 <li><a href="#permission-model-constraints">Permission Model constraints</a></li>
+<li><a href="#process_debugprocess-and-cross-process-inspector-activation">process._debugProcess() and cross-process Inspector activation</a></li>
 <li><a href="#limitations-and-known-issues">Limitations and Known Issues</a></li>
 </ul>
 </li>
@@ -339,7 +343,7 @@ model.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.5.0, v22.13.0</td>
 <td><p>This feature is no longer experimental.</p></td></tr>
 <tr><td>v20.0.0</td>
 <td><p><span>Added in: v20.0.0</span></p></td></tr>
@@ -434,6 +438,24 @@ does not exist, the wildcard will not be added, and access will be limited to
 yet, make sure to explicitly include the wildcard:
 <code>/my-path/folder-do-not-exist/*</code>.</p>
 </div><div>
+<h5>Configuration file support<span><a class="mark" href="#configuration-file-support" id="configuration-file-support">#</a></span><a aria-hidden="true" class="legacy" id="permissions_configuration_file_support"></a></h5>
+<p>In addition to passing permission flags on the command line, they can also be
+declared in a Node.js configuration file when using the experimental
+[<code>--experimental-config-file</code>][] flag. Permission options must be placed inside
+the <code>permission</code> top-level object.</p>
+<p>Example <code>node.config.json</code>:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"permission"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"allow-fs-read"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"./foo"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"allow-fs-write"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"./bar"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"allow-child-process"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"allow-worker"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"allow-addons"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
+<p>Run with the configuration file:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node --permission --experimental-default-config-file app.js</span></code> <button class="copy-button">copy</button></pre>
+</div><div>
 <h5>Using the Permission Model with <code>npx</code><span><a class="mark" href="#using-the-permission-model-with-npx" id="using-the-permission-model-with-npx">#</a></span><a aria-hidden="true" class="legacy" id="permissions_using_the_permission_model_with_npx"></a></h5>
 <p>If you're using <a href="https://docs.npmjs.com/cli/commands/npx"><code>npx</code></a> to execute a Node.js script, you can enable the
 Permission Model by passing the <code>--node-options</code> flag. For example:</p>
@@ -486,6 +508,27 @@ Model is enabled, affecting the built-in crypto, https, and tls modules.</li>
 enabled, affecting the sqlite module.</li>
 <li>Using existing file descriptors via the <code>node:fs</code> module bypasses the
 Permission Model.</li>
+</ul>
+</div><div>
+<h5>process._debugProcess() and cross-process Inspector activation<span><a class="mark" href="#process_debugprocess-and-cross-process-inspector-activation" id="process_debugprocess-and-cross-process-inspector-activation">#</a></span><a aria-hidden="true" class="legacy" id="permissions_process_debugprocess_and_cross_process_inspector_activation"></a></h5>
+<p>The <code>kInspector</code> permission scope restricts the current process from opening its own V8 Inspector. However,
+process._debugProcess(pid) — which sends an OS-level signal (SIGUSR1 on POSIX, a remote thread on Windows)
+to an external process — is not gated by the <code>kInspector</code> scope or any other Permission Model scope.</p>
+<p>A sandboxed process running under --permission with no additional grants can call process._debugProcess(pid)
+to force another Node.js process to open its V8 Inspector. The target process does not need to be running
+under --permission for this to work — any Node.js process running on the same host under the same OS user
+can be signaled.</p>
+<p>This is consistent with the Node.js threat model: Node.js trusts the OS environment in which it runs.
+Cross-process signaling is an operating-system-level capability; restricting it is the responsibility of
+the operator (for example, using OS-level process isolation, separate OS users per process, or
+seccomp/AppArmor profiles on Linux).</p>
+<p>Developers relying on --permission to sandbox untrusted code should be aware that:</p>
+<ul>
+<li>process._debugProcess() is callable from any sandboxed process with no grants.</li>
+<li>If a target Node.js process is running on the same host under the same OS user, it can be forced to
+open its Inspector via this API.</li>
+<li>To prevent this, run sandboxed and target processes under different OS users, or use OS-level isolation
+mechanisms outside of Node.js.</li>
 </ul>
 </div><div>
 <h5>Limitations and Known Issues<span><a class="mark" href="#limitations-and-known-issues" id="limitations-and-known-issues">#</a></span><a aria-hidden="true" class="legacy" id="permissions_limitations_and_known_issues"></a></h5>

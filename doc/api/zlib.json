@@ -8,7 +8,7 @@
       "introduced_in": "v0.10.0",
       "stability": 2,
       "stabilityText": "Stable",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/zlib.js\">lib/zlib.js</a></p>\n<p>The <code>node:zlib</code> module provides compression functionality implemented using\nGzip, Deflate/Inflate, Brotli, and Zstd.</p>\n<p>To access it:</p>\n<pre><code class=\"language-mjs\">import zlib from 'node:zlib';\n</code></pre>\n<pre><code class=\"language-cjs\">const zlib = require('node:zlib');\n</code></pre>\n<p>Compression and decompression are built around the Node.js <a href=\"stream.html\">Streams API</a>.</p>\n<p>Compressing or decompressing a stream (such as a file) can be accomplished by\npiping the source stream through a <code>zlib</code> <code>Transform</code> stream into a destination\nstream:</p>\n<pre><code class=\"language-mjs\">import {\n  createReadStream,\n  createWriteStream,\n} from 'node:fs';\nimport process from 'node:process';\nimport { createGzip } from 'node:zlib';\nimport { pipeline } from 'node:stream';\n\nconst gzip = createGzip();\nconst source = createReadStream('input.txt');\nconst destination = createWriteStream('input.txt.gz');\n\npipeline(source, gzip, destination, (err) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  createReadStream,\n  createWriteStream,\n} = require('node:fs');\nconst process = require('node:process');\nconst { createGzip } = require('node:zlib');\nconst { pipeline } = require('node:stream');\n\nconst gzip = createGzip();\nconst source = createReadStream('input.txt');\nconst destination = createWriteStream('input.txt.gz');\n\npipeline(source, gzip, destination, (err) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n});\n</code></pre>\n<p>Or, using the promise <code>pipeline</code> API:</p>\n<pre><code class=\"language-mjs\">import {\n  createReadStream,\n  createWriteStream,\n} from 'node:fs';\nimport { createGzip } from 'node:zlib';\nimport { pipeline } from 'node:stream/promises';\n\nasync function do_gzip(input, output) {\n  const gzip = createGzip();\n  const source = createReadStream(input);\n  const destination = createWriteStream(output);\n  await pipeline(source, gzip, destination);\n}\n\nawait do_gzip('input.txt', 'input.txt.gz');\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  createReadStream,\n  createWriteStream,\n} = require('node:fs');\nconst process = require('node:process');\nconst { createGzip } = require('node:zlib');\nconst { pipeline } = require('node:stream/promises');\n\nasync function do_gzip(input, output) {\n  const gzip = createGzip();\n  const source = createReadStream(input);\n  const destination = createWriteStream(output);\n  await pipeline(source, gzip, destination);\n}\n\ndo_gzip('input.txt', 'input.txt.gz')\n  .catch((err) => {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  });\n</code></pre>\n<p>It is also possible to compress or decompress data in a single step:</p>\n<pre><code class=\"language-mjs\">import process from 'node:process';\nimport { Buffer } from 'node:buffer';\nimport { deflate, unzip } from 'node:zlib';\n\nconst input = '.................................';\ndeflate(input, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString('base64'));\n});\n\nconst buffer = Buffer.from('eJzT0yMAAGTvBe8=', 'base64');\nunzip(buffer, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString());\n});\n\n// Or, Promisified\n\nimport { promisify } from 'node:util';\nconst do_unzip = promisify(unzip);\n\nconst unzippedBuffer = await do_unzip(buffer);\nconsole.log(unzippedBuffer.toString());\n</code></pre>\n<pre><code class=\"language-cjs\">const { deflate, unzip } = require('node:zlib');\n\nconst input = '.................................';\ndeflate(input, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString('base64'));\n});\n\nconst buffer = Buffer.from('eJzT0yMAAGTvBe8=', 'base64');\nunzip(buffer, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString());\n});\n\n// Or, Promisified\n\nconst { promisify } = require('node:util');\nconst do_unzip = promisify(unzip);\n\ndo_unzip(buffer)\n  .then((buf) => console.log(buf.toString()))\n  .catch((err) => {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  });\n</code></pre>",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/zlib.js\">lib/zlib.js</a></p>\n<p>The <code>node:zlib</code> module provides compression functionality implemented using\nGzip, Deflate/Inflate, Brotli, and Zstd.</p>\n<p>To access it:</p>\n<pre><code class=\"language-mjs\">import zlib from 'node:zlib';\n</code></pre>\n<pre><code class=\"language-cjs\">const zlib = require('node:zlib');\n</code></pre>\n<p>Compression and decompression are built around the Node.js <a href=\"stream.html\">Streams API</a>.</p>\n<p>Compressing or decompressing a stream (such as a file) can be accomplished by\npiping the source stream through a <code>zlib</code> <code>Transform</code> stream into a destination\nstream:</p>\n<pre><code class=\"language-mjs\">import {\n  createReadStream,\n  createWriteStream,\n} from 'node:fs';\nimport process from 'node:process';\nimport { createGzip } from 'node:zlib';\nimport { pipeline } from 'node:stream';\n\nconst gzip = createGzip();\nconst source = createReadStream('input.txt');\nconst destination = createWriteStream('input.txt.gz');\n\npipeline(source, gzip, destination, (err) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  createReadStream,\n  createWriteStream,\n} = require('node:fs');\nconst { createGzip } = require('node:zlib');\nconst { pipeline } = require('node:stream');\n\nconst gzip = createGzip();\nconst source = createReadStream('input.txt');\nconst destination = createWriteStream('input.txt.gz');\n\npipeline(source, gzip, destination, (err) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n});\n</code></pre>\n<p>Or, using the promise <code>pipeline</code> API:</p>\n<pre><code class=\"language-mjs\">import {\n  createReadStream,\n  createWriteStream,\n} from 'node:fs';\nimport { createGzip } from 'node:zlib';\nimport { pipeline } from 'node:stream/promises';\n\nasync function do_gzip(input, output) {\n  const gzip = createGzip();\n  const source = createReadStream(input);\n  const destination = createWriteStream(output);\n  await pipeline(source, gzip, destination);\n}\n\nawait do_gzip('input.txt', 'input.txt.gz');\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  createReadStream,\n  createWriteStream,\n} = require('node:fs');\nconst { createGzip } = require('node:zlib');\nconst { pipeline } = require('node:stream/promises');\n\nasync function do_gzip(input, output) {\n  const gzip = createGzip();\n  const source = createReadStream(input);\n  const destination = createWriteStream(output);\n  await pipeline(source, gzip, destination);\n}\n\ndo_gzip('input.txt', 'input.txt.gz')\n  .catch((err) => {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  });\n</code></pre>\n<p>It is also possible to compress or decompress data in a single step:</p>\n<pre><code class=\"language-mjs\">import process from 'node:process';\nimport { Buffer } from 'node:buffer';\nimport { deflate, unzip } from 'node:zlib';\n\nconst input = '.................................';\ndeflate(input, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString('base64'));\n});\n\nconst buffer = Buffer.from('eJzT0yMAAGTvBe8=', 'base64');\nunzip(buffer, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString());\n});\n\n// Or, Promisified\n\nimport { promisify } from 'node:util';\nconst do_unzip = promisify(unzip);\n\nconst unzippedBuffer = await do_unzip(buffer);\nconsole.log(unzippedBuffer.toString());\n</code></pre>\n<pre><code class=\"language-cjs\">const { deflate, unzip } = require('node:zlib');\n\nconst input = '.................................';\ndeflate(input, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString('base64'));\n});\n\nconst buffer = Buffer.from('eJzT0yMAAGTvBe8=', 'base64');\nunzip(buffer, (err, buffer) => {\n  if (err) {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  }\n  console.log(buffer.toString());\n});\n\n// Or, Promisified\n\nconst { promisify } = require('node:util');\nconst do_unzip = promisify(unzip);\n\ndo_unzip(buffer)\n  .then((buf) => console.log(buf.toString()))\n  .catch((err) => {\n    console.error('An error occurred:', err);\n    process.exitCode = 1;\n  });\n</code></pre>",
       "modules": [
         {
           "textRaw": "Threadpool usage and performance considerations",
@@ -41,7 +41,7 @@
             {
               "textRaw": "For zlib-based streams",
               "name": "for_zlib-based_streams",
-              "desc": "<p>From <code>zlib/zconf.h</code>, modified for Node.js usage:</p>\n<p>The memory requirements for deflate are (in bytes):</p>\n<!-- eslint-disable @stylistic/js/semi -->\n<pre><code class=\"language-js\">(1 &#x3C;&#x3C; (windowBits + 2)) + (1 &#x3C;&#x3C; (memLevel + 9))\n</code></pre>\n<p>That is: 128K for <code>windowBits</code> = 15 + 128K for <code>memLevel</code> = 8\n(default values) plus a few kilobytes for small objects.</p>\n<p>For example, to reduce the default memory requirements from 256K to 128K, the\noptions should be set to:</p>\n<pre><code class=\"language-js\">const options = { windowBits: 14, memLevel: 7 };\n</code></pre>\n<p>This will, however, generally degrade compression.</p>\n<p>The memory requirements for inflate are (in bytes) <code>1 &#x3C;&#x3C; windowBits</code>.\nThat is, 32K for <code>windowBits</code> = 15 (default value) plus a few kilobytes\nfor small objects.</p>\n<p>This is in addition to a single internal output slab buffer of size\n<code>chunkSize</code>, which defaults to 16K.</p>\n<p>The speed of <code>zlib</code> compression is affected most dramatically by the\n<code>level</code> setting. A higher level will result in better compression, but\nwill take longer to complete. A lower level will result in less\ncompression, but will be much faster.</p>\n<p>In general, greater memory usage options will mean that Node.js has to make\nfewer calls to <code>zlib</code> because it will be able to process more data on\neach <code>write</code> operation. So, this is another factor that affects the\nspeed, at the cost of memory usage.</p>",
+              "desc": "<p>From <code>zlib/zconf.h</code>, modified for Node.js usage:</p>\n<p>The memory requirements for deflate are (in bytes):</p>\n<pre><code class=\"language-js\">(1 &#x3C;&#x3C; (windowBits + 2)) + (1 &#x3C;&#x3C; (memLevel + 9));\n</code></pre>\n<p>That is: 128K for <code>windowBits</code> = 15 + 128K for <code>memLevel</code> = 8\n(default values) plus a few kilobytes for small objects.</p>\n<p>For example, to reduce the default memory requirements from 256K to 128K, the\noptions should be set to:</p>\n<pre><code class=\"language-js\">const options = { windowBits: 14, memLevel: 7 };\n</code></pre>\n<p>This will, however, generally degrade compression.</p>\n<p>The memory requirements for inflate are (in bytes) <code>1 &#x3C;&#x3C; windowBits</code>.\nThat is, 32K for <code>windowBits</code> = 15 (default value) plus a few kilobytes\nfor small objects.</p>\n<p>This is in addition to a single internal output slab buffer of size\n<code>chunkSize</code>, which defaults to 16K.</p>\n<p>The speed of <code>zlib</code> compression is affected most dramatically by the\n<code>level</code> setting. A higher level will result in better compression, but\nwill take longer to complete. A lower level will result in less\ncompression, but will be much faster.</p>\n<p>In general, greater memory usage options will mean that Node.js has to make\nfewer calls to <code>zlib</code> because it will be able to process more data on\neach <code>write</code> operation. So, this is another factor that affects the\nspeed, at the cost of memory usage.</p>",
               "type": "misc",
               "displayName": "For zlib-based streams"
             },
@@ -125,6 +125,7 @@
               "stabilityText": "Experimental",
               "meta": {
                 "added": [
+                  "v23.8.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -182,6 +183,11 @@
             ],
             "changes": [
               {
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/64023",
+                "description": "The `rejectGarbageAfterEnd` option was added."
+              },
+              {
                 "version": [
                   "v14.5.0",
                   "v12.19.0"
@@ -206,7 +212,7 @@
               }
             ]
           },
-          "desc": "<p>Each zlib-based class takes an <code>options</code> object. No options are required.</p>\n<p>Some options are only relevant when compressing and are\nignored by the decompression classes.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.Z_NO_FLUSH</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.Z_FINISH</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>windowBits</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a></li>\n<li><code>level</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>memLevel</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>strategy</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>dictionary</code> <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a> (deflate/inflate only,\nempty dictionary by default)</li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> (If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>.)</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n</ul>\n<p>See the <a href=\"https://zlib.net/manual.html#Advanced\"><code>deflateInit2</code> and <code>inflateInit2</code></a> documentation for more\ninformation.</p>"
+          "desc": "<p>Each zlib-based class takes an <code>options</code> object. No options are required.</p>\n<p>Some options are only relevant when compressing and are\nignored by the decompression classes.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.Z_NO_FLUSH</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.Z_FINISH</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>windowBits</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a></li>\n<li><code>level</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>memLevel</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>strategy</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> (compression only)</li>\n<li><code>dictionary</code> <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a> (deflate/inflate only,\nempty dictionary by default)</li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> (If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>.)</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n<li><code>rejectGarbageAfterEnd</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, decompression fails when\ntrailing input is detected after the end of the compressed stream. This\nincludes unreadable bytes and, when decompressing gzip, additional gzip\nmembers following the first member. <strong>Default:</strong> <code>false</code></li>\n</ul>\n<p>See the <a href=\"https://zlib.net/manual.html#Advanced\"><code>deflateInit2</code> and <code>inflateInit2</code></a> documentation for more\ninformation.</p>"
         },
         {
           "textRaw": "Class: `BrotliOptions`",
@@ -218,6 +224,11 @@
             ],
             "changes": [
               {
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/64023",
+                "description": "The `rejectGarbageAfterEnd` option was added."
+              },
+              {
                 "version": [
                   "v14.5.0",
                   "v12.19.0"
@@ -227,7 +238,7 @@
               }
             ]
           },
-          "desc": "<p>Each Brotli-based class takes an <code>options</code> object. All options are optional.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.BROTLI_OPERATION_PROCESS</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.BROTLI_OPERATION_FINISH</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>params</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> Key-value object containing indexed <a href=\"#brotli-constants\">Brotli parameters</a>.</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>. <strong>Default:</strong> <code>false</code></li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"language-js\">const stream = zlib.createBrotliCompress({\n  chunkSize: 32 * 1024,\n  params: {\n    [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,\n    [zlib.constants.BROTLI_PARAM_QUALITY]: 4,\n    [zlib.constants.BROTLI_PARAM_SIZE_HINT]: fs.statSync(inputFile).size,\n  },\n});\n</code></pre>"
+          "desc": "<p>Each Brotli-based class takes an <code>options</code> object. All options are optional.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.BROTLI_OPERATION_PROCESS</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.BROTLI_OPERATION_FINISH</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>params</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> Key-value object containing indexed <a href=\"#brotli-constants\">Brotli parameters</a>.</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>. <strong>Default:</strong> <code>false</code></li>\n<li><code>rejectGarbageAfterEnd</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, decompression fails when\ninput remains after the first complete compressed stream. <strong>Default:</strong> <code>false</code></li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"language-js\">const stream = zlib.createBrotliCompress({\n  chunkSize: 32 * 1024,\n  params: {\n    [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,\n    [zlib.constants.BROTLI_PARAM_QUALITY]: 4,\n    [zlib.constants.BROTLI_PARAM_SIZE_HINT]: fs.statSync(inputFile).size,\n  },\n});\n</code></pre>"
         },
         {
           "textRaw": "Class: `ZstdOptions`",
@@ -237,11 +248,18 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
-            "changes": []
+            "changes": [
+              {
+                "version": "v24.19.0",
+                "pr-url": "https://github.com/nodejs/node/pull/64023",
+                "description": "The `rejectGarbageAfterEnd` option was added."
+              }
+            ]
           },
-          "desc": "<p>Each Zstd-based class takes an <code>options</code> object. All options are optional.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.ZSTD_e_continue</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.ZSTD_e_end</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>params</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> Key-value object containing indexed <a href=\"#zstd-constants\">Zstd parameters</a>.</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>. <strong>Default:</strong> <code>false</code></li>\n<li><code>dictionary</code> <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a> Optional dictionary used to\nimprove compression efficiency when compressing or decompressing data that\nshares common patterns with the dictionary.</li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"language-js\">const stream = zlib.createZstdCompress({\n  chunkSize: 32 * 1024,\n  params: {\n    [zlib.constants.ZSTD_c_compressionLevel]: 10,\n    [zlib.constants.ZSTD_c_checksumFlag]: 1,\n  },\n});\n</code></pre>"
+          "desc": "<p>Each Zstd-based class takes an <code>options</code> object. All options are optional.</p>\n<ul>\n<li><code>flush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.ZSTD_e_continue</code></li>\n<li><code>finishFlush</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>zlib.constants.ZSTD_e_end</code></li>\n<li><code>chunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> <strong>Default:</strong> <code>16 * 1024</code></li>\n<li><code>params</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> Key-value object containing indexed <a href=\"#zstd-constants\">Zstd parameters</a>.</li>\n<li><code>maxOutputLength</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;integer&gt;</a> Limits output size when using\n<a href=\"#convenience-methods\">convenience methods</a>. <strong>Default:</strong> <a href=\"buffer.html#bufferkmaxlength\"><code>buffer.kMaxLength</code></a></li>\n<li><code>info</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, returns an object with <code>buffer</code> and <code>engine</code>. <strong>Default:</strong> <code>false</code></li>\n<li><code>dictionary</code> <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a> Optional dictionary used to\nimprove compression efficiency when compressing or decompressing data that\nshares common patterns with the dictionary.</li>\n<li><code>rejectGarbageAfterEnd</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a> If <code>true</code>, decompression fails when\ninput remains after the first complete compressed stream. <strong>Default:</strong> <code>false</code></li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"language-js\">const stream = zlib.createZstdCompress({\n  chunkSize: 32 * 1024,\n  params: {\n    [zlib.constants.ZSTD_c_compressionLevel]: 10,\n    [zlib.constants.ZSTD_c_checksumFlag]: 1,\n  },\n});\n</code></pre>"
         },
         {
           "textRaw": "Convenience methods",
@@ -1020,6 +1038,7 @@
               "stabilityText": "Experimental",
               "meta": {
                 "added": [
+                  "v23.8.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -1054,6 +1073,7 @@
               "stabilityText": "Experimental",
               "meta": {
                 "added": [
+                  "v23.8.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -1082,6 +1102,7 @@
               "name": "zstdDecompress",
               "meta": {
                 "added": [
+                  "v23.8.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -1116,6 +1137,7 @@
               "stabilityText": "Experimental",
               "meta": {
                 "added": [
+                  "v23.8.0",
                   "v22.15.0"
                 ],
                 "changes": []
@@ -1313,23 +1335,6 @@
           "desc": "<ul>\n<li>Extends: <a href=\"stream.html#class-streamtransform\"><code>stream.Transform</code></a></li>\n</ul>\n<p>Not exported by the <code>node:zlib</code> module. It is documented here because it is the\nbase class of the compressor/decompressor classes.</p>\n<p>This class inherits from <a href=\"stream.html#class-streamtransform\"><code>stream.Transform</code></a>, allowing <code>node:zlib</code> objects to\nbe used in pipes and similar stream operations.</p>",
           "properties": [
             {
-              "textRaw": "`bytesRead` {number}",
-              "type": "number",
-              "name": "bytesRead",
-              "meta": {
-                "added": [
-                  "v8.1.0"
-                ],
-                "deprecated": [
-                  "v10.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use [`zlib.bytesWritten`][] instead.",
-              "desc": "<p>Deprecated alias for <a href=\"#zlibbyteswritten\"><code>zlib.bytesWritten</code></a>. This original name was chosen\nbecause it also made sense to interpret the value as the number of bytes\nread by the engine, but is inconsistent with other streams in Node.js that\nexpose values under these names.</p>"
-            },
-            {
               "textRaw": "`bytesWritten` Type: {number}",
               "type": "number",
               "name": "Type",
@@ -1454,6 +1459,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -1468,6 +1474,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -1495,7 +1502,8 @@
           "name": "crc32",
           "meta": {
             "added": [
-              "v22.2.0"
+              "v22.2.0",
+              "v20.15.0"
             ],
             "changes": []
           },
@@ -1743,6 +1751,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -1768,6 +1777,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -2556,6 +2566,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -2590,6 +2601,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -2618,6 +2630,7 @@
           "name": "zstdDecompress",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []
@@ -2652,6 +2665,7 @@
           "stabilityText": "Experimental",
           "meta": {
             "added": [
+              "v23.8.0",
               "v22.15.0"
             ],
             "changes": []

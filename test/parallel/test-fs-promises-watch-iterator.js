@@ -9,7 +9,10 @@ const fs = require('fs');
 const assert = require('assert');
 const { join } = require('path');
 const { setTimeout } = require('timers/promises');
+const { skipIfNoWatch } = require('../common/watch');
 const tmpdir = require('../common/tmpdir');
+
+skipIfNoWatch();
 
 class WatchTestCase {
   constructor(dirName, files) {
@@ -21,6 +24,7 @@ class WatchTestCase {
 
   async run() {
     await Promise.all([this.watchFiles(), this.writeFiles()]);
+    // eslint-disable-next-line node-core/must-call-assert
     assert(!this.files.length);
   }
   async watchFiles() {

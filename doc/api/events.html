@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Events | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Events | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="events" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -176,7 +176,7 @@
 </li>
 <li><a href="#eventscapturerejections"><code>events.captureRejections</code></a></li>
 <li><a href="#eventscapturerejectionsymbol"><code>events.captureRejectionSymbol</code></a></li>
-<li><span class="stability_0"><a href="#eventslistenercountemitter-eventname"><code>events.listenerCount(emitter, eventName)</code></a></span></li>
+<li><a href="#eventslistenercountemitterortarget-eventname"><code>events.listenerCount(emitterOrTarget, eventName)</code></a></li>
 <li><a href="#eventsonemitter-eventname-options"><code>events.on(emitter, eventName[, options])</code></a></li>
 <li><a href="#eventssetmaxlistenersn-eventtargets"><code>events.setMaxListeners(n[, ...eventTargets])</code></a></li>
 <li><a href="#eventsaddabortlistenersignal-listener"><code>events.addAbortListener(signal, listener)</code></a></li>
@@ -435,7 +435,7 @@
 </li>
 <li><a href="#eventscapturerejections"><code>events.captureRejections</code></a></li>
 <li><a href="#eventscapturerejectionsymbol"><code>events.captureRejectionSymbol</code></a></li>
-<li><span class="stability_0"><a href="#eventslistenercountemitter-eventname"><code>events.listenerCount(emitter, eventName)</code></a></span></li>
+<li><a href="#eventslistenercountemitterortarget-eventname"><code>events.listenerCount(emitterOrTarget, eventName)</code></a></li>
 <li><a href="#eventsonemitter-eventname-options"><code>events.on(emitter, eventName[, options])</code></a></li>
 <li><a href="#eventssetmaxlistenersn-eventtargets"><code>events.setMaxListeners(n[, ...eventTargets])</code></a></li>
 <li><a href="#eventsaddabortlistenersignal-listener"><code>events.addAbortListener(signal, listener)</code></a></li>
@@ -514,7 +514,7 @@
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
 
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/events.js">lib/events.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/events.js">lib/events.js</a></p>
 <p>Much of the Node.js core API is built around an idiomatic asynchronous
 event-driven architecture in which certain kinds of objects (called "emitters")
 emit named events that cause <code>Function</code> objects ("listeners") to be called.</p>
@@ -567,8 +567,8 @@ myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string"
   <span class="hljs-comment">//     _events: [Object: null prototype] { event: [Function (anonymous)] },</span>
   <span class="hljs-comment">//     _eventsCount: 1,</span>
   <span class="hljs-comment">//     _maxListeners: undefined,</span>
-  <span class="hljs-comment">//     [Symbol(shapeMode)]: false,</span>
-  <span class="hljs-comment">//     [Symbol(kCapture)]: false</span>
+  <span class="hljs-comment">//     Symbol(shapeMode): false,</span>
+  <span class="hljs-comment">//     Symbol(kCapture): false</span>
   <span class="hljs-comment">//   } true</span>
 });
 myEmitter.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'event'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> <span class="hljs-title class_">EventEmitter</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:events'</span>);
@@ -581,8 +581,8 @@ myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string"
   <span class="hljs-comment">//     _events: [Object: null prototype] { event: [Function (anonymous)] },</span>
   <span class="hljs-comment">//     _eventsCount: 1,</span>
   <span class="hljs-comment">//     _maxListeners: undefined,</span>
-  <span class="hljs-comment">//     [Symbol(shapeMode)]: false,</span>
-  <span class="hljs-comment">//     [Symbol(kCapture)]: false</span>
+  <span class="hljs-comment">//     Symbol(shapeMode): false,</span>
+  <span class="hljs-comment">//     Symbol(kCapture): false</span>
   <span class="hljs-comment">//   } true</span>
 });
 myEmitter.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'event'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>);</code><button class="copy-button">copy</button></pre>
@@ -1860,37 +1860,66 @@ process.<span class="hljs-title function_">nextTick</span>(<span class="hljs-fun
 <li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#symbol_type" class="type">&#x3C;symbol></a> <code>Symbol.for('nodejs.rejection')</code></li>
 </ul>
 <p>See how to write a custom <a href="#emittersymbolfornodejsrejectionerr-eventname-args">rejection handler</a>.</p>
-</section><section><h3><code>events.listenerCount(emitter, eventName)</code><span><a class="mark" href="#eventslistenercountemitter-eventname" id="eventslistenercountemitter-eventname">#</a></span><a aria-hidden="true" class="legacy" id="events_events_listenercount_emitter_eventname"></a></h3>
+</section><section><h3><code>events.listenerCount(emitterOrTarget, eventName)</code><span><a class="mark" href="#eventslistenercountemitterortarget-eventname" id="eventslistenercountemitterortarget-eventname">#</a></span><a aria-hidden="true" class="legacy" id="events_events_listenercount_emitterortarget_eventname"></a></h3>
 <div class="api_metadata">
-<span>Added in: v0.9.12</span><span>Deprecated since: v3.2.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.14.0</td>
+<td><p>Now accepts EventTarget arguments.</p></td></tr>
+<tr><td>v24.14.0</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v3.2.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+<tr><td>v0.9.12</td>
+<td><p><span>Added in: v0.9.12</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#emitterlistenercounteventname-listener"><code>emitter.listenerCount()</code></a> instead.</div><p></p>
 <ul>
-<li><code>emitter</code> <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a> The emitter to query</li>
-<li><code>eventName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#symbol_type" class="type">&#x3C;symbol></a> The event name</li>
+<li><code>emitterOrTarget</code> <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a> | <a href="events.html#class-eventtarget" class="type">&#x3C;EventTarget></a></li>
+<li><code>eventName</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#symbol_type" class="type">&#x3C;symbol></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a></li>
 </ul>
-<p>A class method that returns the number of listeners for the given <code>eventName</code>
-registered on the given <code>emitter</code>.</p>
+<p>Returns the number of registered listeners for the event named <code>eventName</code>.</p>
+<p>For <code>EventEmitter</code>s this behaves exactly the same as calling <code>.listenerCount</code>
+on the emitter.</p>
+<p>For <code>EventTarget</code>s this is the only way to obtain the listener count. This can
+be useful for debugging and diagnostic purposes.</p>
 
 <pre class="with-63-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">EventEmitter</span>, listenerCount } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:events'</span>;
 
-<span class="hljs-keyword">const</span> myEmitter = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventEmitter</span>();
-myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
-myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(myEmitter, <span class="hljs-string">'event'</span>));
-<span class="hljs-comment">// Prints: 2</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">EventEmitter</span>, listenerCount } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:events'</span>);
+{
+  <span class="hljs-keyword">const</span> ee = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventEmitter</span>();
+  ee.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  ee.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(ee, <span class="hljs-string">'event'</span>)); <span class="hljs-comment">// 2</span>
+}
+{
+  <span class="hljs-keyword">const</span> et = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventTarget</span>();
+  et.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  et.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(et, <span class="hljs-string">'event'</span>)); <span class="hljs-comment">// 2</span>
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">EventEmitter</span>, listenerCount } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:events'</span>);
 
-<span class="hljs-keyword">const</span> myEmitter = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventEmitter</span>();
-myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
-myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(myEmitter, <span class="hljs-string">'event'</span>));
-<span class="hljs-comment">// Prints: 2</span></code><button class="copy-button">copy</button></pre>
+{
+  <span class="hljs-keyword">const</span> ee = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventEmitter</span>();
+  ee.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  ee.<span class="hljs-title function_">on</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(ee, <span class="hljs-string">'event'</span>)); <span class="hljs-comment">// 2</span>
+}
+{
+  <span class="hljs-keyword">const</span> et = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventTarget</span>();
+  et.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  et.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'event'</span>, <span class="hljs-function">() =></span> {});
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">listenerCount</span>(et, <span class="hljs-string">'event'</span>)); <span class="hljs-comment">// 2</span>
+}</code><button class="copy-button">copy</button></pre>
 </section><section><h3><code>events.on(emitter, eventName[, options])</code><span><a class="mark" href="#eventsonemitter-eventname-options" id="eventsonemitter-eventname-options">#</a></span><a aria-hidden="true" class="legacy" id="events_events_on_emitter_eventname_options"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>Support <code>highWaterMark</code> and <code>lowWaterMark</code> options, For consistency. Old options are still supported.</p></td></tr>
 <tr><td>v20.0.0</td>
 <td><p>The <code>close</code>, <code>highWatermark</code>, and <code>lowWatermark</code> options are supported now.</p></td></tr>
@@ -2038,7 +2067,7 @@ max for all newly created <a href="events.html#class-eventtarget" class="type">&
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.16.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Change stability index for this feature from Experimental to Stable.</p></td></tr>
 <tr><td>v20.5.0, v18.18.0</td>
 <td><p><span>Added in: v20.5.0, v18.18.0</span></p></td></tr>
@@ -2064,27 +2093,21 @@ not prevent the listener from running.</p>
 <pre class="with-52-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> { addAbortListener } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:events'</span>);
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">example</span>(<span class="hljs-params">signal</span>) {
-  <span class="hljs-keyword">let</span> disposable;
-  <span class="hljs-keyword">try</span> {
-    signal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> e.<span class="hljs-title function_">stopImmediatePropagation</span>());
-    disposable = <span class="hljs-title function_">addAbortListener</span>(signal, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> {
-      <span class="hljs-comment">// Do something when signal is aborted.</span>
-    });
-  } <span class="hljs-keyword">finally</span> {
-    disposable?.[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">dispose</span>]();
-  }
+  signal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> e.<span class="hljs-title function_">stopImmediatePropagation</span>());
+  <span class="hljs-comment">// addAbortListener() returns a disposable, so the `using` keyword ensures</span>
+  <span class="hljs-comment">// the abort listener is automatically removed when this scope exits.</span>
+  <span class="hljs-keyword">using</span> _ = <span class="hljs-title function_">addAbortListener</span>(signal, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> {
+    <span class="hljs-comment">// Do something when signal is aborted.</span>
+  });
 }</code><code class="language-js mjs"><span class="hljs-keyword">import</span> { addAbortListener } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:events'</span>;
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">example</span>(<span class="hljs-params">signal</span>) {
-  <span class="hljs-keyword">let</span> disposable;
-  <span class="hljs-keyword">try</span> {
-    signal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> e.<span class="hljs-title function_">stopImmediatePropagation</span>());
-    disposable = <span class="hljs-title function_">addAbortListener</span>(signal, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> {
-      <span class="hljs-comment">// Do something when signal is aborted.</span>
-    });
-  } <span class="hljs-keyword">finally</span> {
-    disposable?.[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">dispose</span>]();
-  }
+  signal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> e.<span class="hljs-title function_">stopImmediatePropagation</span>());
+  <span class="hljs-comment">// addAbortListener() returns a disposable, so the `using` keyword ensures</span>
+  <span class="hljs-comment">// the abort listener is automatically removed when this scope exits.</span>
+  <span class="hljs-keyword">using</span> _ = <span class="hljs-title function_">addAbortListener</span>(signal, <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> {
+    <span class="hljs-comment">// Do something when signal is aborted.</span>
+  });
 }</code><button class="copy-button">copy</button></pre>
 </section><section><h3>Class: <code>events.EventEmitterAsyncResource extends EventEmitter</code><span><a class="mark" href="#class-eventseventemitterasyncresource-extends-eventemitter" id="class-eventseventemitterasyncresource-extends-eventemitter">#</a></span><a aria-hidden="true" class="legacy" id="events_class_events_eventemitterasyncresource_extends_eventemitter"></a></h3>
 <div class="api_metadata">
@@ -2583,6 +2606,8 @@ were registered.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
 <tr><td>v22.1.0, v20.13.0</td>
 <td><p>CustomEvent is now stable.</p></td></tr>
 <tr><td>v19.0.0</td>
@@ -2603,7 +2628,7 @@ Instances are created internally by Node.js.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>CustomEvent is now stable.</p></td></tr>
 <tr><td>v18.7.0, v16.17.0</td>
 <td><p><span>Added in: v18.7.0, v16.17.0</span></p></td></tr>

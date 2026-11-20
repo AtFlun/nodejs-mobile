@@ -90,9 +90,8 @@ a command-line flag. Experimental features may also emit a [warning][].
 | [HTTP/2](http2.html) | (2) Stable |
 | [HTTPS](https.html) | (2) Stable |
 | [Inspector](inspector.html) | (2) Stable |
-| [Modules: `node:module` API](module.html) | (1) .1 - Active development |
 | [Modules: CommonJS modules](modules.html) | (2) Stable |
-| [Modules: TypeScript](typescript.html) | (1) .2 - Release candidate |
+| [Modules: TypeScript](typescript.html) | (2) Stable |
 | [OS](os.html) | (2) Stable |
 | [Path](path.html) | (2) Stable |
 | [Performance measurement APIs](perf_hooks.html) | (2) Stable |
@@ -101,7 +100,7 @@ a command-line flag. Experimental features may also emit a [warning][].
 | [Readline](readline.html) | (2) Stable |
 | [REPL](repl.html) | (2) Stable |
 | [Single executable applications](single-executable-applications.html) | (1) .1 - Active development |
-| [SQLite](sqlite.html) | (1) .1 - Active development. |
+| [SQLite](sqlite.html) | (1) .2 - Release candidate. |
 | [Stream](stream.html) | (2) Stable |
 | [String decoder](string_decoder.html) | (2) Stable |
 | [Test runner](test.html) | (2) Stable |

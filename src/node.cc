@@ -232,44 +232,6 @@ void Environment::WaitForInspectorFrontendByOptions() {
 }
 #endif  // HAVE_INSPECTOR
 
-#define ATOMIC_WAIT_EVENTS(V)                                               \
-  V(kStartWait,           "started")                                        \
-  V(kWokenUp,             "was woken up by another thread")                 \
-  V(kTimedOut,            "timed out")                                      \
-  V(kTerminatedExecution, "was stopped by terminated execution")            \
-  V(kAPIStopped,          "was stopped through the embedder API")           \
-  V(kNotEqual,            "did not wait because the values mismatched")     \
-
-static void AtomicsWaitCallback(Isolate::AtomicsWaitEvent event,
-                                Local<v8::SharedArrayBuffer> array_buffer,
-                                size_t offset_in_bytes, int64_t value,
-                                double timeout_in_ms,
-                                Isolate::AtomicsWaitWakeHandle* stop_handle,
-                                void* data) {
-  Environment* env = static_cast<Environment*>(data);
-
-  const char* message = "(unknown event)";
-  switch (event) {
-#define V(key, msg)                         \
-    case Isolate::AtomicsWaitEvent::key:    \
-      message = msg;                        \
-      break;
-    ATOMIC_WAIT_EVENTS(V)
-#undef V
-  }
-
-  fprintf(stderr,
-          "(node:%d) [Thread %" PRIu64 "] Atomics.wait(%p + %zx, %" PRId64
-          ", %.f) %s\n",
-          static_cast<int>(uv_os_getpid()),
-          env->thread_id(),
-          array_buffer->Data(),
-          offset_in_bytes,
-          value,
-          timeout_in_ms,
-          message);
-}
-
 void Environment::InitializeDiagnostics() {
   isolate_->GetHeapProfiler()->AddBuildEmbedderGraphCallback(
       Environment::BuildEmbedderGraph, this);
@@ -278,17 +240,6 @@ void Environment::InitializeDiagnostics() {
   }
   if (options_->trace_uncaught)
     isolate_->SetCaptureStackTraceForUncaughtExceptions(true);
-  if (options_->trace_atomics_wait) {
-    ProcessEmitDeprecationWarning(
-        Environment::GetCurrent(isolate_),
-        "The flag --trace-atomics-wait is deprecated.",
-        "DEP0165");
-    isolate_->SetAtomicsWaitCallback(AtomicsWaitCallback, this);
-    AddCleanupHook([](void* data) {
-      Environment* env = static_cast<Environment*>(data);
-      env->isolate()->SetAtomicsWaitCallback(nullptr, nullptr);
-    }, this);
-  }
   if (options_->trace_promises) {
     isolate_->SetPromiseHook(TracePromises);
   }
@@ -304,37 +255,33 @@ MaybeLocal<Value> StartExecution(Environment* env, const char* main_script_id) {
 }
 
 // Convert the result returned by an intermediate main script into
-// StartExecutionCallbackInfo. Currently the result is an array containing
-// [process, requireFunction, cjsRunner]
-std::optional<StartExecutionCallbackInfo> CallbackInfoFromArray(
-    Local<Context> context, Local<Value> result) {
+// StartExecutionCallbackInfoWithModule. Currently the result is an array
+// containing [process, requireFunction, runModule].
+std::optional<StartExecutionCallbackInfoWithModule> CallbackInfoFromArray(
+    Environment* env, Local<Value> result) {
   CHECK(result->IsArray());
   Local<Array> args = result.As<Array>();
   CHECK_EQ(args->Length(), 3);
-  Local<Value> process_obj, require_fn, runcjs_fn;
+  Local<Value> process_obj, require_fn, run_module;
+  Local<Context> context = env->context();
   if (!args->Get(context, 0).ToLocal(&process_obj) ||
       !args->Get(context, 1).ToLocal(&require_fn) ||
-      !args->Get(context, 2).ToLocal(&runcjs_fn)) {
+      !args->Get(context, 2).ToLocal(&run_module)) {
     return std::nullopt;
   }
   CHECK(process_obj->IsObject());
   CHECK(require_fn->IsFunction());
-  CHECK(runcjs_fn->IsFunction());
-  // TODO(joyeecheung): some support for running ESM as an entrypoint
-  // is needed. The simplest API would be to add a run_esm to
-  // StartExecutionCallbackInfo which compiles, links (to builtins)
-  // and evaluates a SourceTextModule.
-  // TODO(joyeecheung): the env pointer should be part of
-  // StartExecutionCallbackInfo, otherwise embedders are forced to use
-  // lambdas to pass it into the callback, which can make the code
-  // difficult to read.
-  node::StartExecutionCallbackInfo info{process_obj.As<Object>(),
-                                        require_fn.As<Function>(),
-                                        runcjs_fn.As<Function>()};
+  CHECK(run_module->IsFunction());
+  StartExecutionCallbackInfoWithModule info;
+  info.set_env(env);
+  info.set_process_object(process_obj.As<Object>());
+  info.set_native_require(require_fn.As<Function>());
+  info.set_run_module(run_module.As<Function>());
   return info;
 }
 
-MaybeLocal<Value> StartExecution(Environment* env, StartExecutionCallback cb) {
+MaybeLocal<Value> StartExecution(Environment* env,
+                                 StartExecutionCallbackWithModule cb) {
   InternalCallbackScope callback_scope(
       env,
       Object::New(env->isolate()),
@@ -343,7 +290,7 @@ MaybeLocal<Value> StartExecution(Environment* env, StartExecutionCallback cb) {
 
   // Only snapshot builder or embedder applications set the
   // callback.
-  if (cb != nullptr) {
+  if (cb) {
     EscapableHandleScope scope(env->isolate());
 
     Local<Value> result;
@@ -357,9 +304,9 @@ MaybeLocal<Value> StartExecution(Environment* env, StartExecutionCallback cb) {
       }
     }
 
-    auto info = CallbackInfoFromArray(env->context(), result);
+    auto info = CallbackInfoFromArray(env, result);
     if (!info.has_value()) {
-      MaybeLocal<Value>();
+      return MaybeLocal<Value>();
     }
 #if HAVE_INSPECTOR
     if (env->options()->debug_options().break_first_line) {
@@ -809,14 +756,10 @@ static ExitCode ProcessGlobalArgsInternal(std::vector<std::string>* args,
 
   // TODO(aduh95): remove this when the harmony-import-attributes flag
   // is removed in V8.
-  if (std::find(v8_args.begin(),
-                v8_args.end(),
-                "--no-harmony-import-attributes") == v8_args.end()) {
+  if (std::ranges::find(v8_args, "--no-harmony-import-attributes") ==
+      v8_args.end()) {
     v8_args.emplace_back("--harmony-import-attributes");
   }
-  // TODO(nicolo-ribaudo): remove this once V8 doesn't enable it by default
-  // anymore.
-  v8_args.emplace_back("--no-harmony-import-assertions");
 
   if (!per_process::cli_options->per_isolate->max_old_space_size_percentage
            .empty()) {
@@ -826,23 +769,23 @@ static ExitCode ProcessGlobalArgsInternal(std::vector<std::string>* args,
   }
 
   auto env_opts = per_process::cli_options->per_isolate->per_env;
-  if (std::find(v8_args.begin(), v8_args.end(),
-                "--abort-on-uncaught-exception") != v8_args.end() ||
-      std::find(v8_args.begin(), v8_args.end(),
-                "--abort_on_uncaught_exception") != v8_args.end()) {
+  if (std::ranges::find(v8_args, "--abort-on-uncaught-exception") !=
+          v8_args.end() ||
+      std::ranges::find(v8_args, "--abort_on_uncaught_exception") !=
+          v8_args.end()) {
     env_opts->abort_on_uncaught_exception = true;
   }
 
-  // Support stable Phase 5 WebAssembly proposals
-  v8_args.emplace_back("--experimental-wasm-imported-strings");
-  v8_args.emplace_back("--experimental-wasm-memory64");
-  v8_args.emplace_back("--experimental-wasm-exnref");
+  if (std::ranges::find(v8_args, "--no-js-source-phase-imports") ==
+      v8_args.end()) {
+    v8_args.emplace_back("--js-source-phase-imports");
+  }
 
 #ifdef __POSIX__
   // Block SIGPROF signals when sleeping in epoll_wait/kevent/etc.  Avoids the
   // performance penalty of frequent EINTR wakeups when the profiler is running.
   // Only do this for v8.log profiling, as it breaks v8::CpuProfiler users.
-  if (std::find(v8_args.begin(), v8_args.end(), "--prof") != v8_args.end()) {
+  if (std::ranges::find(v8_args, "--prof") != v8_args.end()) {
     uv_loop_configure(uv_default_loop(), UV_LOOP_BLOCK_SIGNAL, SIGPROF);
   }
 #endif
@@ -936,6 +879,7 @@ static ExitCode InitializeNodeWithArgsInternal(
   HandleEnvOptions(per_process::cli_options->per_isolate->per_env);
 
   std::string node_options;
+  std::string node_options_from_dotenv;
   auto env_files = node::Dotenv::GetDataFromArgs(*argv);
 
   if (!env_files.empty()) {
@@ -962,24 +906,31 @@ static ExitCode InitializeNodeWithArgsInternal(
       }
     }
 
-    per_process::dotenv_file.AssignNodeOptionsIfAvailable(&node_options);
+    per_process::dotenv_file.AssignNodeOptionsIfAvailable(
+        &node_options_from_dotenv);
   }
 
   std::string node_options_from_config;
-  if (auto path = per_process::config_reader.GetDataFromArgs(*argv)) {
-    switch (per_process::config_reader.ParseConfig(*path)) {
+  auto config_path = per_process::config_reader.GetDataFromArgs(argv);
+  if (per_process::config_reader.HasInvalidDefaultConfigFileArgument()) {
+    errors->push_back("--experimental-default-config-file does not take an "
+                      "argument");
+    return ExitCode::kInvalidCommandLineArgument;
+  }
+  if (config_path) {
+    switch (per_process::config_reader.ParseConfig(*config_path)) {
       case ParseResult::Valid:
         break;
       case ParseResult::InvalidContent:
-        errors->push_back(std::string(*path) + ": invalid content");
+        errors->push_back(std::string(*config_path) + ": invalid content");
         break;
       case ParseResult::FileError:
-        errors->push_back(std::string(*path) + ": not found");
+        errors->push_back(std::string(*config_path) + ": not found");
         break;
       default:
         UNREACHABLE();
     }
-    node_options_from_config = per_process::config_reader.AssignNodeOptions();
+    node_options_from_config = per_process::config_reader.GetNodeOptions();
     // (@marco-ippolito) Avoid reparsing the env options again
     std::vector<std::string> env_argv_from_config =
         ParseNodeOptionsEnvVar(node_options_from_config, errors);
@@ -992,8 +943,9 @@ static ExitCode InitializeNodeWithArgsInternal(
       errors->emplace_back("The number of NODE_OPTIONS doesn't match "
                            "the number of flags in the config file");
     }
-    node_options += node_options_from_config;
   }
+
+  node_options = node_options_from_config + node_options_from_dotenv;
 
 #if !defined(NODE_WITHOUT_NODE_OPTIONS)
   bool should_parse_node_options =
@@ -1035,7 +987,19 @@ static ExitCode InitializeNodeWithArgsInternal(
 #endif
 
   if (!(flags & ProcessInitializationFlags::kDisableCLIOptions)) {
-    const ExitCode exit_code =
+    // Parse the options coming from the config file.
+    // This is done before parsing the command line options
+    // as the cli flags are expected to override the config file ones.
+    std::vector<std::string> extra_argv =
+        per_process::config_reader.GetNamespaceFlags();
+    // [0] is expected to be the program name, fill it in from the real argv.
+    extra_argv.insert(extra_argv.begin(), argv->at(0));
+    // Parse the extra argv coming from the config file
+    ExitCode exit_code = ProcessGlobalArgsInternal(
+        &extra_argv, nullptr, errors, kDisallowedInEnvvar);
+    if (exit_code != ExitCode::kNoFailure) return exit_code;
+    // Parse options coming from the command line.
+    exit_code =
         ProcessGlobalArgsInternal(argv, exec_argv, errors, kDisallowedInEnvvar);
     if (exit_code != ExitCode::kNoFailure) return exit_code;
   }
@@ -1107,6 +1071,45 @@ int InitializeNodeWithArgs(std::vector<std::string>* argv,
   return static_cast<int>(
       InitializeNodeWithArgsInternal(argv, exec_argv, errors, flags));
 }
+
+#if NODE_USE_V8_WASM_TRAP_HANDLER
+bool CanEnableWebAssemblyTrapHandler() {
+// On POSIX, the machine may have a limit on the amount of virtual memory
+// available, if it's not enough to allocate at least one cage for WASM,
+// then the trap-handler-based bound checks cannot be used.
+#ifdef __POSIX__
+  struct rlimit lim;
+  if (getrlimit(RLIMIT_AS, &lim) != 0 || lim.rlim_cur == RLIM_INFINITY) {
+    // Can't get the limit or there's no limit, assume trap handler can be
+    // enabled.
+    return true;
+  }
+  uint64_t virtual_memory_available = static_cast<uint64_t>(lim.rlim_cur);
+
+  size_t byte_capacity = 64 * 1024;  // 64KB, the minimum size of a WASM memory.
+  uint64_t cage_size_needed_32 = V8::GetWasmMemoryReservationSizeInBytes(
+      V8::WasmMemoryType::kMemory32, byte_capacity);
+  uint64_t cage_size_needed_64 = V8::GetWasmMemoryReservationSizeInBytes(
+      V8::WasmMemoryType::kMemory64, byte_capacity);
+  uint64_t cage_size_needed =
+      std::max(cage_size_needed_32, cage_size_needed_64);
+  bool can_enable = virtual_memory_available >= cage_size_needed;
+  per_process::Debug(DebugCategory::BOOTSTRAP,
+                     "Virtual memory available: %" PRIu64 " bytes,\n"
+                     "cage size needed for 32-bit: %" PRIu64 " bytes,\n"
+                     "cage size needed for 64-bit: %" PRIu64 " bytes,\n"
+                     "Can%senable WASM trap handler\n",
+                     virtual_memory_available,
+                     cage_size_needed_32,
+                     cage_size_needed_64,
+                     can_enable ? " " : " not ");
+
+  return can_enable;
+#else
+  return true;
+#endif  // __POSIX__
+}
+#endif  // NODE_USE_V8_WASM_TRAP_HANDLER
 
 static std::shared_ptr<InitializationResultImpl>
 InitializeOncePerProcessInternal(const std::vector<std::string>& args,
@@ -1283,9 +1286,18 @@ InitializeOncePerProcessInternal(const std::vector<std::string>& args,
   }
 
   if (!(flags & ProcessInitializationFlags::kNoInitializeNodeV8Platform)) {
+    uv_thread_setname("MainThread");
     per_process::v8_platform.Initialize(
         static_cast<int>(per_process::cli_options->v8_thread_pool_size));
     result->platform_ = per_process::v8_platform.Platform();
+  }
+
+  if (!(flags & ProcessInitializationFlags::kNoInitializeCppgc)) {
+    v8::PageAllocator* allocator = nullptr;
+    if (result->platform_ != nullptr) {
+      allocator = result->platform_->GetPageAllocator();
+    }
+    cppgc::InitializeProcess(allocator);
   }
 
   if (!(flags & ProcessInitializationFlags::kNoInitializeV8)) {
@@ -1297,19 +1309,13 @@ InitializeOncePerProcessInternal(const std::vector<std::string>& args,
     absl::SetMutexDeadlockDetectionMode(absl::OnDeadlockCycle::kIgnore);
   }
 
-  if (!(flags & ProcessInitializationFlags::kNoInitializeCppgc)) {
-    v8::PageAllocator* allocator = nullptr;
-    if (result->platform_ != nullptr) {
-      allocator = result->platform_->GetPageAllocator();
-    }
-    cppgc::InitializeProcess(allocator);
-  }
-
 #if NODE_USE_V8_WASM_TRAP_HANDLER
   bool use_wasm_trap_handler =
       !per_process::cli_options->disable_wasm_trap_handler;
   if (!(flags & ProcessInitializationFlags::kNoDefaultSignalHandling) &&
-      use_wasm_trap_handler) {
+      use_wasm_trap_handler && CanEnableWebAssemblyTrapHandler()) {
+    per_process::Debug(DebugCategory::BOOTSTRAP,
+                       "Enabling WebAssembly trap handler for bounds checks\n");
 #if defined(_WIN32)
     constexpr ULONG first = TRUE;
     per_process::old_vectored_exception_handler =

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Command-line API | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Command-line API | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="cli" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -139,11 +139,7 @@
 <li><a href="#command-line-api">Command-line API</a>
 <ul>
 <li><a href="#synopsis">Synopsis</a></li>
-<li><a href="#program-entry-point">Program entry point</a>
-<ul>
-<li><a href="#ecmascript-modules-loader-entry-point-caveat">ECMAScript modules loader entry point caveat</a></li>
-</ul>
-</li>
+<li><a href="#program-entry-point">Program entry point</a></li>
 <li><span class="stability_2"><a href="#options">Options</a></span>
 <ul>
 <li><a href="#-"><code>-</code></a></li>
@@ -153,10 +149,11 @@
 <li><span class="stability_1.1"><a href="#--allow-child-process"><code>--allow-child-process</code></a></span></li>
 <li><a href="#--allow-fs-read"><code>--allow-fs-read</code></a></li>
 <li><a href="#--allow-fs-write"><code>--allow-fs-write</code></a></li>
+<li><span class="stability_1.0"><a href="#--allow-inspector"><code>--allow-inspector</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--allow-wasi"><code>--allow-wasi</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--allow-worker"><code>--allow-worker</code></a></span></li>
-<li><span class="stability_1"><a href="#--build-snapshot"><code>--build-snapshot</code></a></span></li>
-<li><span class="stability_1"><a href="#--build-snapshot-config"><code>--build-snapshot-config</code></a></span></li>
+<li><a href="#--build-snapshot"><code>--build-snapshot</code></a></li>
+<li><a href="#--build-snapshot-config"><code>--build-snapshot-config</code></a></li>
 <li><a href="#-c---check"><code>-c</code>, <code>--check</code></a></li>
 <li><a href="#--completion-bash"><code>--completion-bash</code></a></li>
 <li><a href="#-c-condition---conditionscondition"><code>-C condition</code>, <code>--conditions=condition</code></a></li>
@@ -178,23 +175,23 @@
 <li><a href="#--env-file-if-existsfile"><code>--env-file-if-exists=file</code></a></li>
 <li><a href="#--env-filefile"><code>--env-file=file</code></a></li>
 <li><a href="#-e---eval-script"><code>-e</code>, <code>--eval "script"</code></a></li>
-<li><span class="stability_1.0"><a href="#--experimental-addon-modules"><code>--experimental-addon-modules</code></a></span></li>
-<li><span class="stability_1"><a href="#--experimental-async-context-frame"><code>--experimental-async-context-frame</code></a></span></li>
-<li><span class="stability_1.0"><a href="#--experimental-config-fileconfig"><code>--experimental-config-file=config</code></a></span></li>
+<li><span class="stability_1.2"><a href="#--experimental-addon-modules"><code>--experimental-addon-modules</code></a></span></li>
+<li><span class="stability_1.0"><a href="#--experimental-config-filepath---experimental-config-file"><code>--experimental-config-file=path</code>, <code>--experimental-config-file</code></a></span></li>
 <li><span class="stability_1.0"><a href="#--experimental-default-config-file"><code>--experimental-default-config-file</code></a></span></li>
-<li><span class="stability_1.0"><a href="#--experimental-default-typetype"><code>--experimental-default-type=type</code></a></span></li>
 <li><a href="#--experimental-eventsource"><code>--experimental-eventsource</code></a></li>
 <li><a href="#--experimental-import-meta-resolve"><code>--experimental-import-meta-resolve</code></a></li>
+<li><span class="stability_1.0"><a href="#--experimental-import-text"><code>--experimental-import-text</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--experimental-inspector-network-resource"><code>--experimental-inspector-network-resource</code></a></span></li>
 <li><a href="#--experimental-loadermodule"><code>--experimental-loader=module</code></a></li>
 <li><span class="stability_1"><a href="#--experimental-network-inspection"><code>--experimental-network-inspection</code></a></span></li>
 <li><a href="#--experimental-print-required-tla"><code>--experimental-print-required-tla</code></a></li>
-<li><span class="stability_1.1"><a href="#--experimental-require-module"><code>--experimental-require-module</code></a></span></li>
+<li><span class="stability_1.1"><a href="#--experimental-quic"><code>--experimental-quic</code></a></span></li>
 <li><span class="stability_1"><a href="#--experimental-sea-config"><code>--experimental-sea-config</code></a></span></li>
 <li><a href="#--experimental-shadow-realm"><code>--experimental-shadow-realm</code></a></li>
+<li><span class="stability_1.1"><a href="#--experimental-storage-inspection"><code>--experimental-storage-inspection</code></a></span></li>
 <li><a href="#--experimental-test-coverage"><code>--experimental-test-coverage</code></a></li>
-<li><span class="stability_1.0"><a href="#--experimental-test-isolationmode"><code>--experimental-test-isolation=mode</code></a></span></li>
 <li><span class="stability_1.0"><a href="#--experimental-test-module-mocks"><code>--experimental-test-module-mocks</code></a></span></li>
+<li><span class="stability_1.0"><a href="#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter=&#x3C;tag></code></a></span></li>
 <li><span class="stability_1.2"><a href="#--experimental-transform-types"><code>--experimental-transform-types</code></a></span></li>
 <li><a href="#--experimental-vm-modules"><code>--experimental-vm-modules</code></a></li>
 <li><a href="#--experimental-wasi-unstable-preview1"><code>--experimental-wasi-unstable-preview1</code></a></li>
@@ -233,21 +230,20 @@
 <li><a href="#--napi-modules"><code>--napi-modules</code></a></li>
 <li><a href="#--network-family-autoselection-attempt-timeout"><code>--network-family-autoselection-attempt-timeout</code></a></li>
 <li><a href="#--no-addons"><code>--no-addons</code></a></li>
+<li><a href="#--no-async-context-frame"><code>--no-async-context-frame</code></a></li>
 <li><a href="#--no-deprecation"><code>--no-deprecation</code></a></li>
 <li><a href="#--no-experimental-detect-module"><code>--no-experimental-detect-module</code></a></li>
-<li><a href="#--no-experimental-fetch"><code>--no-experimental-fetch</code></a></li>
-<li><a href="#--no-experimental-global-customevent"><code>--no-experimental-global-customevent</code></a></li>
 <li><span class="stability_1"><a href="#--no-experimental-global-navigator"><code>--no-experimental-global-navigator</code></a></span></li>
-<li><a href="#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a></li>
 <li><a href="#--no-experimental-repl-await"><code>--no-experimental-repl-await</code></a></li>
-<li><span class="stability_1.1"><a href="#--no-experimental-require-module"><code>--no-experimental-require-module</code></a></span></li>
+<li><span class="stability_3"><a href="#--no-experimental-require-module"><code>--no-experimental-require-module</code></a></span></li>
 <li><a href="#--no-experimental-sqlite"><code>--no-experimental-sqlite</code></a></li>
-<li><span class="stability_1.2"><a href="#--no-experimental-strip-types"><code>--no-experimental-strip-types</code></a></span></li>
 <li><a href="#--no-experimental-websocket"><code>--no-experimental-websocket</code></a></li>
 <li><a href="#--no-extra-info-on-fatal-exception"><code>--no-extra-info-on-fatal-exception</code></a></li>
 <li><a href="#--no-force-async-hooks-checks"><code>--no-force-async-hooks-checks</code></a></li>
 <li><a href="#--no-global-search-paths"><code>--no-global-search-paths</code></a></li>
 <li><a href="#--no-network-family-autoselection"><code>--no-network-family-autoselection</code></a></li>
+<li><a href="#--no-require-module"><code>--no-require-module</code></a></li>
+<li><a href="#--no-strip-types"><code>--no-strip-types</code></a></li>
 <li><a href="#--no-warnings"><code>--no-warnings</code></a></li>
 <li><a href="#--node-memory-debug"><code>--node-memory-debug</code></a></li>
 <li><a href="#--openssl-configfile"><code>--openssl-config=file</code></a></li>
@@ -288,10 +284,15 @@
 <li><span class="stability_1"><a href="#--test-coverage-include"><code>--test-coverage-include</code></a></span></li>
 <li><span class="stability_1"><a href="#--test-coverage-linesthreshold"><code>--test-coverage-lines=threshold</code></a></span></li>
 <li><a href="#--test-force-exit"><code>--test-force-exit</code></a></li>
+<li><span class="stability_1.0"><a href="#--test-global-setupmodule"><code>--test-global-setup=module</code></a></span></li>
+<li><a href="#--test-isolationmode"><code>--test-isolation=mode</code></a></li>
 <li><a href="#--test-name-pattern"><code>--test-name-pattern</code></a></li>
 <li><a href="#--test-only"><code>--test-only</code></a></li>
+<li><a href="#--test-random-seed"><code>--test-random-seed</code></a></li>
+<li><a href="#--test-randomize"><code>--test-randomize</code></a></li>
 <li><a href="#--test-reporter"><code>--test-reporter</code></a></li>
 <li><a href="#--test-reporter-destination"><code>--test-reporter-destination</code></a></li>
+<li><a href="#--test-rerun-failures"><code>--test-rerun-failures</code></a></li>
 <li><a href="#--test-shard"><code>--test-shard</code></a></li>
 <li><a href="#--test-skip-pattern"><code>--test-skip-pattern</code></a></li>
 <li><a href="#--test-timeout"><code>--test-timeout</code></a></li>
@@ -306,7 +307,6 @@
 <li><a href="#--tls-min-v11"><code>--tls-min-v1.1</code></a></li>
 <li><a href="#--tls-min-v12"><code>--tls-min-v1.2</code></a></li>
 <li><a href="#--tls-min-v13"><code>--tls-min-v1.3</code></a></li>
-<li><span class="stability_0"><a href="#--trace-atomics-wait"><code>--trace-atomics-wait</code></a></span></li>
 <li><a href="#--trace-deprecation"><code>--trace-deprecation</code></a></li>
 <li><a href="#--trace-env"><code>--trace-env</code></a></li>
 <li><a href="#--trace-env-js-stack"><code>--trace-env-js-stack</code></a></li>
@@ -340,7 +340,8 @@
 <li><span class="stability_2"><a href="#environment-variables_1">Environment variables</a></span>
 <ul>
 <li><a href="#force_color1-2-3"><code>FORCE_COLOR=[1, 2, 3]</code></a></li>
-<li><span class="stability_1.1"><a href="#node_compile_cachedir"><code>NODE_COMPILE_CACHE=dir</code></a></span></li>
+<li><a href="#node_compile_cachedir"><code>NODE_COMPILE_CACHE=dir</code></a></li>
+<li><a href="#node_compile_cache_portable1"><code>NODE_COMPILE_CACHE_PORTABLE=1</code></a></li>
 <li><a href="#node_debugmodule"><code>NODE_DEBUG=module[,…]</code></a></li>
 <li><a href="#node_debug_nativemodule"><code>NODE_DEBUG_NATIVE=module[,…]</code></a></li>
 <li><a href="#node_disable_colors1"><code>NODE_DISABLE_COLORS=1</code></a></li>
@@ -382,9 +383,10 @@
 <li><a href="#--enable-etw-stack-walking"><code>--enable-etw-stack-walking</code></a></li>
 <li><a href="#--expose-gc_1"><code>--expose-gc</code></a></li>
 <li><a href="#--harmony-shadow-realm"><code>--harmony-shadow-realm</code></a></li>
-<li><a href="#--huge-max-old-generation-size"><code>--huge-max-old-generation-size</code></a></li>
+<li><a href="#--heap-snapshot-on-oom"><code>--heap-snapshot-on-oom</code></a></li>
 <li><a href="#--interpreted-frames-native-stack"><code>--interpreted-frames-native-stack</code></a></li>
 <li><a href="#--jitless_1"><code>--jitless</code></a></li>
+<li><a href="#--max-heap-size"><code>--max-heap-size</code></a></li>
 <li><a href="#--max-old-space-sizesize-in-mib"><code>--max-old-space-size=SIZE</code> (in MiB)</a></li>
 <li><a href="#--max-semi-space-sizesize-in-mib"><code>--max-semi-space-size=SIZE</code> (in MiB)</a></li>
 <li><a href="#--perf-basic-prof"><code>--perf-basic-prof</code></a></li>
@@ -545,11 +547,7 @@
 <li><a href="#command-line-api">Command-line API</a>
 <ul>
 <li><a href="#synopsis">Synopsis</a></li>
-<li><a href="#program-entry-point">Program entry point</a>
-<ul>
-<li><a href="#ecmascript-modules-loader-entry-point-caveat">ECMAScript modules loader entry point caveat</a></li>
-</ul>
-</li>
+<li><a href="#program-entry-point">Program entry point</a></li>
 <li><span class="stability_2"><a href="#options">Options</a></span>
 <ul>
 <li><a href="#-"><code>-</code></a></li>
@@ -559,10 +557,11 @@
 <li><span class="stability_1.1"><a href="#--allow-child-process"><code>--allow-child-process</code></a></span></li>
 <li><a href="#--allow-fs-read"><code>--allow-fs-read</code></a></li>
 <li><a href="#--allow-fs-write"><code>--allow-fs-write</code></a></li>
+<li><span class="stability_1.0"><a href="#--allow-inspector"><code>--allow-inspector</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--allow-wasi"><code>--allow-wasi</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--allow-worker"><code>--allow-worker</code></a></span></li>
-<li><span class="stability_1"><a href="#--build-snapshot"><code>--build-snapshot</code></a></span></li>
-<li><span class="stability_1"><a href="#--build-snapshot-config"><code>--build-snapshot-config</code></a></span></li>
+<li><a href="#--build-snapshot"><code>--build-snapshot</code></a></li>
+<li><a href="#--build-snapshot-config"><code>--build-snapshot-config</code></a></li>
 <li><a href="#-c---check"><code>-c</code>, <code>--check</code></a></li>
 <li><a href="#--completion-bash"><code>--completion-bash</code></a></li>
 <li><a href="#-c-condition---conditionscondition"><code>-C condition</code>, <code>--conditions=condition</code></a></li>
@@ -584,23 +583,23 @@
 <li><a href="#--env-file-if-existsfile"><code>--env-file-if-exists=file</code></a></li>
 <li><a href="#--env-filefile"><code>--env-file=file</code></a></li>
 <li><a href="#-e---eval-script"><code>-e</code>, <code>--eval "script"</code></a></li>
-<li><span class="stability_1.0"><a href="#--experimental-addon-modules"><code>--experimental-addon-modules</code></a></span></li>
-<li><span class="stability_1"><a href="#--experimental-async-context-frame"><code>--experimental-async-context-frame</code></a></span></li>
-<li><span class="stability_1.0"><a href="#--experimental-config-fileconfig"><code>--experimental-config-file=config</code></a></span></li>
+<li><span class="stability_1.2"><a href="#--experimental-addon-modules"><code>--experimental-addon-modules</code></a></span></li>
+<li><span class="stability_1.0"><a href="#--experimental-config-filepath---experimental-config-file"><code>--experimental-config-file=path</code>, <code>--experimental-config-file</code></a></span></li>
 <li><span class="stability_1.0"><a href="#--experimental-default-config-file"><code>--experimental-default-config-file</code></a></span></li>
-<li><span class="stability_1.0"><a href="#--experimental-default-typetype"><code>--experimental-default-type=type</code></a></span></li>
 <li><a href="#--experimental-eventsource"><code>--experimental-eventsource</code></a></li>
 <li><a href="#--experimental-import-meta-resolve"><code>--experimental-import-meta-resolve</code></a></li>
+<li><span class="stability_1.0"><a href="#--experimental-import-text"><code>--experimental-import-text</code></a></span></li>
 <li><span class="stability_1.1"><a href="#--experimental-inspector-network-resource"><code>--experimental-inspector-network-resource</code></a></span></li>
 <li><a href="#--experimental-loadermodule"><code>--experimental-loader=module</code></a></li>
 <li><span class="stability_1"><a href="#--experimental-network-inspection"><code>--experimental-network-inspection</code></a></span></li>
 <li><a href="#--experimental-print-required-tla"><code>--experimental-print-required-tla</code></a></li>
-<li><span class="stability_1.1"><a href="#--experimental-require-module"><code>--experimental-require-module</code></a></span></li>
+<li><span class="stability_1.1"><a href="#--experimental-quic"><code>--experimental-quic</code></a></span></li>
 <li><span class="stability_1"><a href="#--experimental-sea-config"><code>--experimental-sea-config</code></a></span></li>
 <li><a href="#--experimental-shadow-realm"><code>--experimental-shadow-realm</code></a></li>
+<li><span class="stability_1.1"><a href="#--experimental-storage-inspection"><code>--experimental-storage-inspection</code></a></span></li>
 <li><a href="#--experimental-test-coverage"><code>--experimental-test-coverage</code></a></li>
-<li><span class="stability_1.0"><a href="#--experimental-test-isolationmode"><code>--experimental-test-isolation=mode</code></a></span></li>
 <li><span class="stability_1.0"><a href="#--experimental-test-module-mocks"><code>--experimental-test-module-mocks</code></a></span></li>
+<li><span class="stability_1.0"><a href="#--experimental-test-tag-filtertag"><code>--experimental-test-tag-filter=&#x3C;tag></code></a></span></li>
 <li><span class="stability_1.2"><a href="#--experimental-transform-types"><code>--experimental-transform-types</code></a></span></li>
 <li><a href="#--experimental-vm-modules"><code>--experimental-vm-modules</code></a></li>
 <li><a href="#--experimental-wasi-unstable-preview1"><code>--experimental-wasi-unstable-preview1</code></a></li>
@@ -639,21 +638,20 @@
 <li><a href="#--napi-modules"><code>--napi-modules</code></a></li>
 <li><a href="#--network-family-autoselection-attempt-timeout"><code>--network-family-autoselection-attempt-timeout</code></a></li>
 <li><a href="#--no-addons"><code>--no-addons</code></a></li>
+<li><a href="#--no-async-context-frame"><code>--no-async-context-frame</code></a></li>
 <li><a href="#--no-deprecation"><code>--no-deprecation</code></a></li>
 <li><a href="#--no-experimental-detect-module"><code>--no-experimental-detect-module</code></a></li>
-<li><a href="#--no-experimental-fetch"><code>--no-experimental-fetch</code></a></li>
-<li><a href="#--no-experimental-global-customevent"><code>--no-experimental-global-customevent</code></a></li>
 <li><span class="stability_1"><a href="#--no-experimental-global-navigator"><code>--no-experimental-global-navigator</code></a></span></li>
-<li><a href="#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a></li>
 <li><a href="#--no-experimental-repl-await"><code>--no-experimental-repl-await</code></a></li>
-<li><span class="stability_1.1"><a href="#--no-experimental-require-module"><code>--no-experimental-require-module</code></a></span></li>
+<li><span class="stability_3"><a href="#--no-experimental-require-module"><code>--no-experimental-require-module</code></a></span></li>
 <li><a href="#--no-experimental-sqlite"><code>--no-experimental-sqlite</code></a></li>
-<li><span class="stability_1.2"><a href="#--no-experimental-strip-types"><code>--no-experimental-strip-types</code></a></span></li>
 <li><a href="#--no-experimental-websocket"><code>--no-experimental-websocket</code></a></li>
 <li><a href="#--no-extra-info-on-fatal-exception"><code>--no-extra-info-on-fatal-exception</code></a></li>
 <li><a href="#--no-force-async-hooks-checks"><code>--no-force-async-hooks-checks</code></a></li>
 <li><a href="#--no-global-search-paths"><code>--no-global-search-paths</code></a></li>
 <li><a href="#--no-network-family-autoselection"><code>--no-network-family-autoselection</code></a></li>
+<li><a href="#--no-require-module"><code>--no-require-module</code></a></li>
+<li><a href="#--no-strip-types"><code>--no-strip-types</code></a></li>
 <li><a href="#--no-warnings"><code>--no-warnings</code></a></li>
 <li><a href="#--node-memory-debug"><code>--node-memory-debug</code></a></li>
 <li><a href="#--openssl-configfile"><code>--openssl-config=file</code></a></li>
@@ -694,10 +692,15 @@
 <li><span class="stability_1"><a href="#--test-coverage-include"><code>--test-coverage-include</code></a></span></li>
 <li><span class="stability_1"><a href="#--test-coverage-linesthreshold"><code>--test-coverage-lines=threshold</code></a></span></li>
 <li><a href="#--test-force-exit"><code>--test-force-exit</code></a></li>
+<li><span class="stability_1.0"><a href="#--test-global-setupmodule"><code>--test-global-setup=module</code></a></span></li>
+<li><a href="#--test-isolationmode"><code>--test-isolation=mode</code></a></li>
 <li><a href="#--test-name-pattern"><code>--test-name-pattern</code></a></li>
 <li><a href="#--test-only"><code>--test-only</code></a></li>
+<li><a href="#--test-random-seed"><code>--test-random-seed</code></a></li>
+<li><a href="#--test-randomize"><code>--test-randomize</code></a></li>
 <li><a href="#--test-reporter"><code>--test-reporter</code></a></li>
 <li><a href="#--test-reporter-destination"><code>--test-reporter-destination</code></a></li>
+<li><a href="#--test-rerun-failures"><code>--test-rerun-failures</code></a></li>
 <li><a href="#--test-shard"><code>--test-shard</code></a></li>
 <li><a href="#--test-skip-pattern"><code>--test-skip-pattern</code></a></li>
 <li><a href="#--test-timeout"><code>--test-timeout</code></a></li>
@@ -712,7 +715,6 @@
 <li><a href="#--tls-min-v11"><code>--tls-min-v1.1</code></a></li>
 <li><a href="#--tls-min-v12"><code>--tls-min-v1.2</code></a></li>
 <li><a href="#--tls-min-v13"><code>--tls-min-v1.3</code></a></li>
-<li><span class="stability_0"><a href="#--trace-atomics-wait"><code>--trace-atomics-wait</code></a></span></li>
 <li><a href="#--trace-deprecation"><code>--trace-deprecation</code></a></li>
 <li><a href="#--trace-env"><code>--trace-env</code></a></li>
 <li><a href="#--trace-env-js-stack"><code>--trace-env-js-stack</code></a></li>
@@ -746,7 +748,8 @@
 <li><span class="stability_2"><a href="#environment-variables_1">Environment variables</a></span>
 <ul>
 <li><a href="#force_color1-2-3"><code>FORCE_COLOR=[1, 2, 3]</code></a></li>
-<li><span class="stability_1.1"><a href="#node_compile_cachedir"><code>NODE_COMPILE_CACHE=dir</code></a></span></li>
+<li><a href="#node_compile_cachedir"><code>NODE_COMPILE_CACHE=dir</code></a></li>
+<li><a href="#node_compile_cache_portable1"><code>NODE_COMPILE_CACHE_PORTABLE=1</code></a></li>
 <li><a href="#node_debugmodule"><code>NODE_DEBUG=module[,…]</code></a></li>
 <li><a href="#node_debug_nativemodule"><code>NODE_DEBUG_NATIVE=module[,…]</code></a></li>
 <li><a href="#node_disable_colors1"><code>NODE_DISABLE_COLORS=1</code></a></li>
@@ -788,9 +791,10 @@
 <li><a href="#--enable-etw-stack-walking"><code>--enable-etw-stack-walking</code></a></li>
 <li><a href="#--expose-gc_1"><code>--expose-gc</code></a></li>
 <li><a href="#--harmony-shadow-realm"><code>--harmony-shadow-realm</code></a></li>
-<li><a href="#--huge-max-old-generation-size"><code>--huge-max-old-generation-size</code></a></li>
+<li><a href="#--heap-snapshot-on-oom"><code>--heap-snapshot-on-oom</code></a></li>
 <li><a href="#--interpreted-frames-native-stack"><code>--interpreted-frames-native-stack</code></a></li>
 <li><a href="#--jitless_1"><code>--jitless</code></a></li>
+<li><a href="#--max-heap-size"><code>--max-heap-size</code></a></li>
 <li><a href="#--max-old-space-sizesize-in-mib"><code>--max-old-space-size=SIZE</code> (in MiB)</a></li>
 <li><a href="#--max-semi-space-sizesize-in-mib"><code>--max-semi-space-size=SIZE</code> (in MiB)</a></li>
 <li><a href="#--perf-basic-prof"><code>--perf-basic-prof</code></a></li>
@@ -822,34 +826,21 @@ debugging, multiple ways to execute scripts, and other helpful runtime options.<
 </section><section><h3>Program entry point<span><a class="mark" href="#program-entry-point" id="program-entry-point">#</a></span><a aria-hidden="true" class="legacy" id="cli_program_entry_point"></a></h3>
 <p>The program entry point is a specifier-like string. If the string is not an
 absolute path, it's resolved as a relative path from the current working
-directory. That path is then resolved by <a href="modules.html">CommonJS</a> module loader, or by the
-<a href="packages.html#modules-loaders">ES module loader</a> if <a href="#--experimental-default-typetype"><code>--experimental-default-type=module</code></a>
-is passed. If no corresponding file is found, an error is thrown.</p>
-<p>If a file is found, its path will be passed to the
-<a href="packages.html#modules-loaders">ES module loader</a> under any of the following conditions:</p>
+directory. That entry point string is then resolved as if it's been requested
+by <code>require()</code> from the current working directory. If no corresponding file
+is found, an error is thrown.</p>
+<p>By default, the resolved path is also loaded as if it's been requested by <code>require()</code>,
+unless one of the conditions below apply—then it's loaded as if it's been requested
+by <code>import()</code>:</p>
 <ul>
 <li>The program was started with a command-line flag that forces the entry
-point to be loaded with ECMAScript module loader, such as <code>--import</code> or
-<a href="#--experimental-default-typetype"><code>--experimental-default-type=module</code></a>.</li>
-<li>The file has an <code>.mjs</code> extension.</li>
-<li>The file has an <code>.mjs</code> or <code>.wasm</code> extension.</li>
+point to be loaded with ECMAScript module loader, such as <code>--import</code>.</li>
+<li>The file has an <code>.mjs</code>, <code>.mts</code> or <code>.wasm</code> extension.</li>
 <li>The file does not have a <code>.cjs</code> extension, and the nearest parent
 <code>package.json</code> file contains a top-level <a href="packages.html#type"><code>"type"</code></a> field with a value of
 <code>"module"</code>.</li>
 </ul>
-<p>Otherwise, the file is loaded using the CommonJS module loader. See
-<a href="packages.html#modules-loaders">Modules loaders</a> for more details.</p>
-<div>
-<h4>ECMAScript modules loader entry point caveat<span><a class="mark" href="#ecmascript-modules-loader-entry-point-caveat" id="ecmascript-modules-loader-entry-point-caveat">#</a></span><a aria-hidden="true" class="legacy" id="cli_ecmascript_modules_loader_entry_point_caveat"></a></h4>
-<p>When loading, the <a href="packages.html#modules-loaders">ES module loader</a> loads the program
-entry point, the <code>node</code> command will accept as input only files with <code>.js</code>,
-<code>.mjs</code>, <code>.cjs</code> or <code>.wasm</code> extensions; and with no extension when
-<a href="#--experimental-default-typetype"><code>--experimental-default-type=module</code></a> is passed. With the following flags,
-additional file extensions are enabled:</p>
-<ul>
-<li><a href="#--experimental-addon-modules"><code>--experimental-addon-modules</code></a> for files with <code>.node</code> extension.</li>
-</ul>
-</div>
+<p>See <a href="packages.html#module-resolution-and-loading">module resolution and loading</a> for more details.</p>
 </section><section><h3>Options<span><a class="mark" href="#options" id="options">#</a></span><a aria-hidden="true" class="legacy" id="cli_options"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -931,7 +922,7 @@ Error: Cannot load native addon because loading addons is disabled.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v24.4.0</td>
 <td><p>When spawning process with the permission model enabled. The flags are inherit to the child Node.js process through NODE_OPTIONS environment variable.</p></td></tr>
 <tr><td>v20.0.0</td>
 <td><p><span>Added in: v20.0.0</span></p></td></tr>
@@ -971,9 +962,9 @@ directly through the process arguments.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.2.0</td>
 <td><p>Entrypoints of your application are allowed to be read implicitly.</p></td></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.5.0, v22.13.0</td>
 <td><p>Permission Model and --allow-fs flags are stable.</p></td></tr>
 <tr><td>v20.7.0</td>
 <td><p>Paths delimited by comma (<code>,</code>) are no longer allowed.</p></td></tr>
@@ -988,7 +979,7 @@ the <a href="permissions.html#permission-model">Permission Model</a>.</p>
 <ul>
 <li><code>*</code> - To allow all <code>FileSystemRead</code> operations.</li>
 <li>Multiple paths can be allowed using multiple <code>--allow-fs-read</code> flags.
-Example <code>--allow-fs-read=/folder1/ --allow-fs-read=/folder1/</code></li>
+Example <code>--allow-fs-read=/folder1/ --allow-fs-read=/folder2/</code></li>
 </ul>
 <p>Examples can be found in the <a href="permissions.html#file-system-permissions">File System Permissions</a> documentation.</p>
 <p>The initializer module and custom <code>--require</code> modules has a implicit
@@ -1007,7 +998,7 @@ process.<span class="hljs-title function_">has</span>(<span class="hljs-string">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.5.0, v22.13.0</td>
 <td><p>Permission Model and --allow-fs flags are stable.</p></td></tr>
 <tr><td>v20.7.0</td>
 <td><p>Paths delimited by comma (<code>,</code>) are no longer allowed.</p></td></tr>
@@ -1022,15 +1013,34 @@ the <a href="permissions.html#permission-model">Permission Model</a>.</p>
 <ul>
 <li><code>*</code> - To allow all <code>FileSystemWrite</code> operations.</li>
 <li>Multiple paths can be allowed using multiple <code>--allow-fs-write</code> flags.
-Example <code>--allow-fs-write=/folder1/ --allow-fs-write=/folder1/</code></li>
+Example <code>--allow-fs-write=/folder1/ --allow-fs-write=/folder2/</code></li>
 </ul>
 <p>Paths delimited by comma (<code>,</code>) are no longer allowed.
 When passing a single flag with a comma a warning will be displayed.</p>
 <p>Examples can be found in the <a href="permissions.html#file-system-permissions">File System Permissions</a> documentation.</p>
 </div><div>
+<h4><code>--allow-inspector</code><span><a class="mark" href="#--allow-inspector" id="--allow-inspector">#</a></span><a aria-hidden="true" class="legacy" id="cli_allow_inspector"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>When using the <a href="permissions.html#permission-model">Permission Model</a>, the process will not be able to connect
+through inspector protocol.</p>
+<p>Attempts to do so will throw an <code>ERR_ACCESS_DENIED</code> unless the
+user explicitly passes the <code>--allow-inspector</code> flag when starting Node.js.</p>
+<p>Example:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Session</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector/promises'</span>);
+
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Session</span>();
+session.<span class="hljs-title function_">connect</span>();</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node --permission index.js</span>
+Error: connect ERR_ACCESS_DENIED Access to this API has been restricted. Use --allow-inspector to manage permissions.
+  code: 'ERR_ACCESS_DENIED',
+}</code> <button class="copy-button">copy</button></pre>
+</div><div>
 <h4><code>--allow-wasi</code><span><a class="mark" href="#--allow-wasi" id="--allow-wasi">#</a></span><a aria-hidden="true" class="legacy" id="cli_allow_wasi"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.16.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
 <p>When using the <a href="permissions.html#permission-model">Permission Model</a>, the process will not be capable of creating
@@ -1078,9 +1088,16 @@ Error: Access to this API has been restricted
 </div><div>
 <h4><code>--build-snapshot</code><span><a class="mark" href="#--build-snapshot" id="--build-snapshot">#</a></span><a aria-hidden="true" class="legacy" id="cli_build_snapshot"></a></h4>
 <div class="api_metadata">
-<span>Added in: v18.8.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.13.1</td>
+<td><p>The snapshot building process is no longer experimental.</p></td></tr>
+<tr><td>v18.8.0</td>
+<td><p><span>Added in: v18.8.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Generates a snapshot blob when the process exits and writes it to
 disk, which can be loaded later with <code>--snapshot-blob</code>.</p>
 <p>When building the snapshot, if <code>--snapshot-blob</code> is not specified,
@@ -1106,25 +1123,37 @@ script at deserialization time:</p>
 <span class="hljs-meta prompt_">$ </span><span class="language-bash">node --snapshot-blob snapshot.blob</span>
 I am from the snapshot</code> <button class="copy-button">copy</button></pre>
 <p>For more information, check out the <a href="v8.html#startup-snapshot-api"><code>v8.startupSnapshot</code> API</a> documentation.</p>
-<p>Currently the support for run-time snapshot is experimental in that:</p>
-<ol>
-<li>User-land modules are not yet supported in the snapshot, so only
-one single file can be snapshotted. Users can bundle their applications
-into a single script with their bundler of choice before building
-a snapshot, however.</li>
-<li>Only a subset of the built-in modules work in the snapshot, though the
-Node.js core test suite checks that a few fairly complex applications
-can be snapshotted. Support for more modules are being added. If any
-crashes or buggy behaviors occur when building a snapshot, please file
-a report in the <a href="https://github.com/nodejs/node/issues">Node.js issue tracker</a> and link to it in the
-<a href="https://github.com/nodejs/node/issues/44014">tracking issue for user-land snapshots</a>.</li>
-</ol>
+<p>The snapshot currently only supports loading a single entrypoint during the
+snapshot building process, which can load built-in modules, but not additional user-land modules.
+Users can bundle their applications into a single script with their bundler
+of choice before building a snapshot.</p>
+<p>As it's complicated to ensure the serializablility of all built-in modules,
+which are also growing over time, only a subset of the built-in modules are
+well tested to be serializable during the snapshot building process.
+The Node.js core test suite checks that a few fairly complex applications
+can be snapshotted. The list of built-in modules being
+<a href="https://github.com/nodejs/node/blob/b19525a33cc84033af4addd0f80acd4dc33ce0cf/test/parallel/test-bootstrap-modules.js#L24">captured by the built-in snapshot of Node.js</a> is considered supported.
+When the snapshot builder encounters a built-in module that cannot be
+serialized, it may crash the snapshot building process. In that case a typical
+workaround would be to delay loading that module until
+runtime, using either <a href="v8.html#v8startupsnapshotsetdeserializemainfunctioncallback-data"><code>v8.startupSnapshot.setDeserializeMainFunction()</code></a> or
+<a href="v8.html#v8startupsnapshotadddeserializecallbackcallback-data"><code>v8.startupSnapshot.addDeserializeCallback()</code></a>. If serialization for
+an additional module during the snapshot building process is needed,
+please file a request in the <a href="https://github.com/nodejs/node/issues">Node.js issue tracker</a> and link to it in the
+<a href="https://github.com/nodejs/node/issues/44014">tracking issue for user-land snapshots</a>.</p>
 </div><div>
 <h4><code>--build-snapshot-config</code><span><a class="mark" href="#--build-snapshot-config" id="--build-snapshot-config">#</a></span><a aria-hidden="true" class="legacy" id="cli_build_snapshot_config"></a></h4>
 <div class="api_metadata">
-<span>Added in: v21.6.0, v20.12.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.13.1</td>
+<td><p>The snapshot building process is no longer experimental.</p></td></tr>
+<tr><td>v21.6.0, v20.12.0</td>
+<td><p><span>Added in: v21.6.0, v20.12.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Specifies the path to a JSON configuration file which configures snapshot
 creation behavior.</p>
 <p>The following options are currently supported:</p>
@@ -1167,7 +1196,7 @@ not be executed and instead be interpreted as regular command line arguments.</p
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.9.0</td>
+<tr><td>v22.9.0, v20.18.0</td>
 <td><p>The flag is no longer experimental.</p></td></tr>
 <tr><td>v14.9.0, v12.19.0</td>
 <td><p><span>Added in: v14.9.0, v12.19.0</span></p></td></tr>
@@ -1186,7 +1215,7 @@ not be executed and instead be interpreted as regular command line arguments.</p
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--cpu-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p><span>Added in: v12.0.0</span></p></td></tr>
@@ -1217,7 +1246,7 @@ CPU.15293.cpuprofile</code> <button class="copy-button">copy</button></pre>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--cpu-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p><span>Added in: v12.0.0</span></p></td></tr>
@@ -1234,7 +1263,7 @@ be placed.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--cpu-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.2.0</td>
 <td><p><span>Added in: v12.2.0</span></p></td></tr>
@@ -1249,7 +1278,7 @@ by <code>--cpu-prof</code>. The default is 1000 microseconds.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--cpu-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.0.0</td>
 <td><p><span>Added in: v12.0.0</span></p></td></tr>
@@ -1281,10 +1310,10 @@ property throw an exception with the code <code>ERR_PROTO_ACCESS</code>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.8.0</td>
 <td><p>The option is no longer experimental.</p></td></tr>
-<tr><td>v22.14.0</td>
-<td><p><span>Added in: v22.14.0</span></p></td></tr>
+<tr><td>v23.7.0, v22.14.0</td>
+<td><p><span>Added in: v23.7.0, v22.14.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
@@ -1324,36 +1353,36 @@ vm.<span class="hljs-title function_">measureMemory</span>();</code><button clas
 </div><div>
 <h4><code>--disable-wasm-trap-handler</code><span><a class="mark" href="#--disable-wasm-trap-handler" id="--disable-wasm-trap-handler">#</a></span><a aria-hidden="true" class="legacy" id="cli_disable_wasm_trap_handler"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.2.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>Node.js now automatically disables the trap handler when there is not enough virtual memory available at startup to allocate one cage.</p></td></tr>
+<tr><td>v22.2.0, v20.15.0</td>
+<td><p><span>Added in: v22.2.0, v20.15.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p>By default, Node.js enables trap-handler-based WebAssembly bound
-checks. As a result, V8 does not need to insert inline bound checks
-int the code compiled from WebAssembly which may speedup WebAssembly
-execution significantly, but this optimization requires allocating
-a big virtual memory cage (currently 10GB). If the Node.js process
-does not have access to a large enough virtual memory address space
-due to system configurations or hardware limitations, users won't
-be able to run any WebAssembly that involves allocation in this
-virtual memory cage and will see an out-of-memory error.</p>
-<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ulimit</span> -v 5000000</span>
-<span class="hljs-meta prompt_">$ </span><span class="language-bash">node -p <span class="hljs-string">"new WebAssembly.Memory({ initial: 10, maximum: 100 });"</span></span>
-[eval]:1
-new WebAssembly.Memory({ initial: 10, maximum: 100 });
-^
-
-RangeError: WebAssembly.Memory(): could not allocate memory
-    at [eval]:1:1
-    at runScriptInThisContext (node:internal/vm:209:10)
-    at node:internal/process/execution:118:14
-    at [eval]-wrapper:6:24
-    at runScript (node:internal/process/execution:101:62)
-    at evalScript (node:internal/process/execution:136:3)
-    at node:internal/main/eval_string:49:3
-</code> <button class="copy-button">copy</button></pre>
-<p><code>--disable-wasm-trap-handler</code> disables this optimization so that
-users can at least run WebAssembly (with less optimal performance)
-when the virtual memory address space available to their Node.js
-process is lower than what the V8 WebAssembly memory cage needs.</p>
+<p>Node.js enables V8's trap-handler-based WebAssembly bound checks on 64-bit platforms,
+which significantly improves WebAssembly performance by eliminating the need for
+inline bound checks. This optimization requires allocating a large virtual memory
+cage per WebAssembly memory instance (currently typically 8GB for 32-bit WebAssembly memory,
+16GB for 64-bit WebAssembly memory) to trap out-of-bound accesses. On most 64-bit
+platforms, the virtual memory address space is usually large enough (around 128TB)
+to accommodate typical WebAssembly usages, but if the machine has manual limits
+on virtual memory (e.g. through <code>ulimit -v</code>), WebAssembly memory allocation is
+more likely to fail with <code>WebAssembly.Memory(): could not allocate memory</code>.</p>
+<p>At startup, Node.js automatically checks whether there is enough virtual memory
+available to allocate at least one cage, and if not, the trap-handler optimization
+is automatically disabled so that WebAssembly can still run using inline
+bound checks (with less optimal performance). But if the application needs to create
+many WebAssembly memory instances and the machine still configures a relatively high
+limit on virtual memory, allocation of WebAssembly memory instances may still fail
+more quickly than expected due to the raised virtual memory usage.</p>
+<p><code>--disable-wasm-trap-handler</code> fully disables this optimization so that WebAssembly memory
+instances always use inline bound checks instead of reserving large virtual memory cages.
+This allows more instances to be created when the virtual memory address space available
+to the Node.js process is limited.</p>
 </div><div>
 <h4><code>--disallow-code-generation-from-strings</code><span><a class="mark" href="#--disallow-code-generation-from-strings" id="--disallow-code-generation-from-strings">#</a></span><a aria-hidden="true" class="legacy" id="cli_disallow_code_generation_from_strings"></a></h4>
 <div class="api_metadata">
@@ -1368,7 +1397,7 @@ code from strings throw an exception instead. This does not affect the Node.js
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>ipv6first</code> is supported now.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p>Changed default value to <code>verbatim</code>.</p></td></tr>
@@ -1435,7 +1464,7 @@ of <code>--enable-source-maps</code>.</p>
 </div><div>
 <h4><code>--entry-url</code><span><a class="mark" href="#--entry-url" id="--entry-url">#</a></span><a aria-hidden="true" class="legacy" id="cli_entry_url"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.10.0</span>
+<span>Added in: v23.0.0, v22.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>When present, Node.js will interpret the entry point as a URL, rather than a
@@ -1451,7 +1480,7 @@ node --entry-url <span class="hljs-string">'data:text/javascript,console.log("He
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.10.0</td>
 <td><p>The <code>--env-file-if-exists</code> flag is no longer experimental.</p></td></tr>
 <tr><td>v22.9.0</td>
 <td><p><span>Added in: v22.9.0</span></p></td></tr>
@@ -1466,7 +1495,7 @@ does not exist.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.21.0</td>
+<tr><td>v24.10.0</td>
 <td><p>The <code>--env-file</code> flag is no longer experimental.</p></td></tr>
 <tr><td>v21.7.0, v20.12.0</td>
 <td><p>Add support to multi-line values.</p></td></tr>
@@ -1518,45 +1547,45 @@ can use the <a href="#--env-file-if-existsfile"><code>--env-file-if-exists</code
 </div>
 <p>Evaluate the following argument as JavaScript. The modules which are
 predefined in the REPL can also be used in <code>script</code>.</p>
+<p>If <code>script</code> starts with <code>-</code>, pass it using <code>=</code> (for example,
+<code>node --print --eval=-42</code>) so it is parsed as the value of <code>--eval</code>.</p>
 <p>On Windows, using <code>cmd.exe</code> a single quote will not work correctly because it
 only recognizes double <code>"</code> for quoting. In Powershell or Git bash, both <code>'</code>
 and <code>"</code> are usable.</p>
 <p>It is possible to run code containing inline types unless the
-<a href="#--no-experimental-strip-types"><code>--no-experimental-strip-types</code></a> flag is provided.</p>
+<a href="#--no-strip-types"><code>--no-strip-types</code></a> flag is provided.</p>
 </div><div>
 <h4><code>--experimental-addon-modules</code><span><a class="mark" href="#--experimental-addon-modules" id="--experimental-addon-modules">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_addon_modules"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.19.0</td>
+<td><p>This is enabled by default.</p></td></tr>
+<tr><td>v23.6.0</td>
+<td><p><span>Added in: v23.6.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.2</a> - Release candidate</div><p></p>
 <p>Enable experimental import support for <code>.node</code> addons.</p>
 </div><div>
-<h4><code>--experimental-async-context-frame</code><span><a class="mark" href="#--experimental-async-context-frame" id="--experimental-async-context-frame">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_async_context_frame"></a></h4>
+<h4><code>--experimental-config-file=path</code>, <code>--experimental-config-file</code><span><a class="mark" href="#--experimental-config-filepath---experimental-config-file" id="--experimental-config-filepath---experimental-config-file">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_config_file_path_experimental_config_file"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.7.0</span>
-</div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
-<p>Enables the use of <a href="async_context.html#class-asynclocalstorage"><code>AsyncLocalStorage</code></a> backed by <code>AsyncContextFrame</code> rather
-than the default implementation which relies on async_hooks. This new model is
-implemented very differently and so could have differences in how context data
-flows within the application. As such, it is presently recommended to be sure
-your application behaviour is unaffected by this change before using it in
-production.</p>
-</div><div>
-<h4><code>--experimental-config-file=config</code><span><a class="mark" href="#--experimental-config-fileconfig" id="--experimental-config-fileconfig">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_config_file_config"></a></h4>
-<div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v23.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
-<p>If present, Node.js will look for a
-configuration file at the specified path.
-Node.js will read the configuration file and apply the settings.
-The configuration file should be a JSON file
-with the following structure:</p>
-<blockquote>
-<p>[!NOTE]
-Replace <code>vX.Y.Z</code> in the <code>$schema</code> with the version of Node.js you are using.</p>
-</blockquote>
+<p>If present, Node.js will look for a configuration file at the specified path.
+If the path is not specified, Node.js will look for a <code>node.config.json</code> file
+in the current working directory.
+To specify a custom path, use the <code>--experimental-config-file=path</code> form.
+The space-separated <code>--experimental-config-file path</code> form is not supported.
+The alias <code>--experimental-default-config-file</code> is equivalent to
+<code>--experimental-config-file</code> without an argument.
+Node.js will read the configuration file and apply the settings. The
+configuration file should be a JSON file with the following structure. <code>vX.Y.Z</code>
+in the <code>$schema</code> must be replaced with the version of Node.js you are using or
+<code>latest-vX.x</code> for the latest version of that major release line.</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"$schema"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"https://nodejs.org/dist/vX.Y.Z/docs/node-config-schema.json"</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">"nodeOptions"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -1565,10 +1594,24 @@ Replace <code>vX.Y.Z</code> in the <code>$schema</code> with the version of Node
     <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">"watch-path"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"src"</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">"watch-preserve-output"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"test"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"test-isolation"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"process"</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"watch"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"watch-preserve-output"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
   <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
-<p>In the <code>nodeOptions</code> field, only flags that are allowed in <a href="#node_optionsoptions"><code>NODE_OPTIONS</code></a> are supported.
-No-op flags are not supported.
+<p>The configuration file supports namespace-specific options:</p>
+<ul>
+<li>
+<p>The <code>nodeOptions</code> field contains CLI flags that are allowed in <a href="#node_optionsoptions"><code>NODE_OPTIONS</code></a>.</p>
+</li>
+<li>
+<p>Namespace fields like <code>test</code> contain configuration specific to that subsystem.</p>
+</li>
+</ul>
+<p>No-op flags are not supported.
 Not all V8 flags are currently supported.</p>
 <p>It is possible to use the <a href="../node-config-schema.json">official JSON schema</a>
 to validate the configuration file, which may vary depending on the Node.js version.
@@ -1577,63 +1620,35 @@ as a command-line argument. The value of the key is the value that would be
 passed to the flag.</p>
 <p>For example, the configuration file above is equivalent to
 the following command-line arguments:</p>
-<pre><code class="language-bash">node --import amaro/strip --watch-path=src --watch-preserve-output</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-bash">node --import amaro/strip --watch-path=src --watch-preserve-output --test-isolation=process</code> <button class="copy-button">copy</button></pre>
 <p>The priority in configuration is as follows:</p>
 <ol>
 <li>NODE_OPTIONS and command-line options</li>
-<li>Configuration file</li>
 <li>Dotenv NODE_OPTIONS</li>
+<li>Configuration file</li>
 </ol>
 <p>Values in the configuration file will not override the values in the environment
-variables and command-line options, but will override the values in the <code>NODE_OPTIONS</code>
-env file parsed by the <code>--env-file</code> flag.</p>
-<p>If duplicate keys are present in the configuration file, only
-the first key will be used.</p>
+variables, command-line options, or the <code>NODE_OPTIONS</code> env file parsed by the
+<code>--env-file</code> flag.</p>
+<p>Keys cannot be duplicated within the same or different namespaces.</p>
 <p>The configuration parser will throw an error if the configuration file contains
-unknown keys or keys that cannot used in <code>NODE_OPTIONS</code>.</p>
+unknown keys or keys that cannot be used in a namespace.</p>
 <p>Node.js will not sanitize or perform validation on the user-provided configuration,
 so <strong>NEVER</strong> use untrusted configuration files.</p>
 </div><div>
 <h4><code>--experimental-default-config-file</code><span><a class="mark" href="#--experimental-default-config-file" id="--experimental-default-config-file">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_default_config_file"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v23.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
-<p>If the <code>--experimental-default-config-file</code> flag is present, Node.js will look for a
+<p>This flag is an alias for <code>--experimental-config-file</code> without an argument.
+If present, Node.js will look for a
 <code>node.config.json</code> file in the current working directory and load it as a
-as configuration file.</p>
-</div><div>
-<h4><code>--experimental-default-type=type</code><span><a class="mark" href="#--experimental-default-typetype" id="--experimental-default-typetype">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_default_type_type"></a></h4>
-<div class="api_metadata">
-<span>Added in: v21.0.0, v20.10.0, v18.19.0</span>
-</div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
-<p>Define which module system, <code>module</code> or <code>commonjs</code>, to use for the following:</p>
-<ul>
-<li>
-<p>String input provided via <code>--eval</code> or STDIN, if <code>--input-type</code> is unspecified.</p>
-</li>
-<li>
-<p>Files ending in <code>.js</code> or with no extension, if there is no <code>package.json</code> file
-present in the same folder or any parent folder.</p>
-</li>
-<li>
-<p>Files ending in <code>.js</code> or with no extension, if the nearest parent
-<code>package.json</code> field lacks a <code>"type"</code> field; unless the <code>package.json</code> folder
-or any parent folder is inside a <code>node_modules</code> folder.</p>
-</li>
-</ul>
-<p>In other words, <code>--experimental-default-type=module</code> flips all the places where
-Node.js currently defaults to CommonJS to instead default to ECMAScript modules,
-with the exception of folders and subfolders below <code>node_modules</code>, for backward
-compatibility.</p>
-<p>Files with no extension will be treated as WebAssembly if they begin with the
-WebAssembly magic number (<code>\0asm</code>); otherwise they will be treated as ES module
-JavaScript.</p>
+configuration file.</p>
 </div><div>
 <h4><code>--experimental-eventsource</code><span><a class="mark" href="#--experimental-eventsource" id="--experimental-eventsource">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_eventsource"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.18.0</span>
 </div>
 <p>Enable exposition of <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#server-sent-events">EventSource Web API</a> on the global scope.</p>
 </div><div>
@@ -1653,9 +1668,17 @@ JavaScript.</p>
 passing a second <code>parentURL</code> argument for contextual resolution.</p>
 <p>Previously gated the entire <code>import.meta.resolve</code> feature.</p>
 </div><div>
+<h4><code>--experimental-import-text</code><span><a class="mark" href="#--experimental-import-text" id="--experimental-import-text">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_import_text"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>Enable experimental support for importing modules with
+<code>with { type: 'text' }</code>.</p>
+</div><div>
 <h4><code>--experimental-inspector-network-resource</code><span><a class="mark" href="#--experimental-inspector-network-resource" id="--experimental-inspector-network-resource">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_inspector_network_resource"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.19.0</span>
+<span>Added in: v24.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>Enable experimental support for inspector network resources.</p>
@@ -1665,7 +1688,7 @@ passing a second <code>parentURL</code> argument for contextual resolution.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.1</td>
+<tr><td>v23.6.1, v22.13.1, v20.18.2</td>
 <td><p>Using this feature with the permission model enabled requires passing <code>--allow-worker</code>.</p></td></tr>
 <tr><td>v12.11.1</td>
 <td><p>This flag was renamed from <code>--loader</code> to <code>--experimental-loader</code>.</p></td></tr>
@@ -1677,42 +1700,33 @@ passing a second <code>parentURL</code> argument for contextual resolution.</p>
 <blockquote>
 <p>This flag is discouraged and may be removed in a future version of Node.js.
 Please use
-<a href="module.html#enabling"><code>--import</code> with <code>register()</code></a> instead.</p>
+<a href="module.html#registration-of-asynchronous-customization-hooks"><code>--import</code> with <code>register()</code></a> instead.</p>
 </blockquote>
-<p>Specify the <code>module</code> containing exported <a href="module.html#customization-hooks">module customization hooks</a>.
+<p>Specify the <code>module</code> containing exported <a href="module.html#asynchronous-customization-hooks">asynchronous module customization hooks</a>.
 <code>module</code> may be any string accepted as an <a href="esm.html#import-specifiers"><code>import</code> specifier</a>.</p>
 <p>This feature requires <code>--allow-worker</code> if used with the <a href="permissions.html#permission-model">Permission Model</a>.</p>
 </div><div>
 <h4><code>--experimental-network-inspection</code><span><a class="mark" href="#--experimental-network-inspection" id="--experimental-network-inspection">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_network_inspection"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.6.0</span>
+<span>Added in: v22.6.0, v20.18.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Enable experimental support for the network inspection with Chrome DevTools.</p>
 </div><div>
 <h4><code>--experimental-print-required-tla</code><span><a class="mark" href="#--experimental-print-required-tla" id="--experimental-print-required-tla">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_print_required_tla"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.17.0</span>
 </div>
 <p>If the ES module being <code>require()</code>'d contains top-level <code>await</code>, this flag
 allows Node.js to evaluate the module, try to locate the
 top-level awaits, and print their location to help users find them.</p>
 </div><div>
-<h4><code>--experimental-require-module</code><span><a class="mark" href="#--experimental-require-module" id="--experimental-require-module">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_require_module"></a></h4>
+<h4><code>--experimental-quic</code><span><a class="mark" href="#--experimental-quic" id="--experimental-quic">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_quic"></a></h4>
 <div class="api_metadata">
-<details class="changelog"><summary>History</summary>
-<table>
-<tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.12.0</td>
-<td><p>This is now true by default.</p></td></tr>
-<tr><td>v22.0.0</td>
-<td><p><span>Added in: v22.0.0</span></p></td></tr>
-</tbody></table>
-</details>
+<span>Added in: v24.16.0</span>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
-<p>Supports loading a synchronous ES module graph in <code>require()</code>.</p>
-<p>See <a href="modules.html#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a>.</p>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
+<p>Enable experimental support for the QUIC protocol.</p>
 </div><div>
 <h4><code>--experimental-sea-config</code><span><a class="mark" href="#--experimental-sea-config" id="--experimental-sea-config">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_sea_config"></a></h4>
 <div class="api_metadata">
@@ -1728,6 +1742,13 @@ about <a href="single-executable-applications.html#generating-single-executable-
 <span>Added in: v19.0.0, v18.13.0</span>
 </div>
 <p>Use this flag to enable <a href="https://github.com/tc39/proposal-shadowrealm">ShadowRealm</a> support.</p>
+</div><div>
+<h4><code>--experimental-storage-inspection</code><span><a class="mark" href="#--experimental-storage-inspection" id="--experimental-storage-inspection">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_storage_inspection"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
+<p>Enable experimental support for storage inspection</p>
 </div><div>
 <h4><code>--experimental-test-coverage</code><span><a class="mark" href="#--experimental-test-coverage" id="--experimental-test-coverage">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_test_coverage"></a></h4>
 <div class="api_metadata">
@@ -1746,32 +1767,34 @@ generated as part of the test runner output. If no tests are run, a coverage
 report is not generated. See the documentation on
 <a href="test.html#collecting-code-coverage">collecting code coverage from tests</a> for more details.</p>
 </div><div>
-<h4><code>--experimental-test-isolation=mode</code><span><a class="mark" href="#--experimental-test-isolationmode" id="--experimental-test-isolationmode">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_test_isolation_mode"></a></h4>
-<div class="api_metadata">
-<span>Added in: v22.8.0</span>
-</div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
-<p>Configures the type of test isolation used in the test runner. When <code>mode</code> is
-<code>'process'</code>, each test file is run in a separate child process. When <code>mode</code> is
-<code>'none'</code>, all test files run in the same process as the test runner. The default
-isolation mode is <code>'process'</code>. This flag is ignored if the <code>--test</code> flag is not
-present. See the <a href="test.html#test-runner-execution-model">test runner execution model</a> section for more information.</p>
-</div><div>
 <h4><code>--experimental-test-module-mocks</code><span><a class="mark" href="#--experimental-test-module-mocks" id="--experimental-test-module-mocks">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_test_module_mocks"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.1</td>
+<tr><td>v23.6.1, v22.13.1, v20.18.2</td>
 <td><p>Using this feature with the permission model enabled requires passing <code>--allow-worker</code>.</p></td></tr>
-<tr><td>v22.3.0</td>
-<td><p><span>Added in: v22.3.0</span></p></td></tr>
+<tr><td>v22.3.0, v20.18.0</td>
+<td><p><span>Added in: v22.3.0, v20.18.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
 <p>Enable module mocking in the test runner.</p>
 <p>This feature requires <code>--allow-worker</code> if used with the <a href="permissions.html#permission-model">Permission Model</a>.</p>
+</div><div>
+<h4><code>--experimental-test-tag-filter=&#x3C;tag></code><span><a class="mark" href="#--experimental-test-tag-filtertag" id="--experimental-test-tag-filtertag">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_test_tag_filter_tag"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>Run only tests whose tag set contains <code>&#x3C;tag></code>. Tests declare tags via the
+<code>tags</code> option on <code>test()</code>, <code>it()</code>, <code>suite()</code>, or <code>describe()</code>; tags
+inherit from suites to nested tests by union. Filtering is
+case-insensitive.</p>
+<p>The flag may be specified more than once; tests must contain <strong>every</strong>
+filter value to run. See <a href="test.html#test-tags">Test tags</a> for details on declaring and
+inheriting tags.</p>
 </div><div>
 <h4><code>--experimental-transform-types</code><span><a class="mark" href="#--experimental-transform-types" id="--experimental-transform-types">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_transform_types"></a></h4>
 <div class="api_metadata">
@@ -1812,14 +1835,14 @@ Implies <code>--enable-source-maps</code>.</p>
 </div><div>
 <h4><code>--experimental-worker-inspection</code><span><a class="mark" href="#--experimental-worker-inspection" id="--experimental-worker-inspection">#</a></span><a aria-hidden="true" class="legacy" id="cli_experimental_worker_inspection"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.17.0</span>
+<span>Added in: v24.1.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>Enable experimental support for the worker inspection with Chrome DevTools.</p>
 </div><div>
 <h4><code>--expose-gc</code><span><a class="mark" href="#--expose-gc" id="--expose-gc">#</a></span><a aria-hidden="true" class="legacy" id="cli_expose_gc"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.18.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. This flag is inherited from V8 and is subject to
 change upstream.</div><p></p>
@@ -1867,7 +1890,7 @@ under this flag.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--heap-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.4.0</td>
 <td><p><span>Added in: v12.4.0</span></p></td></tr>
@@ -1889,7 +1912,7 @@ Heap.20190409.202950.15293.0.001.heapprofile</code> <button class="copy-button">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--heap-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.4.0</td>
 <td><p><span>Added in: v12.4.0</span></p></td></tr>
@@ -1906,7 +1929,7 @@ be placed.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--heap-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.4.0</td>
 <td><p><span>Added in: v12.4.0</span></p></td></tr>
@@ -1921,7 +1944,7 @@ by <code>--heap-prof</code>. The default is 512 * 1024 bytes.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.4.0</td>
+<tr><td>v22.4.0, v20.16.0</td>
 <td><p>The <code>--heap-prof</code> flags are now stable.</p></td></tr>
 <tr><td>v12.4.0</td>
 <td><p><span>Added in: v12.4.0</span></p></td></tr>
@@ -1935,7 +1958,7 @@ by <code>--heap-prof</code>. The default is 512 * 1024 bytes.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.22.1</td>
+<tr><td>v24.13.1</td>
 <td><p>The flag is no longer experimental.</p></td></tr>
 <tr><td>v15.1.0, v14.18.0</td>
 <td><p><span>Added in: v15.1.0, v14.18.0</span></p></td></tr>
@@ -2023,7 +2046,7 @@ forked processes, or clustered processes.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
+<tr><td>v23.6.0</td>
 <td><p>Add support for <code>-typescript</code> values.</p></td></tr>
 <tr><td>v22.7.0, v20.19.0</td>
 <td><p>ESM syntax detection is enabled by default.</p></td></tr>
@@ -2034,7 +2057,7 @@ forked processes, or clustered processes.</p>
 </div>
 <p>This configures Node.js to interpret <code>--eval</code> or <code>STDIN</code> input as CommonJS or
 as an ES module. Valid values are <code>"commonjs"</code>, <code>"module"</code>, <code>"module-typescript"</code> and <code>"commonjs-typescript"</code>.
-The <code>"-typescript"</code> values are not available with the flag <code>--no-experimental-strip-types</code>.
+The <code>"-typescript"</code> values are not available with the flag <code>--no-strip-types</code>.
 The default is no value, or <code>"commonjs"</code> if <code>--no-experimental-detect-module</code> is passed.</p>
 <p>If <code>--input-type</code> is not provided,
 Node.js will try to detect the syntax with the following steps:</p>
@@ -2083,6 +2106,8 @@ or poisoning attack. Avoid using this option.</p>
 Default <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,
 a random available port will be used.</p>
 <p>See <a href="debugger.html#v8-inspector-integration-for-nodejs">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>
+<p>See the <a href="#warning-binding-inspector-to-a-public-ipport-combination-is-insecure">security warning</a> below regarding the <code>host</code>
+parameter usage.</p>
 </div><div>
 <h4><code>--inspect-port=[host:]port</code><span><a class="mark" href="#--inspect-porthostport" id="--inspect-porthostport">#</a></span><a aria-hidden="true" class="legacy" id="cli_inspect_port_host_port"></a></h4>
 <div class="api_metadata">
@@ -2103,12 +2128,14 @@ endpoint on <code>http://host:port/json/list</code>.</p>
 </div><div>
 <h4><code>--inspect-wait[=[host:]port]</code><span><a class="mark" href="#--inspect-waithostport" id="--inspect-waithostport">#</a></span><a aria-hidden="true" class="legacy" id="cli_inspect_wait_host_port"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.2.0</span>
+<span>Added in: v22.2.0, v20.15.0</span>
 </div>
 <p>Activate inspector on <code>host:port</code> and wait for debugger to be attached.
 Default <code>host:port</code> is <code>127.0.0.1:9229</code>. If port <code>0</code> is specified,
 a random available port will be used.</p>
 <p>See <a href="debugger.html#v8-inspector-integration-for-nodejs">V8 Inspector integration for Node.js</a> for further explanation on Node.js debugger.</p>
+<p>See the <a href="#warning-binding-inspector-to-a-public-ipport-combination-is-insecure">security warning</a> below regarding the <code>host</code>
+parameter usage.</p>
 </div><div>
 <h4><code>--inspect[=[host:]port]</code><span><a class="mark" href="#--inspecthostport" id="--inspecthostport">#</a></span><a aria-hidden="true" class="legacy" id="cli_inspect_host_port"></a></h4>
 <div class="api_metadata">
@@ -2196,7 +2223,7 @@ node --max-old-space-size-percentage=75 index.js</code> <button class="copy-butt
 </div><div>
 <h4><code>--network-family-autoselection-attempt-timeout</code><span><a class="mark" href="#--network-family-autoselection-attempt-timeout" id="--network-family-autoselection-attempt-timeout">#</a></span><a aria-hidden="true" class="legacy" id="cli_network_family_autoselection_attempt_timeout"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.1.0</span>
+<span>Added in: v22.1.0, v20.13.0</span>
 </div>
 <p>Sets the default value for the network family autoselection attempt timeout.
 For more information, see <a href="net.html#netgetdefaultautoselectfamilyattempttimeout"><code>net.getDefaultAutoSelectFamilyAttemptTimeout()</code></a>.</p>
@@ -2209,6 +2236,15 @@ For more information, see <a href="net.html#netgetdefaultautoselectfamilyattempt
 native addons. When <code>--no-addons</code> is specified, calling <code>process.dlopen</code> or
 requiring a native C++ addon will fail and throw an exception.</p>
 </div><div>
+<h4><code>--no-async-context-frame</code><span><a class="mark" href="#--no-async-context-frame" id="--no-async-context-frame">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_async_context_frame"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.0.0</span>
+</div>
+<p>Disables the use of <a href="async_context.html#class-asynclocalstorage"><code>AsyncLocalStorage</code></a> backed by <code>AsyncContextFrame</code> and
+uses the prior implementation which relied on async_hooks. The previous model
+is retained for compatibility with Electron and for cases where the context
+flow may differ. However, if a difference in flow is found please report it.</p>
+</div><div>
 <h4><code>--no-deprecation</code><span><a class="mark" href="#--no-deprecation" id="--no-deprecation">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_deprecation"></a></h4>
 <div class="api_metadata">
 <span>Added in: v0.8.0</span>
@@ -2220,7 +2256,7 @@ requiring a native C++ addon will fail and throw an exception.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.7.0</td>
+<tr><td>v22.7.0, v20.19.0</td>
 <td><p>Syntax detection is enabled by default.</p></td></tr>
 <tr><td>v21.1.0, v20.10.0</td>
 <td><p><span>Added in: v21.1.0, v20.10.0</span></p></td></tr>
@@ -2229,30 +2265,12 @@ requiring a native C++ addon will fail and throw an exception.</p>
 </div>
 <p>Disable using <a href="packages.html#syntax-detection">syntax detection</a> to determine module type.</p>
 </div><div>
-<h4><code>--no-experimental-fetch</code><span><a class="mark" href="#--no-experimental-fetch" id="--no-experimental-fetch">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_fetch"></a></h4>
-<div class="api_metadata">
-<span>Added in: v18.0.0</span>
-</div>
-<p>Disable exposition of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> on the global scope.</p>
-</div><div>
-<h4><code>--no-experimental-global-customevent</code><span><a class="mark" href="#--no-experimental-global-customevent" id="--no-experimental-global-customevent">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_global_customevent"></a></h4>
-<div class="api_metadata">
-<span>Added in: v19.0.0</span>
-</div>
-<p>Disable exposition of <a href="https://dom.spec.whatwg.org/#customevent">CustomEvent Web API</a> on the global scope.</p>
-</div><div>
 <h4><code>--no-experimental-global-navigator</code><span><a class="mark" href="#--no-experimental-global-navigator" id="--no-experimental-global-navigator">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_global_navigator"></a></h4>
 <div class="api_metadata">
 <span>Added in: v21.2.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Disable exposition of <a href="globals.html#navigator">Navigator API</a> on the global scope.</p>
-</div><div>
-<h4><code>--no-experimental-global-webcrypto</code><span><a class="mark" href="#--no-experimental-global-webcrypto" id="--no-experimental-global-webcrypto">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_global_webcrypto"></a></h4>
-<div class="api_metadata">
-<span>Added in: v19.0.0</span>
-</div>
-<p>Disable exposition of <a href="webcrypto.html">Web Crypto API</a> on the global scope.</p>
 </div><div>
 <h4><code>--no-experimental-repl-await</code><span><a class="mark" href="#--no-experimental-repl-await" id="--no-experimental-repl-await">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_repl_await"></a></h4>
 <div class="api_metadata">
@@ -2265,23 +2283,24 @@ requiring a native C++ addon will fail and throw an exception.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.12.0</td>
+<tr><td>v24.15.0</td>
+<td><p>The flag was renamed from <code>--no-experimental-require-module</code> to <code>--no-require-module</code>, with the former marked as legacy.</p></td></tr>
+<tr><td>v23.0.0, v22.12.0, v20.19.0</td>
 <td><p>This is now false by default.</p></td></tr>
-<tr><td>v22.0.0</td>
-<td><p><span>Added in: v22.0.0</span></p></td></tr>
+<tr><td>v22.0.0, v20.17.0</td>
+<td><p><span>Added in: v22.0.0, v20.17.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
-<p>Disable support for loading a synchronous ES module graph in <code>require()</code>.</p>
-<p>See <a href="modules.html#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a>.</p>
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy: Use <a href="#--no-require-module"><code>--no-require-module</code></a> instead.</div><p></p>
+<p>Legacy alias for <a href="#--no-require-module"><code>--no-require-module</code></a>.</p>
 </div><div>
 <h4><code>--no-experimental-sqlite</code><span><a class="mark" href="#--no-experimental-sqlite" id="--no-experimental-sqlite">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_sqlite"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>SQLite is unflagged but still experimental.</p></td></tr>
 <tr><td>v22.5.0</td>
 <td><p><span>Added in: v22.5.0</span></p></td></tr>
@@ -2289,22 +2308,6 @@ requiring a native C++ addon will fail and throw an exception.</p>
 </details>
 </div>
 <p>Disable the experimental <a href="sqlite.html"><code>node:sqlite</code></a> module.</p>
-</div><div>
-<h4><code>--no-experimental-strip-types</code><span><a class="mark" href="#--no-experimental-strip-types" id="--no-experimental-strip-types">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_strip_types"></a></h4>
-<div class="api_metadata">
-<details class="changelog"><summary>History</summary>
-<table>
-<tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.18.0</td>
-<td><p>Type stripping is enabled by default.</p></td></tr>
-<tr><td>v22.6.0</td>
-<td><p><span>Added in: v22.6.0</span></p></td></tr>
-</tbody></table>
-</details>
-</div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.2</a> - Release candidate</div><p></p>
-<p>Disable experimental type-stripping for TypeScript files.
-For more information, see the <a href="typescript.html#type-stripping">TypeScript type-stripping</a> documentation.</p>
 </div><div>
 <h4><code>--no-experimental-websocket</code><span><a class="mark" href="#--no-experimental-websocket" id="--no-experimental-websocket">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_experimental_websocket"></a></h4>
 <div class="api_metadata">
@@ -2346,6 +2349,43 @@ dynamically when <code>async_hooks</code> is enabled.</p>
 </div>
 <p>Disables the family autoselection algorithm unless connection options explicitly
 enables it.</p>
+<p><a id="--experimental-require-module"></a></p>
+</div><div>
+<h4><code>--no-require-module</code><span><a class="mark" href="#--no-require-module" id="--no-require-module">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_require_module"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>This flag is no longer experimental.</p></td></tr>
+<tr><td>v24.15.0</td>
+<td><p>This flag was renamed from <code>--no-experimental-require-module</code> to <code>--no-require-module</code>.</p></td></tr>
+<tr><td>v23.0.0, v22.12.0, v20.19.0</td>
+<td><p>This is now false by default.</p></td></tr>
+<tr><td>v22.0.0, v20.17.0</td>
+<td><p><span>Added in: v22.0.0, v20.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Disable support for loading a synchronous ES module graph in <code>require()</code>.</p>
+<p>See <a href="modules.html#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a>.</p>
+</div><div>
+<h4><code>--no-strip-types</code><span><a class="mark" href="#--no-strip-types" id="--no-strip-types">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_strip_types"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.12.0</td>
+<td><p>Type stripping is now stable, the flag was renamed from <code>--no-experimental-strip-types</code> to <code>--no-strip-types</code>.</p></td></tr>
+<tr><td>v23.6.0, v22.18.0</td>
+<td><p>Type stripping is enabled by default.</p></td></tr>
+<tr><td>v22.6.0</td>
+<td><p><span>Added in: v22.6.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Disable type-stripping for TypeScript files.
+For more information, see the <a href="typescript.html#type-stripping">TypeScript type-stripping</a> documentation.</p>
 </div><div>
 <h4><code>--no-warnings</code><span><a class="mark" href="#--no-warnings" id="--no-warnings">#</a></span><a aria-hidden="true" class="legacy" id="cli_no_warnings"></a></h4>
 <div class="api_metadata">
@@ -2405,7 +2445,7 @@ developers may leverage to detect deprecated API usage.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.5.0, v22.13.0</td>
 <td><p>Permission Model is now stable.</p></td></tr>
 <tr><td>v20.0.0</td>
 <td><p><span>Added in: v20.0.0</span></p></td></tr>
@@ -2538,14 +2578,14 @@ human consumption.</p>
 </div><div>
 <h4><code>--report-exclude-env</code><span><a class="mark" href="#--report-exclude-env" id="--report-exclude-env">#</a></span><a aria-hidden="true" class="legacy" id="cli_report_exclude_env"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.3.0, v22.13.0</span>
 </div>
 <p>When <code>--report-exclude-env</code> is passed the diagnostic report generated will not
 contain the <code>environmentVariables</code> data.</p>
 </div><div>
 <h4><code>--report-exclude-network</code><span><a class="mark" href="#--report-exclude-network" id="--report-exclude-network">#</a></span><a aria-hidden="true" class="legacy" id="cli_report_exclude_network"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <p>Exclude <code>header.networkInterfaces</code> from the diagnostic report. By default
 this is not set and the network interfaces are included.</p>
@@ -2786,8 +2826,8 @@ for more details.</p>
 <span>Added in: v21.0.0, v20.10.0, v18.19.0</span>
 </div>
 <p>The maximum number of test files that the test runner CLI will execute
-concurrently. If <code>--experimental-test-isolation</code> is set to <code>'none'</code>, this flag
-is ignored and concurrency is one. Otherwise, concurrency defaults to
+concurrently. If <code>--test-isolation</code> is set to <code>'none'</code>, this flag is ignored and
+concurrency is one. Otherwise, concurrency defaults to
 <code>os.availableParallelism() - 1</code>.</p>
 </div><div>
 <h4><code>--test-coverage-branches=threshold</code><span><a class="mark" href="#--test-coverage-branchesthreshold" id="--test-coverage-branchesthreshold">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_coverage_branches_threshold"></a></h4>
@@ -2808,6 +2848,8 @@ both absolute and relative file paths.</p>
 <p>This option may be specified multiple times to exclude multiple glob patterns.</p>
 <p>If both <code>--test-coverage-exclude</code> and <code>--test-coverage-include</code> are provided,
 files must meet <strong>both</strong> criteria to be included in the coverage report.</p>
+<p>By default all the matching test files are excluded from the coverage report.
+Specifying this option will override the default behavior.</p>
 </div><div>
 <h4><code>--test-coverage-functions=threshold</code><span><a class="mark" href="#--test-coverage-functionsthreshold" id="--test-coverage-functionsthreshold">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_coverage_functions_threshold"></a></h4>
 <div class="api_metadata">
@@ -2838,10 +2880,37 @@ the threshold specified, the process will exit with code <code>1</code>.</p>
 </div><div>
 <h4><code>--test-force-exit</code><span><a class="mark" href="#--test-force-exit" id="--test-force-exit">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_force_exit"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.14.0</span>
 </div>
 <p>Configures the test runner to exit the process once all known tests have
 finished executing even if the event loop would otherwise remain active.</p>
+</div><div>
+<h4><code>--test-global-setup=module</code><span><a class="mark" href="#--test-global-setupmodule" id="--test-global-setupmodule">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_global_setup_module"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.0</a> - Early development</div><p></p>
+<p>Specify a module that will be evaluated before all tests are executed and
+can be used to setup global state or fixtures for tests.</p>
+<p>See the documentation on <a href="test.html#global-setup-and-teardown">global setup and teardown</a> for more details.</p>
+</div><div>
+<h4><code>--test-isolation=mode</code><span><a class="mark" href="#--test-isolationmode" id="--test-isolationmode">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_isolation_mode"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.6.0</td>
+<td><p>This flag was renamed from <code>--experimental-test-isolation</code> to <code>--test-isolation</code>.</p></td></tr>
+<tr><td>v22.8.0</td>
+<td><p><span>Added in: v22.8.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Configures the type of test isolation used in the test runner. When <code>mode</code> is
+<code>'process'</code>, each test file is run in a separate child process. When <code>mode</code> is
+<code>'none'</code>, all test files run in the same process as the test runner. The default
+isolation mode is <code>'process'</code>. This flag is ignored if the <code>--test</code> flag is not
+present. See the <a href="test.html#test-runner-execution-model">test runner execution model</a> section for more information.</p>
 </div><div>
 <h4><code>--test-name-pattern</code><span><a class="mark" href="#--test-name-pattern" id="--test-name-pattern">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_name_pattern"></a></h4>
 <div class="api_metadata">
@@ -2876,6 +2945,29 @@ tests must satisfy <strong>both</strong> requirements in order to be executed.</
 <p>Configures the test runner to only execute top level tests that have the <code>only</code>
 option set. This flag is not necessary when test isolation is disabled.</p>
 </div><div>
+<h4><code>--test-random-seed</code><span><a class="mark" href="#--test-random-seed" id="--test-random-seed">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_random_seed"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p>Set the seed used to randomize test execution order. This applies to both test
+file execution order and queued tests within each file. Providing this flag
+enables randomization implicitly, even without <code>--test-randomize</code>.</p>
+<p>The value must be an integer between <code>0</code> and <code>4294967295</code>.</p>
+<p>This flag cannot be used with <code>--watch</code> or <code>--test-rerun-failures</code>.</p>
+</div><div>
+<h4><code>--test-randomize</code><span><a class="mark" href="#--test-randomize" id="--test-randomize">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_randomize"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p>Randomize test execution order. This applies to both test file execution order
+and queued tests within each file. This can help detect tests that rely on
+shared state or execution order.</p>
+<p>The seed used for randomization is printed in the test summary and can be
+reused with <code>--test-random-seed</code>.</p>
+<p>For detailed behavior and examples, see
+<a href="test.html#randomizing-tests-execution-order">randomizing tests execution order</a>.</p>
+<p>This flag cannot be used with <code>--watch</code> or <code>--test-rerun-failures</code>.</p>
+</div><div>
 <h4><code>--test-reporter</code><span><a class="mark" href="#--test-reporter" id="--test-reporter">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_reporter"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -2905,6 +2997,17 @@ option set. This flag is not necessary when test isolation is disabled.</p>
 </div>
 <p>The destination for the corresponding test reporter. See the documentation on
 <a href="test.html#test-reporters">test reporters</a> for more details.</p>
+</div><div>
+<h4><code>--test-rerun-failures</code><span><a class="mark" href="#--test-rerun-failures" id="--test-rerun-failures">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_rerun_failures"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.7.0</span>
+</div>
+<p>A path to a file allowing the test runner to persist the state of the test
+suite between runs. The test runner will use this file to determine which tests
+have already succeeded or failed, allowing for re-running of failed tests
+without having to re-run the entire test suite. The test runner will create this
+file if it does not exist.
+See the documentation on <a href="test.html#rerunning-failed-tests">test reruns</a> for more details.</p>
 </div><div>
 <h4><code>--test-shard</code><span><a class="mark" href="#--test-shard" id="--test-shard">#</a></span><a aria-hidden="true" class="legacy" id="cli_test_shard"></a></h4>
 <div class="api_metadata">
@@ -2944,7 +3047,7 @@ subtests inherit this value from their parent. The default value is <code>Infini
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.13.0</td>
+<tr><td>v23.4.0, v22.13.0</td>
 <td><p>Snapshot testing is no longer experimental.</p></td></tr>
 <tr><td>v22.3.0</td>
 <td><p><span>Added in: v22.3.0</span></p></td></tr>
@@ -3023,30 +3126,6 @@ versions.</p>
 <p>Set default <a href="tls.html#tlsdefault_min_version"><code>tls.DEFAULT_MIN_VERSION</code></a> to 'TLSv1.3'. Use to disable support
 for TLSv1.2, which is not as secure as TLSv1.3.</p>
 </div><div>
-<h4><code>--trace-atomics-wait</code><span><a class="mark" href="#--trace-atomics-wait" id="--trace-atomics-wait">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_atomics_wait"></a></h4>
-<div class="api_metadata">
-<span>Added in: v14.3.0</span><span>Deprecated since: v18.8.0, v16.18.0</span>
-</div>
-<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated</div><p></p>
-<p>Print short summaries of calls to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/wait"><code>Atomics.wait()</code></a> to stderr.
-The output could look like this:</p>
-<pre><code class="language-text">(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 1, inf) started
-(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 1, inf) did not wait because the values mismatched
-(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 0, 10) started
-(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 0, 0, 10) timed out
-(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 4, 0, inf) started
-(node:15701) [Thread 1] Atomics.wait(&#x26;lt;address> + 4, -1, inf) started
-(node:15701) [Thread 0] Atomics.wait(&#x26;lt;address> + 4, 0, inf) was woken up by another thread
-(node:15701) [Thread 1] Atomics.wait(&#x26;lt;address> + 4, -1, inf) was woken up by another thread</code> <button class="copy-button">copy</button></pre>
-<p>The fields here correspond to:</p>
-<ul>
-<li>The thread id as given by <a href="worker_threads.html#workerthreadid"><code>worker_threads.threadId</code></a></li>
-<li>The base address of the <code>SharedArrayBuffer</code> in question, as well as the
-byte offset corresponding to the index passed to <code>Atomics.wait()</code></li>
-<li>The expected value that was passed to <code>Atomics.wait()</code></li>
-<li>The timeout passed to <code>Atomics.wait</code></li>
-</ul>
-</div><div>
 <h4><code>--trace-deprecation</code><span><a class="mark" href="#--trace-deprecation" id="--trace-deprecation">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_deprecation"></a></h4>
 <div class="api_metadata">
 <span>Added in: v0.8.0</span>
@@ -3055,7 +3134,7 @@ byte offset corresponding to the index passed to <code>Atomics.wait()</code></li
 </div><div>
 <h4><code>--trace-env</code><span><a class="mark" href="#--trace-env" id="--trace-env">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_env"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p>Print information about any access to environment variables done in the current Node.js
 instance to stderr, including:</p>
@@ -3075,13 +3154,13 @@ instance to stderr, including:</p>
 </div><div>
 <h4><code>--trace-env-js-stack</code><span><a class="mark" href="#--trace-env-js-stack" id="--trace-env-js-stack">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_env_js_stack"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p>In addition to what <code>--trace-env</code> does, this prints the JavaScript stack trace of the access.</p>
 </div><div>
 <h4><code>--trace-env-native-stack</code><span><a class="mark" href="#--trace-env-native-stack" id="--trace-env-native-stack">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_env_native_stack"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p>In addition to what <code>--trace-env</code> does, this prints the native stack trace of the access.</p>
 </div><div>
@@ -3114,7 +3193,7 @@ i.e. invoking <code>process.exit()</code>.</p>
 </div><div>
 <h4><code>--trace-require-module=mode</code><span><a class="mark" href="#--trace-require-modulemode" id="--trace-require-modulemode">#</a></span><a aria-hidden="true" class="legacy" id="cli_trace_require_module_mode"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0, v20.19.0</span>
 </div>
 <p>Prints information about usage of <a href="modules.html#loading-ecmascript-modules-using-require">Loading ECMAScript modules using <code>require()</code></a>.</p>
 <p>When <code>mode</code> is <code>all</code>, all usage is printed. When <code>mode</code> is <code>no-node-modules</code>, usage
@@ -3208,7 +3287,7 @@ environment variables.</p>
 </div><div>
 <h4><code>--use-env-proxy</code><span><a class="mark" href="#--use-env-proxy" id="--use-env-proxy">#</a></span><a aria-hidden="true" class="legacy" id="cli_use_env_proxy"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.21.0</span>
+<span>Added in: v24.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>When enabled, Node.js parses the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code> and <code>NO_PROXY</code>
@@ -3240,8 +3319,8 @@ will be ignored and will not be reported.</li>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
 <tr><td>v23.9.0</td>
 <td><p>Added support on non-Windows and non-macOS.</p></td></tr>
-<tr><td>v23.8.0, v22.15.0</td>
-<td><p><span>Added in: v23.8.0, v22.15.0</span></p></td></tr>
+<tr><td>v23.8.0</td>
+<td><p><span>Added in: v23.8.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
@@ -3336,7 +3415,7 @@ amount of CPUs, but it may diverge in environments such as VMs or containers.</p
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>Watch mode is now stable.</p></td></tr>
 <tr><td>v19.2.0, v18.13.0</td>
 <td><p>Test runner now supports running in watch mode.</p></td></tr>
@@ -3360,7 +3439,7 @@ mode. If no file is provided, Node.js will exit with status code <code>9</code>.
 </div><div>
 <h4><code>--watch-kill-signal</code><span><a class="mark" href="#--watch-kill-signal" id="--watch-kill-signal">#</a></span><a aria-hidden="true" class="legacy" id="cli_watch_kill_signal"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.18.0</span>
+<span>Added in: v24.4.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>Customizes the signal sent to the process on watch mode restarts.</p>
@@ -3371,7 +3450,7 @@ mode. If no file is provided, Node.js will exit with status code <code>9</code>.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.0.0</td>
+<tr><td>v22.0.0, v20.13.0</td>
 <td><p>Watch mode is now stable.</p></td></tr>
 <tr><td>v18.11.0, v16.19.0</td>
 <td><p><span>Added in: v18.11.0, v16.19.0</span></p></td></tr>
@@ -3423,11 +3502,22 @@ and <code>NODE_DISABLE_COLORS</code> environment variables are ignored.</p>
 </div><div>
 <h4><code>NODE_COMPILE_CACHE=dir</code><span><a class="mark" href="#node_compile_cachedir" id="node_compile_cachedir">#</a></span><a aria-hidden="true" class="legacy" id="cli_node_compile_cache_dir"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.1.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.15.0</td>
+<td><p>This feature is no longer experimental.</p></td></tr>
+<tr><td>v22.1.0</td>
+<td><p><span>Added in: v22.1.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>Enable the <a href="module.html#module-compile-cache">module compile cache</a> for the Node.js instance. See the documentation of
 <a href="module.html#module-compile-cache">module compile cache</a> for details.</p>
+</div><div>
+<h4><code>NODE_COMPILE_CACHE_PORTABLE=1</code><span><a class="mark" href="#node_compile_cache_portable1" id="node_compile_cache_portable1">#</a></span><a aria-hidden="true" class="legacy" id="cli_node_compile_cache_portable_1"></a></h4>
+<p>When set to 1, the <a href="module.html#module-compile-cache">module compile cache</a>  can be reused across different directory
+locations as long as the module layout relative to the cache directory remains the same.</p>
 </div><div>
 <h4><code>NODE_DEBUG=module[,…]</code><span><a class="mark" href="#node_debugmodule" id="node_debugmodule">#</a></span><a aria-hidden="true" class="legacy" id="cli_node_debug_module"></a></h4>
 <div class="api_metadata">
@@ -3512,6 +3602,7 @@ one is included in the list below.</p>
 <li><code>--allow-child-process</code></li>
 <li><code>--allow-fs-read</code></li>
 <li><code>--allow-fs-write</code></li>
+<li><code>--allow-inspector</code></li>
 <li><code>--allow-wasi</code></li>
 <li><code>--allow-worker</code></li>
 <li><code>--conditions</code>, <code>-C</code></li>
@@ -3531,19 +3622,19 @@ one is included in the list below.</p>
 <li><code>--entry-url</code></li>
 <li><code>--experimental-abortcontroller</code></li>
 <li><code>--experimental-addon-modules</code></li>
-<li><code>--experimental-async-context-frame</code></li>
-<li><code>--experimental-default-type</code></li>
 <li><code>--experimental-detect-module</code></li>
 <li><code>--experimental-eventsource</code></li>
 <li><code>--experimental-import-meta-resolve</code></li>
+<li><code>--experimental-import-text</code></li>
 <li><code>--experimental-json-modules</code></li>
 <li><code>--experimental-loader</code></li>
 <li><code>--experimental-modules</code></li>
-<li><code>--experimental-permission</code></li>
 <li><code>--experimental-print-required-tla</code></li>
+<li><code>--experimental-quic</code></li>
 <li><code>--experimental-require-module</code></li>
 <li><code>--experimental-shadow-realm</code></li>
 <li><code>--experimental-specifier-resolution</code></li>
+<li><code>--experimental-test-isolation</code></li>
 <li><code>--experimental-top-level-await</code></li>
 <li><code>--experimental-transform-types</code></li>
 <li><code>--experimental-vm-modules</code></li>
@@ -3575,11 +3666,9 @@ one is included in the list below.</p>
 <li><code>--napi-modules</code></li>
 <li><code>--network-family-autoselection-attempt-timeout</code></li>
 <li><code>--no-addons</code></li>
+<li><code>--no-async-context-frame</code></li>
 <li><code>--no-deprecation</code></li>
-<li><code>--no-experimental-fetch</code></li>
-<li><code>--no-experimental-global-customevent</code></li>
 <li><code>--no-experimental-global-navigator</code></li>
-<li><code>--no-experimental-global-webcrypto</code></li>
 <li><code>--no-experimental-repl-await</code></li>
 <li><code>--no-experimental-sqlite</code></li>
 <li><code>--no-experimental-strip-types</code></li>
@@ -3588,6 +3677,7 @@ one is included in the list below.</p>
 <li><code>--no-force-async-hooks-checks</code></li>
 <li><code>--no-global-search-paths</code></li>
 <li><code>--no-network-family-autoselection</code></li>
+<li><code>--no-strip-types</code></li>
 <li><code>--no-warnings</code></li>
 <li><code>--node-memory-debug</code></li>
 <li><code>--openssl-config</code></li>
@@ -3608,6 +3698,7 @@ one is included in the list below.</p>
 <li><code>--report-on-signal</code></li>
 <li><code>--report-signal</code></li>
 <li><code>--report-uncaught-exception</code></li>
+<li><code>--require-module</code></li>
 <li><code>--require</code>, <code>-r</code></li>
 <li><code>--secure-heap-min</code></li>
 <li><code>--secure-heap</code></li>
@@ -3617,10 +3708,15 @@ one is included in the list below.</p>
 <li><code>--test-coverage-functions</code></li>
 <li><code>--test-coverage-include</code></li>
 <li><code>--test-coverage-lines</code></li>
+<li><code>--test-global-setup</code></li>
+<li><code>--test-isolation</code></li>
 <li><code>--test-name-pattern</code></li>
 <li><code>--test-only</code></li>
+<li><code>--test-random-seed</code></li>
+<li><code>--test-randomize</code></li>
 <li><code>--test-reporter-destination</code></li>
 <li><code>--test-reporter</code></li>
+<li><code>--test-rerun-failures</code></li>
 <li><code>--test-shard</code></li>
 <li><code>--test-skip-pattern</code></li>
 <li><code>--throw-deprecation</code></li>
@@ -3633,7 +3729,6 @@ one is included in the list below.</p>
 <li><code>--tls-min-v1.1</code></li>
 <li><code>--tls-min-v1.2</code></li>
 <li><code>--tls-min-v1.3</code></li>
-<li><code>--trace-atomics-wait</code></li>
 <li><code>--trace-deprecation</code></li>
 <li><code>--trace-env-js-stack</code></li>
 <li><code>--trace-env-native-stack</code></li>
@@ -3670,9 +3765,9 @@ one is included in the list below.</p>
 <li><code>--disallow-code-generation-from-strings</code></li>
 <li><code>--enable-etw-stack-walking</code></li>
 <li><code>--expose-gc</code></li>
-<li><code>--huge-max-old-generation-size</code></li>
 <li><code>--interpreted-frames-native-stack</code></li>
 <li><code>--jitless</code></li>
+<li><code>--max-heap-size</code></li>
 <li><code>--max-old-space-size</code></li>
 <li><code>--max-semi-space-size</code></li>
 <li><code>--perf-basic-prof-only-functions</code></li>
@@ -3733,7 +3828,7 @@ equivalent to using the <code>--redirect-warnings=file</code> command-line flag.
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.3.0</td>
+<tr><td>v22.3.0, v20.16.0</td>
 <td><p>Remove the possibility to use this env var with kDisableNodeOptionsEnv for embedders.</p></td></tr>
 <tr><td>v13.0.0, v12.16.0</td>
 <td><p><span>Added in: v13.0.0, v12.16.0</span></p></td></tr>
@@ -3771,7 +3866,7 @@ variable is strongly discouraged.</p>
 </div><div>
 <h4><code>NODE_USE_ENV_PROXY=1</code><span><a class="mark" href="#node_use_env_proxy1" id="node_use_env_proxy1">#</a></span><a aria-hidden="true" class="legacy" id="cli_node_use_env_proxy_1"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.21.0</span>
+<span>Added in: v24.0.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active Development</div><p></p>
 <p>When enabled, Node.js parses the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code> and <code>NO_PROXY</code>
@@ -3782,7 +3877,7 @@ When both are set, <code>--use-env-proxy</code> takes precedence.</p>
 </div><div>
 <h4><code>NODE_USE_SYSTEM_CA=1</code><span><a class="mark" href="#node_use_system_ca1" id="node_use_system_ca1">#</a></span><a aria-hidden="true" class="legacy" id="cli_node_use_system_ca_1"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.19.0</span>
+<span>Added in: v24.6.0</span>
 </div>
 <p>Node.js uses the trusted CA certificates present in the system store along with
 the <code>--use-bundled-ca</code> option and the <code>NODE_EXTRA_CA_CERTS</code> environment variable.</p>
@@ -3956,11 +4051,15 @@ documented here:</p>
 </div><div>
 <h4><code>--harmony-shadow-realm</code><span><a class="mark" href="#--harmony-shadow-realm" id="--harmony-shadow-realm">#</a></span><a aria-hidden="true" class="legacy" id="cli_harmony_shadow_realm"></a></h4>
 </div><div>
-<h4><code>--huge-max-old-generation-size</code><span><a class="mark" href="#--huge-max-old-generation-size" id="--huge-max-old-generation-size">#</a></span><a aria-hidden="true" class="legacy" id="cli_huge_max_old_generation_size"></a></h4>
+<h4><code>--heap-snapshot-on-oom</code><span><a class="mark" href="#--heap-snapshot-on-oom" id="--heap-snapshot-on-oom">#</a></span><a aria-hidden="true" class="legacy" id="cli_heap_snapshot_on_oom"></a></h4>
 </div><div>
 <h4><code>--interpreted-frames-native-stack</code><span><a class="mark" href="#--interpreted-frames-native-stack" id="--interpreted-frames-native-stack">#</a></span><a aria-hidden="true" class="legacy" id="cli_interpreted_frames_native_stack"></a></h4>
 </div><div>
 <h4><code>--jitless</code><span><a class="mark" href="#--jitless_1" id="--jitless_1">#</a></span><a aria-hidden="true" class="legacy" id="cli_jitless_1"></a></h4>
+</div><div>
+<h4><code>--max-heap-size</code><span><a class="mark" href="#--max-heap-size" id="--max-heap-size">#</a></span><a aria-hidden="true" class="legacy" id="cli_max_heap_size"></a></h4>
+<p>Specifies the maximum heap size (in megabytes) for the process.</p>
+<p>This option is typically used to limit the amount of memory the process can use for its JavaScript heap.</p>
 <!-- Anchor to make sure old links find a target -->
 <p><a id="--max-old-space-sizesize-in-megabytes"></a></p>
 </div><div>

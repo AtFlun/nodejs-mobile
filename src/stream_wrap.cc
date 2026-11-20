@@ -72,7 +72,8 @@ void LibuvStreamWrap::Initialize(Local<Object> target,
 
   Local<FunctionTemplate> sw =
       NewFunctionTemplate(isolate, IsConstructCallCallback);
-  sw->InstanceTemplate()->SetInternalFieldCount(StreamReq::kInternalFieldCount);
+  sw->InstanceTemplate()->SetInternalFieldCount(
+      ShutdownWrap::kInternalFieldCount);
 
   // we need to set handle and callback to null,
   // so that those fields are created and functions
@@ -93,8 +94,7 @@ void LibuvStreamWrap::Initialize(Local<Object> target,
 
   Local<FunctionTemplate> ww =
       FunctionTemplate::New(isolate, IsConstructCallCallback);
-  ww->InstanceTemplate()->SetInternalFieldCount(
-      StreamReq::kInternalFieldCount);
+  ww->InstanceTemplate()->SetInternalFieldCount(WriteWrap::kInternalFieldCount);
   ww->Inherit(AsyncWrap::GetConstructorTemplate(env));
   SetConstructorFunction(context, target, "WriteWrap", ww);
   env->set_write_wrap_template(ww->InstanceTemplate());
@@ -141,7 +141,7 @@ Local<FunctionTemplate> LibuvStreamWrap::GetConstructorTemplate(
     tmpl->SetClassName(FIXED_ONE_BYTE_STRING(isolate, "LibuvStreamWrap"));
     tmpl->Inherit(HandleWrap::GetConstructorTemplate(env));
     tmpl->InstanceTemplate()->SetInternalFieldCount(
-        StreamBase::kInternalFieldCount);
+        LibuvStreamWrap::kInternalFieldCount);
     Local<FunctionTemplate> get_write_queue_size =
         FunctionTemplate::New(isolate,
                               GetWriteQueueSize,
@@ -239,7 +239,7 @@ static MaybeLocal<Object> AcceptHandle(Environment* env,
   if (!WrapType::Instantiate(env, parent, WrapType::SOCKET).ToLocal(&wrap_obj))
     return Local<Object>();
 
-  HandleWrap* wrap = Unwrap<HandleWrap>(wrap_obj);
+  HandleWrap* wrap = BaseObject::Unwrap<HandleWrap>(wrap_obj);
   CHECK_NOT_NULL(wrap);
   uv_stream_t* stream = reinterpret_cast<uv_stream_t*>(wrap->GetHandle());
   CHECK_NOT_NULL(stream);

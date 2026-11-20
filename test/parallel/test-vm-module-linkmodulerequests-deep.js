@@ -1,6 +1,6 @@
 'use strict';
 
-// Flags: --experimental-vm-modules
+// Flags: --experimental-vm-modules --js-source-phase-imports
 
 require('../common');
 

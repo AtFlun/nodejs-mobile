@@ -6,7 +6,7 @@
       "textRaw": "Net",
       "name": "net",
       "introduced_in": "v0.10.0",
-      "desc": "<!--lint disable maximum-line-length-->\n<blockquote>\n<p>Stability: 2 - Stable</p>\n</blockquote>\n<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/net.js\">lib/net.js</a></p>\n<p>The <code>node:net</code> module provides an asynchronous network API for creating stream-based\nTCP or <a href=\"#ipc-support\">IPC</a> servers (<a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a>) and clients\n(<a href=\"#netcreateconnection\"><code>net.createConnection()</code></a>).</p>\n<p>It can be accessed using:</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\n</code></pre>",
+      "desc": "<!--lint disable maximum-line-length-->\n<blockquote>\n<p>Stability: 2 - Stable</p>\n</blockquote>\n<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/net.js\">lib/net.js</a></p>\n<p>The <code>node:net</code> module provides an asynchronous network API for creating stream-based\nTCP or <a href=\"#ipc-support\">IPC</a> servers (<a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a>) and clients\n(<a href=\"#netcreateconnection\"><code>net.createConnection()</code></a>).</p>\n<p>It can be accessed using:</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\n</code></pre>",
       "modules": [
         {
           "textRaw": "IPC support",
@@ -25,7 +25,7 @@
             {
               "textRaw": "Identifying paths for IPC connections",
               "name": "identifying_paths_for_ipc_connections",
-              "desc": "<p><a href=\"#netconnect\"><code>net.connect()</code></a>, <a href=\"#netcreateconnection\"><code>net.createConnection()</code></a>, <a href=\"#serverlisten\"><code>server.listen()</code></a>, and\n<a href=\"#socketconnect\"><code>socket.connect()</code></a> take a <code>path</code> parameter to identify IPC endpoints.</p>\n<p>On Unix, the local domain is also known as the Unix domain. The path is a\nfile system pathname. It gets truncated to an OS-dependent length of\n<code>sizeof(sockaddr_un.sun_path) - 1</code>. Typical values are 107 bytes on Linux and\n103 bytes on macOS. If a Node.js API abstraction creates the Unix domain socket,\nit will unlink the Unix domain socket as well. For example,\n<a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a> may create a Unix domain socket and\n<a href=\"#serverclosecallback\"><code>server.close()</code></a> will unlink it. But if a user creates the Unix domain\nsocket outside of these abstractions, the user will need to remove it. The same\napplies when a Node.js API creates a Unix domain socket but the program then\ncrashes. In short, a Unix domain socket will be visible in the file system and\nwill persist until unlinked. On Linux, You can use Unix abstract socket by adding\n<code>\\0</code> to the beginning of the path, such as <code>\\0abstract</code>. The path to the Unix\nabstract socket is not visible in the file system and it will disappear automatically\nwhen all open references to the socket are closed.</p>\n<p>On Windows, the local domain is implemented using a named pipe. The path <em>must</em>\nrefer to an entry in <code>\\\\?\\pipe\\</code> or <code>\\\\.\\pipe\\</code>. Any characters are permitted,\nbut the latter may do some processing of pipe names, such as resolving <code>..</code>\nsequences. Despite how it might look, the pipe namespace is flat. Pipes will\n<em>not persist</em>. They are removed when the last reference to them is closed.\nUnlike Unix domain sockets, Windows will close and remove the pipe when the\nowning process exits.</p>\n<p>JavaScript string escaping requires paths to be specified with extra backslash\nescaping such as:</p>\n<pre><code class=\"language-js\">net.createServer().listen(\n  path.join('\\\\\\\\?\\\\pipe', process.cwd(), 'myctl'));\n</code></pre>",
+              "desc": "<p><a href=\"#netconnect\"><code>net.connect()</code></a>, <a href=\"#netcreateconnection\"><code>net.createConnection()</code></a>, <a href=\"#serverlisten\"><code>server.listen()</code></a>, and\n<a href=\"#socketconnect\"><code>socket.connect()</code></a> take a <code>path</code> parameter to identify IPC endpoints.</p>\n<p>On Unix, the local domain is also known as the Unix domain. The path is a\nfile system pathname. It will throw an error when the length of pathname is\ngreater than the length of <code>sizeof(sockaddr_un.sun_path)</code>. Typical values are\n107 bytes on Linux and 103 bytes on macOS. If a Node.js API abstraction creates\nthe Unix domain socket, it will unlink the Unix domain socket as well. For\nexample, <a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a> may create a Unix domain socket and\n<a href=\"#serverclosecallback\"><code>server.close()</code></a> will unlink it. But if a user creates the Unix domain\nsocket outside of these abstractions, the user will need to remove it. The same\napplies when a Node.js API creates a Unix domain socket but the program then\ncrashes. In short, a Unix domain socket will be visible in the file system and\nwill persist until unlinked. On Linux, You can use Unix abstract socket by adding\n<code>\\0</code> to the beginning of the path, such as <code>\\0abstract</code>. The path to the Unix\nabstract socket is not visible in the file system and it will disappear automatically\nwhen all open references to the socket are closed.</p>\n<p>On Windows, the local domain is implemented using a named pipe. The path <em>must</em>\nrefer to an entry in <code>\\\\?\\pipe\\</code> or <code>\\\\.\\pipe\\</code>. Any characters are permitted,\nbut the latter may do some processing of pipe names, such as resolving <code>..</code>\nsequences. Despite how it might look, the pipe namespace is flat. Pipes will\n<em>not persist</em>. They are removed when the last reference to them is closed.\nUnlike Unix domain sockets, Windows will close and remove the pipe when the\nowning process exits.</p>\n<p>JavaScript string escaping requires paths to be specified with extra backslash\nescaping such as:</p>\n<pre><code class=\"language-js\">net.createServer().listen(\n  path.join('\\\\\\\\?\\\\pipe', process.cwd(), 'myctl'));\n</code></pre>",
               "type": "module",
               "displayName": "Identifying paths for IPC connections"
             }
@@ -199,6 +199,7 @@
               "name": "isBlockList",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -226,26 +227,26 @@
               "type": "method",
               "name": "fromJSON",
               "stability": 1,
-              "stabilityText": "Experimental",
+              "stabilityText": ".2 - Release candidate",
               "signatures": [
                 {
                   "params": []
                 }
               ],
-              "desc": "<!-- YAML\nadded: v22.19.0\n-->\n<pre><code class=\"language-js\">const blockList = new net.BlockList();\nconst data = [\n  'Subnet: IPv4 192.168.1.0/24',\n  'Address: IPv4 10.0.0.5',\n  'Range: IPv4 192.168.2.1-192.168.2.10',\n  'Range: IPv4 10.0.0.1-10.0.0.10',\n];\nblockList.fromJSON(data);\nblockList.fromJSON(JSON.stringify(data));\n</code></pre>\n<ul>\n<li><code>value</code> Blocklist.rules</li>\n</ul>"
+              "desc": "<!-- YAML\nadded: v24.5.0\n-->\n<pre><code class=\"language-js\">const blockList = new net.BlockList();\nconst data = [\n  'Subnet: IPv4 192.168.1.0/24',\n  'Address: IPv4 10.0.0.5',\n  'Range: IPv4 192.168.2.1-192.168.2.10',\n  'Range: IPv4 10.0.0.1-10.0.0.10',\n];\nblockList.fromJSON(data);\nblockList.fromJSON(JSON.stringify(data));\n</code></pre>\n<ul>\n<li><code>value</code> Blocklist.rules</li>\n</ul>"
             },
             {
               "textRaw": "`blockList.toJSON()`",
               "type": "method",
               "name": "toJSON",
               "stability": 1,
-              "stabilityText": "Experimental",
+              "stabilityText": ".2 - Release candidate",
               "signatures": [
                 {
                   "params": []
                 }
               ],
-              "desc": "<!-- YAML\nadded: v22.19.0\n-->\n<ul>\n<li>Returns Blocklist.rules</li>\n</ul>"
+              "desc": "<!-- YAML\nadded: v24.5.0\n-->\n<ul>\n<li>Returns Blocklist.rules</li>\n</ul>"
             }
           ],
           "properties": [
@@ -334,6 +335,7 @@
               "name": "parse",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -560,10 +562,14 @@
                   "v20.5.0",
                   "v18.18.0"
                 ],
-                "changes": []
+                "changes": [
+                  {
+                    "version": "v24.2.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/58467",
+                    "description": "No longer experimental."
+                  }
+                ]
               },
-              "stability": 1,
-              "stabilityText": "Experimental",
               "signatures": [
                 {
                   "params": []
@@ -647,7 +653,7 @@
                       ]
                     }
                   ],
-                  "desc": "<p>Start a server listening for connections on a given <code>handle</code> that has\nalready been bound to a port, a Unix domain socket, or a Windows named pipe.</p>\n<p>The <code>handle</code> object can be either a server, a socket (anything with an\nunderlying <code>_handle</code> member), or an object with an <code>fd</code> member that is a\nvalid file descriptor.</p>\n<p>Listening on a file descriptor is not supported on Windows.</p>"
+                  "desc": "<p>Start a server listening for connections on a given <code>handle</code> that has\nalready been bound to a port, a Unix domain socket, or a Windows named pipe.</p>\n<p>The <code>handle</code> object can be either a server, a socket (anything with an\nunderlying <code>_handle</code> member), a <a href=\"#class-netboundsocket\"><code>BoundSocket</code></a>, or an object with an <code>fd</code>\nmember that is a valid file descriptor.</p>\n<p>When <code>handle</code> is a <a href=\"#class-netboundsocket\"><code>BoundSocket</code></a>, the server adopts the already-bound\nsocket and starts listening on it. Adoption consumes the bound socket (see\n<a href=\"#class-netboundsocket\">ownership transfer</a>).</p>\n<p>Listening on a file descriptor is not supported on Windows.</p>"
                 },
                 {
                   "textRaw": "`server.listen(options[, callback])`",
@@ -659,7 +665,10 @@
                     ],
                     "changes": [
                       {
-                        "version": "v22.12.0",
+                        "version": [
+                          "v23.1.0",
+                          "v22.12.0"
+                        ],
                         "pr-url": "https://github.com/nodejs/node/pull/55408",
                         "description": "The `reusePort` option is supported."
                       },
@@ -700,6 +709,12 @@
                               "name": "exclusive",
                               "type": "boolean",
                               "default": "`false`"
+                            },
+                            {
+                              "textRaw": "`handle` {net.BoundSocket} A pre-bound [`BoundSocket`][]. The server adopts the already-bound socket and listens on it, ignoring `host`, `port`, and `path`. Adoption consumes the bound socket (see [ownership transfer][`BoundSocket`]).",
+                              "name": "handle",
+                              "type": "net.BoundSocket",
+                              "desc": "A pre-bound [`BoundSocket`][]. The server adopts the already-bound socket and listens on it, ignoring `host`, `port`, and `path`. Adoption consumes the bound socket (see [ownership transfer][`BoundSocket`])."
                             },
                             {
                               "textRaw": "`host` {string}",
@@ -762,7 +777,7 @@
                       ]
                     }
                   ],
-                  "desc": "<p>If <code>port</code> is specified, it behaves the same as\n<a href=\"#serverlistenport-host-backlog-callback\"><code>server.listen([port[, host[, backlog]]][, callback])</code></a>.\nOtherwise, if <code>path</code> is specified, it behaves the same as\n<a href=\"#serverlistenpath-backlog-callback\"><code>server.listen(path[, backlog][, callback])</code></a>.\nIf none of them is specified, an error will be thrown.</p>\n<p>If <code>exclusive</code> is <code>false</code> (default), then cluster workers will use the same\nunderlying handle, allowing connection handling duties to be shared. When\n<code>exclusive</code> is <code>true</code>, the handle is not shared, and attempted port sharing\nresults in an error. An example which listens on an exclusive port is\nshown below.</p>\n<pre><code class=\"language-js\">server.listen({\n  host: 'localhost',\n  port: 80,\n  exclusive: true,\n});\n</code></pre>\n<p>When <code>exclusive</code> is <code>true</code> and the underlying handle is shared, it is\npossible that several workers query a handle with different backlogs.\nIn this case, the first <code>backlog</code> passed to the master process will be used.</p>\n<p>Starting an IPC server as root may cause the server path to be inaccessible for\nunprivileged users. Using <code>readableAll</code> and <code>writableAll</code> will make the server\naccessible for all users.</p>\n<p>If the <code>signal</code> option is enabled, calling <code>.abort()</code> on the corresponding\n<code>AbortController</code> is similar to calling <code>.close()</code> on the server:</p>\n<pre><code class=\"language-js\">const controller = new AbortController();\nserver.listen({\n  host: 'localhost',\n  port: 80,\n  signal: controller.signal,\n});\n// Later, when you want to close the server.\ncontroller.abort();\n</code></pre>"
+                  "desc": "<p>If <code>handle</code> is specified, the server adopts that pre-bound socket. Otherwise, if\n<code>port</code> is specified, it behaves the same as\n<a href=\"#serverlistenport-host-backlog-callback\"><code>server.listen([port[, host[, backlog]]][, callback])</code></a>.\nOtherwise, if <code>path</code> is specified, it behaves the same as\n<a href=\"#serverlistenpath-backlog-callback\"><code>server.listen(path[, backlog][, callback])</code></a>.\nIf none of them is specified, an error will be thrown.</p>\n<p>If <code>exclusive</code> is <code>false</code> (default), then cluster workers will use the same\nunderlying handle, allowing connection handling duties to be shared. When\n<code>exclusive</code> is <code>true</code>, the handle is not shared, and attempted port sharing\nresults in an error. An example which listens on an exclusive port is\nshown below.</p>\n<pre><code class=\"language-js\">server.listen({\n  host: 'localhost',\n  port: 80,\n  exclusive: true,\n});\n</code></pre>\n<p>When <code>exclusive</code> is <code>true</code> and the underlying handle is shared, it is\npossible that several workers query a handle with different backlogs.\nIn this case, the first <code>backlog</code> passed to the master process will be used.</p>\n<p>Starting an IPC server as root may cause the server path to be inaccessible for\nunprivileged users. Using <code>readableAll</code> and <code>writableAll</code> will make the server\naccessible for all users.</p>\n<p>If the <code>signal</code> option is enabled, calling <code>.abort()</code> on the corresponding\n<code>AbortController</code> is similar to calling <code>.close()</code> on the server:</p>\n<pre><code class=\"language-js\">const controller = new AbortController();\nserver.listen({\n  host: 'localhost',\n  port: 80,\n  signal: controller.signal,\n});\n// Later, when you want to close the server.\ncontroller.abort();\n</code></pre>"
                 },
                 {
                   "textRaw": "`server.listen(path[, backlog][, callback])`",
@@ -926,7 +941,7 @@
                   }
                 ]
               },
-              "desc": "<p>When the number of connections reaches the <code>server.maxConnections</code> threshold:</p>\n<ol>\n<li>\n<p>If the process is not running in cluster mode, Node.js will close the connection.</p>\n</li>\n<li>\n<p>If the process is running in cluster mode, Node.js will, by default, route the connection to another worker process. To close the connection instead, set [<code>server.dropMaxConnection</code>][] to <code>true</code>.</p>\n</li>\n</ol>\n<p>It is not recommended to use this option once a socket has been sent to a child\nwith <a href=\"child_process.html#child_processforkmodulepath-args-options\"><code>child_process.fork()</code></a>.</p>"
+              "desc": "<p>When the number of connections reaches the <code>server.maxConnections</code> threshold:</p>\n<ol>\n<li>\n<p>If the process is not running in cluster mode, Node.js will close the connection.</p>\n</li>\n<li>\n<p>If the process is running in cluster mode, Node.js will, by default, route the connection to another worker process. To close the connection instead, set <a href=\"#serverdropmaxconnection\"><code>server.dropMaxConnection</code></a> to <code>true</code>.</p>\n</li>\n</ol>\n<p>It is not recommended to use this option once a socket has been sent to a child\nwith <a href=\"child_process.html#child_processforkmodulepath-args-options\"><code>child_process.fork()</code></a>.</p>"
             },
             {
               "textRaw": "`dropMaxConnection` Type: {boolean}",
@@ -934,6 +949,7 @@
               "name": "Type",
               "meta": {
                 "added": [
+                  "v23.1.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -1617,49 +1633,134 @@
               "desc": "<p>Set the encoding for the socket as a <a href=\"stream.html#class-streamreadable\">Readable Stream</a>. See\n<a href=\"stream.html#readablesetencodingencoding\"><code>readable.setEncoding()</code></a> for more information.</p>"
             },
             {
-              "textRaw": "`socket.setKeepAlive([enable][, initialDelay])`",
+              "textRaw": "`socket.setKeepAlive()`",
               "type": "method",
               "name": "setKeepAlive",
-              "meta": {
-                "added": [
-                  "v0.1.92"
-                ],
-                "changes": [
-                  {
-                    "version": [
-                      "v13.12.0",
-                      "v12.17.0"
-                    ],
-                    "pr-url": "https://github.com/nodejs/node/pull/32204",
-                    "description": "New defaults for `TCP_KEEPCNT` and `TCP_KEEPINTVL` socket options were added."
-                  }
-                ]
-              },
               "signatures": [
                 {
-                  "return": {
-                    "textRaw": "Returns: {net.Socket} The socket itself.",
-                    "name": "return",
-                    "type": "net.Socket",
-                    "desc": "The socket itself."
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`enable` {boolean} **Default:** `false`",
-                      "name": "enable",
-                      "type": "boolean",
-                      "default": "`false`"
-                    },
-                    {
-                      "textRaw": "`initialDelay` {number} **Default:** `0`",
-                      "name": "initialDelay",
-                      "type": "number",
-                      "default": "`0`"
-                    }
-                  ]
+                  "params": []
                 }
               ],
-              "desc": "<p>Enable/disable keep-alive functionality, and optionally set the initial\ndelay before the first keepalive probe is sent on an idle socket.</p>\n<p>Set <code>initialDelay</code> (in milliseconds) to set the delay between the last\ndata packet received and the first keepalive probe. Setting <code>0</code> for\n<code>initialDelay</code> will leave the value unchanged from the default\n(or previous) setting.</p>\n<p>Enabling the keep-alive functionality will set the following socket options:</p>\n<ul>\n<li><code>SO_KEEPALIVE=1</code></li>\n<li><code>TCP_KEEPIDLE=initialDelay</code></li>\n<li><code>TCP_KEEPCNT=10</code></li>\n<li><code>TCP_KEEPINTVL=1</code></li>\n</ul>"
+              "desc": "<p>Enable/disable keep-alive functionality, and optionally configure the\nkeepalive probe timing. Returns the socket itself.</p>\n<p>Possible signatures:</p>\n<ul>\n<li><a href=\"#socketsetkeepaliveoptions\"><code>socket.setKeepAlive([options])</code></a></li>\n<li><a href=\"#socketsetkeepaliveenable-initialdelay-interval-count\"><code>socket.setKeepAlive([enable][, initialDelay][, interval][, count])</code></a></li>\n</ul>\n<p>Enabling keep-alive sets the initial delay before the first keepalive probe is\nsent on an idle socket.</p>\n<p>Set <code>initialDelay</code> (in milliseconds) to set the delay between the last\ndata packet received and the first keepalive probe. Setting <code>0</code> for\n<code>initialDelay</code> will leave the value unchanged from the default\n(or previous) setting.</p>\n<p>Set <code>interval</code> (in milliseconds) to set the delay between successive\nkeepalive probes once they begin (<code>TCP_KEEPINTVL</code>). Set <code>count</code> to the\nnumber of unacknowledged probes sent before the connection is dropped\n(<code>TCP_KEEPCNT</code>). Both are only applied when keep-alive is enabled.\nOmitting <code>interval</code> or <code>count</code> uses the defaults of <code>1000</code> ms and <code>10</code>.\nAs with <code>initialDelay</code>, a non-positive <code>interval</code> or <code>count</code> leaves the\ncorresponding system default unchanged.</p>\n<p><code>initialDelay</code> and <code>interval</code> are specified in milliseconds but the\nunderlying socket options are configured in whole seconds; the values are\ndivided by <code>1000</code> and rounded down before being applied.</p>\n<p>Enabling the keep-alive functionality will set the following socket options:</p>\n<ul>\n<li><code>SO_KEEPALIVE=1</code></li>\n<li><code>TCP_KEEPIDLE=initialDelay / 1000</code></li>\n<li><code>TCP_KEEPCNT=count</code></li>\n<li><code>TCP_KEEPINTVL=interval / 1000</code></li>\n</ul>\n<p>On Windows versions older than build 1709, keep-alive is configured through\n<code>SIO_KEEPALIVE_VALS</code>, which has no probe-count field, so <code>count</code> is ignored on\nthose platforms.</p>",
+              "methods": [
+                {
+                  "textRaw": "`socket.setKeepAlive([options])`",
+                  "type": "method",
+                  "name": "setKeepAlive",
+                  "meta": {
+                    "added": [
+                      "v24.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {net.Socket} The socket itself.",
+                        "name": "return",
+                        "type": "net.Socket",
+                        "desc": "The socket itself."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`options` {Object}",
+                          "name": "options",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`enable` {boolean} **Default:** `false`",
+                              "name": "enable",
+                              "type": "boolean",
+                              "default": "`false`"
+                            },
+                            {
+                              "textRaw": "`initialDelay` {number} **Default:** `0`",
+                              "name": "initialDelay",
+                              "type": "number",
+                              "default": "`0`"
+                            },
+                            {
+                              "textRaw": "`interval` {number} **Default:** `1000`",
+                              "name": "interval",
+                              "type": "number",
+                              "default": "`1000`"
+                            },
+                            {
+                              "textRaw": "`count` {number} **Default:** `10`",
+                              "name": "count",
+                              "type": "number",
+                              "default": "`10`"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Configure keep-alive using an options object. See <a href=\"#socketsetkeepalive\"><code>socket.setKeepAlive()</code></a>\nfor a description of each property.</p>\n<pre><code class=\"language-js\">socket.setKeepAlive({ enable: true, initialDelay: 1000, interval: 1000, count: 10 });\n</code></pre>"
+                },
+                {
+                  "textRaw": "`socket.setKeepAlive([enable][, initialDelay][, interval][, count])`",
+                  "type": "method",
+                  "name": "setKeepAlive",
+                  "meta": {
+                    "added": [
+                      "v0.1.92"
+                    ],
+                    "changes": [
+                      {
+                        "version": "v24.19.0",
+                        "pr-url": "https://github.com/nodejs/node/pull/63825",
+                        "description": "Added the `interval` and `count` arguments to configure `TCP_KEEPINTVL` and `TCP_KEEPCNT`."
+                      },
+                      {
+                        "version": [
+                          "v13.12.0",
+                          "v12.17.0"
+                        ],
+                        "pr-url": "https://github.com/nodejs/node/pull/32204",
+                        "description": "New defaults for `TCP_KEEPCNT` and `TCP_KEEPINTVL` socket options were added."
+                      }
+                    ]
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {net.Socket} The socket itself.",
+                        "name": "return",
+                        "type": "net.Socket",
+                        "desc": "The socket itself."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`enable` {boolean} **Default:** `false`",
+                          "name": "enable",
+                          "type": "boolean",
+                          "default": "`false`"
+                        },
+                        {
+                          "textRaw": "`initialDelay` {number} **Default:** `0`",
+                          "name": "initialDelay",
+                          "type": "number",
+                          "default": "`0`"
+                        },
+                        {
+                          "textRaw": "`interval` {number} **Default:** `1000`",
+                          "name": "interval",
+                          "type": "number",
+                          "default": "`1000`"
+                        },
+                        {
+                          "textRaw": "`count` {number} **Default:** `10`",
+                          "name": "count",
+                          "type": "number",
+                          "default": "`10`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Configure keep-alive using positional arguments. See\n<a href=\"#socketsetkeepalive\"><code>socket.setKeepAlive()</code></a> for a description of each argument.</p>"
+                }
+              ]
             },
             {
               "textRaw": "`socket.setNoDelay([noDelay])`",
@@ -1730,6 +1831,59 @@
                 }
               ],
               "desc": "<p>Sets the socket to timeout after <code>timeout</code> milliseconds of inactivity on\nthe socket. By default <code>net.Socket</code> do not have a timeout.</p>\n<p>When an idle timeout is triggered the socket will receive a <a href=\"#event-timeout\"><code>'timeout'</code></a>\nevent but the connection will not be severed. The user must manually call\n<a href=\"#socketenddata-encoding-callback\"><code>socket.end()</code></a> or <a href=\"#socketdestroyerror\"><code>socket.destroy()</code></a> to end the connection.</p>\n<pre><code class=\"language-js\">socket.setTimeout(3000);\nsocket.on('timeout', () => {\n  console.log('socket timeout');\n  socket.end();\n});\n</code></pre>\n<p>If <code>timeout</code> is 0, then the existing idle timeout is disabled.</p>\n<p>The optional <code>callback</code> parameter will be added as a one-time listener for the\n<a href=\"#event-timeout\"><code>'timeout'</code></a> event.</p>"
+            },
+            {
+              "textRaw": "`socket.getTypeOfService()`",
+              "type": "method",
+              "name": "getTypeOfService",
+              "meta": {
+                "added": [
+                  "v24.15.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {integer} The current TOS value.",
+                    "name": "return",
+                    "type": "integer",
+                    "desc": "The current TOS value."
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns the current Type of Service (TOS) field for IPv4 packets or Traffic\nClass for IPv6 packets for this socket.</p>\n<p><code>setTypeOfService()</code> may be called before the socket is connected; the value\nwill be cached and applied when the socket establishes a connection.\n<code>getTypeOfService()</code> will return the currently set value even before connection.</p>\n<p>On some platforms (e.g., Linux), certain TOS/ECN bits may be masked or ignored,\nand behavior can differ between IPv4 and IPv6 or dual-stack sockets. Callers\nshould verify platform-specific semantics.</p>"
+            },
+            {
+              "textRaw": "`socket.setTypeOfService(tos)`",
+              "type": "method",
+              "name": "setTypeOfService",
+              "meta": {
+                "added": [
+                  "v24.15.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {net.Socket} The socket itself.",
+                    "name": "return",
+                    "type": "net.Socket",
+                    "desc": "The socket itself."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`tos` {integer} The TOS value to set (0-255).",
+                      "name": "tos",
+                      "type": "integer",
+                      "desc": "The TOS value to set (0-255)."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Sets the Type of Service (TOS) field for IPv4 packets or Traffic Class for IPv6\nPackets sent from this socket. This can be used to prioritize network traffic.</p>\n<p><code>setTypeOfService()</code> may be called before the socket is connected; the value\nwill be cached and applied when the socket establishes a connection.\n<code>getTypeOfService()</code> will return the currently set value even before connection.</p>\n<p>On some platforms (e.g., Linux), certain TOS/ECN bits may be masked or ignored,\nand behavior can differ between IPv4 and IPv6 or dual-stack sockets. Callers\nshould verify platform-specific semantics.</p>"
             },
             {
               "textRaw": "`socket.unref()`",
@@ -2014,6 +2168,12 @@
                       "desc": "If specified, wrap around an existing socket with the given file descriptor, otherwise a new socket will be created."
                     },
                     {
+                      "textRaw": "`handle` {net.BoundSocket} If specified, wrap around the bound socket from a [`BoundSocket`][]. A subsequent [`socket.connect()`][`socket.connect()`] uses the bound socket as the connection's source binding (honoring the bound local address and port). Adoption consumes the bound socket (see [ownership transfer][`BoundSocket`]).",
+                      "name": "handle",
+                      "type": "net.BoundSocket",
+                      "desc": "If specified, wrap around the bound socket from a [`BoundSocket`][]. A subsequent [`socket.connect()`][`socket.connect()`] uses the bound socket as the connection's source binding (honoring the bound local address and port). Adoption consumes the bound socket (see [ownership transfer][`BoundSocket`])."
+                    },
+                    {
                       "textRaw": "`keepAlive` {boolean} If set to `true`, it enables keep-alive functionality on the socket immediately after the connection is established, similarly on what is done in [`socket.setKeepAlive()`][]. **Default:** `false`.",
                       "name": "keepAlive",
                       "type": "boolean",
@@ -2068,6 +2228,12 @@
                       "desc": "An Abort signal that may be used to destroy the socket."
                     },
                     {
+                      "textRaw": "`typeOfService` {number} The initial Type of Service (TOS) value.",
+                      "name": "typeOfService",
+                      "type": "number",
+                      "desc": "The initial Type of Service (TOS) value."
+                    },
+                    {
                       "textRaw": "`writable` {boolean} Allow writes on the socket when an `fd` is passed, otherwise ignored. **Default:** `false`.",
                       "name": "writable",
                       "type": "boolean",
@@ -2078,6 +2244,141 @@
                 }
               ],
               "desc": "<p>Creates a new socket object.</p>\n<p>The newly created socket can be either a TCP socket or a streaming <a href=\"#ipc-support\">IPC</a>\nendpoint, depending on what it <a href=\"#socketconnect\"><code>connect()</code></a> to.</p>"
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `net.BoundSocket`",
+          "type": "class",
+          "name": "net.BoundSocket",
+          "meta": {
+            "added": [
+              "v24.19.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>Allows for the synchronous creation of a pre-bound socket, that can be passed\nto <code>listen()</code> or <code>new net.Socket()</code> later on. For <code>listen()</code> this enables\nsynchronous port reservation, while for <code>new net.Socket()</code>, it allows control\nover the local egress port/IP, via <code>bind(2)</code> semantics.</p>\n<p>Adoption transfers ownership of the socket; afterwards <code>address()</code> and <code>close()</code>\nthrow <a href=\"errors.html#err_socket_handle_adopted\"><code>ERR_SOCKET_HANDLE_ADOPTED</code></a>. A handle that is never adopted must be\nclosed to avoid leaking the socket.</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\n\nconst bound = new net.BoundSocket();\nconst { port } = bound.address();\nconsole.log(`Reserved port ${port} for server`);\n\nconst server = net.createServer();\nserver.listen(bound); // Adopt as a server, or pass to new net.Socket() instead.\n</code></pre>",
+          "methods": [
+            {
+              "textRaw": "`boundSocket.address()`",
+              "type": "method",
+              "name": "address",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Object} An object with `address`, `family`, and `port` properties, as [`server.address()`][] returns.",
+                    "name": "return",
+                    "type": "Object",
+                    "desc": "An object with `address`, `family`, and `port` properties, as [`server.address()`][] returns."
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns the bound local address. When bound with <code>port: 0</code>, <code>port</code> is the\nOS-assigned ephemeral port.</p>"
+            },
+            {
+              "textRaw": "`boundSocket.fd()`",
+              "type": "method",
+              "name": "fd",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {integer} The underlying OS file descriptor, or `-1` on platforms that do not expose one for sockets (such as Windows).",
+                    "name": "return",
+                    "type": "integer",
+                    "desc": "The underlying OS file descriptor, or `-1` on platforms that do not expose one for sockets (such as Windows)."
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns the file descriptor of the bound socket. Ownership remains with the\n<code>BoundSocket</code>, so the descriptor must not be closed by the caller. The\ndescriptor is only available before the handle is adopted; afterwards it belongs\nto the adopting <a href=\"#class-netserver\"><code>net.Server</code></a> or <a href=\"#class-netsocket\"><code>net.Socket</code></a> and <code>fd()</code> throws\n<a href=\"errors.html#err_socket_handle_adopted\"><code>ERR_SOCKET_HANDLE_ADOPTED</code></a>.</p>"
+            },
+            {
+              "textRaw": "`boundSocket.close()`",
+              "type": "method",
+              "name": "close",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Releases the bound socket. Only needed when the handle is never adopted.</p>"
+            },
+            {
+              "textRaw": "`boundSocket[Symbol.dispose]()`",
+              "type": "method",
+              "name": "[Symbol.dispose]",
+              "meta": {
+                "added": [
+                  "v24.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Closes the handle if it has not been adopted or closed; otherwise a no-op.</p>"
+            }
+          ],
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`options` {Object}",
+                  "name": "options",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`host` {string} Local address to bind. Must be a numeric IP literal; no DNS resolution is performed. **Default:** `'0.0.0.0'`, or `'::'` when `ipv6Only` is `true`.",
+                      "name": "host",
+                      "type": "string",
+                      "default": "`'0.0.0.0'`, or `'::'` when `ipv6Only` is `true`",
+                      "desc": "Local address to bind. Must be a numeric IP literal; no DNS resolution is performed."
+                    },
+                    {
+                      "textRaw": "`port` {number} Local port. `0` requests an OS-assigned ephemeral port. **Default:** `0`.",
+                      "name": "port",
+                      "type": "number",
+                      "default": "`0`",
+                      "desc": "Local port. `0` requests an OS-assigned ephemeral port."
+                    },
+                    {
+                      "textRaw": "`ipv6Only` {boolean} Sets `IPV6_V6ONLY`, disabling dual-stack support so the socket binds IPv6 only. Only meaningful for IPv6 binds. **Default:** `false`.",
+                      "name": "ipv6Only",
+                      "type": "boolean",
+                      "default": "`false`",
+                      "desc": "Sets `IPV6_V6ONLY`, disabling dual-stack support so the socket binds IPv6 only. Only meaningful for IPv6 binds."
+                    },
+                    {
+                      "textRaw": "`reusePort` {boolean} Sets `SO_REUSEPORT`, allowing multiple sockets to bind the same address and port for kernel-level load balancing. Support is platform-dependent. **Default:** `false`.",
+                      "name": "reusePort",
+                      "type": "boolean",
+                      "default": "`false`",
+                      "desc": "Sets `SO_REUSEPORT`, allowing multiple sockets to bind the same address and port for kernel-level load balancing. Support is platform-dependent."
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -2245,7 +2546,7 @@
                   ]
                 }
               ],
-              "desc": "<p>For available options, see\n<a href=\"#new-netsocketoptions\"><code>new net.Socket([options])</code></a>\nand <a href=\"#socketconnectoptions-connectlistener\"><code>socket.connect(options[, connectListener])</code></a>.</p>\n<p>Additional options:</p>\n<ul>\n<li><code>timeout</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> If set, will be used to call\n<a href=\"#socketsettimeouttimeout-callback\"><code>socket.setTimeout(timeout)</code></a> after the socket is created, but before\nit starts the connection.</li>\n</ul>\n<p>Following is an example of a client of the echo server described\nin the <a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a> section:</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\nconst client = net.createConnection({ port: 8124 }, () => {\n  // 'connect' listener.\n  console.log('connected to server!');\n  client.write('world!\\r\\n');\n});\nclient.on('data', (data) => {\n  console.log(data.toString());\n  client.end();\n});\nclient.on('end', () => {\n  console.log('disconnected from server');\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\nconst client = net.createConnection({ port: 8124 }, () => {\n  // 'connect' listener.\n  console.log('connected to server!');\n  client.write('world!\\r\\n');\n});\nclient.on('data', (data) => {\n  console.log(data.toString());\n  client.end();\n});\nclient.on('end', () => {\n  console.log('disconnected from server');\n});\n</code></pre>\n<p>To connect on the socket <code>/tmp/echo.sock</code>:</p>\n<pre><code class=\"language-js\">const client = net.createConnection({ path: '/tmp/echo.sock' });\n</code></pre>\n<p>Following is an example of a client using the <code>port</code> and <code>onread</code>\noption. In this case, the <code>onread</code> option will be only used to call\n<code>new net.Socket([options])</code> and the <code>port</code> option will be used to\ncall <code>socket.connect(options[, connectListener])</code>.</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\nimport { Buffer } from 'node:buffer';\nnet.createConnection({\n  port: 8124,\n  onread: {\n    // Reuses a 4KiB Buffer for every read from the socket.\n    buffer: Buffer.alloc(4 * 1024),\n    callback: function(nread, buf) {\n      // Received data is available in `buf` from 0 to `nread`.\n      console.log(buf.toString('utf8', 0, nread));\n    },\n  },\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\nnet.createConnection({\n  port: 8124,\n  onread: {\n    // Reuses a 4KiB Buffer for every read from the socket.\n    buffer: Buffer.alloc(4 * 1024),\n    callback: function(nread, buf) {\n      // Received data is available in `buf` from 0 to `nread`.\n      console.log(buf.toString('utf8', 0, nread));\n    },\n  },\n});\n</code></pre>"
+              "desc": "<p>For available options, see\n<a href=\"#new-netsocketoptions\"><code>new net.Socket([options])</code></a>\nand <a href=\"#socketconnectoptions-connectlistener\"><code>socket.connect(options[, connectListener])</code></a>.</p>\n<p>Additional options:</p>\n<ul>\n<li><code>handle</code> <a href=\"net.html#class-netboundsocket\" class=\"type\">&lt;net.BoundSocket&gt;</a> A pre-bound <a href=\"#class-netboundsocket\"><code>BoundSocket</code></a> used as the\nconnection's source binding, honoring its local address and port. Adoption\nconsumes the bound socket (see <a href=\"#class-netboundsocket\">ownership transfer</a>).</li>\n<li><code>timeout</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type\" class=\"type\">&lt;number&gt;</a> If set, will be used to call\n<a href=\"#socketsettimeouttimeout-callback\"><code>socket.setTimeout(timeout)</code></a> after the socket is created, but before\nit starts the connection.</li>\n</ul>\n<p>Following is an example of a client of the echo server described\nin the <a href=\"#netcreateserveroptions-connectionlistener\"><code>net.createServer()</code></a> section:</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\nconst client = net.createConnection({ port: 8124 }, () => {\n  // 'connect' listener.\n  console.log('connected to server!');\n  client.write('world!\\r\\n');\n});\nclient.on('data', (data) => {\n  console.log(data.toString());\n  client.end();\n});\nclient.on('end', () => {\n  console.log('disconnected from server');\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\nconst client = net.createConnection({ port: 8124 }, () => {\n  // 'connect' listener.\n  console.log('connected to server!');\n  client.write('world!\\r\\n');\n});\nclient.on('data', (data) => {\n  console.log(data.toString());\n  client.end();\n});\nclient.on('end', () => {\n  console.log('disconnected from server');\n});\n</code></pre>\n<p>To connect on the socket <code>/tmp/echo.sock</code>:</p>\n<pre><code class=\"language-js\">const client = net.createConnection({ path: '/tmp/echo.sock' });\n</code></pre>\n<p>Following is an example of a client using the <code>port</code> and <code>onread</code>\noption. In this case, the <code>onread</code> option will be only used to call\n<code>new net.Socket([options])</code> and the <code>port</code> option will be used to\ncall <code>socket.connect(options[, connectListener])</code>.</p>\n<pre><code class=\"language-mjs\">import net from 'node:net';\nimport { Buffer } from 'node:buffer';\nnet.createConnection({\n  port: 8124,\n  onread: {\n    // Reuses a 4KiB Buffer for every read from the socket.\n    buffer: Buffer.alloc(4 * 1024),\n    callback: function(nread, buf) {\n      // Received data is available in `buf` from 0 to `nread`.\n      console.log(buf.toString('utf8', 0, nread));\n    },\n  },\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const net = require('node:net');\nnet.createConnection({\n  port: 8124,\n  onread: {\n    // Reuses a 4KiB Buffer for every read from the socket.\n    buffer: Buffer.alloc(4 * 1024),\n    callback: function(nread, buf) {\n      // Received data is available in `buf` from 0 to `nread`.\n      console.log(buf.toString('utf8', 0, nread));\n    },\n  },\n});\n</code></pre>"
             },
             {
               "textRaw": "`net.createConnection(path[, connectListener])`",

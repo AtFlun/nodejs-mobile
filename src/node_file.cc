@@ -52,6 +52,12 @@
 # include <io.h>
 #endif
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
 namespace node {
 
 namespace fs {
@@ -77,6 +83,7 @@ using v8::Object;
 using v8::ObjectTemplate;
 using v8::Promise;
 using v8::String;
+using v8::TryCatch;
 using v8::Undefined;
 using v8::Value;
 
@@ -794,6 +801,22 @@ void AfterStat(uv_fs_t* req) {
   }
 }
 
+void AfterStatNoThrowIfNoEntry(uv_fs_t* req) {
+  FSReqBase* req_wrap = FSReqBase::from_req(req);
+  FSReqAfterScope after(req_wrap, req);
+
+  FS_ASYNC_TRACE_END1(
+      req->fs_type, req_wrap, "result", static_cast<int>(req->result))
+  if (req->result == UV_ENOENT || req->result == UV_ENOTDIR) {
+    req_wrap->Resolve(Undefined(req_wrap->env()->isolate()));
+    return;
+  }
+
+  if (after.Proceed()) {
+    req_wrap->ResolveStat(&req->statbuf);
+  }
+}
+
 void AfterStatFs(uv_fs_t* req) {
   FSReqBase* req_wrap = FSReqBase::from_req(req);
   FSReqAfterScope after(req_wrap, req);
@@ -840,11 +863,13 @@ void AfterMkdirp(uv_fs_t* req) {
     if (first_path.empty())
       return req_wrap->Resolve(Undefined(req_wrap->env()->isolate()));
     Local<Value> path;
-    Local<Value> error;
-    if (!StringBytes::Encode(req_wrap->env()->isolate(), first_path.c_str(),
-                             req_wrap->encoding(),
-                             &error).ToLocal(&path)) {
-      return req_wrap->Reject(error);
+    TryCatch try_catch(req_wrap->env()->isolate());
+    if (!StringBytes::Encode(req_wrap->env()->isolate(),
+                             first_path.c_str(),
+                             req_wrap->encoding())
+             .ToLocal(&path)) {
+      CHECK(try_catch.CanContinue());
+      return req_wrap->Reject(try_catch.Exception());
     }
     return req_wrap->Resolve(path);
   }
@@ -856,15 +881,14 @@ void AfterStringPath(uv_fs_t* req) {
   FS_ASYNC_TRACE_END1(
       req->fs_type, req_wrap, "result", static_cast<int>(req->result))
   MaybeLocal<Value> link;
-  Local<Value> error;
 
   if (after.Proceed()) {
-    link = StringBytes::Encode(req_wrap->env()->isolate(),
-                               req->path,
-                               req_wrap->encoding(),
-                               &error);
+    TryCatch try_catch(req_wrap->env()->isolate());
+    link = StringBytes::Encode(
+        req_wrap->env()->isolate(), req->path, req_wrap->encoding());
     if (link.IsEmpty()) {
-      req_wrap->Reject(error);
+      CHECK(try_catch.CanContinue());
+      req_wrap->Reject(try_catch.Exception());
     } else {
       Local<Value> val;
       if (link.ToLocal(&val)) req_wrap->Resolve(val);
@@ -878,15 +902,15 @@ void AfterStringPtr(uv_fs_t* req) {
   FS_ASYNC_TRACE_END1(
       req->fs_type, req_wrap, "result", static_cast<int>(req->result))
   MaybeLocal<Value> link;
-  Local<Value> error;
 
   if (after.Proceed()) {
+    TryCatch try_catch(req_wrap->env()->isolate());
     link = StringBytes::Encode(req_wrap->env()->isolate(),
                                static_cast<const char*>(req->ptr),
-                               req_wrap->encoding(),
-                               &error);
+                               req_wrap->encoding());
     if (link.IsEmpty()) {
-      req_wrap->Reject(error);
+      CHECK(try_catch.CanContinue());
+      req_wrap->Reject(try_catch.Exception());
     } else {
       Local<Value> val;
       if (link.ToLocal(&val)) req_wrap->Resolve(val);
@@ -905,7 +929,6 @@ void AfterScanDir(uv_fs_t* req) {
 
   Environment* env = req_wrap->env();
   Isolate* isolate = env->isolate();
-  Local<Value> error;
   int r;
 
   LocalVector<Value> name_v(isolate);
@@ -925,9 +948,11 @@ void AfterScanDir(uv_fs_t* req) {
     }
 
     Local<Value> filename;
-    if (!StringBytes::Encode(isolate, ent.name, req_wrap->encoding(), &error)
+    TryCatch try_catch(isolate);
+    if (!StringBytes::Encode(isolate, ent.name, req_wrap->encoding())
              .ToLocal(&filename)) {
-      return req_wrap->Reject(error);
+      CHECK(try_catch.CanContinue());
+      return req_wrap->Reject(try_catch.Exception());
     }
     name_v.push_back(filename);
 
@@ -1087,7 +1112,9 @@ static void Stat(const FunctionCallbackInfo<Value>& args) {
   ToNamespacedPath(env, &path);
 
   bool use_bigint = args[1]->IsTrue();
-  if (!args[2]->IsUndefined()) {  // stat(path, use_bigint, req)
+  if (!args[2]->IsUndefined()) {  // stat(path, use_bigint, req,
+                                  // do_not_throw_if_no_entry)
+    bool do_not_throw_if_no_entry = args[3]->IsFalse();
     FSReqBase* req_wrap_async = GetReqWrap(args, 2, use_bigint);
     CHECK_NOT_NULL(req_wrap_async);
     ASYNC_THROW_IF_INSUFFICIENT_PERMISSIONS(
@@ -1097,8 +1124,25 @@ static void Stat(const FunctionCallbackInfo<Value>& args) {
         path.ToStringView());
     FS_ASYNC_TRACE_BEGIN1(
         UV_FS_STAT, req_wrap_async, "path", TRACE_STR_COPY(*path))
-    AsyncCall(env, req_wrap_async, args, "stat", UTF8, AfterStat,
-              uv_fs_stat, *path);
+    if (do_not_throw_if_no_entry) {
+      AsyncCall(env,
+                req_wrap_async,
+                args,
+                "stat",
+                UTF8,
+                AfterStatNoThrowIfNoEntry,
+                uv_fs_stat,
+                *path);
+    } else {
+      AsyncCall(env,
+                req_wrap_async,
+                args,
+                "stat",
+                UTF8,
+                AfterStat,
+                uv_fs_stat,
+                *path);
+    }
   } else {  // stat(path, use_bigint, undefined, do_not_throw_if_no_entry)
     THROW_IF_INSUFFICIENT_PERMISSIONS(
         env, permission::PermissionScope::kFileSystemRead, path.ToStringView());
@@ -1399,16 +1443,10 @@ static void ReadLink(const FunctionCallbackInfo<Value>& args) {
     }
     const char* link_path = static_cast<const char*>(req_wrap_sync.req.ptr);
 
-    Local<Value> error;
     Local<Value> ret;
-    if (!StringBytes::Encode(isolate, link_path, encoding, &error)
-             .ToLocal(&ret)) {
-      DCHECK(!error.IsEmpty());
-      env->isolate()->ThrowException(error);
-      return;
+    if (StringBytes::Encode(isolate, link_path, encoding).ToLocal(&ret)) {
+      args.GetReturnValue().Set(ret);
     }
-
-    args.GetReturnValue().Set(ret);
   }
 }
 
@@ -1609,6 +1647,113 @@ static void RMDir(const FunctionCallbackInfo<Value>& args) {
     SyncCallAndThrowOnError(env, &req_wrap_sync, uv_fs_rmdir, *path);
     FS_SYNC_TRACE_END(rmdir);
   }
+}
+
+static void RmSync(const FunctionCallbackInfo<Value>& args) {
+  Environment* env = Environment::GetCurrent(args);
+  Isolate* isolate = env->isolate();
+
+  CHECK_EQ(args.Length(), 4);  // path, maxRetries, recursive, retryDelay
+
+  BufferValue path(isolate, args[0]);
+  CHECK_NOT_NULL(*path);
+  ToNamespacedPath(env, &path);
+  THROW_IF_INSUFFICIENT_PERMISSIONS(
+      env, permission::PermissionScope::kFileSystemWrite, path.ToStringView());
+  auto file_path = path.ToPath();
+  std::error_code error;
+  auto file_status = std::filesystem::symlink_status(file_path, error);
+
+  if (file_status.type() == std::filesystem::file_type::not_found) {
+    return;
+  }
+
+  int maxRetries = args[1].As<Int32>()->Value();
+  int recursive = args[2]->IsTrue();
+  int retryDelay = args[3].As<Int32>()->Value();
+
+  // File is a directory and recursive is false
+  if (file_status.type() == std::filesystem::file_type::directory &&
+      !recursive) {
+    return THROW_ERR_FS_EISDIR(isolate, "Path is a directory: %s", path);
+  }
+
+  // Allowed errors are:
+  // - EBUSY: std::errc::device_or_resource_busy
+  // - EMFILE: std::errc::too_many_files_open
+  // - ENFILE: std::errc::too_many_files_open_in_system
+  // - ENOTEMPTY: std::errc::directory_not_empty
+  // - EPERM: std::errc::operation_not_permitted
+  auto can_omit_error = [](std::error_code error) -> bool {
+    return (error == std::errc::device_or_resource_busy ||
+            error == std::errc::too_many_files_open ||
+            error == std::errc::too_many_files_open_in_system ||
+            error == std::errc::directory_not_empty ||
+            error == std::errc::operation_not_permitted);
+  };
+
+  int i = 1;
+
+  while (maxRetries >= 0) {
+    if (recursive) {
+      std::filesystem::remove_all(file_path, error);
+    } else {
+      std::filesystem::remove(file_path, error);
+    }
+
+    if (!error || error == std::errc::no_such_file_or_directory) {
+      return;
+    } else if (!can_omit_error(error)) {
+      break;
+    }
+
+    if (retryDelay > 0) {
+#ifdef _WIN32
+      Sleep(i * retryDelay / 1000);
+#else
+      sleep(i * retryDelay / 1000);
+#endif
+    }
+    maxRetries--;
+    i++;
+  }
+
+  // On Windows path::c_str() returns wide char, convert to std::string first.
+  std::string file_path_str = file_path.string();
+  const char* path_c_str = file_path_str.c_str();
+#ifdef _WIN32
+  int permission_denied_error = EPERM;
+#else
+  int permission_denied_error = EACCES;
+#endif  // !_WIN32
+
+  if (error == std::errc::operation_not_permitted) {
+    std::string message = "Operation not permitted: " + file_path_str;
+    return env->ThrowErrnoException(EPERM, "rm", message.c_str(), path_c_str);
+  } else if (error == std::errc::directory_not_empty) {
+    std::string message = "Directory not empty: " + file_path_str;
+    return env->ThrowErrnoException(
+        ENOTEMPTY, "rm", message.c_str(), path_c_str);
+  } else if (error == std::errc::not_a_directory) {
+    std::string message = "Not a directory: " + file_path_str;
+    return env->ThrowErrnoException(ENOTDIR, "rm", message.c_str(), path_c_str);
+#ifdef _AIX
+  } else if (error == std::errc::permission_denied ||
+             error == std::errc::file_exists) {
+    // Workaround for clang libc++ bug on AIX: std::filesystem::remove_all()
+    // incorrectly returns EEXIST (17) instead of EACCES (13) for permission
+    // errors when trying to remove directories without proper permissions.
+#else
+  } else if (error == std::errc::permission_denied) {
+#endif
+    std::string message = "Permission denied: " + file_path_str;
+    return env->ThrowErrnoException(
+        permission_denied_error, "rm", message.c_str(), path_c_str);
+  }
+
+  std::string message = "Unknown error: " + error.message();
+  return env->ThrowErrnoException(
+      UV_UNKNOWN, "rm", message.c_str(), path_c_str);
 }
 
 int MKDirpSync(uv_loop_t* loop,
@@ -1814,17 +1959,12 @@ static void MKDir(const FunctionCallbackInfo<Value>& args) {
         return;
       }
       if (!req_wrap_sync.continuation_data()->first_path().empty()) {
-        Local<Value> error;
         Local<Value> ret;
         std::string first_path(req_wrap_sync.continuation_data()->first_path());
-        if (!StringBytes::Encode(
-                 env->isolate(), first_path.c_str(), UTF8, &error)
-                 .ToLocal(&ret)) {
-          DCHECK(!error.IsEmpty());
-          env->isolate()->ThrowException(error);
-          return;
+        if (StringBytes::Encode(env->isolate(), first_path.c_str(), UTF8)
+                .ToLocal(&ret)) {
+          args.GetReturnValue().Set(ret);
         }
-        args.GetReturnValue().Set(ret);
       }
     } else {
       SyncCallAndThrowOnError(env, &req_wrap_sync, uv_fs_mkdir, *path, mode);
@@ -1872,16 +2012,10 @@ static void RealPath(const FunctionCallbackInfo<Value>& args) {
 
     const char* link_path = static_cast<const char*>(req_wrap_sync.req.ptr);
 
-    Local<Value> error;
     Local<Value> ret;
-    if (!StringBytes::Encode(isolate, link_path, encoding, &error)
-             .ToLocal(&ret)) {
-      DCHECK(!error.IsEmpty());
-      env->isolate()->ThrowException(error);
-      return;
+    if (StringBytes::Encode(isolate, link_path, encoding).ToLocal(&ret)) {
+      args.GetReturnValue().Set(ret);
     }
-
-    args.GetReturnValue().Set(ret);
   }
 }
 
@@ -1968,12 +2102,8 @@ static void ReadDir(const FunctionCallbackInfo<Value>& args) {
         return;
       }
 
-      Local<Value> error;
       Local<Value> fn;
-      if (!StringBytes::Encode(isolate, ent.name, encoding, &error)
-               .ToLocal(&fn)) {
-        DCHECK(!error.IsEmpty());
-        isolate->ThrowException(error);
+      if (!StringBytes::Encode(isolate, ent.name, encoding).ToLocal(&fn)) {
         return;
       }
 
@@ -2130,8 +2260,19 @@ static void OpenFileHandle(const FunctionCallbackInfo<Value>& args) {
     CHECK_EQ(argc, 5);
     FSReqWrapSync req_wrap_sync;
     FS_SYNC_TRACE_BEGIN(open);
-    int result = SyncCall(env, args[4], &req_wrap_sync, "open",
-                          uv_fs_open, *path, flags, mode);
+    int result;
+    if (!SyncCall(env,
+                  args[4],
+                  &req_wrap_sync,
+                  "open",
+                  uv_fs_open,
+                  *path,
+                  flags,
+                  mode)
+             .To(&result)) {
+      // v8 error occurred while setting the context. propagate!
+      return;
+    }
     FS_SYNC_TRACE_END(open);
     if (result < 0) {
       return;  // syscall failed, no need to continue, error info is in ctx
@@ -2250,8 +2391,20 @@ static void WriteBuffer(const FunctionCallbackInfo<Value>& args) {
     CHECK_EQ(argc, 7);
     FSReqWrapSync req_wrap_sync;
     FS_SYNC_TRACE_BEGIN(write);
-    int bytesWritten = SyncCall(env, args[6], &req_wrap_sync, "write",
-                                uv_fs_write, fd, &uvbuf, 1, pos);
+    int bytesWritten;
+    if (!SyncCall(env,
+                  args[6],
+                  &req_wrap_sync,
+                  "write",
+                  uv_fs_write,
+                  fd,
+                  &uvbuf,
+                  1,
+                  pos)
+             .To(&bytesWritten)) {
+      FS_SYNC_TRACE_END(write, "bytesWritten", 0);
+      return;
+    }
     FS_SYNC_TRACE_END(write, "bytesWritten", bytesWritten);
     args.GetReturnValue().Set(bytesWritten);
   }
@@ -2412,8 +2565,20 @@ static void WriteString(const FunctionCallbackInfo<Value>& args) {
     uv_buf_t uvbuf = uv_buf_init(buf, len);
     FSReqWrapSync req_wrap_sync("write");
     FS_SYNC_TRACE_BEGIN(write);
-    int bytesWritten = SyncCall(env, args[5], &req_wrap_sync, "write",
-                                uv_fs_write, fd, &uvbuf, 1, pos);
+    int bytesWritten;
+    if (!SyncCall(env,
+                  args[5],
+                  &req_wrap_sync,
+                  "write",
+                  uv_fs_write,
+                  fd,
+                  &uvbuf,
+                  1,
+                  pos)
+             .To(&bytesWritten)) {
+      FS_SYNC_TRACE_END(write, "bytesWritten", 0);
+      return;
+    }
     FS_SYNC_TRACE_END(write, "bytesWritten", bytesWritten);
     args.GetReturnValue().Set(bytesWritten);
   }
@@ -3016,15 +3181,11 @@ static void Mkdtemp(const FunctionCallbackInfo<Value>& args) {
     if (is_uv_error(result)) {
       return;
     }
-    Local<Value> error;
     Local<Value> ret;
-    if (!StringBytes::Encode(isolate, req_wrap_sync.req.path, encoding, &error)
-             .ToLocal(&ret)) {
-      DCHECK(!error.IsEmpty());
-      env->isolate()->ThrowException(error);
-      return;
+    if (StringBytes::Encode(isolate, req_wrap_sync.req.path, encoding)
+            .ToLocal(&ret)) {
+      args.GetReturnValue().Set(ret);
     }
-    args.GetReturnValue().Set(ret);
   }
 }
 
@@ -3073,42 +3234,6 @@ static void GetFormatOfExtensionlessFile(
   return args.GetReturnValue().Set(EXTENSIONLESS_FORMAT_JAVASCRIPT);
 }
 
-#ifdef _WIN32
-#define BufferValueToPath(str)                                                 \
-  std::filesystem::path(ConvertToWideString(str.ToString(), CP_UTF8))
-
-std::string ConvertWideToUTF8(const std::wstring& wstr) {
-  if (wstr.empty()) return std::string();
-
-  int size_needed = WideCharToMultiByte(CP_UTF8,
-                                        0,
-                                        &wstr[0],
-                                        static_cast<int>(wstr.size()),
-                                        nullptr,
-                                        0,
-                                        nullptr,
-                                        nullptr);
-  std::string strTo(size_needed, 0);
-  WideCharToMultiByte(CP_UTF8,
-                      0,
-                      &wstr[0],
-                      static_cast<int>(wstr.size()),
-                      &strTo[0],
-                      size_needed,
-                      nullptr,
-                      nullptr);
-  return strTo;
-}
-
-#define PathToString(path) ConvertWideToUTF8(path.wstring());
-
-#else  // _WIN32
-
-#define BufferValueToPath(str) std::filesystem::path(str.ToStringView());
-#define PathToString(path) path.native();
-
-#endif  // _WIN32
-
 static void CpSyncCheckPaths(const FunctionCallbackInfo<Value>& args) {
   Environment* env = Environment::GetCurrent(args);
   Isolate* isolate = env->isolate();
@@ -3121,7 +3246,7 @@ static void CpSyncCheckPaths(const FunctionCallbackInfo<Value>& args) {
   THROW_IF_INSUFFICIENT_PERMISSIONS(
       env, permission::PermissionScope::kFileSystemRead, src.ToStringView());
 
-  auto src_path = BufferValueToPath(src);
+  auto src_path = src.ToPath();
 
   BufferValue dest(isolate, args[1]);
   CHECK_NOT_NULL(*dest);
@@ -3129,7 +3254,7 @@ static void CpSyncCheckPaths(const FunctionCallbackInfo<Value>& args) {
   THROW_IF_INSUFFICIENT_PERMISSIONS(
       env, permission::PermissionScope::kFileSystemWrite, dest.ToStringView());
 
-  auto dest_path = BufferValueToPath(dest);
+  auto dest_path = dest.ToPath();
   bool dereference = args[2]->IsTrue();
   bool recursive = args[3]->IsTrue();
 
@@ -3158,8 +3283,8 @@ static void CpSyncCheckPaths(const FunctionCallbackInfo<Value>& args) {
       (src_status.type() == std::filesystem::file_type::directory) ||
       (dereference && src_status.type() == std::filesystem::file_type::symlink);
 
-  auto src_path_str = PathToString(src_path);
-  auto dest_path_str = PathToString(dest_path);
+  auto src_path_str = ConvertPathToUTF8(src_path);
+  auto dest_path_str = ConvertPathToUTF8(dest_path);
 
   if (!error_code) {
     // Check if src and dest are identical.
@@ -3254,7 +3379,7 @@ static bool CopyUtimes(const std::filesystem::path& src,
   uv_fs_t req;
   auto cleanup = OnScopeLeave([&req]() { uv_fs_req_cleanup(&req); });
 
-  auto src_path_str = PathToString(src);
+  auto src_path_str = ConvertPathToUTF8(src);
   int result = uv_fs_stat(nullptr, &req, src_path_str.c_str(), nullptr);
   if (is_uv_error(result)) {
     env->ThrowUVException(result, "stat", nullptr, src_path_str.c_str());
@@ -3265,7 +3390,7 @@ static bool CopyUtimes(const std::filesystem::path& src,
   const double source_atime = s->st_atim.tv_sec + s->st_atim.tv_nsec / 1e9;
   const double source_mtime = s->st_mtim.tv_sec + s->st_mtim.tv_nsec / 1e9;
 
-  auto dest_file_path_str = PathToString(dest);
+  auto dest_file_path_str = ConvertPathToUTF8(dest);
   int utime_result = uv_fs_utime(nullptr,
                                  &req,
                                  dest_file_path_str.c_str(),
@@ -3306,15 +3431,18 @@ static void CpSyncOverrideFile(const FunctionCallbackInfo<Value>& args) {
   THROW_IF_INSUFFICIENT_PERMISSIONS(
       env, permission::PermissionScope::kFileSystemWrite, dest.ToStringView());
 
+  auto src_path = src.ToPath();
+  auto dest_path = dest.ToPath();
+
   std::error_code error;
 
-  if (!std::filesystem::remove(*dest, error)) {
+  if (!std::filesystem::remove(dest_path, error)) {
     return env->ThrowStdErrException(error, "unlink", *dest);
   }
 
   if (mode == 0) {
     // if no mode is specified use the faster std::filesystem API
-    if (!std::filesystem::copy_file(*src, *dest, error)) {
+    if (!std::filesystem::copy_file(src_path, dest_path, error)) {
       return env->ThrowStdErrException(error, "cp", *dest);
     }
   } else {
@@ -3327,7 +3455,7 @@ static void CpSyncOverrideFile(const FunctionCallbackInfo<Value>& args) {
   }
 
   if (preserve_timestamps) {
-    CopyUtimes(*src, *dest, env);
+    CopyUtimes(src_path, dest_path, env);
   }
 }
 
@@ -3370,8 +3498,11 @@ static void CpSyncCopyDir(const FunctionCallbackInfo<Value>& args) {
   bool verbatim_symlinks = args[5]->IsTrue();
   bool preserve_timestamps = args[6]->IsTrue();
 
+  auto src_path = src.ToPath();
+  auto dest_path = dest.ToPath();
+
   std::error_code error;
-  std::filesystem::create_directories(*dest, error);
+  std::filesystem::create_directories(dest_path, error);
   if (error) {
     return env->ThrowStdErrException(error, "cp", *dest);
   }
@@ -3400,7 +3531,7 @@ static void CpSyncCopyDir(const FunctionCallbackInfo<Value>& args) {
     std::error_code error;
     for (auto dir_entry : std::filesystem::directory_iterator(src)) {
       auto dest_file_path = dest / dir_entry.path().filename();
-      auto dest_str = PathToString(dest);
+      auto dest_str = ConvertPathToUTF8(dest);
 
       if (dir_entry.is_symlink()) {
         if (verbatim_symlinks) {
@@ -3459,7 +3590,7 @@ static void CpSyncCopyDir(const FunctionCallbackInfo<Value>& args) {
               }
             } else if (std::filesystem::is_regular_file(dest_file_path)) {
               if (!dereference || (!force && error_on_exist)) {
-                auto dest_file_path_str = PathToString(dest_file_path);
+                auto dest_file_path_str = ConvertPathToUTF8(dest_file_path);
                 env->ThrowStdErrException(
                     std::make_error_code(std::errc::file_exists),
                     "cp",
@@ -3513,7 +3644,7 @@ static void CpSyncCopyDir(const FunctionCallbackInfo<Value>& args) {
     return true;
   };
 
-  copy_dir_contents(std::filesystem::path(*src), std::filesystem::path(*dest));
+  copy_dir_contents(src_path, dest_path);
 }
 
 BindingData::FilePathIsFileReturnType BindingData::FilePathIsFile(
@@ -3818,6 +3949,7 @@ static void CreatePerIsolateProperties(IsolateData* isolate_data,
   SetMethod(isolate, target, "rename", Rename);
   SetMethod(isolate, target, "ftruncate", FTruncate);
   SetMethod(isolate, target, "rmdir", RMDir);
+  SetMethod(isolate, target, "rmSync", RmSync);
   SetMethod(isolate, target, "mkdir", MKDir);
   SetMethod(isolate, target, "readdir", ReadDir);
   SetMethod(isolate, target, "internalModuleStat", InternalModuleStat);
@@ -3942,6 +4074,7 @@ void RegisterExternalReferences(ExternalReferenceRegistry* registry) {
   registry->Register(Rename);
   registry->Register(FTruncate);
   registry->Register(RMDir);
+  registry->Register(RmSync);
   registry->Register(MKDir);
   registry->Register(ReadDir);
   registry->Register(InternalModuleStat);

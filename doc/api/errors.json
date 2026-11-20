@@ -296,9 +296,16 @@
             {
               "textRaw": "`ERR_ASYNC_CALLBACK`",
               "name": "`err_async_callback`",
-              "desc": "<p>An attempt was made to register something that is not a function as an\n<code>AsyncHooks</code> callback.</p>\n<p><a id=\"ERR_ASYNC_TYPE\"></a></p>",
+              "desc": "<p>An attempt was made to register something that is not a function as an\n<code>AsyncHooks</code> callback.</p>\n<p><a id=\"ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_ASYNC_CALLBACK`"
+            },
+            {
+              "textRaw": "`ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED`",
+              "name": "`err_async_loader_request_never_settled`",
+              "desc": "<p>An operation related to module loading is customized by an asynchronous loader\nhook that never settled the promise before the loader thread exits.</p>\n<p><a id=\"ERR_ASYNC_TYPE\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED`"
             },
             {
               "textRaw": "`ERR_ASYNC_TYPE`",
@@ -436,7 +443,7 @@
               "name": "`err_cpu_profile_already_started`",
               "meta": {
                 "added": [
-                  "v22.20.0"
+                  "v24.8.0"
                 ],
                 "changes": []
               },
@@ -449,7 +456,7 @@
               "name": "`err_cpu_profile_not_started`",
               "meta": {
                 "added": [
-                  "v22.20.0"
+                  "v24.8.0"
                 ],
                 "changes": []
               },
@@ -462,13 +469,20 @@
               "name": "`err_cpu_profile_too_many`",
               "meta": {
                 "added": [
-                  "v22.20.0"
+                  "v24.8.0"
                 ],
                 "changes": []
               },
-              "desc": "<p>There are too many CPU profiles being collected.</p>\n<p><a id=\"ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED\"></a></p>",
+              "desc": "<p>There are too many CPU profiles being collected.</p>\n<p><a id=\"ERR_CRYPTO_ARGON2_NOT_SUPPORTED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_CPU_PROFILE_TOO_MANY`"
+            },
+            {
+              "textRaw": "`ERR_CRYPTO_ARGON2_NOT_SUPPORTED`",
+              "name": "`err_crypto_argon2_not_supported`",
+              "desc": "<p>Argon2 is not supported by the current version of OpenSSL being used.</p>\n<p><a id=\"ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_CRYPTO_ARGON2_NOT_SUPPORTED`"
             },
             {
               "textRaw": "`ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED`",
@@ -693,7 +707,7 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>Invalid scrypt algorithm parameters were provided.</p>\n<p><a id=\"ERR_CRYPTO_INVALID_STATE\"></a></p>",
+              "desc": "<p>One or more <a href=\"crypto.html#cryptoscryptpassword-salt-keylen-options-callback\"><code>crypto.scrypt()</code></a> or <a href=\"crypto.html#cryptoscryptsyncpassword-salt-keylen-options\"><code>crypto.scryptSync()</code></a> parameters are\noutside their legal range.</p>\n<p><a id=\"ERR_CRYPTO_INVALID_STATE\"></a></p>",
               "type": "module",
               "displayName": "`ERR_CRYPTO_INVALID_SCRYPT_PARAMS`"
             },
@@ -740,9 +754,22 @@
             {
               "textRaw": "`ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE`",
               "name": "`err_crypto_jwk_unsupported_key_type`",
-              "desc": "<p>Key's Asymmetric Key Type is not registered for use in the\n<a href=\"https://www.iana.org/assignments/jose/jose.xhtml#web-key-types\">JSON Web Key Types Registry</a>.</p>\n<p><a id=\"ERR_CRYPTO_OPERATION_FAILED\"></a></p>",
+              "desc": "<p>Key's Asymmetric Key Type is not registered for use in the\n<a href=\"https://www.iana.org/assignments/jose/jose.xhtml#web-key-types\">JSON Web Key Types Registry</a>.</p>\n<p><a id=\"ERR_CRYPTO_KEM_NOT_SUPPORTED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE`"
+            },
+            {
+              "textRaw": "`ERR_CRYPTO_KEM_NOT_SUPPORTED`",
+              "name": "`err_crypto_kem_not_supported`",
+              "meta": {
+                "added": [
+                  "v24.7.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Attempted to use KEM operations while Node.js was not compiled with\nOpenSSL with KEM support.</p>\n<p><a id=\"ERR_CRYPTO_OPERATION_FAILED\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_CRYPTO_KEM_NOT_SUPPORTED`"
             },
             {
               "textRaw": "`ERR_CRYPTO_OPERATION_FAILED`",
@@ -760,16 +787,9 @@
             {
               "textRaw": "`ERR_CRYPTO_PBKDF2_ERROR`",
               "name": "`err_crypto_pbkdf2_error`",
-              "desc": "<p>The PBKDF2 algorithm failed for unspecified reasons. OpenSSL does not provide\nmore details and therefore neither does Node.js.</p>\n<p><a id=\"ERR_CRYPTO_SCRYPT_INVALID_PARAMETER\"></a></p>",
+              "desc": "<p>The PBKDF2 algorithm failed for unspecified reasons. OpenSSL does not provide\nmore details and therefore neither does Node.js.</p>\n<p><a id=\"ERR_CRYPTO_SCRYPT_NOT_SUPPORTED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_CRYPTO_PBKDF2_ERROR`"
-            },
-            {
-              "textRaw": "`ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`",
-              "name": "`err_crypto_scrypt_invalid_parameter`",
-              "desc": "<p>One or more <a href=\"crypto.html#cryptoscryptpassword-salt-keylen-options-callback\"><code>crypto.scrypt()</code></a> or <a href=\"crypto.html#cryptoscryptsyncpassword-salt-keylen-options\"><code>crypto.scryptSync()</code></a> parameters are\noutside their legal range.</p>\n<p><a id=\"ERR_CRYPTO_SCRYPT_NOT_SUPPORTED\"></a></p>",
-              "type": "module",
-              "displayName": "`ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`"
             },
             {
               "textRaw": "`ERR_CRYPTO_SCRYPT_NOT_SUPPORTED`",
@@ -1092,16 +1112,9 @@
             {
               "textRaw": "`ERR_FS_FILE_TOO_LARGE`",
               "name": "`err_fs_file_too_large`",
-              "desc": "<p>An attempt was made to read a file larger than the supported 2 GiB limit for\n<code>fs.readFile()</code>. This is not a limitation of <code>Buffer</code>, but an internal I/O constraint.\nFor handling larger files, consider using <code>fs.createReadStream()</code> to read the\nfile in chunks.</p>\n<p><a id=\"ERR_FS_INVALID_SYMLINK_TYPE\"></a></p>",
+              "desc": "<p>An attempt was made to read a file larger than the supported 2 GiB limit for\n<code>fs.readFile()</code>. This is not a limitation of <code>Buffer</code>, but an internal I/O constraint.\nFor handling larger files, consider using <code>fs.createReadStream()</code> to read the\nfile in chunks.</p>\n<p><a id=\"ERR_FS_WATCH_QUEUE_OVERFLOW\"></a></p>",
               "type": "module",
               "displayName": "`ERR_FS_FILE_TOO_LARGE`"
-            },
-            {
-              "textRaw": "`ERR_FS_INVALID_SYMLINK_TYPE`",
-              "name": "`err_fs_invalid_symlink_type`",
-              "desc": "<p>An invalid symlink type was passed to the <a href=\"fs.html#fssymlinktarget-path-type-callback\"><code>fs.symlink()</code></a> or\n<a href=\"fs.html#fssymlinksynctarget-path-type\"><code>fs.symlinkSync()</code></a> methods.</p>\n<p><a id=\"ERR_FS_WATCH_QUEUE_OVERFLOW\"></a></p>",
-              "type": "module",
-              "displayName": "`ERR_FS_INVALID_SYMLINK_TYPE`"
             },
             {
               "textRaw": "`ERR_FS_WATCH_QUEUE_OVERFLOW`",
@@ -1429,7 +1442,7 @@
               "name": "`err_http2_too_many_origins`",
               "meta": {
                 "added": [
-                  "v22.23.0"
+                  "v24.17.0"
                 ],
                 "changes": []
               },
@@ -1881,11 +1894,15 @@
               "name": "`err_invalid_typescript_syntax`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.10.0"
                 ],
                 "changes": [
                   {
-                    "version": "v22.14.0",
+                    "version": [
+                      "v23.7.0",
+                      "v22.14.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/56610",
                     "description": "This error is no longer thrown on valid yet unsupported syntax."
                   }
@@ -1905,9 +1922,16 @@
             {
               "textRaw": "`ERR_INVALID_URL`",
               "name": "`err_invalid_url`",
-              "desc": "<p>An invalid URL was passed to the <a href=\"url.html#the-whatwg-url-api\">WHATWG</a> <a href=\"url.html#new-urlinput-base\"><code>URL</code>\nconstructor</a> or the legacy <a href=\"url.html#urlparseurlstring-parsequerystring-slashesdenotehost\"><code>url.parse()</code></a> to be parsed.\nThe thrown error object typically has an additional property <code>'input'</code> that\ncontains the URL that failed to parse.</p>\n<p><a id=\"ERR_INVALID_URL_SCHEME\"></a></p>",
+              "desc": "<p>An invalid URL was passed to the <a href=\"url.html#the-whatwg-url-api\">WHATWG</a> <a href=\"url.html#new-urlinput-base\"><code>URL</code>\nconstructor</a> or the legacy <a href=\"url.html#urlparseurlstring-parsequerystring-slashesdenotehost\"><code>url.parse()</code></a> to be parsed.\nThe thrown error object typically has an additional property <code>'input'</code> that\ncontains the URL that failed to parse.</p>\n<p><a id=\"ERR_INVALID_URL_PATTERN\"></a></p>",
               "type": "module",
               "displayName": "`ERR_INVALID_URL`"
+            },
+            {
+              "textRaw": "`ERR_INVALID_URL_PATTERN`",
+              "name": "`err_invalid_url_pattern`",
+              "desc": "<p>An invalid URLPattern was passed to the <a href=\"url.html#the-whatwg-url-api\">WHATWG</a>\n<a href=\"url.html#new-urlpatternstring-baseurl-options\"><code>URLPattern</code> constructor</a> to be parsed.</p>\n<p><a id=\"ERR_INVALID_URL_SCHEME\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_INVALID_URL_PATTERN`"
             },
             {
               "textRaw": "`ERR_INVALID_URL_SCHEME`",
@@ -1970,6 +1994,7 @@
               "name": "`err_load_sqlite_extension`",
               "meta": {
                 "added": [
+                  "v23.5.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2151,6 +2176,7 @@
               "name": "`err_no_typescript`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.12.0"
                 ],
                 "changes": []
@@ -2177,7 +2203,7 @@
               "name": "`err_options_before_bootstrapping`",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v23.10.0"
                 ],
                 "changes": []
               },
@@ -2288,6 +2314,7 @@
               "name": "`err_quic_application_error`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2303,6 +2330,7 @@
               "name": "`err_quic_connection_failed`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.10.0"
                 ],
                 "changes": []
@@ -2318,6 +2346,7 @@
               "name": "`err_quic_endpoint_closed`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.10.0"
                 ],
                 "changes": []
@@ -2333,6 +2362,7 @@
               "name": "`err_quic_open_stream_failed`",
               "meta": {
                 "added": [
+                  "v23.0.0",
                   "v22.10.0"
                 ],
                 "changes": []
@@ -2348,6 +2378,7 @@
               "name": "`err_quic_transport_error`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2363,6 +2394,7 @@
               "name": "`err_quic_version_negotiation_error`",
               "meta": {
                 "added": [
+                  "v23.4.0",
                   "v22.13.0"
                 ],
                 "changes": []
@@ -2376,8 +2408,6 @@
             {
               "textRaw": "`ERR_REQUIRE_ASYNC_MODULE`",
               "name": "`err_require_async_module`",
-              "stability": 1,
-              "stabilityText": "Experimental",
               "desc": "<p>When trying to <code>require()</code> a <a href=\"esm.html\">ES Module</a>, the module turns out to be asynchronous.\nThat is, it contains top-level await.</p>\n<p>To see where the top-level await is, use\n<code>--experimental-print-required-tla</code> (this would execute the modules\nbefore looking for the top-level awaits).</p>\n<p><a id=\"ERR_REQUIRE_CYCLE_MODULE\"></a></p>",
               "type": "module",
               "displayName": "`ERR_REQUIRE_ASYNC_MODULE`"
@@ -2385,8 +2415,6 @@
             {
               "textRaw": "`ERR_REQUIRE_CYCLE_MODULE`",
               "name": "`err_require_cycle_module`",
-              "stability": 1,
-              "stabilityText": "Experimental",
               "desc": "<p>When trying to <code>require()</code> a <a href=\"esm.html\">ES Module</a>, a CommonJS to ESM or ESM to CommonJS edge\nparticipates in an immediate cycle.\nThis is not allowed because ES Modules cannot be evaluated while they are\nalready being evaluated.</p>\n<p>To avoid the cycle, the <code>require()</code> call involved in a cycle should not happen\nat the top-level of either an ES Module (via <code>createRequire()</code>) or a CommonJS\nmodule, and should be done lazily in an inner function.</p>\n<p><a id=\"ERR_REQUIRE_ESM\"></a></p>",
               "type": "module",
               "displayName": "`ERR_REQUIRE_CYCLE_MODULE`"
@@ -2397,7 +2425,11 @@
               "meta": {
                 "changes": [
                   {
-                    "version": "v22.12.0",
+                    "version": [
+                      "v23.0.0",
+                      "v22.12.0",
+                      "v20.19.0"
+                    ],
                     "pr-url": "https://github.com/nodejs/node/pull/55085",
                     "description": "require() now supports loading synchronous ES modules by default."
                   }
@@ -2405,9 +2437,24 @@
               },
               "stability": 0,
               "stabilityText": "Deprecated",
-              "desc": "<p>An attempt was made to <code>require()</code> an <a href=\"esm.html\">ES Module</a>.</p>\n<p>This error has been deprecated since <code>require()</code> now supports loading synchronous\nES modules. When <code>require()</code> encounters an ES module that contains top-level\n<code>await</code>, it will throw <a href=\"#err_require_async_module\"><code>ERR_REQUIRE_ASYNC_MODULE</code></a> instead.</p>\n<p><a id=\"ERR_SCRIPT_EXECUTION_INTERRUPTED\"></a></p>",
+              "desc": "<p>An attempt was made to <code>require()</code> an <a href=\"esm.html\">ES Module</a>.</p>\n<p>This error has been deprecated since <code>require()</code> now supports loading synchronous\nES modules. When <code>require()</code> encounters an ES module that contains top-level\n<code>await</code>, it will throw <a href=\"#err_require_async_module\"><code>ERR_REQUIRE_ASYNC_MODULE</code></a> instead.</p>\n<p><a id=\"ERR_REQUIRE_ESM_RACE_CONDITION\"></a></p>",
               "type": "module",
               "displayName": "`ERR_REQUIRE_ESM`"
+            },
+            {
+              "textRaw": "`ERR_REQUIRE_ESM_RACE_CONDITION`",
+              "name": "`err_require_esm_race_condition`",
+              "meta": {
+                "added": [
+                  "v24.16.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental.",
+              "desc": "<p>An attempt was made to <code>require()</code> an <a href=\"esm.html\">ES Module</a> while another <code>import()</code> call\nwas already in progress to load it asynchronously.</p>\n<p><a id=\"ERR_SCRIPT_EXECUTION_INTERRUPTED\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_REQUIRE_ESM_RACE_CONDITION`"
             },
             {
               "textRaw": "`ERR_SCRIPT_EXECUTION_INTERRUPTED`",
@@ -2524,9 +2571,16 @@
             {
               "textRaw": "`ERR_SOCKET_DGRAM_NOT_RUNNING`",
               "name": "`err_socket_dgram_not_running`",
-              "desc": "<p>A call was made and the UDP subsystem was not running.</p>\n<p><a id=\"ERR_SOURCE_MAP_CORRUPT\"></a></p>",
+              "desc": "<p>A call was made and the UDP subsystem was not running.</p>\n<p><a id=\"ERR_SOCKET_HANDLE_ADOPTED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_SOCKET_DGRAM_NOT_RUNNING`"
+            },
+            {
+              "textRaw": "`ERR_SOCKET_HANDLE_ADOPTED`",
+              "name": "`err_socket_handle_adopted`",
+              "desc": "<p>An operation was attempted on a <a href=\"net.html#class-netboundsocket\"><code>BoundSocket</code></a> that had already been adopted\nby a <a href=\"net.html#class-netserver\"><code>net.Server</code></a> or <a href=\"net.html#class-netsocket\"><code>net.Socket</code></a>. Once a bound socket is adopted, its\n<code>address()</code> and <code>close()</code> methods can no longer be used.</p>\n<p><a id=\"ERR_SOURCE_MAP_CORRUPT\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_SOCKET_HANDLE_ADOPTED`"
             },
             {
               "textRaw": "`ERR_SOURCE_MAP_CORRUPT`",
@@ -2538,9 +2592,22 @@
             {
               "textRaw": "`ERR_SOURCE_MAP_MISSING_SOURCE`",
               "name": "`err_source_map_missing_source`",
-              "desc": "<p>A file imported from a source map was not found.</p>\n<p><a id=\"ERR_SQLITE_ERROR\"></a></p>",
+              "desc": "<p>A file imported from a source map was not found.</p>\n<p><a id=\"ERR_SOURCE_PHASE_NOT_DEFINED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_SOURCE_MAP_MISSING_SOURCE`"
+            },
+            {
+              "textRaw": "`ERR_SOURCE_PHASE_NOT_DEFINED`",
+              "name": "`err_source_phase_not_defined`",
+              "meta": {
+                "added": [
+                  "v24.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The provided module import does not provide a source phase imports representation for source phase\nimport syntax <code>import source x from 'x'</code> or <code>import.source(x)</code>.</p>\n<p><a id=\"ERR_SQLITE_ERROR\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_SOURCE_PHASE_NOT_DEFINED`"
             },
             {
               "textRaw": "`ERR_SQLITE_ERROR`",
@@ -2600,9 +2667,16 @@
             {
               "textRaw": "`ERR_STREAM_PUSH_AFTER_EOF`",
               "name": "`err_stream_push_after_eof`",
-              "desc": "<p>An attempt was made to call <a href=\"stream.html#readablepushchunk-encoding\"><code>stream.push()</code></a> after a <code>null</code>(EOF) had been\npushed to the stream.</p>\n<p><a id=\"ERR_STREAM_UNSHIFT_AFTER_END_EVENT\"></a></p>",
+              "desc": "<p>An attempt was made to call <a href=\"stream.html#readablepushchunk-encoding\"><code>stream.push()</code></a> after a <code>null</code>(EOF) had been\npushed to the stream.</p>\n<p><a id=\"ERR_STREAM_UNABLE_TO_PIPE\"></a></p>",
               "type": "module",
               "displayName": "`ERR_STREAM_PUSH_AFTER_EOF`"
+            },
+            {
+              "textRaw": "`ERR_STREAM_UNABLE_TO_PIPE`",
+              "name": "`err_stream_unable_to_pipe`",
+              "desc": "<p>An attempt was made to pipe to a closed or destroyed stream in a pipeline.</p>\n<p><a id=\"ERR_STREAM_UNSHIFT_AFTER_END_EVENT\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_STREAM_UNABLE_TO_PIPE`"
             },
             {
               "textRaw": "`ERR_STREAM_UNSHIFT_AFTER_END_EVENT`",
@@ -2711,7 +2785,7 @@
             {
               "textRaw": "`ERR_TLS_INVALID_PROTOCOL_METHOD`",
               "name": "`err_tls_invalid_protocol_method`",
-              "desc": "<p>The specified  <code>secureProtocol</code> method is invalid. It is  either unknown, or\ndisabled because it is insecure.</p>\n<p><a id=\"ERR_TLS_INVALID_PROTOCOL_VERSION\"></a></p>",
+              "desc": "<p>The specified <code>secureProtocol</code> method is invalid. It is either unknown, or\ndisabled because it is insecure.</p>\n<p><a id=\"ERR_TLS_INVALID_PROTOCOL_VERSION\"></a></p>",
               "type": "module",
               "displayName": "`ERR_TLS_INVALID_PROTOCOL_METHOD`"
             },
@@ -2739,23 +2813,30 @@
             {
               "textRaw": "`ERR_TLS_PROTOCOL_VERSION_CONFLICT`",
               "name": "`err_tls_protocol_version_conflict`",
-              "desc": "<p>Attempting to set a TLS protocol <code>minVersion</code> or <code>maxVersion</code> conflicts with an\nattempt to set the <code>secureProtocol</code> explicitly. Use one mechanism or the other.</p>\n<p><a id=\"ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED\"></a></p>",
+              "desc": "<p>Attempting to set a TLS protocol <code>minVersion</code> or <code>maxVersion</code> conflicts with an\nattempt to set the <code>secureProtocol</code> explicitly. Use one mechanism or the other.</p>\n<p><a id=\"ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_TLS_PROTOCOL_VERSION_CONFLICT`"
             },
             {
-              "textRaw": "`ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED`",
-              "name": "`err_tls_psk_set_identiy_hint_failed`",
+              "textRaw": "`ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED`",
+              "name": "`err_tls_psk_set_identity_hint_failed`",
               "desc": "<p>Failed to set PSK identity hint. Hint may be too long.</p>\n<p><a id=\"ERR_TLS_RENEGOTIATION_DISABLED\"></a></p>",
               "type": "module",
-              "displayName": "`ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED`"
+              "displayName": "`ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED`"
             },
             {
               "textRaw": "`ERR_TLS_RENEGOTIATION_DISABLED`",
               "name": "`err_tls_renegotiation_disabled`",
-              "desc": "<p>An attempt was made to renegotiate TLS on a socket instance with renegotiation\ndisabled.</p>\n<p><a id=\"ERR_TLS_REQUIRED_SERVER_NAME\"></a></p>",
+              "desc": "<p>An attempt was made to renegotiate TLS on a socket instance with renegotiation\ndisabled.</p>\n<p><a id=\"ERR_TLS_RENEGOTIATION_UNSUPPORTED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_TLS_RENEGOTIATION_DISABLED`"
+            },
+            {
+              "textRaw": "`ERR_TLS_RENEGOTIATION_UNSUPPORTED`",
+              "name": "`err_tls_renegotiation_unsupported`",
+              "desc": "<p>An attempt was made to renegotiate TLS, but the TLS implementation does not\nsupport caller-initiated renegotiation.</p>\n<p><a id=\"ERR_TLS_REQUIRED_SERVER_NAME\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_TLS_RENEGOTIATION_UNSUPPORTED`"
             },
             {
               "textRaw": "`ERR_TLS_REQUIRED_SERVER_NAME`",
@@ -2929,6 +3010,7 @@
               "name": "`err_unsupported_typescript_syntax`",
               "meta": {
                 "added": [
+                  "v23.7.0",
                   "v22.14.0"
                 ],
                 "changes": []
@@ -3073,7 +3155,7 @@
               },
               "stability": 1,
               "stabilityText": ".1 - Active development",
-              "desc": "<p>The destination thread threw an error while processing a message sent via <a href=\"worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a>.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_FAILED\"></a></p>",
+              "desc": "<p>The destination thread threw an error while processing a message sent via <a href=\"worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a>.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_FAILED\"></a></p>",
               "type": "module",
               "displayName": "`ERR_WORKER_MESSAGING_ERRORED`"
             },
@@ -3088,7 +3170,7 @@
               },
               "stability": 1,
               "stabilityText": ".1 - Active development",
-              "desc": "<p>The thread requested in <a href=\"worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_SAME_THREAD\"></a></p>",
+              "desc": "<p>The thread requested in <a href=\"worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_SAME_THREAD\"></a></p>",
               "type": "module",
               "displayName": "`ERR_WORKER_MESSAGING_FAILED`"
             },
@@ -3103,7 +3185,7 @@
               },
               "stability": 1,
               "stabilityText": ".1 - Active development",
-              "desc": "<p>The thread id requested in <a href=\"worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> is the current thread id.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_TIMEOUT\"></a></p>",
+              "desc": "<p>The thread id requested in <a href=\"worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> is the current thread id.</p>\n<p><a id=\"ERR_WORKER_MESSAGING_TIMEOUT\"></a></p>",
               "type": "module",
               "displayName": "`ERR_WORKER_MESSAGING_SAME_THREAD`"
             },
@@ -3118,7 +3200,7 @@
               },
               "stability": 1,
               "stabilityText": ".1 - Active development",
-              "desc": "<p>Sending a message via <a href=\"worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> timed out.</p>\n<p><a id=\"ERR_WORKER_NOT_RUNNING\"></a></p>",
+              "desc": "<p>Sending a message via <a href=\"worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout\"><code>postMessageToThread()</code></a> timed out.</p>\n<p><a id=\"ERR_WORKER_NOT_RUNNING\"></a></p>",
               "type": "module",
               "displayName": "`ERR_WORKER_MESSAGING_TIMEOUT`"
             },
@@ -3281,9 +3363,35 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>The UTF-16 encoding was used with <a href=\"crypto.html#hashdigestencoding\"><code>hash.digest()</code></a>. While the\n<code>hash.digest()</code> method does allow an <code>encoding</code> argument to be passed in,\ncausing the method to return a string rather than a <code>Buffer</code>, the UTF-16\nencoding (e.g. <code>ucs</code> or <code>utf16le</code>) is not supported.</p>\n<p><a id=\"ERR_HTTP2_FRAME_ERROR\"></a></p>",
+              "desc": "<p>The UTF-16 encoding was used with <a href=\"crypto.html#hashdigestencoding\"><code>hash.digest()</code></a>. While the\n<code>hash.digest()</code> method does allow an <code>encoding</code> argument to be passed in,\ncausing the method to return a string rather than a <code>Buffer</code>, the UTF-16\nencoding (e.g. <code>ucs</code> or <code>utf16le</code>) is not supported.</p>\n<p><a id=\"ERR_CRYPTO_SCRYPT_INVALID_PARAMETER\"></a></p>",
               "type": "module",
               "displayName": "`ERR_CRYPTO_HASH_DIGEST_NO_UTF16`"
+            },
+            {
+              "textRaw": "`ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`",
+              "name": "`err_crypto_scrypt_invalid_parameter`",
+              "meta": {
+                "removed": [
+                  "v23.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>An incompatible combination of options was passed to <a href=\"crypto.html#cryptoscryptpassword-salt-keylen-options-callback\"><code>crypto.scrypt()</code></a> or\n<a href=\"crypto.html#cryptoscryptsyncpassword-salt-keylen-options\"><code>crypto.scryptSync()</code></a>. New versions of Node.js use the error code\n<a href=\"#err_incompatible_option_pair\"><code>ERR_INCOMPATIBLE_OPTION_PAIR</code></a> instead, which is consistent with other APIs.</p>\n<p><a id=\"ERR_FS_INVALID_SYMLINK_TYPE\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_CRYPTO_SCRYPT_INVALID_PARAMETER`"
+            },
+            {
+              "textRaw": "`ERR_FS_INVALID_SYMLINK_TYPE`",
+              "name": "`err_fs_invalid_symlink_type`",
+              "meta": {
+                "removed": [
+                  "v23.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>An invalid symlink type was passed to the <a href=\"fs.html#fssymlinktarget-path-type-callback\"><code>fs.symlink()</code></a> or\n<a href=\"fs.html#fssymlinksynctarget-path-type\"><code>fs.symlinkSync()</code></a> methods.</p>\n<p><a id=\"ERR_HTTP2_FRAME_ERROR\"></a></p>",
+              "type": "module",
+              "displayName": "`ERR_FS_INVALID_SYMLINK_TYPE`"
             },
             {
               "textRaw": "`ERR_HTTP2_FRAME_ERROR`",
@@ -3628,7 +3736,7 @@
                 ],
                 "changes": []
               },
-              "desc": "<p>This error code was replaced by <a href=\"#err_missing_transferable_in_transfer_list\"><code>ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST</code></a>\nin Node.js v15.0.0, because it is no longer accurate as other types of\ntransferable objects also exist now.</p>\n<p><a id=\"ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST\"></a></p>",
+              "desc": "<p>This error code was replaced by <a href=\"#err_missing_transferable_in_transfer_list\"><code>ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST</code></a>\nin Node.js 15.0.0, because it is no longer accurate as other types of\ntransferable objects also exist now.</p>\n<p><a id=\"ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST\"></a></p>",
               "type": "module",
               "displayName": "`ERR_MISSING_MESSAGE_PORT_IN_TRANSFER_LIST`"
             },

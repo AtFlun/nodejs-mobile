@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Global objects | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Global objects | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  
+  <style>@media(max-width:718px){.with-62-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-globals">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="globals" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -138,10 +138,14 @@
       <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
 <li><span class="stability_2"><a href="#global-objects">Global objects</a></span>
 <ul>
+<li><a href="#__dirname"><code>__dirname</code></a></li>
+<li><a href="#__filename"><code>__filename</code></a></li>
 <li><a href="#class-abortcontroller">Class: <code>AbortController</code></a>
 <ul>
 <li><a href="#abortcontrollerabortreason"><code>abortController.abort([reason])</code></a></li>
 <li><a href="#abortcontrollersignal"><code>abortController.signal</code></a></li>
+</ul>
+</li>
 <li><a href="#class-abortsignal">Class: <code>AbortSignal</code></a>
 <ul>
 <li><a href="#static-method-abortsignalabortreason">Static method: <code>AbortSignal.abort([reason])</code></a></li>
@@ -154,27 +158,25 @@
 <li><a href="#abortsignalthrowifaborted"><code>abortSignal.throwIfAborted()</code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#class-blob">Class: <code>Blob</code></a></li>
-<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
-<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></li>
-<li><a href="#__dirname"><code>__dirname</code></a></li>
-<li><a href="#__filename"><code>__filename</code></a></li>
 <li><span class="stability_3"><a href="#atobdata"><code>atob(data)</code></a></span></li>
+<li><a href="#class-blob">Class: <code>Blob</code></a></li>
 <li><a href="#class-broadcastchannel">Class: <code>BroadcastChannel</code></a></li>
 <li><span class="stability_3"><a href="#btoadata"><code>btoa(data)</code></a></span></li>
+<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
+<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></li>
 <li><a href="#clearimmediateimmediateobject"><code>clearImmediate(immediateObject)</code></a></li>
 <li><a href="#clearintervalintervalobject"><code>clearInterval(intervalObject)</code></a></li>
 <li><a href="#cleartimeouttimeoutobject"><code>clearTimeout(timeoutObject)</code></a></li>
+<li><a href="#class-closeevent">Class: <code>CloseEvent</code></a></li>
 <li><a href="#class-compressionstream">Class: <code>CompressionStream</code></a></li>
 <li><a href="#console"><code>console</code></a></li>
 <li><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a></li>
-<li><span class="stability_1"><a href="#class-crypto">Class: <code>Crypto</code></a></span></li>
-<li><span class="stability_1"><a href="#crypto"><code>crypto</code></a></span></li>
-<li><span class="stability_1"><a href="#class-cryptokey">Class: <code>CryptoKey</code></a></span></li>
+<li><a href="#class-crypto">Class: <code>Crypto</code></a></li>
+<li><a href="#crypto"><code>crypto</code></a></li>
+<li><a href="#class-cryptokey">Class: <code>CryptoKey</code></a></li>
 <li><a href="#class-customevent">Class: <code>CustomEvent</code></a></li>
 <li><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a></li>
+<li><a href="#class-domexception">Class: <code>DOMException</code></a></li>
 <li><a href="#class-event">Class: <code>Event</code></a></li>
 <li><span class="stability_1"><a href="#class-eventsource">Class: <code>EventSource</code></a></span></li>
 <li><a href="#class-eventtarget">Class: <code>EventTarget</code></a></li>
@@ -200,17 +202,18 @@
 <li><a href="#navigatorhardwareconcurrency"><code>navigator.hardwareConcurrency</code></a></li>
 <li><a href="#navigatorlanguage"><code>navigator.language</code></a></li>
 <li><a href="#navigatorlanguages"><code>navigator.languages</code></a></li>
+<li><span class="stability_1"><a href="#navigatorlocks"><code>navigator.locks</code></a></span></li>
 <li><a href="#navigatorplatform"><code>navigator.platform</code></a></li>
 <li><a href="#navigatoruseragent"><code>navigator.userAgent</code></a></li>
 </ul>
 </li>
+<li><a href="#performance"><code>performance</code></a></li>
 <li><a href="#class-performanceentry">Class: <code>PerformanceEntry</code></a></li>
 <li><a href="#class-performancemark">Class: <code>PerformanceMark</code></a></li>
 <li><a href="#class-performancemeasure">Class: <code>PerformanceMeasure</code></a></li>
 <li><a href="#class-performanceobserver">Class: <code>PerformanceObserver</code></a></li>
 <li><a href="#class-performanceobserverentrylist">Class: <code>PerformanceObserverEntryList</code></a></li>
 <li><a href="#class-performanceresourcetiming">Class: <code>PerformanceResourceTiming</code></a></li>
-<li><a href="#performance"><code>performance</code></a></li>
 <li><a href="#process"><code>process</code></a></li>
 <li><a href="#queuemicrotaskcallback"><code>queueMicrotask(callback)</code></a></li>
 <li><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a></li>
@@ -219,17 +222,16 @@
 <li><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a></li>
 <li><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a></li>
 <li><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a></li>
+<li><a href="#class-request">Class: <code>Request</code></a></li>
 <li><a href="#require"><code>require()</code></a></li>
 <li><a href="#class-response">Class: <code>Response</code></a></li>
-<li><a href="#class-request">Class: <code>Request</code></a></li>
 <li><span class="stability_1.2"><a href="#sessionstorage"><code>sessionStorage</code></a></span></li>
 <li><a href="#setimmediatecallback-args"><code>setImmediate(callback[, ...args])</code></a></li>
 <li><a href="#setintervalcallback-delay-args"><code>setInterval(callback, delay[, ...args])</code></a></li>
 <li><a href="#settimeoutcallback-delay-args"><code>setTimeout(callback, delay[, ...args])</code></a></li>
 <li><span class="stability_1.2"><a href="#class-storage">Class: <code>Storage</code></a></span></li>
 <li><a href="#structuredclonevalue-options"><code>structuredClone(value[, options])</code></a></li>
-<li><span class="stability_1"><a href="#class-subtlecrypto">Class: <code>SubtleCrypto</code></a></span></li>
-<li><a href="#class-domexception">Class: <code>DOMException</code></a></li>
+<li><a href="#class-subtlecrypto">Class: <code>SubtleCrypto</code></a></li>
 <li><a href="#class-textdecoder">Class: <code>TextDecoder</code></a></li>
 <li><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a></li>
 <li><a href="#class-textencoder">Class: <code>TextEncoder</code></a></li>
@@ -237,6 +239,7 @@
 <li><a href="#class-transformstream">Class: <code>TransformStream</code></a></li>
 <li><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a></li>
 <li><a href="#class-url">Class: <code>URL</code></a></li>
+<li><span class="stability_1"><a href="#class-urlpattern">Class: <code>URLPattern</code></a></span></li>
 <li><a href="#class-urlsearchparams">Class: <code>URLSearchParams</code></a></li>
 <li><a href="#class-webassembly">Class: <code>WebAssembly</code></a></li>
 <li><a href="#class-websocket">Class: <code>WebSocket</code></a></li>
@@ -394,10 +397,14 @@
       <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
 <li><span class="stability_2"><a href="#global-objects">Global objects</a></span>
 <ul>
+<li><a href="#__dirname"><code>__dirname</code></a></li>
+<li><a href="#__filename"><code>__filename</code></a></li>
 <li><a href="#class-abortcontroller">Class: <code>AbortController</code></a>
 <ul>
 <li><a href="#abortcontrollerabortreason"><code>abortController.abort([reason])</code></a></li>
 <li><a href="#abortcontrollersignal"><code>abortController.signal</code></a></li>
+</ul>
+</li>
 <li><a href="#class-abortsignal">Class: <code>AbortSignal</code></a>
 <ul>
 <li><a href="#static-method-abortsignalabortreason">Static method: <code>AbortSignal.abort([reason])</code></a></li>
@@ -410,27 +417,25 @@
 <li><a href="#abortsignalthrowifaborted"><code>abortSignal.throwIfAborted()</code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#class-blob">Class: <code>Blob</code></a></li>
-<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
-<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></li>
-<li><a href="#__dirname"><code>__dirname</code></a></li>
-<li><a href="#__filename"><code>__filename</code></a></li>
 <li><span class="stability_3"><a href="#atobdata"><code>atob(data)</code></a></span></li>
+<li><a href="#class-blob">Class: <code>Blob</code></a></li>
 <li><a href="#class-broadcastchannel">Class: <code>BroadcastChannel</code></a></li>
 <li><span class="stability_3"><a href="#btoadata"><code>btoa(data)</code></a></span></li>
+<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
+<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></li>
 <li><a href="#clearimmediateimmediateobject"><code>clearImmediate(immediateObject)</code></a></li>
 <li><a href="#clearintervalintervalobject"><code>clearInterval(intervalObject)</code></a></li>
 <li><a href="#cleartimeouttimeoutobject"><code>clearTimeout(timeoutObject)</code></a></li>
+<li><a href="#class-closeevent">Class: <code>CloseEvent</code></a></li>
 <li><a href="#class-compressionstream">Class: <code>CompressionStream</code></a></li>
 <li><a href="#console"><code>console</code></a></li>
 <li><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a></li>
-<li><span class="stability_1"><a href="#class-crypto">Class: <code>Crypto</code></a></span></li>
-<li><span class="stability_1"><a href="#crypto"><code>crypto</code></a></span></li>
-<li><span class="stability_1"><a href="#class-cryptokey">Class: <code>CryptoKey</code></a></span></li>
+<li><a href="#class-crypto">Class: <code>Crypto</code></a></li>
+<li><a href="#crypto"><code>crypto</code></a></li>
+<li><a href="#class-cryptokey">Class: <code>CryptoKey</code></a></li>
 <li><a href="#class-customevent">Class: <code>CustomEvent</code></a></li>
 <li><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a></li>
+<li><a href="#class-domexception">Class: <code>DOMException</code></a></li>
 <li><a href="#class-event">Class: <code>Event</code></a></li>
 <li><span class="stability_1"><a href="#class-eventsource">Class: <code>EventSource</code></a></span></li>
 <li><a href="#class-eventtarget">Class: <code>EventTarget</code></a></li>
@@ -456,17 +461,18 @@
 <li><a href="#navigatorhardwareconcurrency"><code>navigator.hardwareConcurrency</code></a></li>
 <li><a href="#navigatorlanguage"><code>navigator.language</code></a></li>
 <li><a href="#navigatorlanguages"><code>navigator.languages</code></a></li>
+<li><span class="stability_1"><a href="#navigatorlocks"><code>navigator.locks</code></a></span></li>
 <li><a href="#navigatorplatform"><code>navigator.platform</code></a></li>
 <li><a href="#navigatoruseragent"><code>navigator.userAgent</code></a></li>
 </ul>
 </li>
+<li><a href="#performance"><code>performance</code></a></li>
 <li><a href="#class-performanceentry">Class: <code>PerformanceEntry</code></a></li>
 <li><a href="#class-performancemark">Class: <code>PerformanceMark</code></a></li>
 <li><a href="#class-performancemeasure">Class: <code>PerformanceMeasure</code></a></li>
 <li><a href="#class-performanceobserver">Class: <code>PerformanceObserver</code></a></li>
 <li><a href="#class-performanceobserverentrylist">Class: <code>PerformanceObserverEntryList</code></a></li>
 <li><a href="#class-performanceresourcetiming">Class: <code>PerformanceResourceTiming</code></a></li>
-<li><a href="#performance"><code>performance</code></a></li>
 <li><a href="#process"><code>process</code></a></li>
 <li><a href="#queuemicrotaskcallback"><code>queueMicrotask(callback)</code></a></li>
 <li><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a></li>
@@ -475,17 +481,16 @@
 <li><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a></li>
 <li><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a></li>
 <li><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a></li>
+<li><a href="#class-request">Class: <code>Request</code></a></li>
 <li><a href="#require"><code>require()</code></a></li>
 <li><a href="#class-response">Class: <code>Response</code></a></li>
-<li><a href="#class-request">Class: <code>Request</code></a></li>
 <li><span class="stability_1.2"><a href="#sessionstorage"><code>sessionStorage</code></a></span></li>
 <li><a href="#setimmediatecallback-args"><code>setImmediate(callback[, ...args])</code></a></li>
 <li><a href="#setintervalcallback-delay-args"><code>setInterval(callback, delay[, ...args])</code></a></li>
 <li><a href="#settimeoutcallback-delay-args"><code>setTimeout(callback, delay[, ...args])</code></a></li>
 <li><span class="stability_1.2"><a href="#class-storage">Class: <code>Storage</code></a></span></li>
 <li><a href="#structuredclonevalue-options"><code>structuredClone(value[, options])</code></a></li>
-<li><span class="stability_1"><a href="#class-subtlecrypto">Class: <code>SubtleCrypto</code></a></span></li>
-<li><a href="#class-domexception">Class: <code>DOMException</code></a></li>
+<li><a href="#class-subtlecrypto">Class: <code>SubtleCrypto</code></a></li>
 <li><a href="#class-textdecoder">Class: <code>TextDecoder</code></a></li>
 <li><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a></li>
 <li><a href="#class-textencoder">Class: <code>TextEncoder</code></a></li>
@@ -493,6 +498,7 @@
 <li><a href="#class-transformstream">Class: <code>TransformStream</code></a></li>
 <li><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a></li>
 <li><a href="#class-url">Class: <code>URL</code></a></li>
+<li><span class="stability_1"><a href="#class-urlpattern">Class: <code>URLPattern</code></a></span></li>
 <li><a href="#class-urlsearchparams">Class: <code>URLSearchParams</code></a></li>
 <li><a href="#class-webassembly">Class: <code>WebAssembly</code></a></li>
 <li><a href="#class-websocket">Class: <code>WebSocket</code></a></li>
@@ -521,7 +527,11 @@ the scope of <a href="modules.html">CommonJS modules</a>:</p>
 <p>The objects listed here are specific to Node.js. There are <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">built-in objects</a>
 that are part of the JavaScript language itself, which are also globally
 accessible.</p>
-<section><h3>Class: <code>AbortController</code><span><a class="mark" href="#class-abortcontroller" id="class-abortcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortcontroller"></a></h3>
+<section><h3><code>__dirname</code><span><a class="mark" href="#__dirname" id="__dirname">#</a></span><a aria-hidden="true" class="legacy" id="globals_dirname"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#__dirname"><code>__dirname</code></a>.</p>
+</section><section><h3><code>__filename</code><span><a class="mark" href="#__filename" id="__filename">#</a></span><a aria-hidden="true" class="legacy" id="globals_filename"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#__filename"><code>__filename</code></a>.</p>
+</section><section><h3>Class: <code>AbortController</code><span><a class="mark" href="#class-abortcontroller" id="class-abortcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortcontroller"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
@@ -570,8 +580,8 @@ the <code>'abort'</code> event.</p>
 <ul>
 <li>Type: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a></li>
 </ul>
-</div><div>
-<h4>Class: <code>AbortSignal</code><span><a class="mark" href="#class-abortsignal" id="class-abortsignal">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortsignal"></a></h4>
+</div>
+</section><section><h3>Class: <code>AbortSignal</code><span><a class="mark" href="#class-abortsignal" id="class-abortsignal">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortsignal"></a></h3>
 <div class="api_metadata">
 <span>Added in: v15.0.0, v14.17.0</span>
 </div>
@@ -581,7 +591,7 @@ the <code>'abort'</code> event.</p>
 <p>The <code>AbortSignal</code> is used to notify observers when the
 <code>abortController.abort()</code> method is called.</p>
 <div>
-<h5>Static method: <code>AbortSignal.abort([reason])</code><span><a class="mark" href="#static-method-abortsignalabortreason" id="static-method-abortsignalabortreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_abort_reason"></a></h5>
+<h4>Static method: <code>AbortSignal.abort([reason])</code><span><a class="mark" href="#static-method-abortsignalabortreason" id="static-method-abortsignalabortreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_abort_reason"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
@@ -599,7 +609,7 @@ the <code>'abort'</code> event.</p>
 </ul>
 <p>Returns a new already aborted <code>AbortSignal</code>.</p>
 </div><div>
-<h5>Static method: <code>AbortSignal.timeout(delay)</code><span><a class="mark" href="#static-method-abortsignaltimeoutdelay" id="static-method-abortsignaltimeoutdelay">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_timeout_delay"></a></h5>
+<h4>Static method: <code>AbortSignal.timeout(delay)</code><span><a class="mark" href="#static-method-abortsignaltimeoutdelay" id="static-method-abortsignaltimeoutdelay">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_timeout_delay"></a></h4>
 <div class="api_metadata">
 <span>Added in: v17.3.0, v16.14.0</span>
 </div>
@@ -609,7 +619,7 @@ the AbortSignal.</li>
 </ul>
 <p>Returns a new <code>AbortSignal</code> which will be aborted in <code>delay</code> milliseconds.</p>
 </div><div>
-<h5>Static method: <code>AbortSignal.any(signals)</code><span><a class="mark" href="#static-method-abortsignalanysignals" id="static-method-abortsignalanysignals">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_any_signals"></a></h5>
+<h4>Static method: <code>AbortSignal.any(signals)</code><span><a class="mark" href="#static-method-abortsignalanysignals" id="static-method-abortsignalanysignals">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_any_signals"></a></h4>
 <div class="api_metadata">
 <span>Added in: v20.3.0, v18.17.0</span>
 </div>
@@ -620,7 +630,7 @@ the AbortSignal.</li>
 signals are aborted. Its <a href="#abortsignalreason"><code>abortSignal.reason</code></a> will be set to whichever
 one of the <code>signals</code> caused it to be aborted.</p>
 </div><div>
-<h5>Event: <code>'abort'</code><span><a class="mark" href="#event-abort" id="event-abort">#</a></span><a aria-hidden="true" class="legacy" id="globals_event_abort"></a></h5>
+<h4>Event: <code>'abort'</code><span><a class="mark" href="#event-abort" id="event-abort">#</a></span><a aria-hidden="true" class="legacy" id="globals_event_abort"></a></h4>
 <div class="api_metadata">
 <span>Added in: v15.0.0, v14.17.0</span>
 </div>
@@ -648,15 +658,16 @@ listener, use the <code>once()</code> method) to ensure that the event listener 
 removed as soon as the <code>'abort'</code> event is handled. Failure to do so may
 result in memory leaks.</p>
 </div><div>
-<h5><code>abortSignal.aborted</code><span><a class="mark" href="#abortsignalaborted" id="abortsignalaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_aborted"></a></h5>
+<h4><code>abortSignal.aborted</code><span><a class="mark" href="#abortsignalaborted" id="abortsignalaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_aborted"></a></h4>
 <div class="api_metadata">
 <span>Added in: v15.0.0, v14.17.0</span>
 </div>
 <ul>
-<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> True after the <code>AbortController</code> has been aborted.</li>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a></li>
 </ul>
+<p>True after the <code>AbortController</code> has been aborted.</p>
 </div><div>
-<h5><code>abortSignal.onabort</code><span><a class="mark" href="#abortsignalonabort" id="abortsignalonabort">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_onabort"></a></h5>
+<h4><code>abortSignal.onabort</code><span><a class="mark" href="#abortsignalonabort" id="abortsignalonabort">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_onabort"></a></h4>
 <div class="api_metadata">
 <span>Added in: v15.0.0, v14.17.0</span>
 </div>
@@ -666,7 +677,7 @@ result in memory leaks.</p>
 <p>An optional callback function that may be set by user code to be notified
 when the <code>abortController.abort()</code> function has been called.</p>
 </div><div>
-<h5><code>abortSignal.reason</code><span><a class="mark" href="#abortsignalreason" id="abortsignalreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_reason"></a></h5>
+<h4><code>abortSignal.reason</code><span><a class="mark" href="#abortsignalreason" id="abortsignalreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_reason"></a></h4>
 <div class="api_metadata">
 <span>Added in: v17.2.0, v16.14.0</span>
 </div>
@@ -678,17 +689,38 @@ when the <code>abortController.abort()</code> function has been called.</p>
 ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'boom!'</span>));
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ac.<span class="hljs-property">signal</span>.<span class="hljs-property">reason</span>);  <span class="hljs-comment">// Error: boom!</span></code> <button class="copy-button">copy</button></pre>
 </div><div>
-<h5><code>abortSignal.throwIfAborted()</code><span><a class="mark" href="#abortsignalthrowifaborted" id="abortsignalthrowifaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_throwifaborted"></a></h5>
+<h4><code>abortSignal.throwIfAborted()</code><span><a class="mark" href="#abortsignalthrowifaborted" id="abortsignalthrowifaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_throwifaborted"></a></h4>
 <div class="api_metadata">
 <span>Added in: v17.3.0, v16.17.0</span>
 </div>
 <p>If <code>abortSignal.aborted</code> is <code>true</code>, throws <code>abortSignal.reason</code>.</p>
-</div></div>
+</div>
+</section><section><h3><code>atob(data)</code><span><a class="mark" href="#atobdata" id="atobdata">#</a></span><a aria-hidden="true" class="legacy" id="globals_atob_data"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>Buffer.from(data, 'base64')</code> instead.</div><p></p>
+<p>Global alias for <a href="buffer.html#bufferatobdata"><code>buffer.atob()</code></a>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/buffer-atob-btoa</code> <button class="copy-button">copy</button></pre>
 </section><section><h3>Class: <code>Blob</code><span><a class="mark" href="#class-blob" id="class-blob">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_blob"></a></h3>
 <div class="api_metadata">
 <span>Added in: v18.0.0</span>
 </div>
 <p>See <a href="buffer.html#class-blob" class="type">&#x3C;Blob></a>.</p>
+</section><section><h3>Class: <code>BroadcastChannel</code><span><a class="mark" href="#class-broadcastchannel" id="class-broadcastchannel">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_broadcastchannel"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p>See <a href="worker_threads.html#class-broadcastchannel-extends-eventtarget" class="type">&#x3C;BroadcastChannel></a>.</p>
+</section><section><h3><code>btoa(data)</code><span><a class="mark" href="#btoadata" id="btoadata">#</a></span><a aria-hidden="true" class="legacy" id="globals_btoa_data"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>buf.toString('base64')</code> instead.</div><p></p>
+<p>Global alias for <a href="buffer.html#bufferbtoadata"><code>buffer.btoa()</code></a>.</p>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa">source</a>):</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/buffer-atob-btoa</code> <button class="copy-button">copy</button></pre>
 </section><section><h3>Class: <code>Buffer</code><span><a class="mark" href="#class-buffer" id="class-buffer">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_buffer"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.1.103</span>
@@ -702,7 +734,7 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -710,27 +742,6 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 </details>
 </div>
 <p>A browser-compatible implementation of <a href="webstreams.html#class-bytelengthqueuingstrategy"><code>ByteLengthQueuingStrategy</code></a>.</p>
-</section><section><h3><code>__dirname</code><span><a class="mark" href="#__dirname" id="__dirname">#</a></span><a aria-hidden="true" class="legacy" id="globals_dirname"></a></h3>
-<p>This variable may appear to be global but is not. See <a href="modules.html#__dirname"><code>__dirname</code></a>.</p>
-</section><section><h3><code>__filename</code><span><a class="mark" href="#__filename" id="__filename">#</a></span><a aria-hidden="true" class="legacy" id="globals_filename"></a></h3>
-<p>This variable may appear to be global but is not. See <a href="modules.html#__filename"><code>__filename</code></a>.</p>
-</section><section><h3><code>atob(data)</code><span><a class="mark" href="#atobdata" id="atobdata">#</a></span><a aria-hidden="true" class="legacy" id="globals_atob_data"></a></h3>
-<div class="api_metadata">
-<span>Added in: v16.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>Buffer.from(data, 'base64')</code> instead.</div><p></p>
-<p>Global alias for <a href="buffer.html#bufferatobdata"><code>buffer.atob()</code></a>.</p>
-</section><section><h3>Class: <code>BroadcastChannel</code><span><a class="mark" href="#class-broadcastchannel" id="class-broadcastchannel">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_broadcastchannel"></a></h3>
-<div class="api_metadata">
-<span>Added in: v18.0.0</span>
-</div>
-<p>See <a href="worker_threads.html#class-broadcastchannel-extends-eventtarget" class="type">&#x3C;BroadcastChannel></a>.</p>
-</section><section><h3><code>btoa(data)</code><span><a class="mark" href="#btoadata" id="btoadata">#</a></span><a aria-hidden="true" class="legacy" id="globals_btoa_data"></a></h3>
-<div class="api_metadata">
-<span>Added in: v16.0.0</span>
-</div>
-<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>buf.toString('base64')</code> instead.</div><p></p>
-<p>Global alias for <a href="buffer.html#bufferbtoadata"><code>buffer.btoa()</code></a>.</p>
 </section><section><h3><code>clearImmediate(immediateObject)</code><span><a class="mark" href="#clearimmediateimmediateobject" id="clearimmediateimmediateobject">#</a></span><a aria-hidden="true" class="legacy" id="globals_clearimmediate_immediateobject"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.9.1</span>
@@ -746,14 +757,20 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 <span>Added in: v0.0.1</span>
 </div>
 <p><a href="timers.html#cleartimeouttimeout"><code>clearTimeout</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3>Class: <code>CloseEvent</code><span><a class="mark" href="#class-closeevent" id="class-closeevent">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_closeevent"></a></h3>
+<div class="api_metadata">
+<span>Added in: v23.0.0</span>
+</div>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent" class="type">&#x3C;CloseEvent></a>. Disable this API
+with the <a href="cli.html#--no-experimental-websocket"><code>--no-experimental-websocket</code></a> CLI flag.</p>
 </section><section><h3>Class: <code>CompressionStream</code><span><a class="mark" href="#class-compressionstream" id="class-compressionstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_compressionstream"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>format now accepts <code>brotli</code> value.</p></td></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -774,7 +791,7 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -787,6 +804,8 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
 <tr><td>v19.0.0</td>
 <td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
 <tr><td>v17.6.0, v16.15.0</td>
@@ -794,8 +813,6 @@ ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">ne
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
-<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
 <p>A browser-compatible implementation of <a href="webcrypto.html#class-crypto" class="type">&#x3C;Crypto></a>. This global is available
 only if the Node.js binary was compiled with including support for the
 <code>node:crypto</code> module.</p>
@@ -804,6 +821,8 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
 <tr><td>v19.0.0</td>
 <td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
 <tr><td>v17.6.0, v16.15.0</td>
@@ -811,14 +830,14 @@ only if the Node.js binary was compiled with including support for the
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
-<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
 <p>A browser-compatible implementation of the <a href="webcrypto.html">Web Crypto API</a>.</p>
 </section><section><h3>Class: <code>CryptoKey</code><span><a class="mark" href="#class-cryptokey" id="class-cryptokey">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_cryptokey"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
 <tr><td>v19.0.0</td>
 <td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
 <tr><td>v17.6.0, v16.15.0</td>
@@ -826,8 +845,6 @@ only if the Node.js binary was compiled with including support for the
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
-<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
 <p>A browser-compatible implementation of <a href="webcrypto.html#class-cryptokey" class="type">&#x3C;CryptoKey></a>. This global is available
 only if the Node.js binary was compiled with including support for the
 <code>node:crypto</code> module.</p>
@@ -836,6 +853,8 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v23.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
 <tr><td>v22.1.0, v20.13.0</td>
 <td><p>CustomEvent is now stable.</p></td></tr>
 <tr><td>v19.0.0</td>
@@ -851,9 +870,9 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.7.0</td>
 <td><p>format now accepts <code>brotli</code> value.</p></td></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -861,6 +880,11 @@ only if the Node.js binary was compiled with including support for the
 </details>
 </div>
 <p>A browser-compatible implementation of <a href="webstreams.html#class-decompressionstream"><code>DecompressionStream</code></a>.</p>
+</section><section><h3>Class: <code>DOMException</code><span><a class="mark" href="#class-domexception" id="class-domexception">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_domexception"></a></h3>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+<p>The WHATWG <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMException" class="type">&#x3C;DOMException></a> class.</p>
 </section><section><h3>Class: <code>Event</code><span><a class="mark" href="#class-event" id="class-event">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_event"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -877,7 +901,7 @@ only if the Node.js binary was compiled with including support for the
 <a href="events.html#eventtarget-and-event-api"><code>EventTarget</code> and <code>Event</code> API</a> for more details.</p>
 </section><section><h3>Class: <code>EventSource</code><span><a class="mark" href="#class-eventsource" id="class-eventsource">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_eventsource"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.3.0</span>
+<span>Added in: v22.3.0, v20.18.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Enable this API with the <a href="cli.html#--experimental-eventsource"><code>--experimental-eventsource</code></a>
 CLI flag.</div><p></p>
@@ -936,10 +960,10 @@ Node.js.</p>
 <h4>Related classes<span><a class="mark" href="#related-classes" id="related-classes">#</a></span><a aria-hidden="true" class="legacy" id="globals_related_classes"></a></h4>
 <p>The following globals are available to use with <code>fetch</code>:</p>
 <ul>
-<li><a href="https://nodejs.org/api/globals.html#class-formdata"><code>FormData</code></a></li>
-<li><a href="https://nodejs.org/api/globals.html#class-headers"><code>Headers</code></a></li>
-<li><a href="https://nodejs.org/api/globals.html#request"><code>Request</code></a></li>
-<li><a href="https://nodejs.org/api/globals.html#response"><code>Response</code></a>.</li>
+<li><a href="#class-formdata"><code>FormData</code></a></li>
+<li><a href="#class-headers"><code>Headers</code></a></li>
+<li><a href="#class-request"><code>Request</code></a></li>
+<li><a href="#class-response"><code>Response</code></a></li>
 </ul>
 </div>
 </section><section><h3>Class: <code>File</code><span><a class="mark" href="#class-file" id="class-file">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_file"></a></h3>
@@ -1065,7 +1089,7 @@ default language of the operating system.</p>
 <span>Added in: v21.2.0</span>
 </div>
 <ul>
-<li>Type: {Array<string>}</string></li>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a></li>
 </ul>
 <p>The <code>navigator.languages</code> read-only property returns an array of strings
 representing the preferred languages of the Node.js instance.
@@ -1074,6 +1098,45 @@ By default <code>navigator.languages</code> contains only the value of
 Node.js at runtime based on the default language of the operating system.</p>
 <p>The fallback value on builds without ICU is <code>['en-US']</code>.</p>
 <pre><code class="language-js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`The preferred languages are '<span class="hljs-subst">${navigator.languages}</span>'`</span>);</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h4><code>navigator.locks</code><span><a class="mark" href="#navigatorlocks" id="navigatorlocks">#</a></span><a aria-hidden="true" class="legacy" id="globals_navigator_locks"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.5.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p>The <code>navigator.locks</code> read-only property returns a <a href="worker_threads.html#class-lockmanager"><code>LockManager</code></a> instance that
+can be used to coordinate access to resources that may be shared across multiple
+threads within the same process. This global implementation matches the semantics
+of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/LockManager">browser <code>LockManager</code></a> API.</p>
+
+<pre class="with-62-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-comment">// Request an exclusive lock</span>
+<span class="hljs-keyword">await</span> navigator.<span class="hljs-property">locks</span>.<span class="hljs-title function_">request</span>(<span class="hljs-string">'my_resource'</span>, <span class="hljs-title function_">async</span> (lock) => {
+  <span class="hljs-comment">// The lock has been acquired.</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Lock acquired: <span class="hljs-subst">${lock.name}</span>`</span>);
+  <span class="hljs-comment">// Lock is automatically released when the function returns</span>
+});
+
+<span class="hljs-comment">// Request a shared lock</span>
+<span class="hljs-keyword">await</span> navigator.<span class="hljs-property">locks</span>.<span class="hljs-title function_">request</span>(<span class="hljs-string">'shared_resource'</span>, { <span class="hljs-attr">mode</span>: <span class="hljs-string">'shared'</span> }, <span class="hljs-title function_">async</span> (lock) => {
+  <span class="hljs-comment">// Multiple shared locks can be held simultaneously</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Shared lock acquired: <span class="hljs-subst">${lock.name}</span>`</span>);
+});</code><code class="language-js cjs"><span class="hljs-comment">// Request an exclusive lock</span>
+navigator.<span class="hljs-property">locks</span>.<span class="hljs-title function_">request</span>(<span class="hljs-string">'my_resource'</span>, <span class="hljs-title function_">async</span> (lock) => {
+  <span class="hljs-comment">// The lock has been acquired.</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Lock acquired: <span class="hljs-subst">${lock.name}</span>`</span>);
+  <span class="hljs-comment">// Lock is automatically released when the function returns</span>
+}).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Lock released'</span>);
+});
+
+<span class="hljs-comment">// Request a shared lock</span>
+navigator.<span class="hljs-property">locks</span>.<span class="hljs-title function_">request</span>(<span class="hljs-string">'shared_resource'</span>, { <span class="hljs-attr">mode</span>: <span class="hljs-string">'shared'</span> }, <span class="hljs-title function_">async</span> (lock) => {
+  <span class="hljs-comment">// Multiple shared locks can be held simultaneously</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Shared lock acquired: <span class="hljs-subst">${lock.name}</span>`</span>);
+}).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Shared lock released'</span>);
+});</code><button class="copy-button">copy</button></pre>
+<p>See <a href="worker_threads.html#worker_threadslocks"><code>worker_threads.locks</code></a> for detailed API documentation.</p>
 </div><div>
 <h4><code>navigator.platform</code><span><a class="mark" href="#navigatorplatform" id="navigatorplatform">#</a></span><a aria-hidden="true" class="legacy" id="globals_navigator_platform"></a></h4>
 <div class="api_metadata">
@@ -1097,6 +1160,11 @@ platform on which the Node.js instance is running.</p>
 consisting of the runtime name and major version number.</p>
 <pre><code class="language-js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`The user-agent is <span class="hljs-subst">${navigator.userAgent}</span>`</span>); <span class="hljs-comment">// Prints "Node.js/21"</span></code> <button class="copy-button">copy</button></pre>
 </div>
+</section><section><h3><code>performance</code><span><a class="mark" href="#performance" id="performance">#</a></span><a aria-hidden="true" class="legacy" id="globals_performance"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p>The <a href="perf_hooks.html#perf_hooksperformance"><code>perf_hooks.performance</code></a> object.</p>
 </section><section><h3>Class: <code>PerformanceEntry</code><span><a class="mark" href="#class-performanceentry" id="class-performanceentry">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_performanceentry"></a></h3>
 <div class="api_metadata">
 <span>Added in: v19.0.0</span>
@@ -1129,11 +1197,6 @@ consisting of the runtime name and major version number.</p>
 </div>
 <p>The <code>PerformanceResourceTiming</code> class. See <a href="perf_hooks.html#class-performanceresourcetiming"><code>PerformanceResourceTiming</code></a> for
 more details.</p>
-</section><section><h3><code>performance</code><span><a class="mark" href="#performance" id="performance">#</a></span><a aria-hidden="true" class="legacy" id="globals_performance"></a></h3>
-<div class="api_metadata">
-<span>Added in: v16.0.0</span>
-</div>
-<p>The <a href="perf_hooks.html#perf_hooksperformance"><code>perf_hooks.performance</code></a> object.</p>
 </section><section><h3><code>process</code><span><a class="mark" href="#process" id="process">#</a></span><a aria-hidden="true" class="legacy" id="globals_process"></a></h3>
 <div class="api_metadata">
 <span>Added in: v0.1.7</span>
@@ -1179,7 +1242,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1192,7 +1255,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1205,7 +1268,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1218,7 +1281,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1231,7 +1294,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1244,7 +1307,7 @@ within each turn of the Node.js event loop.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1252,6 +1315,21 @@ within each turn of the Node.js event loop.</p>
 </details>
 </div>
 <p>A browser-compatible implementation of <a href="webstreams.html#class-readablestreamdefaultreader"><code>ReadableStreamDefaultReader</code></a>.</p>
+</section><section><h3>Class: <code>Request</code><span><a class="mark" href="#class-request" id="class-request">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_request"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v21.0.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.5.0, v16.15.0</td>
+<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request" class="type">&#x3C;Request></a>.</p>
 </section><section><h3><code>require()</code><span><a class="mark" href="#require" id="require">#</a></span><a aria-hidden="true" class="legacy" id="globals_require"></a></h3>
 <p>This variable may appear to be global but is not. See <a href="modules.html#requireid"><code>require()</code></a>.</p>
 </section><section><h3>Class: <code>Response</code><span><a class="mark" href="#class-response" id="class-response">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_response"></a></h3>
@@ -1269,21 +1347,6 @@ within each turn of the Node.js event loop.</p>
 </details>
 </div>
 <p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" class="type">&#x3C;Response></a>.</p>
-</section><section><h3>Class: <code>Request</code><span><a class="mark" href="#class-request" id="class-request">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_request"></a></h3>
-<div class="api_metadata">
-<details class="changelog"><summary>History</summary>
-<table>
-<tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v21.0.0</td>
-<td><p>No longer experimental.</p></td></tr>
-<tr><td>v18.0.0</td>
-<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
-<tr><td>v17.5.0, v16.15.0</td>
-<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
-</tbody></table>
-</details>
-</div>
-<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request" class="type">&#x3C;Request></a>.</p>
 </section><section><h3><code>sessionStorage</code><span><a class="mark" href="#sessionstorage" id="sessionstorage">#</a></span><a aria-hidden="true" class="legacy" id="globals_sessionstorage"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -1338,16 +1401,9 @@ the currently running process, and is not shared between workers.</p>
 </tbody></table>
 </details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
-<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
 <p>A browser-compatible implementation of <a href="webcrypto.html#class-subtlecrypto" class="type">&#x3C;SubtleCrypto></a>. This global is available
 only if the Node.js binary was compiled with including support for the
 <code>node:crypto</code> module.</p>
-</section><section><h3>Class: <code>DOMException</code><span><a class="mark" href="#class-domexception" id="class-domexception">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_domexception"></a></h3>
-<div class="api_metadata">
-<span>Added in: v17.0.0</span>
-</div>
-<p>The WHATWG <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMException" class="type">&#x3C;DOMException></a> class.</p>
 </section><section><h3>Class: <code>TextDecoder</code><span><a class="mark" href="#class-textdecoder" id="class-textdecoder">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_textdecoder"></a></h3>
 <div class="api_metadata">
 <span>Added in: v11.0.0</span>
@@ -1358,7 +1414,7 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1376,7 +1432,7 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1389,7 +1445,7 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1402,7 +1458,7 @@ only if the Node.js binary was compiled with including support for the
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1415,6 +1471,12 @@ only if the Node.js binary was compiled with including support for the
 <span>Added in: v10.0.0</span>
 </div>
 <p>The WHATWG <code>URL</code> class. See the <a href="url.html#class-url"><code>URL</code></a> section.</p>
+</section><section><h3>Class: <code>URLPattern</code><span><a class="mark" href="#class-urlpattern" id="class-urlpattern">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_urlpattern"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p>The WHATWG <code>URLPattern</code> class. See the <a href="url.html#class-urlpattern"><code>URLPattern</code></a> section.</p>
 </section><section><h3>Class: <code>URLSearchParams</code><span><a class="mark" href="#class-urlsearchparams" id="class-urlsearchparams">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_urlsearchparams"></a></h3>
 <div class="api_metadata">
 <span>Added in: v10.0.0</span>
@@ -1451,7 +1513,7 @@ with the <a href="cli.html#--no-experimental-websocket"><code>--no-experimental-
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1464,7 +1526,7 @@ with the <a href="cli.html#--no-experimental-websocket"><code>--no-experimental-
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>
@@ -1477,7 +1539,7 @@ with the <a href="cli.html#--no-experimental-websocket"><code>--no-experimental-
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.15.0</td>
+<tr><td>v23.11.0, v22.15.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.0.0</td>
 <td><p><span>Added in: v18.0.0</span></p></td></tr>

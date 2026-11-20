@@ -44,6 +44,7 @@
 #include <limits>
 #include <memory>
 #include <optional>
+#include <ranges>
 #include <set>
 #include <sstream>
 #include <string>
@@ -317,7 +318,7 @@ class KVStore {
                         v8::Local<v8::String> key) const = 0;
   virtual int32_t Query(const char* key) const = 0;
   virtual void Delete(v8::Isolate* isolate, v8::Local<v8::String> key) = 0;
-  virtual v8::Local<v8::Array> Enumerate(v8::Isolate* isolate) const = 0;
+  virtual v8::MaybeLocal<v8::Array> Enumerate(v8::Isolate* isolate) const = 0;
 
   virtual std::shared_ptr<KVStore> Clone(v8::Isolate* isolate) const;
   virtual v8::Maybe<void> AssignFromObject(v8::Local<v8::Context> context,
@@ -388,6 +389,14 @@ template <typename T, size_t N>
 constexpr size_t strsize(const T (&)[N]) {
   return N - 1;
 }
+
+// A type that has a valid std::char_traits specialization, as required by
+// std::basic_string and std::basic_string_view.
+template <typename T>
+concept standard_char_type =
+    std::is_same_v<T, char> || std::is_same_v<T, wchar_t> ||
+    std::is_same_v<T, char8_t> || std::is_same_v<T, char16_t> ||
+    std::is_same_v<T, char32_t>;
 
 // Allocates an array of member type T. For up to kStackStorageSize items,
 // the stack is used, otherwise malloc().
@@ -502,10 +511,16 @@ class MaybeStackBuffer {
       free(buf_);
   }
 
-  inline std::basic_string<T> ToString() const { return {out(), length()}; }
-  inline std::basic_string_view<T> ToStringView() const {
+  template <standard_char_type U = T>
+  inline std::basic_string<U> ToString() const {
     return {out(), length()};
   }
+  template <standard_char_type U = T>
+  inline std::basic_string_view<U> ToStringView() const {
+    return {out(), length()};
+  }
+  // This can only be used if the buffer contains path data in UTF8
+  inline std::filesystem::path ToPath() const;
 
  private:
   size_t length_;
@@ -561,6 +576,15 @@ class Utf8Value : public MaybeStackBuffer<char> {
 class TwoByteValue : public MaybeStackBuffer<uint16_t> {
  public:
   explicit TwoByteValue(v8::Isolate* isolate, v8::Local<v8::Value> value);
+
+  inline std::u16string ToU16String() const {
+    return std::u16string(reinterpret_cast<const char16_t*>(out()), length());
+  }
+
+  inline std::u16string_view ToU16StringView() const {
+    return std::u16string_view(reinterpret_cast<const char16_t*>(out()),
+                               length());
+  }
 };
 
 class BufferValue : public MaybeStackBuffer<char> {
@@ -676,11 +700,12 @@ using DeleteFnPtr = typename FunctionDeleter<T, function>::Pointer;
 inline v8::Maybe<void> FromV8Array(v8::Local<v8::Context> context,
                                    v8::Local<v8::Array> js_array,
                                    std::vector<v8::Global<v8::Value>>* out);
-std::vector<std::string_view> SplitString(const std::string_view in,
-                                          const std::string_view delim);
 
 inline v8::MaybeLocal<v8::Value> ToV8Value(v8::Local<v8::Context> context,
                                            std::string_view str,
+                                           v8::Isolate* isolate = nullptr);
+inline v8::MaybeLocal<v8::Value> ToV8Value(v8::Local<v8::Context> context,
+                                           std::u16string_view str,
                                            v8::Isolate* isolate = nullptr);
 inline v8::MaybeLocal<v8::Value> ToV8Value(v8::Local<v8::Context> context,
                                            v8_inspector::StringView str,
@@ -702,6 +727,12 @@ template <typename T, typename U>
 inline v8::MaybeLocal<v8::Value> ToV8Value(v8::Local<v8::Context> context,
                                            const std::unordered_map<T, U>& map,
                                            v8::Isolate* isolate = nullptr);
+
+template <typename T, std::size_t U>
+inline v8::MaybeLocal<v8::Value> ToV8Value(
+    v8::Local<v8::Context> context,
+    const std::ranges::elements_view<T, U>& vec,
+    v8::Isolate* isolate = nullptr);
 
 // These macros expects a `Isolate* isolate` and a `Local<Context> context`
 // to be in the scope.
@@ -920,6 +951,16 @@ void SetMethodNoSideEffect(v8::Isolate* isolate,
                            const std::string_view name,
                            v8::FunctionCallback callback);
 
+// Set the Symbol.dispose method on the prototype of the class.
+void SetProtoDispose(v8::Isolate* isolate,
+                     v8::Local<v8::FunctionTemplate> that,
+                     v8::FunctionCallback callback);
+
+// Set the Symbol.asyncDispose method on the prototype of the class.
+void SetProtoAsyncDispose(v8::Isolate* isolate,
+                          v8::Local<v8::FunctionTemplate> that,
+                          v8::FunctionCallback callback);
+
 enum class SetConstructorFunctionFlag {
   NONE,
   SET_CLASS_NAME,
@@ -1011,9 +1052,38 @@ class JSONOutputStream final : public v8::OutputStream {
 // Returns true if OS==Windows and filename ends in .bat or .cmd,
 // case insensitive.
 inline bool IsWindowsBatchFile(const char* filename);
-inline std::wstring ConvertToWideString(const std::string& str, UINT code_page);
+inline std::wstring ConvertUTF8ToWideString(const std::string& str);
+inline std::string ConvertWideStringToUTF8(const std::wstring& wstr);
+
 #endif  // _WIN32
 
+inline std::filesystem::path ConvertUTF8ToPath(const std::string& str);
+inline std::string ConvertPathToUTF8(const std::filesystem::path& path);
+inline std::string ConvertGenericPathToUTF8(const std::filesystem::path& path);
+
+// A helper to create a new instance of the dictionary template.
+// Unlike v8::DictionaryTemplate::NewInstance, this method will
+// check that all properties have been set (are not empty MaybeLocals)
+// or will return early with an empty MaybeLocal under the assumption
+// that an error has been thrown.
+inline v8::MaybeLocal<v8::Object> NewDictionaryInstance(
+    v8::Local<v8::Context> context,
+    v8::Local<v8::DictionaryTemplate> tmpl,
+    v8::MemorySpan<v8::MaybeLocal<v8::Value>> property_values);
+inline v8::MaybeLocal<v8::Object> NewDictionaryInstanceNullProto(
+    v8::Local<v8::Context> context,
+    v8::Local<v8::DictionaryTemplate> tmpl,
+    v8::MemorySpan<v8::MaybeLocal<v8::Value>> property_values);
+
+// Convert an uint32 to a V8 String.
+inline v8::Local<v8::String> Uint32ToString(v8::Local<v8::Context> context,
+                                            uint32_t index) {
+  // V8 internally caches strings for small integers, and asserts that a
+  // non-empty string local handle is returned for `ToString`.
+  return v8::Uint32::New(v8::Isolate::GetCurrent(), index)
+      ->ToString(context)
+      .ToLocalChecked();
+}
 }  // namespace node
 
 #endif  // defined(NODE_WANT_INTERNALS) && NODE_WANT_INTERNALS

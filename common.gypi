@@ -12,9 +12,12 @@
     'msvs_multi_core_compile': '0',   # we do enable multicore compiles, but not using the V8 way
     'enable_pgo_generate%': '0',
     'enable_pgo_use%': '0',
+    'clang_profile_lib%': '',
     'python%': 'python',
+    'emulator%': [],
 
     'node_shared%': 'false',
+    'node_enable_experimentals%': 'false',
     'force_dynamic_crt%': 0,
     'node_use_v8_platform%': 'true',
     'node_use_bundled_v8%': 'true',
@@ -38,7 +41,7 @@
 
     # Reset this number to 0 on major V8 upgrades.
     # Increment by one for each non-official patch applied to deps/v8.
-    'v8_embedder_string': '-node.56',
+    'v8_embedder_string': '-node.51',
 
     ##### V8 defaults for Node.js #####
 
@@ -113,7 +116,7 @@
         'v8_base': '<(PRODUCT_DIR)/libv8_snapshot.a',
       }],
       # V8 pointer compression only supports 64bit architectures.
-      ['target_arch in "arm ia32 mips mipsel ppc"', {
+      ['target_arch in "arm ia32 mips mipsel"', {
         'v8_enable_pointer_compression': 0,
         'v8_enable_pointer_compression_shared_cage': 0,
         'v8_enable_31bit_smis_on_64bit_arch': 0,
@@ -192,7 +195,7 @@
             ['clang==1', {
               'lto': ' -flto ', # Clang
             }, {
-              'lto': ' -flto=4 -fuse-linker-plugin -ffat-lto-objects ', # GCC
+              'lto': ' -flto=4 -ffat-lto-objects ', # GCC
             }],
           ],
         },
@@ -242,6 +245,65 @@
               ['enable_pgo_use=="true"', {
                 'cflags': ['<(pgo_use)'],
                 'ldflags': ['<(pgo_use)'],
+              },],
+            ],
+          },],
+          ['OS=="win"', {
+            'conditions': [
+              ['enable_lto=="true"', {
+                'msvs_settings': {
+                  'VCCLCompilerTool': {
+                    'AdditionalOptions': ['-flto=full'],
+                  },
+                  'VCLibrarianTool': {
+                    'AdditionalOptions': ['-flto=full'],
+                  },
+                  'VCLinkerTool': {
+                    'AdditionalOptions': ['-flto=full'],
+                  },
+                },
+              },],
+              ['enable_thin_lto=="true"', {
+                'msvs_settings': {
+                  'VCCLCompilerTool': {
+                    'AdditionalOptions': ['-flto=thin'],
+                  },
+                  'VCLibrarianTool': {
+                    'AdditionalOptions': ['-flto=thin'],
+                  },
+                  'VCLinkerTool': {
+                    'AdditionalOptions': ['-flto=thin'],
+                  },
+                },
+              },],
+            ],
+            'target_conditions': [
+              ['_toolset=="target"', {
+                'conditions': [
+                  ['enable_pgo_generate=="true"', {
+                    'msvs_settings': {
+                      'VCCLCompilerTool': {
+                        'AdditionalOptions': ['-fprofile-generate'],
+                      },
+                      'VCLinkerTool': {
+                        'AdditionalOptions': [
+                          '/NODEFAULTLIB:clang_rt.profile.lib',
+                          '"<(clang_profile_lib)"',
+                        ],
+                      },
+                    },
+                  },],
+                  ['enable_pgo_use=="true"', {
+                    'msvs_settings': {
+                      'VCCLCompilerTool': {
+                        'AdditionalOptions': ['-fprofile-use=$(SolutionDir)node.profdata'],
+                      },
+                      'VCLinkerTool': {
+                        'AdditionalOptions': ['-fprofile-use=$(SolutionDir)node.profdata'],
+                      },
+                    },
+                  },],
+                ],
               },],
             ],
           },],
@@ -440,11 +502,17 @@
       }],
       # The defines bellow must include all things from the external_v8_defines
       # list in v8/BUILD.gn.
+      ['node_enable_experimentals == "true"', {
+        'defines': ['EXPERIMENTALS_DEFAULT_VALUE=true'],
+      }],
       ['v8_enable_v8_checks == 1', {
         'defines': ['V8_ENABLE_CHECKS'],
       }],
       ['v8_enable_pointer_compression == 1', {
         'defines': ['V8_COMPRESS_POINTERS'],
+      }],
+      ['v8_enable_pointer_compression == 1 and v8_enable_pointer_compression_shared_cage != 1', {
+        'defines': ['V8_COMPRESS_POINTERS_IN_MULTIPLE_CAGES'],
       }],
       ['v8_enable_pointer_compression_shared_cage == 1', {
         'defines': ['V8_COMPRESS_POINTERS_IN_SHARED_CAGE'],
@@ -511,7 +579,7 @@
           '-fno-rtti',
           '-fno-exceptions',
           '-fno-strict-aliasing',
-          '-std=gnu++17',
+          '-std=gnu++20',
         ],
         'defines': [ '__STDC_FORMAT_MACROS' ],
         'ldflags': [ '-rdynamic' ],
@@ -533,10 +601,6 @@
               [ 'host_arch=="x64"', {
                 'cflags': [ '-m64' ],
                 'ldflags': [ '-m64' ],
-              }],
-              [ 'host_arch=="ppc" and OS not in "aix os400"', {
-                'cflags': [ '-m32' ],
-                'ldflags': [ '-m32' ],
               }],
               [ 'host_arch=="ppc64" and OS not in "aix os400"', {
                 'conditions': [
@@ -563,10 +627,6 @@
                 'cflags': [ '-m64' ],
                 'ldflags': [ '-m64' ],
               }],
-              [ 'target_arch=="ppc" and OS not in "aix os400"', {
-                'cflags': [ '-m32' ],
-                'ldflags': [ '-m32' ],
-              }],
               [ 'target_arch=="ppc64" and OS not in "aix os400"', {
                 'conditions': [
                   [ 'clang==0', {
@@ -592,6 +652,7 @@
           }],
           [ 'node_shared=="true"', {
             'cflags': [ '-fPIC' ],
+            'ldflags': [ '-fPIC' ],
           }],
         ],
       }],
@@ -655,7 +716,7 @@
           'GCC_ENABLE_PASCAL_STRINGS': 'NO',        # No -mpascal-strings
           'GCC_STRICT_ALIASING': 'NO',              # -fno-strict-aliasing
           'PREBINDING': 'NO',                       # No -Wl,-prebind
-          'MACOSX_DEPLOYMENT_TARGET': '11.0',       # -mmacosx-version-min=11.0
+          'MACOSX_DEPLOYMENT_TARGET': '13.5',       # -mmacosx-version-min=13.5
           'USE_HEADERMAP': 'NO',
           'WARNING_CFLAGS': [
             '-Wall',
@@ -691,7 +752,7 @@
           ['clang==1', {
             'xcode_settings': {
               'GCC_VERSION': 'com.apple.compilers.llvm.clang.1_0',
-              'CLANG_CXX_LANGUAGE_STANDARD': 'gnu++17',  # -std=gnu++17
+              'CLANG_CXX_LANGUAGE_STANDARD': 'gnu++20',  # -std=gnu++20
               'CLANG_CXX_LIBRARY': 'libc++',
             },
           }],

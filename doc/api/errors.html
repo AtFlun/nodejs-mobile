@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Errors | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Errors | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="errors" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -186,6 +186,7 @@
 <li><a href="#err_arg_not_iterable"><code>ERR_ARG_NOT_ITERABLE</code></a></li>
 <li><a href="#err_assertion"><code>ERR_ASSERTION</code></a></li>
 <li><a href="#err_async_callback"><code>ERR_ASYNC_CALLBACK</code></a></li>
+<li><a href="#err_async_loader_request_never_settled"><code>ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED</code></a></li>
 <li><a href="#err_async_type"><code>ERR_ASYNC_TYPE</code></a></li>
 <li><a href="#err_brotli_compression_failed"><code>ERR_BROTLI_COMPRESSION_FAILED</code></a></li>
 <li><a href="#err_brotli_invalid_param"><code>ERR_BROTLI_INVALID_PARAM</code></a></li>
@@ -204,6 +205,7 @@
 <li><a href="#err_cpu_profile_already_started"><code>ERR_CPU_PROFILE_ALREADY_STARTED</code></a></li>
 <li><a href="#err_cpu_profile_not_started"><code>ERR_CPU_PROFILE_NOT_STARTED</code></a></li>
 <li><a href="#err_cpu_profile_too_many"><code>ERR_CPU_PROFILE_TOO_MANY</code></a></li>
+<li><a href="#err_crypto_argon2_not_supported"><code>ERR_CRYPTO_ARGON2_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_custom_engine_not_supported"><code>ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_ecdh_invalid_format"><code>ERR_CRYPTO_ECDH_INVALID_FORMAT</code></a></li>
 <li><a href="#err_crypto_ecdh_invalid_public_key"><code>ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY</code></a></li>
@@ -232,9 +234,9 @@
 <li><a href="#err_crypto_job_init_failed"><code>ERR_CRYPTO_JOB_INIT_FAILED</code></a></li>
 <li><a href="#err_crypto_jwk_unsupported_curve"><code>ERR_CRYPTO_JWK_UNSUPPORTED_CURVE</code></a></li>
 <li><a href="#err_crypto_jwk_unsupported_key_type"><code>ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE</code></a></li>
+<li><a href="#err_crypto_kem_not_supported"><code>ERR_CRYPTO_KEM_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_operation_failed"><code>ERR_CRYPTO_OPERATION_FAILED</code></a></li>
 <li><a href="#err_crypto_pbkdf2_error"><code>ERR_CRYPTO_PBKDF2_ERROR</code></a></li>
-<li><a href="#err_crypto_scrypt_invalid_parameter"><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code></a></li>
 <li><a href="#err_crypto_scrypt_not_supported"><code>ERR_CRYPTO_SCRYPT_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_sign_key_required"><code>ERR_CRYPTO_SIGN_KEY_REQUIRED</code></a></li>
 <li><a href="#err_crypto_timing_safe_equal_length"><code>ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH</code></a></li>
@@ -268,7 +270,6 @@
 <li><a href="#err_fs_cp_unknown"><code>ERR_FS_CP_UNKNOWN</code></a></li>
 <li><a href="#err_fs_eisdir"><code>ERR_FS_EISDIR</code></a></li>
 <li><a href="#err_fs_file_too_large"><code>ERR_FS_FILE_TOO_LARGE</code></a></li>
-<li><a href="#err_fs_invalid_symlink_type"><code>ERR_FS_INVALID_SYMLINK_TYPE</code></a></li>
 <li><a href="#err_fs_watch_queue_overflow"><code>ERR_FS_WATCH_QUEUE_OVERFLOW</code></a></li>
 <li><a href="#err_http2_altsvc_invalid_origin"><code>ERR_HTTP2_ALTSVC_INVALID_ORIGIN</code></a></li>
 <li><a href="#err_http2_altsvc_length"><code>ERR_HTTP2_ALTSVC_LENGTH</code></a></li>
@@ -376,6 +377,7 @@
 <li><a href="#err_invalid_typescript_syntax"><code>ERR_INVALID_TYPESCRIPT_SYNTAX</code></a></li>
 <li><a href="#err_invalid_uri"><code>ERR_INVALID_URI</code></a></li>
 <li><a href="#err_invalid_url"><code>ERR_INVALID_URL</code></a></li>
+<li><a href="#err_invalid_url_pattern"><code>ERR_INVALID_URL_PATTERN</code></a></li>
 <li><a href="#err_invalid_url_scheme"><code>ERR_INVALID_URL_SCHEME</code></a></li>
 <li><a href="#err_ipc_channel_closed"><code>ERR_IPC_CHANNEL_CLOSED</code></a></li>
 <li><a href="#err_ipc_disconnected"><code>ERR_IPC_DISCONNECTED</code></a></li>
@@ -426,9 +428,10 @@
 <li><span class="stability_1"><a href="#err_quic_open_stream_failed"><code>ERR_QUIC_OPEN_STREAM_FAILED</code></a></span></li>
 <li><span class="stability_1"><a href="#err_quic_transport_error"><code>ERR_QUIC_TRANSPORT_ERROR</code></a></span></li>
 <li><span class="stability_1"><a href="#err_quic_version_negotiation_error"><code>ERR_QUIC_VERSION_NEGOTIATION_ERROR</code></a></span></li>
-<li><span class="stability_1"><a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a></span></li>
-<li><span class="stability_1"><a href="#err_require_cycle_module"><code>ERR_REQUIRE_CYCLE_MODULE</code></a></span></li>
+<li><a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a></li>
+<li><a href="#err_require_cycle_module"><code>ERR_REQUIRE_CYCLE_MODULE</code></a></li>
 <li><span class="stability_0"><a href="#err_require_esm"><code>ERR_REQUIRE_ESM</code></a></span></li>
+<li><span class="stability_1"><a href="#err_require_esm_race_condition"><code>ERR_REQUIRE_ESM_RACE_CONDITION</code></a></span></li>
 <li><a href="#err_script_execution_interrupted"><code>ERR_SCRIPT_EXECUTION_INTERRUPTED</code></a></li>
 <li><a href="#err_script_execution_timeout"><code>ERR_SCRIPT_EXECUTION_TIMEOUT</code></a></li>
 <li><a href="#err_server_already_listen"><code>ERR_SERVER_ALREADY_LISTEN</code></a></li>
@@ -445,8 +448,10 @@
 <li><a href="#err_socket_dgram_is_connected"><code>ERR_SOCKET_DGRAM_IS_CONNECTED</code></a></li>
 <li><a href="#err_socket_dgram_not_connected"><code>ERR_SOCKET_DGRAM_NOT_CONNECTED</code></a></li>
 <li><a href="#err_socket_dgram_not_running"><code>ERR_SOCKET_DGRAM_NOT_RUNNING</code></a></li>
+<li><a href="#err_socket_handle_adopted"><code>ERR_SOCKET_HANDLE_ADOPTED</code></a></li>
 <li><a href="#err_source_map_corrupt"><code>ERR_SOURCE_MAP_CORRUPT</code></a></li>
 <li><a href="#err_source_map_missing_source"><code>ERR_SOURCE_MAP_MISSING_SOURCE</code></a></li>
+<li><a href="#err_source_phase_not_defined"><code>ERR_SOURCE_PHASE_NOT_DEFINED</code></a></li>
 <li><a href="#err_sqlite_error"><code>ERR_SQLITE_ERROR</code></a></li>
 <li><a href="#err_sri_parse"><code>ERR_SRI_PARSE</code></a></li>
 <li><a href="#err_stream_already_finished"><code>ERR_STREAM_ALREADY_FINISHED</code></a></li>
@@ -455,6 +460,7 @@
 <li><a href="#err_stream_null_values"><code>ERR_STREAM_NULL_VALUES</code></a></li>
 <li><a href="#err_stream_premature_close"><code>ERR_STREAM_PREMATURE_CLOSE</code></a></li>
 <li><a href="#err_stream_push_after_eof"><code>ERR_STREAM_PUSH_AFTER_EOF</code></a></li>
+<li><a href="#err_stream_unable_to_pipe"><code>ERR_STREAM_UNABLE_TO_PIPE</code></a></li>
 <li><a href="#err_stream_unshift_after_end_event"><code>ERR_STREAM_UNSHIFT_AFTER_END_EVENT</code></a></li>
 <li><a href="#err_stream_wrap"><code>ERR_STREAM_WRAP</code></a></li>
 <li><a href="#err_stream_write_after_end"><code>ERR_STREAM_WRITE_AFTER_END</code></a></li>
@@ -473,8 +479,9 @@
 <li><a href="#err_tls_invalid_protocol_version"><code>ERR_TLS_INVALID_PROTOCOL_VERSION</code></a></li>
 <li><a href="#err_tls_invalid_state"><code>ERR_TLS_INVALID_STATE</code></a></li>
 <li><a href="#err_tls_protocol_version_conflict"><code>ERR_TLS_PROTOCOL_VERSION_CONFLICT</code></a></li>
-<li><a href="#err_tls_psk_set_identiy_hint_failed"><code>ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED</code></a></li>
+<li><a href="#err_tls_psk_set_identity_hint_failed"><code>ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED</code></a></li>
 <li><a href="#err_tls_renegotiation_disabled"><code>ERR_TLS_RENEGOTIATION_DISABLED</code></a></li>
+<li><a href="#err_tls_renegotiation_unsupported"><code>ERR_TLS_RENEGOTIATION_UNSUPPORTED</code></a></li>
 <li><a href="#err_tls_required_server_name"><code>ERR_TLS_REQUIRED_SERVER_NAME</code></a></li>
 <li><a href="#err_tls_session_attack"><code>ERR_TLS_SESSION_ATTACK</code></a></li>
 <li><a href="#err_tls_sni_from_server"><code>ERR_TLS_SNI_FROM_SERVER</code></a></li>
@@ -538,6 +545,8 @@
 <li><a href="#err_cannot_transfer_object"><code>ERR_CANNOT_TRANSFER_OBJECT</code></a></li>
 <li><a href="#err_cpu_usage"><code>ERR_CPU_USAGE</code></a></li>
 <li><a href="#err_crypto_hash_digest_no_utf16"><code>ERR_CRYPTO_HASH_DIGEST_NO_UTF16</code></a></li>
+<li><a href="#err_crypto_scrypt_invalid_parameter"><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code></a></li>
+<li><a href="#err_fs_invalid_symlink_type"><code>ERR_FS_INVALID_SYMLINK_TYPE</code></a></li>
 <li><a href="#err_http2_frame_error"><code>ERR_HTTP2_FRAME_ERROR</code></a></li>
 <li><a href="#err_http2_headers_object"><code>ERR_HTTP2_HEADERS_OBJECT</code></a></li>
 <li><a href="#err_http2_header_required"><code>ERR_HTTP2_HEADER_REQUIRED</code></a></li>
@@ -844,6 +853,7 @@
 <li><a href="#err_arg_not_iterable"><code>ERR_ARG_NOT_ITERABLE</code></a></li>
 <li><a href="#err_assertion"><code>ERR_ASSERTION</code></a></li>
 <li><a href="#err_async_callback"><code>ERR_ASYNC_CALLBACK</code></a></li>
+<li><a href="#err_async_loader_request_never_settled"><code>ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED</code></a></li>
 <li><a href="#err_async_type"><code>ERR_ASYNC_TYPE</code></a></li>
 <li><a href="#err_brotli_compression_failed"><code>ERR_BROTLI_COMPRESSION_FAILED</code></a></li>
 <li><a href="#err_brotli_invalid_param"><code>ERR_BROTLI_INVALID_PARAM</code></a></li>
@@ -862,6 +872,7 @@
 <li><a href="#err_cpu_profile_already_started"><code>ERR_CPU_PROFILE_ALREADY_STARTED</code></a></li>
 <li><a href="#err_cpu_profile_not_started"><code>ERR_CPU_PROFILE_NOT_STARTED</code></a></li>
 <li><a href="#err_cpu_profile_too_many"><code>ERR_CPU_PROFILE_TOO_MANY</code></a></li>
+<li><a href="#err_crypto_argon2_not_supported"><code>ERR_CRYPTO_ARGON2_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_custom_engine_not_supported"><code>ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_ecdh_invalid_format"><code>ERR_CRYPTO_ECDH_INVALID_FORMAT</code></a></li>
 <li><a href="#err_crypto_ecdh_invalid_public_key"><code>ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY</code></a></li>
@@ -890,9 +901,9 @@
 <li><a href="#err_crypto_job_init_failed"><code>ERR_CRYPTO_JOB_INIT_FAILED</code></a></li>
 <li><a href="#err_crypto_jwk_unsupported_curve"><code>ERR_CRYPTO_JWK_UNSUPPORTED_CURVE</code></a></li>
 <li><a href="#err_crypto_jwk_unsupported_key_type"><code>ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE</code></a></li>
+<li><a href="#err_crypto_kem_not_supported"><code>ERR_CRYPTO_KEM_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_operation_failed"><code>ERR_CRYPTO_OPERATION_FAILED</code></a></li>
 <li><a href="#err_crypto_pbkdf2_error"><code>ERR_CRYPTO_PBKDF2_ERROR</code></a></li>
-<li><a href="#err_crypto_scrypt_invalid_parameter"><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code></a></li>
 <li><a href="#err_crypto_scrypt_not_supported"><code>ERR_CRYPTO_SCRYPT_NOT_SUPPORTED</code></a></li>
 <li><a href="#err_crypto_sign_key_required"><code>ERR_CRYPTO_SIGN_KEY_REQUIRED</code></a></li>
 <li><a href="#err_crypto_timing_safe_equal_length"><code>ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH</code></a></li>
@@ -926,7 +937,6 @@
 <li><a href="#err_fs_cp_unknown"><code>ERR_FS_CP_UNKNOWN</code></a></li>
 <li><a href="#err_fs_eisdir"><code>ERR_FS_EISDIR</code></a></li>
 <li><a href="#err_fs_file_too_large"><code>ERR_FS_FILE_TOO_LARGE</code></a></li>
-<li><a href="#err_fs_invalid_symlink_type"><code>ERR_FS_INVALID_SYMLINK_TYPE</code></a></li>
 <li><a href="#err_fs_watch_queue_overflow"><code>ERR_FS_WATCH_QUEUE_OVERFLOW</code></a></li>
 <li><a href="#err_http2_altsvc_invalid_origin"><code>ERR_HTTP2_ALTSVC_INVALID_ORIGIN</code></a></li>
 <li><a href="#err_http2_altsvc_length"><code>ERR_HTTP2_ALTSVC_LENGTH</code></a></li>
@@ -1034,6 +1044,7 @@
 <li><a href="#err_invalid_typescript_syntax"><code>ERR_INVALID_TYPESCRIPT_SYNTAX</code></a></li>
 <li><a href="#err_invalid_uri"><code>ERR_INVALID_URI</code></a></li>
 <li><a href="#err_invalid_url"><code>ERR_INVALID_URL</code></a></li>
+<li><a href="#err_invalid_url_pattern"><code>ERR_INVALID_URL_PATTERN</code></a></li>
 <li><a href="#err_invalid_url_scheme"><code>ERR_INVALID_URL_SCHEME</code></a></li>
 <li><a href="#err_ipc_channel_closed"><code>ERR_IPC_CHANNEL_CLOSED</code></a></li>
 <li><a href="#err_ipc_disconnected"><code>ERR_IPC_DISCONNECTED</code></a></li>
@@ -1084,9 +1095,10 @@
 <li><span class="stability_1"><a href="#err_quic_open_stream_failed"><code>ERR_QUIC_OPEN_STREAM_FAILED</code></a></span></li>
 <li><span class="stability_1"><a href="#err_quic_transport_error"><code>ERR_QUIC_TRANSPORT_ERROR</code></a></span></li>
 <li><span class="stability_1"><a href="#err_quic_version_negotiation_error"><code>ERR_QUIC_VERSION_NEGOTIATION_ERROR</code></a></span></li>
-<li><span class="stability_1"><a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a></span></li>
-<li><span class="stability_1"><a href="#err_require_cycle_module"><code>ERR_REQUIRE_CYCLE_MODULE</code></a></span></li>
+<li><a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a></li>
+<li><a href="#err_require_cycle_module"><code>ERR_REQUIRE_CYCLE_MODULE</code></a></li>
 <li><span class="stability_0"><a href="#err_require_esm"><code>ERR_REQUIRE_ESM</code></a></span></li>
+<li><span class="stability_1"><a href="#err_require_esm_race_condition"><code>ERR_REQUIRE_ESM_RACE_CONDITION</code></a></span></li>
 <li><a href="#err_script_execution_interrupted"><code>ERR_SCRIPT_EXECUTION_INTERRUPTED</code></a></li>
 <li><a href="#err_script_execution_timeout"><code>ERR_SCRIPT_EXECUTION_TIMEOUT</code></a></li>
 <li><a href="#err_server_already_listen"><code>ERR_SERVER_ALREADY_LISTEN</code></a></li>
@@ -1103,8 +1115,10 @@
 <li><a href="#err_socket_dgram_is_connected"><code>ERR_SOCKET_DGRAM_IS_CONNECTED</code></a></li>
 <li><a href="#err_socket_dgram_not_connected"><code>ERR_SOCKET_DGRAM_NOT_CONNECTED</code></a></li>
 <li><a href="#err_socket_dgram_not_running"><code>ERR_SOCKET_DGRAM_NOT_RUNNING</code></a></li>
+<li><a href="#err_socket_handle_adopted"><code>ERR_SOCKET_HANDLE_ADOPTED</code></a></li>
 <li><a href="#err_source_map_corrupt"><code>ERR_SOURCE_MAP_CORRUPT</code></a></li>
 <li><a href="#err_source_map_missing_source"><code>ERR_SOURCE_MAP_MISSING_SOURCE</code></a></li>
+<li><a href="#err_source_phase_not_defined"><code>ERR_SOURCE_PHASE_NOT_DEFINED</code></a></li>
 <li><a href="#err_sqlite_error"><code>ERR_SQLITE_ERROR</code></a></li>
 <li><a href="#err_sri_parse"><code>ERR_SRI_PARSE</code></a></li>
 <li><a href="#err_stream_already_finished"><code>ERR_STREAM_ALREADY_FINISHED</code></a></li>
@@ -1113,6 +1127,7 @@
 <li><a href="#err_stream_null_values"><code>ERR_STREAM_NULL_VALUES</code></a></li>
 <li><a href="#err_stream_premature_close"><code>ERR_STREAM_PREMATURE_CLOSE</code></a></li>
 <li><a href="#err_stream_push_after_eof"><code>ERR_STREAM_PUSH_AFTER_EOF</code></a></li>
+<li><a href="#err_stream_unable_to_pipe"><code>ERR_STREAM_UNABLE_TO_PIPE</code></a></li>
 <li><a href="#err_stream_unshift_after_end_event"><code>ERR_STREAM_UNSHIFT_AFTER_END_EVENT</code></a></li>
 <li><a href="#err_stream_wrap"><code>ERR_STREAM_WRAP</code></a></li>
 <li><a href="#err_stream_write_after_end"><code>ERR_STREAM_WRITE_AFTER_END</code></a></li>
@@ -1131,8 +1146,9 @@
 <li><a href="#err_tls_invalid_protocol_version"><code>ERR_TLS_INVALID_PROTOCOL_VERSION</code></a></li>
 <li><a href="#err_tls_invalid_state"><code>ERR_TLS_INVALID_STATE</code></a></li>
 <li><a href="#err_tls_protocol_version_conflict"><code>ERR_TLS_PROTOCOL_VERSION_CONFLICT</code></a></li>
-<li><a href="#err_tls_psk_set_identiy_hint_failed"><code>ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED</code></a></li>
+<li><a href="#err_tls_psk_set_identity_hint_failed"><code>ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED</code></a></li>
 <li><a href="#err_tls_renegotiation_disabled"><code>ERR_TLS_RENEGOTIATION_DISABLED</code></a></li>
+<li><a href="#err_tls_renegotiation_unsupported"><code>ERR_TLS_RENEGOTIATION_UNSUPPORTED</code></a></li>
 <li><a href="#err_tls_required_server_name"><code>ERR_TLS_REQUIRED_SERVER_NAME</code></a></li>
 <li><a href="#err_tls_session_attack"><code>ERR_TLS_SESSION_ATTACK</code></a></li>
 <li><a href="#err_tls_sni_from_server"><code>ERR_TLS_SNI_FROM_SERVER</code></a></li>
@@ -1196,6 +1212,8 @@
 <li><a href="#err_cannot_transfer_object"><code>ERR_CANNOT_TRANSFER_OBJECT</code></a></li>
 <li><a href="#err_cpu_usage"><code>ERR_CPU_USAGE</code></a></li>
 <li><a href="#err_crypto_hash_digest_no_utf16"><code>ERR_CRYPTO_HASH_DIGEST_NO_UTF16</code></a></li>
+<li><a href="#err_crypto_scrypt_invalid_parameter"><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code></a></li>
+<li><a href="#err_fs_invalid_symlink_type"><code>ERR_FS_INVALID_SYMLINK_TYPE</code></a></li>
 <li><a href="#err_http2_frame_error"><code>ERR_HTTP2_FRAME_ERROR</code></a></li>
 <li><a href="#err_http2_headers_object"><code>ERR_HTTP2_HEADERS_OBJECT</code></a></li>
 <li><a href="#err_http2_header_required"><code>ERR_HTTP2_HEADER_REQUIRED</code></a></li>
@@ -1928,6 +1946,11 @@ by the <code>node:assert</code> module.</p>
 <h4><code>ERR_ASYNC_CALLBACK</code><span><a class="mark" href="#err_async_callback" id="err_async_callback">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_async_callback"></a></h4>
 <p>An attempt was made to register something that is not a function as an
 <code>AsyncHooks</code> callback.</p>
+<p><a id="ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED"></a></p>
+</div><div>
+<h4><code>ERR_ASYNC_LOADER_REQUEST_NEVER_SETTLED</code><span><a class="mark" href="#err_async_loader_request_never_settled" id="err_async_loader_request_never_settled">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_async_loader_request_never_settled"></a></h4>
+<p>An operation related to module loading is customized by an asynchronous loader
+hook that never settled the promise before the loader thread exits.</p>
 <p><a id="ERR_ASYNC_TYPE"></a></p>
 </div><div>
 <h4><code>ERR_ASYNC_TYPE</code><span><a class="mark" href="#err_async_type" id="err_async_type">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_async_type"></a></h4>
@@ -2023,23 +2046,27 @@ size is reached when the context is created.</p>
 </div><div>
 <h4><code>ERR_CPU_PROFILE_ALREADY_STARTED</code><span><a class="mark" href="#err_cpu_profile_already_started" id="err_cpu_profile_already_started">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_cpu_profile_already_started"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.8.0</span>
 </div>
 <p>The CPU profile with the given name is already started.</p>
 <p><a id="ERR_CPU_PROFILE_NOT_STARTED"></a></p>
 </div><div>
 <h4><code>ERR_CPU_PROFILE_NOT_STARTED</code><span><a class="mark" href="#err_cpu_profile_not_started" id="err_cpu_profile_not_started">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_cpu_profile_not_started"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.8.0</span>
 </div>
 <p>The CPU profile with the given name is not started.</p>
 <p><a id="ERR_CPU_PROFILE_TOO_MANY"></a></p>
 </div><div>
 <h4><code>ERR_CPU_PROFILE_TOO_MANY</code><span><a class="mark" href="#err_cpu_profile_too_many" id="err_cpu_profile_too_many">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_cpu_profile_too_many"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.8.0</span>
 </div>
 <p>There are too many CPU profiles being collected.</p>
+<p><a id="ERR_CRYPTO_ARGON2_NOT_SUPPORTED"></a></p>
+</div><div>
+<h4><code>ERR_CRYPTO_ARGON2_NOT_SUPPORTED</code><span><a class="mark" href="#err_crypto_argon2_not_supported" id="err_crypto_argon2_not_supported">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_argon2_not_supported"></a></h4>
+<p>Argon2 is not supported by the current version of OpenSSL being used.</p>
 <p><a id="ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED"></a></p>
 </div><div>
 <h4><code>ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED</code><span><a class="mark" href="#err_crypto_custom_engine_not_supported" id="err_crypto_custom_engine_not_supported">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_custom_engine_not_supported"></a></h4>
@@ -2173,7 +2200,8 @@ be called no more than one time per instance of a <code>Hash</code> object.</p>
 <div class="api_metadata">
 <span>Added in: v15.0.0</span>
 </div>
-<p>Invalid scrypt algorithm parameters were provided.</p>
+<p>One or more <a href="crypto.html#cryptoscryptpassword-salt-keylen-options-callback"><code>crypto.scrypt()</code></a> or <a href="crypto.html#cryptoscryptsyncpassword-salt-keylen-options"><code>crypto.scryptSync()</code></a> parameters are
+outside their legal range.</p>
 <p><a id="ERR_CRYPTO_INVALID_STATE"></a></p>
 </div><div>
 <h4><code>ERR_CRYPTO_INVALID_STATE</code><span><a class="mark" href="#err_crypto_invalid_state" id="err_crypto_invalid_state">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_invalid_state"></a></h4>
@@ -2203,6 +2231,14 @@ instance, calling <a href="crypto.html#ciphergetauthtag"><code>cipher.getAuthTag
 <h4><code>ERR_CRYPTO_JWK_UNSUPPORTED_KEY_TYPE</code><span><a class="mark" href="#err_crypto_jwk_unsupported_key_type" id="err_crypto_jwk_unsupported_key_type">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_jwk_unsupported_key_type"></a></h4>
 <p>Key's Asymmetric Key Type is not registered for use in the
 <a href="https://www.iana.org/assignments/jose/jose.xhtml#web-key-types">JSON Web Key Types Registry</a>.</p>
+<p><a id="ERR_CRYPTO_KEM_NOT_SUPPORTED"></a></p>
+</div><div>
+<h4><code>ERR_CRYPTO_KEM_NOT_SUPPORTED</code><span><a class="mark" href="#err_crypto_kem_not_supported" id="err_crypto_kem_not_supported">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_kem_not_supported"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.7.0</span>
+</div>
+<p>Attempted to use KEM operations while Node.js was not compiled with
+OpenSSL with KEM support.</p>
 <p><a id="ERR_CRYPTO_OPERATION_FAILED"></a></p>
 </div><div>
 <h4><code>ERR_CRYPTO_OPERATION_FAILED</code><span><a class="mark" href="#err_crypto_operation_failed" id="err_crypto_operation_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_operation_failed"></a></h4>
@@ -2215,11 +2251,6 @@ instance, calling <a href="crypto.html#ciphergetauthtag"><code>cipher.getAuthTag
 <h4><code>ERR_CRYPTO_PBKDF2_ERROR</code><span><a class="mark" href="#err_crypto_pbkdf2_error" id="err_crypto_pbkdf2_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_pbkdf2_error"></a></h4>
 <p>The PBKDF2 algorithm failed for unspecified reasons. OpenSSL does not provide
 more details and therefore neither does Node.js.</p>
-<p><a id="ERR_CRYPTO_SCRYPT_INVALID_PARAMETER"></a></p>
-</div><div>
-<h4><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code><span><a class="mark" href="#err_crypto_scrypt_invalid_parameter" id="err_crypto_scrypt_invalid_parameter">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_scrypt_invalid_parameter"></a></h4>
-<p>One or more <a href="crypto.html#cryptoscryptpassword-salt-keylen-options-callback"><code>crypto.scrypt()</code></a> or <a href="crypto.html#cryptoscryptsyncpassword-salt-keylen-options"><code>crypto.scryptSync()</code></a> parameters are
-outside their legal range.</p>
 <p><a id="ERR_CRYPTO_SCRYPT_NOT_SUPPORTED"></a></p>
 </div><div>
 <h4><code>ERR_CRYPTO_SCRYPT_NOT_SUPPORTED</code><span><a class="mark" href="#err_crypto_scrypt_not_supported" id="err_crypto_scrypt_not_supported">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_scrypt_not_supported"></a></h4>
@@ -2421,11 +2452,6 @@ of <code>src</code>.</p>
 <code>fs.readFile()</code>. This is not a limitation of <code>Buffer</code>, but an internal I/O constraint.
 For handling larger files, consider using <code>fs.createReadStream()</code> to read the
 file in chunks.</p>
-<p><a id="ERR_FS_INVALID_SYMLINK_TYPE"></a></p>
-</div><div>
-<h4><code>ERR_FS_INVALID_SYMLINK_TYPE</code><span><a class="mark" href="#err_fs_invalid_symlink_type" id="err_fs_invalid_symlink_type">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_fs_invalid_symlink_type"></a></h4>
-<p>An invalid symlink type was passed to the <a href="fs.html#fssymlinktarget-path-type-callback"><code>fs.symlink()</code></a> or
-<a href="fs.html#fssymlinksynctarget-path-type"><code>fs.symlinkSync()</code></a> methods.</p>
 <p><a id="ERR_FS_WATCH_QUEUE_OVERFLOW"></a></p>
 </div><div>
 <h4><code>ERR_FS_WATCH_QUEUE_OVERFLOW</code><span><a class="mark" href="#err_fs_watch_queue_overflow" id="err_fs_watch_queue_overflow">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_fs_watch_queue_overflow"></a></h4>
@@ -2646,7 +2672,7 @@ as specified through the <code>maxSessionInvalidFrames</code> option, has been e
 </div><div>
 <h4><code>ERR_HTTP2_TOO_MANY_ORIGINS</code><span><a class="mark" href="#err_http2_too_many_origins" id="err_http2_too_many_origins">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_http2_too_many_origins"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.23.0</span>
+<span>Added in: v24.17.0</span>
 </div>
 <p>The number of uniq origin sent by the server has exceeded the value defined in
 <code>options.maxOriginSetSize</code>.</p>
@@ -2953,10 +2979,10 @@ does not consist of exactly two elements.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.14.0</td>
+<tr><td>v23.7.0, v22.14.0</td>
 <td><p>This error is no longer thrown on valid yet unsupported syntax.</p></td></tr>
-<tr><td>v22.10.0</td>
-<td><p><span>Added in: v22.10.0</span></p></td></tr>
+<tr><td>v23.0.0, v22.10.0</td>
+<td><p><span>Added in: v23.0.0, v22.10.0</span></p></td></tr>
 </tbody></table>
 </details>
 </div>
@@ -2972,6 +2998,11 @@ does not consist of exactly two elements.</p>
 constructor</a> or the legacy <a href="url.html#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a> to be parsed.
 The thrown error object typically has an additional property <code>'input'</code> that
 contains the URL that failed to parse.</p>
+<p><a id="ERR_INVALID_URL_PATTERN"></a></p>
+</div><div>
+<h4><code>ERR_INVALID_URL_PATTERN</code><span><a class="mark" href="#err_invalid_url_pattern" id="err_invalid_url_pattern">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_invalid_url_pattern"></a></h4>
+<p>An invalid URLPattern was passed to the <a href="url.html#the-whatwg-url-api">WHATWG</a>
+<a href="url.html#new-urlpatternstring-baseurl-options"><code>URLPattern</code> constructor</a> to be parsed.</p>
 <p><a id="ERR_INVALID_URL_SCHEME"></a></p>
 </div><div>
 <h4><code>ERR_INVALID_URL_SCHEME</code><span><a class="mark" href="#err_invalid_url_scheme" id="err_invalid_url_scheme">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_invalid_url_scheme"></a></h4>
@@ -3017,7 +3048,7 @@ signaling a short circuit.</p>
 </div><div>
 <h4><code>ERR_LOAD_SQLITE_EXTENSION</code><span><a class="mark" href="#err_load_sqlite_extension" id="err_load_sqlite_extension">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_load_sqlite_extension"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.5.0, v22.13.0</span>
 </div>
 <p>An error occurred while loading a SQLite extension.</p>
 <p><a id="ERR_MEMORY_ALLOCATION_FAILED"></a></p>
@@ -3143,7 +3174,7 @@ compiled with ICU support.</p>
 </div><div>
 <h4><code>ERR_NO_TYPESCRIPT</code><span><a class="mark" href="#err_no_typescript" id="err_no_typescript">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_no_typescript"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.12.0</span>
+<span>Added in: v23.0.0, v22.12.0</span>
 </div>
 <p>An attempt was made to use features that require <a href="typescript.html#type-stripping">Native TypeScript support</a>, but Node.js was not
 compiled with TypeScript support.</p>
@@ -3159,7 +3190,7 @@ of an asynchronous operation.</p>
 </div><div>
 <h4><code>ERR_OPTIONS_BEFORE_BOOTSTRAPPING</code><span><a class="mark" href="#err_options_before_bootstrapping" id="err_options_before_bootstrapping">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_options_before_bootstrapping"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.16.0</span>
+<span>Added in: v23.10.0</span>
 </div>
 <p>An attempt was made to get options before the bootstrapping was completed.</p>
 <p><a id="ERR_OUT_OF_RANGE"></a></p>
@@ -3229,7 +3260,7 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_APPLICATION_ERROR</code><span><a class="mark" href="#err_quic_application_error" id="err_quic_application_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_application_error"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>A QUIC application error occurred.</p>
@@ -3237,7 +3268,7 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_CONNECTION_FAILED</code><span><a class="mark" href="#err_quic_connection_failed" id="err_quic_connection_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_connection_failed"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.10.0</span>
+<span>Added in: v23.0.0, v22.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Establishing a QUIC connection failed.</p>
@@ -3245,7 +3276,7 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_ENDPOINT_CLOSED</code><span><a class="mark" href="#err_quic_endpoint_closed" id="err_quic_endpoint_closed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_endpoint_closed"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.10.0</span>
+<span>Added in: v23.0.0, v22.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>A QUIC Endpoint closed with an error.</p>
@@ -3253,7 +3284,7 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_OPEN_STREAM_FAILED</code><span><a class="mark" href="#err_quic_open_stream_failed" id="err_quic_open_stream_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_open_stream_failed"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.10.0</span>
+<span>Added in: v23.0.0, v22.10.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>Opening a QUIC stream failed.</p>
@@ -3261,7 +3292,7 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_TRANSPORT_ERROR</code><span><a class="mark" href="#err_quic_transport_error" id="err_quic_transport_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_transport_error"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>A QUIC transport error occurred.</p>
@@ -3269,14 +3300,13 @@ object.</p>
 </div><div>
 <h4><code>ERR_QUIC_VERSION_NEGOTIATION_ERROR</code><span><a class="mark" href="#err_quic_version_negotiation_error" id="err_quic_version_negotiation_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_quic_version_negotiation_error"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.13.0</span>
+<span>Added in: v23.4.0, v22.13.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>A QUIC session failed because version negotiation is required.</p>
 <p><a id="ERR_REQUIRE_ASYNC_MODULE"></a></p>
 </div><div>
 <h4><code>ERR_REQUIRE_ASYNC_MODULE</code><span><a class="mark" href="#err_require_async_module" id="err_require_async_module">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_require_async_module"></a></h4>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>When trying to <code>require()</code> a <a href="esm.html">ES Module</a>, the module turns out to be asynchronous.
 That is, it contains top-level await.</p>
 <p>To see where the top-level await is, use
@@ -3285,7 +3315,6 @@ before looking for the top-level awaits).</p>
 <p><a id="ERR_REQUIRE_CYCLE_MODULE"></a></p>
 </div><div>
 <h4><code>ERR_REQUIRE_CYCLE_MODULE</code><span><a class="mark" href="#err_require_cycle_module" id="err_require_cycle_module">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_require_cycle_module"></a></h4>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <p>When trying to <code>require()</code> a <a href="esm.html">ES Module</a>, a CommonJS to ESM or ESM to CommonJS edge
 participates in an immediate cycle.
 This is not allowed because ES Modules cannot be evaluated while they are
@@ -3300,7 +3329,7 @@ module, and should be done lazily in an inner function.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.12.0</td>
+<tr><td>v23.0.0, v22.12.0, v20.19.0</td>
 <td><p>require() now supports loading synchronous ES modules by default.</p></td></tr>
 </tbody></table>
 </details>
@@ -3310,6 +3339,15 @@ module, and should be done lazily in an inner function.</p>
 <p>This error has been deprecated since <code>require()</code> now supports loading synchronous
 ES modules. When <code>require()</code> encounters an ES module that contains top-level
 <code>await</code>, it will throw <a href="#err_require_async_module"><code>ERR_REQUIRE_ASYNC_MODULE</code></a> instead.</p>
+<p><a id="ERR_REQUIRE_ESM_RACE_CONDITION"></a></p>
+</div><div>
+<h4><code>ERR_REQUIRE_ESM_RACE_CONDITION</code><span><a class="mark" href="#err_require_esm_race_condition" id="err_require_esm_race_condition">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_require_esm_race_condition"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.16.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>An attempt was made to <code>require()</code> an <a href="esm.html">ES Module</a> while another <code>import()</code> call
+was already in progress to load it asynchronously.</p>
 <p><a id="ERR_SCRIPT_EXECUTION_INTERRUPTED"></a></p>
 </div><div>
 <h4><code>ERR_SCRIPT_EXECUTION_INTERRUPTED</code><span><a class="mark" href="#err_script_execution_interrupted" id="err_script_execution_interrupted">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_script_execution_interrupted"></a></h4>
@@ -3389,6 +3427,12 @@ disconnected socket.</p>
 </div><div>
 <h4><code>ERR_SOCKET_DGRAM_NOT_RUNNING</code><span><a class="mark" href="#err_socket_dgram_not_running" id="err_socket_dgram_not_running">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_socket_dgram_not_running"></a></h4>
 <p>A call was made and the UDP subsystem was not running.</p>
+<p><a id="ERR_SOCKET_HANDLE_ADOPTED"></a></p>
+</div><div>
+<h4><code>ERR_SOCKET_HANDLE_ADOPTED</code><span><a class="mark" href="#err_socket_handle_adopted" id="err_socket_handle_adopted">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_socket_handle_adopted"></a></h4>
+<p>An operation was attempted on a <a href="net.html#class-netboundsocket"><code>BoundSocket</code></a> that had already been adopted
+by a <a href="net.html#class-netserver"><code>net.Server</code></a> or <a href="net.html#class-netsocket"><code>net.Socket</code></a>. Once a bound socket is adopted, its
+<code>address()</code> and <code>close()</code> methods can no longer be used.</p>
 <p><a id="ERR_SOURCE_MAP_CORRUPT"></a></p>
 </div><div>
 <h4><code>ERR_SOURCE_MAP_CORRUPT</code><span><a class="mark" href="#err_source_map_corrupt" id="err_source_map_corrupt">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_source_map_corrupt"></a></h4>
@@ -3397,6 +3441,14 @@ disconnected socket.</p>
 </div><div>
 <h4><code>ERR_SOURCE_MAP_MISSING_SOURCE</code><span><a class="mark" href="#err_source_map_missing_source" id="err_source_map_missing_source">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_source_map_missing_source"></a></h4>
 <p>A file imported from a source map was not found.</p>
+<p><a id="ERR_SOURCE_PHASE_NOT_DEFINED"></a></p>
+</div><div>
+<h4><code>ERR_SOURCE_PHASE_NOT_DEFINED</code><span><a class="mark" href="#err_source_phase_not_defined" id="err_source_phase_not_defined">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_source_phase_not_defined"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.0.0</span>
+</div>
+<p>The provided module import does not provide a source phase imports representation for source phase
+import syntax <code>import source x from 'x'</code> or <code>import.source(x)</code>.</p>
 <p><a id="ERR_SQLITE_ERROR"></a></p>
 </div><div>
 <h4><code>ERR_SQLITE_ERROR</code><span><a class="mark" href="#err_sqlite_error" id="err_sqlite_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_sqlite_error"></a></h4>
@@ -3438,6 +3490,10 @@ or a pipeline ends non gracefully with no explicit error.</p>
 <h4><code>ERR_STREAM_PUSH_AFTER_EOF</code><span><a class="mark" href="#err_stream_push_after_eof" id="err_stream_push_after_eof">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_stream_push_after_eof"></a></h4>
 <p>An attempt was made to call <a href="stream.html#readablepushchunk-encoding"><code>stream.push()</code></a> after a <code>null</code>(EOF) had been
 pushed to the stream.</p>
+<p><a id="ERR_STREAM_UNABLE_TO_PIPE"></a></p>
+</div><div>
+<h4><code>ERR_STREAM_UNABLE_TO_PIPE</code><span><a class="mark" href="#err_stream_unable_to_pipe" id="err_stream_unable_to_pipe">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_stream_unable_to_pipe"></a></h4>
+<p>An attempt was made to pipe to a closed or destroyed stream in a pipeline.</p>
 <p><a id="ERR_STREAM_UNSHIFT_AFTER_END_EVENT"></a></p>
 </div><div>
 <h4><code>ERR_STREAM_UNSHIFT_AFTER_END_EVENT</code><span><a class="mark" href="#err_stream_unshift_after_end_event" id="err_stream_unshift_after_end_event">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_stream_unshift_after_end_event"></a></h4>
@@ -3523,7 +3579,7 @@ connection.</p>
 <p><a id="ERR_TLS_INVALID_PROTOCOL_METHOD"></a></p>
 </div><div>
 <h4><code>ERR_TLS_INVALID_PROTOCOL_METHOD</code><span><a class="mark" href="#err_tls_invalid_protocol_method" id="err_tls_invalid_protocol_method">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_invalid_protocol_method"></a></h4>
-<p>The specified  <code>secureProtocol</code> method is invalid. It is  either unknown, or
+<p>The specified <code>secureProtocol</code> method is invalid. It is either unknown, or
 disabled because it is insecure.</p>
 <p><a id="ERR_TLS_INVALID_PROTOCOL_VERSION"></a></p>
 </div><div>
@@ -3542,15 +3598,20 @@ event is emitted before continuing.</p>
 <h4><code>ERR_TLS_PROTOCOL_VERSION_CONFLICT</code><span><a class="mark" href="#err_tls_protocol_version_conflict" id="err_tls_protocol_version_conflict">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_protocol_version_conflict"></a></h4>
 <p>Attempting to set a TLS protocol <code>minVersion</code> or <code>maxVersion</code> conflicts with an
 attempt to set the <code>secureProtocol</code> explicitly. Use one mechanism or the other.</p>
-<p><a id="ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED"></a></p>
+<p><a id="ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED"></a></p>
 </div><div>
-<h4><code>ERR_TLS_PSK_SET_IDENTIY_HINT_FAILED</code><span><a class="mark" href="#err_tls_psk_set_identiy_hint_failed" id="err_tls_psk_set_identiy_hint_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_psk_set_identiy_hint_failed"></a></h4>
+<h4><code>ERR_TLS_PSK_SET_IDENTITY_HINT_FAILED</code><span><a class="mark" href="#err_tls_psk_set_identity_hint_failed" id="err_tls_psk_set_identity_hint_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_psk_set_identity_hint_failed"></a></h4>
 <p>Failed to set PSK identity hint. Hint may be too long.</p>
 <p><a id="ERR_TLS_RENEGOTIATION_DISABLED"></a></p>
 </div><div>
 <h4><code>ERR_TLS_RENEGOTIATION_DISABLED</code><span><a class="mark" href="#err_tls_renegotiation_disabled" id="err_tls_renegotiation_disabled">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_renegotiation_disabled"></a></h4>
 <p>An attempt was made to renegotiate TLS on a socket instance with renegotiation
 disabled.</p>
+<p><a id="ERR_TLS_RENEGOTIATION_UNSUPPORTED"></a></p>
+</div><div>
+<h4><code>ERR_TLS_RENEGOTIATION_UNSUPPORTED</code><span><a class="mark" href="#err_tls_renegotiation_unsupported" id="err_tls_renegotiation_unsupported">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_renegotiation_unsupported"></a></h4>
+<p>An attempt was made to renegotiate TLS, but the TLS implementation does not
+support caller-initiated renegotiation.</p>
 <p><a id="ERR_TLS_REQUIRED_SERVER_NAME"></a></p>
 </div><div>
 <h4><code>ERR_TLS_REQUIRED_SERVER_NAME</code><span><a class="mark" href="#err_tls_required_server_name" id="err_tls_required_server_name">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_tls_required_server_name"></a></h4>
@@ -3684,7 +3745,7 @@ is not <code>file</code>.</li>
 </div><div>
 <h4><code>ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX</code><span><a class="mark" href="#err_unsupported_typescript_syntax" id="err_unsupported_typescript_syntax">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_unsupported_typescript_syntax"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.14.0</span>
+<span>Added in: v23.7.0, v22.14.0</span>
 </div>
 <p>The provided TypeScript syntax is unsupported.
 This could happen when using TypeScript syntax that requires
@@ -3780,7 +3841,7 @@ invalid flags.</p>
 <span>Added in: v22.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
-<p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
+<p>The destination thread threw an error while processing a message sent via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a>.</p>
 <p><a id="ERR_WORKER_MESSAGING_FAILED"></a></p>
 </div><div>
 <h4><code>ERR_WORKER_MESSAGING_FAILED</code><span><a class="mark" href="#err_worker_messaging_failed" id="err_worker_messaging_failed">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_worker_messaging_failed"></a></h4>
@@ -3788,7 +3849,7 @@ invalid flags.</p>
 <span>Added in: v22.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
-<p>The thread requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
+<p>The thread requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is invalid or has no <code>workerMessage</code> listener.</p>
 <p><a id="ERR_WORKER_MESSAGING_SAME_THREAD"></a></p>
 </div><div>
 <h4><code>ERR_WORKER_MESSAGING_SAME_THREAD</code><span><a class="mark" href="#err_worker_messaging_same_thread" id="err_worker_messaging_same_thread">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_worker_messaging_same_thread"></a></h4>
@@ -3796,7 +3857,7 @@ invalid flags.</p>
 <span>Added in: v22.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
-<p>The thread id requested in <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
+<p>The thread id requested in <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> is the current thread id.</p>
 <p><a id="ERR_WORKER_MESSAGING_TIMEOUT"></a></p>
 </div><div>
 <h4><code>ERR_WORKER_MESSAGING_TIMEOUT</code><span><a class="mark" href="#err_worker_messaging_timeout" id="err_worker_messaging_timeout">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_worker_messaging_timeout"></a></h4>
@@ -3804,7 +3865,7 @@ invalid flags.</p>
 <span>Added in: v22.5.0</span>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
-<p>Sending a message via <a href="worker_threads.html#workerpostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
+<p>Sending a message via <a href="worker_threads.html#worker_threadspostmessagetothreadthreadid-value-transferlist-timeout"><code>postMessageToThread()</code></a> timed out.</p>
 <p><a id="ERR_WORKER_NOT_RUNNING"></a></p>
 </div><div>
 <h4><code>ERR_WORKER_NOT_RUNNING</code><span><a class="mark" href="#err_worker_not_running" id="err_worker_not_running">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_worker_not_running"></a></h4>
@@ -3910,6 +3971,23 @@ for transferring.</p>
 <code>hash.digest()</code> method does allow an <code>encoding</code> argument to be passed in,
 causing the method to return a string rather than a <code>Buffer</code>, the UTF-16
 encoding (e.g. <code>ucs</code> or <code>utf16le</code>) is not supported.</p>
+<p><a id="ERR_CRYPTO_SCRYPT_INVALID_PARAMETER"></a></p>
+</div><div>
+<h4><code>ERR_CRYPTO_SCRYPT_INVALID_PARAMETER</code><span><a class="mark" href="#err_crypto_scrypt_invalid_parameter" id="err_crypto_scrypt_invalid_parameter">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_crypto_scrypt_invalid_parameter"></a></h4>
+<div class="api_metadata">
+<span>Removed in: v23.0.0</span>
+</div>
+<p>An incompatible combination of options was passed to <a href="crypto.html#cryptoscryptpassword-salt-keylen-options-callback"><code>crypto.scrypt()</code></a> or
+<a href="crypto.html#cryptoscryptsyncpassword-salt-keylen-options"><code>crypto.scryptSync()</code></a>. New versions of Node.js use the error code
+<a href="#err_incompatible_option_pair"><code>ERR_INCOMPATIBLE_OPTION_PAIR</code></a> instead, which is consistent with other APIs.</p>
+<p><a id="ERR_FS_INVALID_SYMLINK_TYPE"></a></p>
+</div><div>
+<h4><code>ERR_FS_INVALID_SYMLINK_TYPE</code><span><a class="mark" href="#err_fs_invalid_symlink_type" id="err_fs_invalid_symlink_type">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_fs_invalid_symlink_type"></a></h4>
+<div class="api_metadata">
+<span>Removed in: v23.0.0</span>
+</div>
+<p>An invalid symlink type was passed to the <a href="fs.html#fssymlinktarget-path-type-callback"><code>fs.symlink()</code></a> or
+<a href="fs.html#fssymlinksynctarget-path-type"><code>fs.symlinkSync()</code></a> methods.</p>
 <p><a id="ERR_HTTP2_FRAME_ERROR"></a></p>
 </div><div>
 <h4><code>ERR_HTTP2_FRAME_ERROR</code><span><a class="mark" href="#err_http2_frame_error" id="err_http2_frame_error">#</a></span><a aria-hidden="true" class="legacy" id="errors_err_http2_frame_error"></a></h4>
@@ -4098,7 +4176,7 @@ behavior. See the documentation for policy manifests for more information.</p>
 <span>Removed in: v15.0.0</span>
 </div>
 <p>This error code was replaced by <a href="#err_missing_transferable_in_transfer_list"><code>ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST</code></a>
-in Node.js v15.0.0, because it is no longer accurate as other types of
+in Node.js 15.0.0, because it is no longer accurate as other types of
 transferable objects also exist now.</p>
 <p><a id="ERR_MISSING_TRANSFERABLE_IN_TRANSFER_LIST"></a></p>
 </div><div>

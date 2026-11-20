@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Diagnostics Channel | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Diagnostics Channel | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="diagnostics_channel" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -219,12 +219,12 @@
 </li>
 <li><span class="stability_1"><a href="#modules">Modules</a></span>
 <ul>
-<li><a href="#event-modulerequirestart">Event: <code>'module.require.start'</code></a></li>
-<li><a href="#event-modulerequireend">Event: <code>'module.require.end'</code></a></li>
-<li><a href="#event-modulerequireerror">Event: <code>'module.require.error'</code></a></li>
-<li><a href="#event-moduleimportasyncstart">Event: <code>'module.import.asyncStart'</code></a></li>
-<li><a href="#event-moduleimportasyncend">Event: <code>'module.import.asyncEnd'</code></a></li>
-<li><a href="#event-moduleimporterror">Event: <code>'module.import.error'</code></a></li>
+<li><a href="#event-tracingmodulerequirestart">Event: <code>'tracing:module.require:start'</code></a></li>
+<li><a href="#event-tracingmodulerequireend">Event: <code>'tracing:module.require:end'</code></a></li>
+<li><a href="#event-tracingmodulerequireerror">Event: <code>'tracing:module.require:error'</code></a></li>
+<li><a href="#event-tracingmoduleimportasyncstart">Event: <code>'tracing:module.import:asyncStart'</code></a></li>
+<li><a href="#event-tracingmoduleimportasyncend">Event: <code>'tracing:module.import:asyncEnd'</code></a></li>
+<li><a href="#event-tracingmoduleimporterror">Event: <code>'tracing:module.import:error'</code></a></li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#net">NET</a></span>
@@ -244,7 +244,15 @@
 <li><span class="stability_1"><a href="#process">Process</a></span>
 <ul>
 <li><a href="#event-child_process">Event: <code>'child_process'</code></a></li>
-<li><a href="#event-execve">Event: <code>'execve'</code></a></li>
+<li><a href="#event-processexecve">Event: <code>'process.execve'</code></a></li>
+</ul>
+</li>
+<li><span class="stability_1"><a href="#web-locks">Web Locks</a></span>
+<ul>
+<li><a href="#event-locksrequeststart">Event: <code>'locks.request.start'</code></a></li>
+<li><a href="#event-locksrequestgrant">Event: <code>'locks.request.grant'</code></a></li>
+<li><a href="#event-locksrequestmiss">Event: <code>'locks.request.miss'</code></a></li>
+<li><a href="#event-locksrequestend">Event: <code>'locks.request.end'</code></a></li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#worker-thread">Worker Thread</a></span>
@@ -475,12 +483,12 @@
 </li>
 <li><span class="stability_1"><a href="#modules">Modules</a></span>
 <ul>
-<li><a href="#event-modulerequirestart">Event: <code>'module.require.start'</code></a></li>
-<li><a href="#event-modulerequireend">Event: <code>'module.require.end'</code></a></li>
-<li><a href="#event-modulerequireerror">Event: <code>'module.require.error'</code></a></li>
-<li><a href="#event-moduleimportasyncstart">Event: <code>'module.import.asyncStart'</code></a></li>
-<li><a href="#event-moduleimportasyncend">Event: <code>'module.import.asyncEnd'</code></a></li>
-<li><a href="#event-moduleimporterror">Event: <code>'module.import.error'</code></a></li>
+<li><a href="#event-tracingmodulerequirestart">Event: <code>'tracing:module.require:start'</code></a></li>
+<li><a href="#event-tracingmodulerequireend">Event: <code>'tracing:module.require:end'</code></a></li>
+<li><a href="#event-tracingmodulerequireerror">Event: <code>'tracing:module.require:error'</code></a></li>
+<li><a href="#event-tracingmoduleimportasyncstart">Event: <code>'tracing:module.import:asyncStart'</code></a></li>
+<li><a href="#event-tracingmoduleimportasyncend">Event: <code>'tracing:module.import:asyncEnd'</code></a></li>
+<li><a href="#event-tracingmoduleimporterror">Event: <code>'tracing:module.import:error'</code></a></li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#net">NET</a></span>
@@ -500,7 +508,15 @@
 <li><span class="stability_1"><a href="#process">Process</a></span>
 <ul>
 <li><a href="#event-child_process">Event: <code>'child_process'</code></a></li>
-<li><a href="#event-execve">Event: <code>'execve'</code></a></li>
+<li><a href="#event-processexecve">Event: <code>'process.execve'</code></a></li>
+</ul>
+</li>
+<li><span class="stability_1"><a href="#web-locks">Web Locks</a></span>
+<ul>
+<li><a href="#event-locksrequeststart">Event: <code>'locks.request.start'</code></a></li>
+<li><a href="#event-locksrequestgrant">Event: <code>'locks.request.grant'</code></a></li>
+<li><a href="#event-locksrequestmiss">Event: <code>'locks.request.miss'</code></a></li>
+<li><a href="#event-locksrequestend">Event: <code>'locks.request.end'</code></a></li>
 </ul>
 </li>
 <li><span class="stability_1"><a href="#worker-thread">Worker Thread</a></span>
@@ -531,7 +547,7 @@
 </div>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/diagnostics_channel.js">lib/diagnostics_channel.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/diagnostics_channel.js">lib/diagnostics_channel.js</a></p>
 <p>The <code>node:diagnostics_channel</code> module provides an API to create named channels
 to report arbitrary message data for diagnostics purposes.</p>
 <p>It can be accessed using:</p>
@@ -802,7 +818,7 @@ channel.<span class="hljs-title function_">publish</span>({
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.8.0</td>
 <td><p>Deprecation revoked.</p></td></tr>
 <tr><td>v18.7.0, v16.17.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
@@ -842,7 +858,7 @@ channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-fu
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.20.0</td>
+<tr><td>v24.8.0</td>
 <td><p>Deprecation revoked.</p></td></tr>
 <tr><td>v18.7.0, v16.17.0</td>
 <td><p>Documentation-only deprecation.</p></td></tr>
@@ -1303,7 +1319,7 @@ channels.<span class="hljs-property">asyncStart</span>.<span class="hljs-title f
 </div><div>
 <h5><code>tracingChannel.hasSubscribers</code><span><a class="mark" href="#tracingchannelhassubscribers" id="tracingchannelhassubscribers">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_tracingchannel_hassubscribers"></a></h5>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<span>Added in: v22.0.0, v20.13.0</span>
 </div>
 <ul>
 <li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if any of the individual channels has a subscriber,
@@ -1612,7 +1628,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 <h5>Modules<span><a class="mark" href="#modules" id="modules">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_modules"></a></h5>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
 <div>
-<h6>Event: <code>'module.require.start'</code><span><a class="mark" href="#event-modulerequirestart" id="event-modulerequirestart">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_require_start"></a></h6>
+<h6>Event: <code>'tracing:module.require:start'</code><span><a class="mark" href="#event-tracingmodulerequirestart" id="event-tracingmodulerequirestart">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_require_start"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1623,7 +1639,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 </ul>
 <p>Emitted when <code>require()</code> is executed. See <a href="#startevent"><code>start</code> event</a>.</p>
 </div><div>
-<h6>Event: <code>'module.require.end'</code><span><a class="mark" href="#event-modulerequireend" id="event-modulerequireend">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_require_end"></a></h6>
+<h6>Event: <code>'tracing:module.require:end'</code><span><a class="mark" href="#event-tracingmodulerequireend" id="event-tracingmodulerequireend">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_require_end"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1634,7 +1650,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 </ul>
 <p>Emitted when a <code>require()</code> call returns. See <a href="#endevent"><code>end</code> event</a>.</p>
 </div><div>
-<h6>Event: <code>'module.require.error'</code><span><a class="mark" href="#event-modulerequireerror" id="event-modulerequireerror">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_require_error"></a></h6>
+<h6>Event: <code>'tracing:module.require:error'</code><span><a class="mark" href="#event-tracingmodulerequireerror" id="event-tracingmodulerequireerror">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_require_error"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1646,7 +1662,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 </ul>
 <p>Emitted when a <code>require()</code> throws an error. See <a href="#errorevent"><code>error</code> event</a>.</p>
 </div><div>
-<h6>Event: <code>'module.import.asyncStart'</code><span><a class="mark" href="#event-moduleimportasyncstart" id="event-moduleimportasyncstart">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_import_asyncstart"></a></h6>
+<h6>Event: <code>'tracing:module.import:asyncStart'</code><span><a class="mark" href="#event-tracingmoduleimportasyncstart" id="event-tracingmoduleimportasyncstart">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_import_asyncstart"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1657,7 +1673,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 </ul>
 <p>Emitted when <code>import()</code> is invoked. See <a href="#asyncstartevent"><code>asyncStart</code> event</a>.</p>
 </div><div>
-<h6>Event: <code>'module.import.asyncEnd'</code><span><a class="mark" href="#event-moduleimportasyncend" id="event-moduleimportasyncend">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_import_asyncend"></a></h6>
+<h6>Event: <code>'tracing:module.import:asyncEnd'</code><span><a class="mark" href="#event-tracingmoduleimportasyncend" id="event-tracingmoduleimportasyncend">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_import_asyncend"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1668,7 +1684,7 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 </ul>
 <p>Emitted when <code>import()</code> has completed. See <a href="#asyncendevent"><code>asyncEnd</code> event</a>.</p>
 </div><div>
-<h6>Event: <code>'module.import.error'</code><span><a class="mark" href="#event-moduleimporterror" id="event-moduleimporterror">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_module_import_error"></a></h6>
+<h6>Event: <code>'tracing:module.import:error'</code><span><a class="mark" href="#event-tracingmoduleimporterror" id="event-tracingmoduleimporterror">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_tracing_module_import_error"></a></h6>
 <ul>
 <li><code>event</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> containing the following properties
 <ul>
@@ -1735,14 +1751,74 @@ closing the stream can be retrieved using the <code>stream.rstCode</code> proper
 <li><code>process</code> <a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
 </ul>
 <p>Emitted when a new process is created.</p>
+<p><code>tracing:child_process.spawn:start</code></p>
+<ul>
+<li><code>process</code> <a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Emitted when <a href="child_process.html#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> is invoked, before the process is
+actually spawned.</p>
+<p><code>tracing:child_process.spawn:end</code></p>
+<ul>
+<li><code>process</code> <a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
+</ul>
+<p>Emitted when <a href="child_process.html#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> has completed successfully and the
+process has been created.</p>
+<p><code>tracing:child_process.spawn:error</code></p>
+<ul>
+<li><code>process</code> <a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+</ul>
+<p>Emitted when <a href="child_process.html#child_processspawncommand-args-options"><code>child_process.spawn()</code></a> encounters an error.</p>
 </div><div>
-<h6>Event: <code>'execve'</code><span><a class="mark" href="#event-execve" id="event-execve">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_execve"></a></h6>
+<h6>Event: <code>'process.execve'</code><span><a class="mark" href="#event-processexecve" id="event-processexecve">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_process_execve"></a></h6>
 <ul>
 <li><code>execPath</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
 <li><code>args</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a></li>
 <li><code>env</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a></li>
 </ul>
 <p>Emitted when <a href="process.html#processexecvefile-args-env"><code>process.execve()</code></a> is invoked.</p>
+</div></div><div>
+<h5>Web Locks<span><a class="mark" href="#web-locks" id="web-locks">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_web_locks"></a></h5>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<div class="api_metadata">
+<span>Added in: v24.15.0</span>
+</div>
+<p>These channels are emitted for each <a href="worker_threads.html#locksrequestname-options-callback"><code>locks.request()</code></a> call. See
+<a href="worker_threads.html#worker_threadslocks"><code>worker_threads.locks</code></a> for details on Web Locks.</p>
+<div>
+<h6>Event: <code>'locks.request.start'</code><span><a class="mark" href="#event-locksrequeststart" id="event-locksrequeststart">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_locks_request_start"></a></h6>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the requested lock resource.</li>
+<li><code>mode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The lock mode: <code>'exclusive'</code> or <code>'shared'</code>.</li>
+</ul>
+<p>Emitted when a lock request is initiated, before the lock is granted.</p>
+</div><div>
+<h6>Event: <code>'locks.request.grant'</code><span><a class="mark" href="#event-locksrequestgrant" id="event-locksrequestgrant">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_locks_request_grant"></a></h6>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the requested lock resource.</li>
+<li><code>mode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The lock mode: <code>'exclusive'</code> or <code>'shared'</code>.</li>
+</ul>
+<p>Emitted when a lock is successfully granted and the callback is about to run.</p>
+</div><div>
+<h6>Event: <code>'locks.request.miss'</code><span><a class="mark" href="#event-locksrequestmiss" id="event-locksrequestmiss">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_locks_request_miss"></a></h6>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the requested lock resource.</li>
+<li><code>mode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The lock mode: <code>'exclusive'</code> or <code>'shared'</code>.</li>
+</ul>
+<p>Emitted when <code>ifAvailable</code> is <code>true</code> and the lock is not immediately available,
+and the request callback is invoked with <code>null</code> instead of a <code>Lock</code> object.</p>
+</div><div>
+<h6>Event: <code>'locks.request.end'</code><span><a class="mark" href="#event-locksrequestend" id="event-locksrequestend">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_event_locks_request_end"></a></h6>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The name of the requested lock resource.</li>
+<li><code>mode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The lock mode: <code>'exclusive'</code> or <code>'shared'</code>.</li>
+<li><code>steal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the request uses steal semantics.</li>
+<li><code>ifAvailable</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> Whether the request uses ifAvailable semantics.</li>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> The error thrown by the callback, if any.</li>
+</ul>
+<p>Emitted when a lock request has finished, whether the callback succeeded,
+threw an error, or the lock was stolen.</p>
 </div></div><div>
 <h5>Worker Thread<span><a class="mark" href="#worker-thread" id="worker-thread">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_worker_thread"></a></h5>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>

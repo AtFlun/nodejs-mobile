@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>V8 | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>V8 | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="v8" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -144,7 +144,7 @@
 <li><a href="#v8getheapspacestatistics"><code>v8.getHeapSpaceStatistics()</code></a></li>
 <li><a href="#v8getheapstatistics"><code>v8.getHeapStatistics()</code></a></li>
 <li><a href="#v8getcppheapstatisticsdetaillevel"><code>v8.getCppHeapStatistics([detailLevel])</code></a></li>
-<li><span class="stability_1.1"><a href="#v8queryobjectsctor-options"><code>v8.queryObjects(ctor[, options])</code></a></span></li>
+<li><a href="#v8queryobjectsctor-options"><code>v8.queryObjects(ctor[, options])</code></a></li>
 <li><a href="#v8setflagsfromstringflags"><code>v8.setFlagsFromString(flags)</code></a></li>
 <li><a href="#v8stopcoverage"><code>v8.stopCoverage()</code></a></li>
 <li><a href="#v8takecoverage"><code>v8.takeCoverage()</code></a></li>
@@ -219,9 +219,29 @@
 <li><a href="#new-v8gcprofiler"><code>new v8.GCProfiler()</code></a></li>
 <li><a href="#profilerstart"><code>profiler.start()</code></a></li>
 <li><a href="#profilerstop"><code>profiler.stop()</code></a></li>
+<li><a href="#profilersymboldispose"><code>profiler[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-synccpuprofilehandle">Class: <code>SyncCPUProfileHandle</code></a>
+<ul>
+<li><a href="#synccpuprofilehandlestop"><code>syncCpuProfileHandle.stop()</code></a></li>
+<li><a href="#synccpuprofilehandlesymboldispose"><code>syncCpuProfileHandle[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-cpuprofilehandle">Class: <code>CPUProfileHandle</code></a>
+<ul>
+<li><a href="#cpuprofilehandlestop"><code>cpuProfileHandle.stop()</code></a></li>
+<li><a href="#cpuprofilehandlesymbolasyncdispose"><code>cpuProfileHandle[Symbol.asyncDispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-heapprofilehandle">Class: <code>HeapProfileHandle</code></a>
+<ul>
+<li><a href="#heapprofilehandlestop"><code>heapProfileHandle.stop()</code></a></li>
+<li><a href="#heapprofilehandlesymbolasyncdispose"><code>heapProfileHandle[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#v8isstringonebyterepresentationcontent"><code>v8.isStringOneByteRepresentation(content)</code></a></li>
+<li><a href="#v8startcpuprofile"><code>v8.startCpuProfile()</code></a></li>
 </ul>
 </li>
 </ul></div></div>
@@ -377,7 +397,7 @@
 <li><a href="#v8getheapspacestatistics"><code>v8.getHeapSpaceStatistics()</code></a></li>
 <li><a href="#v8getheapstatistics"><code>v8.getHeapStatistics()</code></a></li>
 <li><a href="#v8getcppheapstatisticsdetaillevel"><code>v8.getCppHeapStatistics([detailLevel])</code></a></li>
-<li><span class="stability_1.1"><a href="#v8queryobjectsctor-options"><code>v8.queryObjects(ctor[, options])</code></a></span></li>
+<li><a href="#v8queryobjectsctor-options"><code>v8.queryObjects(ctor[, options])</code></a></li>
 <li><a href="#v8setflagsfromstringflags"><code>v8.setFlagsFromString(flags)</code></a></li>
 <li><a href="#v8stopcoverage"><code>v8.stopCoverage()</code></a></li>
 <li><a href="#v8takecoverage"><code>v8.takeCoverage()</code></a></li>
@@ -452,9 +472,29 @@
 <li><a href="#new-v8gcprofiler"><code>new v8.GCProfiler()</code></a></li>
 <li><a href="#profilerstart"><code>profiler.start()</code></a></li>
 <li><a href="#profilerstop"><code>profiler.stop()</code></a></li>
+<li><a href="#profilersymboldispose"><code>profiler[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-synccpuprofilehandle">Class: <code>SyncCPUProfileHandle</code></a>
+<ul>
+<li><a href="#synccpuprofilehandlestop"><code>syncCpuProfileHandle.stop()</code></a></li>
+<li><a href="#synccpuprofilehandlesymboldispose"><code>syncCpuProfileHandle[Symbol.dispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-cpuprofilehandle">Class: <code>CPUProfileHandle</code></a>
+<ul>
+<li><a href="#cpuprofilehandlestop"><code>cpuProfileHandle.stop()</code></a></li>
+<li><a href="#cpuprofilehandlesymbolasyncdispose"><code>cpuProfileHandle[Symbol.asyncDispose]()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-heapprofilehandle">Class: <code>HeapProfileHandle</code></a>
+<ul>
+<li><a href="#heapprofilehandlestop"><code>heapProfileHandle.stop()</code></a></li>
+<li><a href="#heapprofilehandlesymbolasyncdispose"><code>heapProfileHandle[Symbol.asyncDispose]()</code></a></li>
 </ul>
 </li>
 <li><a href="#v8isstringonebyterepresentationcontent"><code>v8.isStringOneByteRepresentation(content)</code></a></li>
+<li><a href="#v8startcpuprofile"><code>v8.startCpuProfile()</code></a></li>
 </ul>
 </li>
 </ul></details>
@@ -462,7 +502,7 @@
       <div role="main" id="apicontent">
         <h2>V8<span><a class="mark" href="#v8" id="v8">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8"></a></h2>
 
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/v8.js">lib/v8.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/v8.js">lib/v8.js</a></p>
 <p>The <code>node:v8</code> module exposes APIs that are specific to the version of <a href="https://developers.google.com/v8/">V8</a>
 built into the Node.js binary. It can be accessed using:</p>
 
@@ -500,13 +540,12 @@ following properties:</p>
 <li><code>external_script_source_size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
 <li><code>cpu_profiler_metadata_size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
-  <span class="hljs-attr">code_and_metadata_size</span>: <span class="hljs-number">212208</span>,
-  <span class="hljs-attr">bytecode_and_metadata_size</span>: <span class="hljs-number">161368</span>,
-  <span class="hljs-attr">external_script_source_size</span>: <span class="hljs-number">1410794</span>,
-  <span class="hljs-attr">cpu_profiler_metadata_size</span>: <span class="hljs-number">0</span>,
-}</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"code_and_metadata_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">212208</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"bytecode_and_metadata_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">161368</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"external_script_source_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1410794</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"cpu_profiler_metadata_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
+<span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>v8.getHeapSnapshot([options])</code><span><a class="mark" href="#v8getheapsnapshotoptions" id="v8getheapsnapshotoptions">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_getheapsnapshot_options"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -550,7 +589,6 @@ for a duration depending on the heap size.</p>
 stream.<span class="hljs-title function_">pipe</span>(process.<span class="hljs-property">stdout</span>);</code> <button class="copy-button">copy</button></pre>
 <pre><code class="language-js"><span class="hljs-comment">// Print heap snapshot to the console</span>
 <span class="hljs-keyword">const</span> v8 = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:v8'</span>);
-<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
 <span class="hljs-keyword">const</span> stream = v8.<span class="hljs-title function_">getHeapSnapshot</span>();
 stream.<span class="hljs-title function_">pipe</span>(process.<span class="hljs-property">stdout</span>);</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>v8.getHeapSpaceStatistics()</code><span><a class="mark" href="#v8getheapspacestatistics" id="v8getheapspacestatistics">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_getheapspacestatistics"></a></h3>
@@ -690,23 +728,22 @@ total memory size of V8 global handles.</p>
 used memory size of V8 global handles.</p>
 <p><code>external_memory</code> The value of external_memory is the memory size of array
 buffers and external strings.</p>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
-  <span class="hljs-attr">total_heap_size</span>: <span class="hljs-number">7326976</span>,
-  <span class="hljs-attr">total_heap_size_executable</span>: <span class="hljs-number">4194304</span>,
-  <span class="hljs-attr">total_physical_size</span>: <span class="hljs-number">7326976</span>,
-  <span class="hljs-attr">total_available_size</span>: <span class="hljs-number">1152656</span>,
-  <span class="hljs-attr">used_heap_size</span>: <span class="hljs-number">3476208</span>,
-  <span class="hljs-attr">heap_size_limit</span>: <span class="hljs-number">1535115264</span>,
-  <span class="hljs-attr">malloced_memory</span>: <span class="hljs-number">16384</span>,
-  <span class="hljs-attr">peak_malloced_memory</span>: <span class="hljs-number">1127496</span>,
-  <span class="hljs-attr">does_zap_garbage</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">number_of_native_contexts</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">number_of_detached_contexts</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">total_global_handles_size</span>: <span class="hljs-number">8192</span>,
-  <span class="hljs-attr">used_global_handles_size</span>: <span class="hljs-number">3296</span>,
-  <span class="hljs-attr">external_memory</span>: <span class="hljs-number">318824</span>
-}</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"total_heap_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">7326976</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"total_heap_size_executable"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">4194304</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"total_physical_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">7326976</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"total_available_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1152656</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"used_heap_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3476208</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"heap_size_limit"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1535115264</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"malloced_memory"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">16384</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"peak_malloced_memory"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1127496</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"does_zap_garbage"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"number_of_native_contexts"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"number_of_detached_contexts"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"total_global_handles_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8192</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"used_global_handles_size"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3296</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"external_memory"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">318824</span>
+<span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>v8.getCppHeapStatistics([detailLevel])</code><span><a class="mark" href="#v8getcppheapstatisticsdetaillevel" id="v8getcppheapstatisticsdetaillevel">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_getcppheapstatistics_detaillevel"></a></h3>
 <p>Retrieves <a href="https://v8docs.nodesource.com/node-22.4/d9/dc4/classv8_1_1_cpp_heap.html">CppHeap</a> statistics regarding memory consumption and
 utilization using the V8 <a href="https://v8docs.nodesource.com/node-22.4/d9/dc4/classv8_1_1_cpp_heap.html#a3a5d09567758e608fffde50eeabc2feb"><code>CollectStatistics()</code></a> function which
@@ -790,9 +827,16 @@ for more information about the properties of the object.</p>
 });</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>v8.queryObjects(ctor[, options])</code><span><a class="mark" href="#v8queryobjectsctor-options" id="v8queryobjectsctor-options">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_queryobjects_ctor_options"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.0.0</span>
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.13.1</td>
+<td><p>This API is no longer experimental.</p></td></tr>
+<tr><td>v22.0.0, v20.13.0</td>
+<td><p><span>Added in: v22.0.0, v20.13.0</span></p></td></tr>
+</tbody></table>
+</details>
 </div>
-<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
 <ul>
 <li><code>ctor</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The constructor that can be used to search on the
 prototype chain in order to filter target objects in the heap.</li>
@@ -803,7 +847,7 @@ is returned. If it's <code>'summary'</code>, an array with summary strings
 of the matched objects is returned.</li>
 </ul>
 </li>
-<li>Returns: {number|Array<string>}</string></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a></li>
 </ul>
 <p>This is similar to the <a href="https://developer.chrome.com/docs/devtools/console/utilities#queryObjects-function"><code>queryObjects()</code> console API</a> provided by the
 Chromium DevTools console. It can be used to search for objects that
@@ -1054,7 +1098,7 @@ for a duration depending on the heap size.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.10.0, v16.18.0</td>
 <td><p><span>Added in: v18.10.0, v16.18.0</span></p></td></tr>
@@ -1578,7 +1622,7 @@ occur synchronously in the case of <code>Promise.resolve()</code> or <code>Promi
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v18.6.0, v16.17.0</td>
 <td><p><span>Added in: v18.6.0, v16.17.0</span></p></td></tr>
@@ -1595,9 +1639,7 @@ interface to specify how to save information for custom objects in the snapshot
 during serialization and how the information can be used to synchronize these
 objects during deserialization of the snapshot. For example, if the <code>entry.js</code>
 contains the following script:</p>
-<pre><code class="language-js cjs"><span class="hljs-meta">'use strict'</span>;
-
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
+<pre><code class="language-js cjs"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
 <span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:zlib'</span>);
 <span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:path'</span>);
 <span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:assert'</span>);
@@ -1725,7 +1767,8 @@ needs to be provided to the deserialized application.</p>
 <div class="api_metadata">
 <span>Added in: v19.6.0, v18.15.0</span>
 </div>
-<p>Create a new instance of the <code>v8.GCProfiler</code> class.</p>
+<p>Create a new instance of the <code>v8.GCProfiler</code> class.
+This API supports <code>using</code> syntax.</p>
 </div><div>
 <h4><code>profiler.start()</code><span><a class="mark" href="#profilerstart" id="profilerstart">#</a></span><a aria-hidden="true" class="legacy" id="v8_profiler_start"></a></h4>
 <div class="api_metadata">
@@ -1737,7 +1780,7 @@ needs to be provided to the deserialized application.</p>
 <div class="api_metadata">
 <span>Added in: v19.6.0, v18.15.0</span>
 </div>
-<p>Stop collecting GC data and return an object.The content of object
+<p>Stop collecting GC data and return an object. The content of object
 is as follows.</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"version"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
@@ -1811,10 +1854,84 @@ profiler.<span class="hljs-title function_">start</span>();
 <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(profiler.<span class="hljs-title function_">stop</span>());
 }, <span class="hljs-number">1000</span>);</code><button class="copy-button">copy</button></pre>
+</div><div>
+<h4><code>profiler[Symbol.dispose]()</code><span><a class="mark" href="#profilersymboldispose" id="profilersymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="v8_profiler_symbol_dispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.13.1</span>
+</div>
+<p>Stop collecting GC data, and discard the profile.</p>
+</div>
+</section><section><h3>Class: <code>SyncCPUProfileHandle</code><span><a class="mark" href="#class-synccpuprofilehandle" id="class-synccpuprofilehandle">#</a></span><a aria-hidden="true" class="legacy" id="v8_class_synccpuprofilehandle"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<div>
+<h4><code>syncCpuProfileHandle.stop()</code><span><a class="mark" href="#synccpuprofilehandlestop" id="synccpuprofilehandlestop">#</a></span><a aria-hidden="true" class="legacy" id="v8_synccpuprofilehandle_stop"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Stopping collecting the profile and return the profile data.</p>
+</div><div>
+<h4><code>syncCpuProfileHandle[Symbol.dispose]()</code><span><a class="mark" href="#synccpuprofilehandlesymboldispose" id="synccpuprofilehandlesymboldispose">#</a></span><a aria-hidden="true" class="legacy" id="v8_synccpuprofilehandle_symbol_dispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<p>Stopping collecting the profile and the profile will be discarded.</p>
+</div>
+</section><section><h3>Class: <code>CPUProfileHandle</code><span><a class="mark" href="#class-cpuprofilehandle" id="class-cpuprofilehandle">#</a></span><a aria-hidden="true" class="legacy" id="v8_class_cpuprofilehandle"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.8.0</span>
+</div>
+<div>
+<h4><code>cpuProfileHandle.stop()</code><span><a class="mark" href="#cpuprofilehandlestop" id="cpuprofilehandlestop">#</a></span><a aria-hidden="true" class="legacy" id="v8_cpuprofilehandle_stop"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.8.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a></li>
+</ul>
+<p>Stopping collecting the profile, then return a Promise that fulfills with an error or the
+profile data.</p>
+</div><div>
+<h4><code>cpuProfileHandle[Symbol.asyncDispose]()</code><span><a class="mark" href="#cpuprofilehandlesymbolasyncdispose" id="cpuprofilehandlesymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="v8_cpuprofilehandle_symbol_asyncdispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.8.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a></li>
+</ul>
+<p>Stopping collecting the profile and the profile will be discarded.</p>
+</div>
+</section><section><h3>Class: <code>HeapProfileHandle</code><span><a class="mark" href="#class-heapprofilehandle" id="class-heapprofilehandle">#</a></span><a aria-hidden="true" class="legacy" id="v8_class_heapprofilehandle"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<div>
+<h4><code>heapProfileHandle.stop()</code><span><a class="mark" href="#heapprofilehandlestop" id="heapprofilehandlestop">#</a></span><a aria-hidden="true" class="legacy" id="v8_heapprofilehandle_stop"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a></li>
+</ul>
+<p>Stopping collecting the profile, then return a Promise that fulfills with an error or the
+profile data.</p>
+</div><div>
+<h4><code>heapProfileHandle[Symbol.asyncDispose]()</code><span><a class="mark" href="#heapprofilehandlesymbolasyncdispose" id="heapprofilehandlesymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="v8_heapprofilehandle_symbol_asyncdispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v24.9.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a></li>
+</ul>
+<p>Stopping collecting the profile and the profile will be discarded.</p>
 </div>
 </section><section><h3><code>v8.isStringOneByteRepresentation(content)</code><span><a class="mark" href="#v8isstringonebyterepresentationcontent" id="v8isstringonebyterepresentationcontent">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_isstringonebyterepresentation_content"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.10.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>content</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
@@ -1874,7 +1991,19 @@ Sometimes a <code>Latin-1</code> string may also be represented as <code>UTF16</
   }
 }
 <span class="hljs-title function_">writeString</span>(<span class="hljs-string">'hello'</span>);
-<span class="hljs-title function_">writeString</span>(<span class="hljs-string">'你好'</span>);</code><button class="copy-button">copy</button></pre></section>
+<span class="hljs-title function_">writeString</span>(<span class="hljs-string">'你好'</span>);</code><button class="copy-button">copy</button></pre>
+</section><section><h3><code>v8.startCpuProfile()</code><span><a class="mark" href="#v8startcpuprofile" id="v8startcpuprofile">#</a></span><a aria-hidden="true" class="legacy" id="v8_v8_startcpuprofile"></a></h3>
+<div class="api_metadata">
+<span>Added in: v24.12.0</span>
+</div>
+<ul>
+<li>Returns: <a href="v8.html#class-synccpuprofilehandle" class="type">&#x3C;SyncCPUProfileHandle></a></li>
+</ul>
+<p>Starting a CPU profile then return a <code>SyncCPUProfileHandle</code> object.
+This API supports <code>using</code> syntax.</p>
+<pre><code class="language-js cjs"><span class="hljs-keyword">const</span> handle = v8.<span class="hljs-title function_">startCpuProfile</span>();
+<span class="hljs-keyword">const</span> profile = handle.<span class="hljs-title function_">stop</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(profile);</code> <button class="copy-button">copy</button></pre></section>
         <!-- API END -->
       </div>
     </div>

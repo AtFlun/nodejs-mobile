@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>Single executable applications | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>Single executable applications | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="single-executable-applications" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -161,6 +161,7 @@
 <li><a href="#requireid-in-the-injected-main-script-is-not-file-based"><code>require(id)</code> in the injected main script is not file based</a></li>
 <li><a href="#__filename-and-modulefilename-in-the-injected-main-script"><code>__filename</code> and <code>module.filename</code> in the injected main script</a></li>
 <li><a href="#__dirname-in-the-injected-main-script"><code>__dirname</code> in the injected main script</a></li>
+<li><a href="#using-native-addons-in-the-injected-main-script">Using native addons in the injected main script</a></li>
 </ul>
 </li>
 <li><a href="#notes">Notes</a>
@@ -326,6 +327,7 @@
 <li><a href="#requireid-in-the-injected-main-script-is-not-file-based"><code>require(id)</code> in the injected main script is not file based</a></li>
 <li><a href="#__filename-and-modulefilename-in-the-injected-main-script"><code>__filename</code> and <code>module.filename</code> in the injected main script</a></li>
 <li><a href="#__dirname-in-the-injected-main-script"><code>__dirname</code> in the injected main script</a></li>
+<li><a href="#using-native-addons-in-the-injected-main-script">Using native addons in the injected main script</a></li>
 </ul>
 </li>
 <li><a href="#notes">Notes</a>
@@ -355,7 +357,7 @@
 </details>
 </div>
 <p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1.1</a> - Active development</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/src/node_sea.cc">src/node_sea.cc</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/src/node_sea.cc">src/node_sea.cc</a></p>
 <p>This feature allows the distribution of a Node.js application conveniently to a
 system that does not have Node.js installed.</p>
 <p>Node.js supports the creation of <a href="https://github.com/nodejs/single-executable">single executable applications</a> by allowing
@@ -692,7 +694,7 @@ writes to the returned array buffer is likely to result in a crash.</p>
 </div><div>
 <h4><code>sea.getAssetKeys()</code><span><a class="mark" href="#seagetassetkeys" id="seagetassetkeys">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_sea_getassetkeys"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.20.0</span>
+<span>Added in: v24.8.0</span>
 </div>
 <ul>
 <li>Returns <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string[]></a> An array containing all the keys of the assets
@@ -712,6 +714,7 @@ only be found in the file system will throw an error.</p>
 application into a standalone JavaScript file to inject into the executable.
 This also ensures a more deterministic dependency graph.</p>
 <p>However, if a file based <code>require()</code> is still needed, that can also be achieved:</p>
+<!-- eslint-disable no-global-assign -->
 <pre><code class="language-js"><span class="hljs-keyword">const</span> { createRequire } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:module'</span>);
 <span class="hljs-built_in">require</span> = <span class="hljs-title function_">createRequire</span>(__filename);</code> <button class="copy-button">copy</button></pre>
 </div><div>
@@ -722,6 +725,35 @@ are equal to <a href="process.html#processexecpath"><code>process.execPath</code
 <h4><code>__dirname</code> in the injected main script<span><a class="mark" href="#__dirname-in-the-injected-main-script" id="__dirname-in-the-injected-main-script">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_dirname_in_the_injected_main_script"></a></h4>
 <p>The value of <code>__dirname</code> in the injected main script is equal to the directory
 name of <a href="process.html#processexecpath"><code>process.execPath</code></a>.</p>
+</div><div>
+<h4>Using native addons in the injected main script<span><a class="mark" href="#using-native-addons-in-the-injected-main-script" id="using-native-addons-in-the-injected-main-script">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_using_native_addons_in_the_injected_main_script"></a></h4>
+<p>Native addons can be bundled as assets into the single-executable application
+by specifying them in the <code>assets</code> field of the configuration file used to
+generate the single-executable application preparation blob.
+The addon can then be loaded in the injected main script by writing the asset
+to a temporary file and loading it with <code>process.dlopen()</code>.</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"main"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"/path/to/bundled/script.js"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"output"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"/path/to/write/the/generated/blob.blob"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"assets"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"myaddon.node"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"/path/to/myaddon/build/Release/myaddon.node"</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-js"><span class="hljs-comment">// script.js</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
+<span class="hljs-keyword">const</span> os = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:os'</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:path'</span>);
+<span class="hljs-keyword">const</span> { getRawAsset } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:sea'</span>);
+<span class="hljs-keyword">const</span> addonPath = path.<span class="hljs-title function_">join</span>(os.<span class="hljs-title function_">tmpdir</span>(), <span class="hljs-string">'myaddon.node'</span>);
+fs.<span class="hljs-title function_">writeFileSync</span>(addonPath, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint8Array</span>(<span class="hljs-title function_">getRawAsset</span>(<span class="hljs-string">'myaddon.node'</span>)));
+<span class="hljs-keyword">const</span> myaddon = { <span class="hljs-attr">exports</span>: {} };
+process.<span class="hljs-title function_">dlopen</span>(myaddon, addonPath);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myaddon.<span class="hljs-property">exports</span>);
+fs.<span class="hljs-title function_">rmSync</span>(addonPath);</code> <button class="copy-button">copy</button></pre>
+<p>Known caveat: if the single-executable application is produced by postject running on a Linux arm64 docker container,
+<a href="https://github.com/nodejs/postject/issues/105">the produced ELF binary does not have the correct hash table to load the addons</a> and
+will crash on <code>process.dlopen()</code>. Build the single-executable application on other platforms, or at least on
+a non-container Linux arm64 environment to work around this issue.</p>
 </div>
 </section><section><h3>Notes<span><a class="mark" href="#notes" id="notes">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_notes"></a></h3>
 <div>
@@ -744,7 +776,8 @@ last character to <code>1</code> to indicate that a resource has been injected.<
 platforms:</p>
 <ul>
 <li>Windows</li>
-<li>macOS</li>
+<li>macOS (arm64 only; x64 is not currently supported and is skipped in the
+tests)</li>
 <li>Linux (all distributions <a href="https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list">supported by Node.js</a> except Alpine and all
 architectures <a href="https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list">supported by Node.js</a> except s390x)</li>
 </ul>

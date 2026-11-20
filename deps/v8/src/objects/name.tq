@@ -56,8 +56,10 @@ macro ContainsCachedArrayIndex(hash: uint32): bool {
   return (hash & kDoesNotContainCachedArrayIndexMask) == 0;
 }
 
-extern macro SeedArrayIndexValue(uint32): uint32;
-extern macro UnseedArrayIndexValue(uint32): uint32;
+@if(V8_ENABLE_SEEDED_ARRAY_INDEX_HASH)
+  extern macro SeedArrayIndexValue(uint32): uint32;
+@if(V8_ENABLE_SEEDED_ARRAY_INDEX_HASH)
+  extern macro UnseedArrayIndexValue(uint32): uint32;
 
 const kArrayIndexValueBitsShift: uint32 = kNofHashBitFields;
 const kArrayIndexLengthBitsShift: uint32 =

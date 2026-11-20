@@ -1,9 +1,8 @@
 #pragma once
 
-#include "quic/defs.h"
 #if defined(NODE_WANT_INTERNALS) && NODE_WANT_INTERNALS
-#if HAVE_OPENSSL && NODE_OPENSSL_HAS_QUIC
 
+#include "base_object.h"
 #include "bindingdata.h"
 #include "defs.h"
 #include "session.h"
@@ -18,23 +17,36 @@ class Session::Application : public MemoryRetainer {
  public:
   using Options = Session::Application_Options;
 
+  // The type of Application, exposed via the session state so JS
+  // can observe which Application was selected after ALPN negotiation.
+  enum class Type : uint8_t {
+    NONE = 0,     // Not yet selected (server pre-negotiation)
+    DEFAULT = 1,  // DefaultApplication (non-h3 ALPN)
+    HTTP3 = 2,    // Http3ApplicationImpl (h3 / h3-XX ALPN)
+  };
+
   Application(Session* session, const Options& options);
   DISALLOW_COPY_AND_MOVE(Application)
 
+  virtual Type type() const = 0;
+
   virtual bool Start();
+
+  virtual error_code GetNoErrorCode() const = 0;
 
   // Session will forward all received stream data immediately on to the
   // Application. The only additional processing the Session does is to
   // automatically adjust the session-level flow control window. It is up to
   // the Application to do the same for the Stream-level flow control.
-  virtual bool ReceiveStreamData(Stream* stream,
+  virtual bool ReceiveStreamData(int64_t stream_id,
                                  const uint8_t* data,
                                  size_t datalen,
-                                 Stream::ReceiveDataFlags flags) = 0;
+                                 const Stream::ReceiveDataFlags& flags,
+                                 void* stream_user_data) = 0;
 
   // Session will forward all data acknowledgements for a stream to the
   // Application.
-  virtual void AcknowledgeStreamData(Stream* stream, size_t datalen);
+  virtual bool AcknowledgeStreamData(int64_t stream_id, size_t datalen);
 
   // Called to determine if a Header can be added to this application.
   // Applications that do not support headers will always return false.
@@ -78,15 +90,16 @@ class Session::Application : public MemoryRetainer {
       SessionTicket::AppData::Source::Flag flag);
 
   // Notifies the Application that the identified stream has been closed.
-  virtual void StreamClose(Stream* stream, QuicError error = QuicError());
+  virtual void StreamClose(Stream* stream, QuicError&& error = QuicError());
 
   // Notifies the Application that the identified stream has been reset.
   virtual void StreamReset(Stream* stream,
                            uint64_t final_size,
-                           QuicError error);
+                           QuicError&& error = QuicError());
 
   // Notifies the Application that the identified stream should stop sending.
-  virtual void StreamStopSending(Stream* stream, QuicError error);
+  virtual void StreamStopSending(Stream* stream,
+                                 QuicError&& error = QuicError());
 
   // Submits an outbound block of headers for the given stream. Not all
   // Application types will support headers, in which case this function
@@ -117,14 +130,19 @@ class Session::Application : public MemoryRetainer {
 
   virtual int GetStreamData(StreamData* data) = 0;
   virtual bool StreamCommit(StreamData* data, size_t datalen) = 0;
-  virtual bool ShouldSetFin(const StreamData& data) = 0;
 
-  inline Environment* env() const { return session_->env(); }
-  inline Session& session() { return *session_; }
-  inline const Session& session() const { return *session_; }
+  inline Environment* env() const { return session().env(); }
+  inline Session& session() {
+    CHECK_NOT_NULL(session_);
+    return *session_;
+  }
+  inline const Session& session() const {
+    CHECK_NOT_NULL(session_);
+    return *session_;
+  }
 
  private:
-  Packet* CreateStreamDataPacket();
+  Packet::Ptr CreateStreamDataPacket();
 
   // Write the given stream_data into the buffer.
   ssize_t WriteVStream(PathStorage* path,
@@ -133,27 +151,38 @@ class Session::Application : public MemoryRetainer {
                        size_t max_packet_size,
                        const StreamData& stream_data);
 
-  Session* session_;
+  Session* session_ = nullptr;
 };
 
 struct Session::Application::StreamData final {
   // The actual number of vectors in the struct, up to kMaxVectorCount.
   size_t count = 0;
-  size_t remaining = 0;
   // The stream identifier. If this is a negative value then no stream is
   // identified.
   int64_t id = -1;
   int fin = 0;
   ngtcp2_vec data[kMaxVectorCount]{};
-  ngtcp2_vec* buf = data;
   BaseObjectPtr<Stream> stream;
 
-  inline operator nghttp3_vec() const { return {data[0].base, data[0].len}; }
+  static_assert(sizeof(ngtcp2_vec) == sizeof(nghttp3_vec) &&
+                    alignof(ngtcp2_vec) == alignof(nghttp3_vec) &&
+                    offsetof(ngtcp2_vec, base) == offsetof(nghttp3_vec, base) &&
+                    offsetof(ngtcp2_vec, len) == offsetof(nghttp3_vec, len),
+                "ngtcp2_vec and nghttp3_vec must have identical layout");
+  inline operator nghttp3_vec*() {
+    return reinterpret_cast<nghttp3_vec*>(data);
+  }
+
+  inline operator const ngtcp2_vec*() const { return data; }
+  inline operator ngtcp2_vec*() { return data; }
 
   std::string ToString() const;
 };
 
+// Create a DefaultApplication for the given session.
+std::unique_ptr<Session::Application> CreateDefaultApplication(
+    Session* session, const Session::Application_Options& options);
+
 }  // namespace node::quic
 
-#endif  // HAVE_OPENSSL && NODE_OPENSSL_HAS_QUIC
 #endif  // defined(NODE_WANT_INTERNALS) && NODE_WANT_INTERNALS

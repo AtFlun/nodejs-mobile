@@ -22,6 +22,7 @@
 #include <ctime>
 #include <cwctype>
 #include <fstream>
+#include <ranges>
 
 constexpr int NODE_REPORT_VERSION = 5;
 constexpr int NANOS_PER_SEC = 1000 * 1000 * 1000;
@@ -439,10 +440,14 @@ static Maybe<std::string> ErrorToString(Isolate* isolate,
   } else if (!error->IsObject()) {
     maybe_str = error->ToString(context);
   } else if (error->IsObject()) {
-    MaybeLocal<Value> stack = error.As<Object>()->Get(
-        context, FIXED_ONE_BYTE_STRING(isolate, "stack"));
-    if (!stack.IsEmpty() && stack.ToLocalChecked()->IsString()) {
-      maybe_str = stack.ToLocalChecked().As<String>();
+    Local<Value> stack;
+    if (!error.As<Object>()
+             ->Get(context, FIXED_ONE_BYTE_STRING(isolate, "stack"))
+             .ToLocal(&stack)) {
+      return Nothing<std::string>();
+    }
+    if (stack->IsString()) {
+      maybe_str = stack.As<String>();
     }
   }
 
@@ -450,8 +455,7 @@ static Maybe<std::string> ErrorToString(Isolate* isolate,
   if (!maybe_str.ToLocal(&js_str)) {
     return Nothing<std::string>();
   }
-  String::Utf8Value sv(isolate, js_str);
-  return Just<>(std::string(*sv, sv.length()));
+  return Just(Utf8Value(isolate, js_str).ToString());
 }
 
 static void PrintEmptyJavaScriptStack(JSONWriter* writer) {
@@ -497,7 +501,7 @@ static void PrintJavaScriptStack(JSONWriter* writer,
     const int column = frame->GetColumn();
 
     std::string stack_line = SPrintF(
-        "at %s (%s:%d:%d)", *function_name, *script_name, line_number, column);
+        "at %s (%s:%d:%d)", function_name, script_name, line_number, column);
     writer->json_element(stack_line);
   }
   writer->json_arrayend();
@@ -534,7 +538,7 @@ static void PrintJavaScriptErrorStack(JSONWriter* writer,
     line = ss.find('\n');
     while (line != -1) {
       l = ss.substr(0, line);
-      l.erase(l.begin(), std::find_if(l.begin(), l.end(), [](int ch) {
+      l.erase(l.begin(), std::ranges::find_if(l, [](int ch) {
                 return !std::iswspace(ch);
               }));
       writer->json_element(l);

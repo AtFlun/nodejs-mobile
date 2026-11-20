@@ -205,14 +205,12 @@ Returns an array of IP address strings, formatted according to [RFC 5952][],
 that are currently configured for DNS resolution. A string will include a port
 section if a custom port is used.
 
-<!-- eslint-disable @stylistic/js/semi-->
-
-```js
+```json
 [
-  '8.8.8.8',
-  '2001:4860:4860::8888',
-  '8.8.8.8:1053',
-  '[2001:4860:4860::8888]:1053',
+  "8.8.8.8",
+  "2001:4860:4860::8888",
+  "8.8.8.8:1053",
+  "[2001:4860:4860::8888]:1053",
 ]
 ```
 
@@ -221,7 +219,9 @@ section if a custom port is used.
 <!-- YAML
 added: v0.1.90
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52492
     description: The `verbatim` option is now deprecated in favor of the new `order` option.
   - version: v18.4.0
@@ -257,7 +257,7 @@ changes:
     flags may be passed by bitwise `OR`ing their values.
   * `all` {boolean} When `true`, the callback returns all resolved addresses in
     an array. Otherwise, returns a single address. **Default:** `false`.
-  * `order` {string} When `verbatim`, the resolved addresses are return
+  * `order` {string} When `verbatim`, the resolved addresses are returned
     unsorted. When `ipv4first`, the resolved addresses are sorted by placing
     IPv4 addresses before IPv6 addresses. When `ipv6first`, the resolved
     addresses are sorted by placing IPv6 addresses before IPv4 addresses.
@@ -275,9 +275,15 @@ changes:
 * `callback` {Function}
   * `err` {Error}
   * `address` {string} A string representation of an IPv4 or IPv6 address.
+    Not provided when `options.all` is `true`.
   * `family` {integer} `4` or `6`, denoting the family of `address`, or `0` if
     the address is not an IPv4 or IPv6 address. `0` is a likely indicator of a
     bug in the name resolution service used by the operating system.
+    Not provided when `options.all` is `true`.
+  * `addresses` {Object\[]} An array of address objects when `options.all` is
+    `true`. Each object has the following properties:
+    * `address` {string} A string representation of an IPv4 or IPv6 address.
+    * `family` {integer} `4` or `6`, denoting the family of `address`.
 
 Resolves a host name (e.g. `'nodejs.org'`) into the first found A (IPv4) or
 AAAA (IPv6) record. All `option` properties are optional. If `options` is an
@@ -477,7 +483,7 @@ changes:
   * `err` {Error}
   * `addresses` {string\[] | Object\[]}
 
-Uses the DNS protocol to resolve a IPv4 addresses (`A` records) for the
+Uses the DNS protocol to resolve an IPv4 addresses (`A` records) for the
 `hostname`. The `addresses` argument passed to the `callback` function
 will contain an array of IPv4 addresses (e.g.
 `['74.125.79.104', '74.125.79.105', '74.125.79.106']`).
@@ -551,8 +557,6 @@ will be present on the object:
 
 Here is an example of the `ret` object passed to the callback:
 
-<!-- eslint-disable @stylistic/js/semi -->
-
 ```js
 [ { type: 'A', address: '127.0.0.1', ttl: 299 },
   { type: 'CNAME', value: 'example.com' },
@@ -566,7 +570,7 @@ Here is an example of the `ret` object passed to the callback:
     refresh: 900,
     retry: 900,
     expire: 1800,
-    minttl: 60 } ]
+    minttl: 60 } ];
 ```
 
 DNS server operators may choose not to respond to `ANY`
@@ -670,17 +674,15 @@ function will contain an array of objects with the following properties:
 * `order`
 * `preference`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   flags: 's',
   service: 'SIP+D2U',
   regexp: '',
   replacement: '_sip._udp.example.com',
   order: 30,
-  preference: 100
-}
+  preference: 100,
+});
 ```
 
 ## `dns.resolveNs(hostname, callback)`
@@ -755,18 +757,16 @@ be an object with the following properties:
 * `expire`
 * `minttl`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   nsname: 'ns.example.com',
   hostmaster: 'root.example.com',
   serial: 2013101809,
   refresh: 10000,
   retry: 2400,
   expire: 604800,
-  minttl: 3600
-}
+  minttl: 3600,
+});
 ```
 
 ## `dns.resolveSrv(hostname, callback)`
@@ -795,21 +795,21 @@ be an array of objects with the following properties:
 * `port`
 * `name`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   priority: 10,
   weight: 5,
   port: 21223,
-  name: 'service.example.com'
-}
+  name: 'service.example.com',
+});
 ```
 
 ## `dns.resolveTlsa(hostname, callback)`
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.9.0
+  - v22.15.0
 -->
 
 <!--lint disable no-undefined-references list-item-bullet-indent-->
@@ -830,15 +830,13 @@ array of objects with these properties:
 * `match`
 * `data`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   certUsage: 3,
   selector: 1,
   match: 1,
-  data: [ArrayBuffer]
-}
+  data: [ArrayBuffer],
+});
 ```
 
 ## `dns.resolveTxt(hostname, callback)`
@@ -889,7 +887,9 @@ added:
   - v16.4.0
   - v14.18.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52492
     description: The `ipv6first` value is supported now.
   - version: v17.0.0
@@ -918,7 +918,9 @@ added:
   - v20.1.0
   - v18.17.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52492
     description: The `ipv6first` value is supported now.
 -->
@@ -1067,14 +1069,12 @@ Returns an array of IP address strings, formatted according to [RFC 5952][],
 that are currently configured for DNS resolution. A string will include a port
 section if a custom port is used.
 
-<!-- eslint-disable @stylistic/js/semi-->
-
-```js
+```json
 [
-  '8.8.8.8',
-  '2001:4860:4860::8888',
-  '8.8.8.8:1053',
-  '[2001:4860:4860::8888]:1053',
+  "8.8.8.8",
+  "2001:4860:4860::8888",
+  "8.8.8.8:1053",
+  "[2001:4860:4860::8888]:1053"
 ]
 ```
 
@@ -1083,7 +1083,9 @@ section if a custom port is used.
 <!-- YAML
 added: v10.6.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52492
     description: The `verbatim` option is now deprecated in favor of the new `order` option.
 -->
@@ -1313,8 +1315,6 @@ present on the object:
 
 Here is an example of the result object:
 
-<!-- eslint-disable @stylistic/js/semi -->
-
 ```js
 [ { type: 'A', address: '127.0.0.1', ttl: 299 },
   { type: 'CNAME', value: 'example.com' },
@@ -1328,7 +1328,7 @@ Here is an example of the result object:
     refresh: 900,
     retry: 900,
     expire: 1800,
-    minttl: 60 } ]
+    minttl: 60 } ];
 ```
 
 ### `dnsPromises.resolveCaa(hostname)`
@@ -1391,17 +1391,15 @@ of objects with the following properties:
 * `order`
 * `preference`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   flags: 's',
   service: 'SIP+D2U',
   regexp: '',
   replacement: '_sip._udp.example.com',
   order: 30,
-  preference: 100
-}
+  preference: 100,
+});
 ```
 
 ### `dnsPromises.resolveNs(hostname)`
@@ -1449,18 +1447,16 @@ following properties:
 * `expire`
 * `minttl`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   nsname: 'ns.example.com',
   hostmaster: 'root.example.com',
   serial: 2013101809,
   refresh: 10000,
   retry: 2400,
   expire: 604800,
-  minttl: 3600
-}
+  minttl: 3600,
+});
 ```
 
 ### `dnsPromises.resolveSrv(hostname)`
@@ -1480,21 +1476,21 @@ the following properties:
 * `port`
 * `name`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   priority: 10,
   weight: 5,
   port: 21223,
-  name: 'service.example.com'
-}
+  name: 'service.example.com',
+});
 ```
 
 ### `dnsPromises.resolveTlsa(hostname)`
 
 <!-- YAML
-added: v22.15.0
+added:
+  - v23.9.0
+  - v22.15.0
 -->
 
 * `hostname` {string}
@@ -1508,15 +1504,13 @@ with these properties:
 * `match`
 * `data`
 
-<!-- eslint-skip -->
-
 ```js
-{
+({
   certUsage: 3,
   selector: 1,
   match: 1,
-  data: [ArrayBuffer]
-}
+  data: [ArrayBuffer],
+});
 ```
 
 ### `dnsPromises.resolveTxt(hostname)`
@@ -1555,7 +1549,9 @@ added:
   - v16.4.0
   - v14.18.0
 changes:
-  - version: v22.1.0
+  - version:
+    - v22.1.0
+    - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52492
     description: The `ipv6first` value is supported now.
   - version: v17.0.0

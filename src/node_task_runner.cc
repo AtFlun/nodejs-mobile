@@ -171,10 +171,10 @@ std::string EscapeShell(const std::string_view input) {
   escaped = std::regex_replace(escaped, leadingQuotePairs, "");
   escaped = std::regex_replace(escaped, tripleSingleQuote, "\\\"");
 #else
-  // Replace single quotes("'") with "\\'" and wrap the result
+  // Replace single quotes("'") with `'"'"'` and wrap the result
   // in single quotes.
   std::string escaped =
-      std::regex_replace(std::string(input), std::regex("'"), "\\'");
+      std::regex_replace(std::string(input), std::regex("'"), "'\"'\"'");
   escaped = "'" + escaped + "'";
   // Remove excessive quote pairs and handle edge cases
   static const std::regex tripleSingleQuote("\\\\'''");
@@ -351,8 +351,7 @@ void RunTask(const std::shared_ptr<InitializationResultImpl>& result,
 PositionalArgs GetPositionalArgs(const std::vector<std::string>& args) {
   // If the "--" flag is not found, return an empty optional
   // Otherwise, return the positional arguments as a single string
-  if (auto dash_dash = std::find(args.begin(), args.end(), "--");
-      dash_dash != args.end()) {
+  if (auto dash_dash = std::ranges::find(args, "--"); dash_dash != args.end()) {
     PositionalArgs positional_args{};
     positional_args.reserve(args.size() - (dash_dash - args.begin()));
     for (auto it = dash_dash + 1; it != args.end(); ++it) {

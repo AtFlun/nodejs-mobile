@@ -15,7 +15,6 @@
 
 namespace node {
 namespace crypto {
-int GetCurveFromName(const char* name);
 
 class ECDH final : public BaseObject {
  public:
@@ -55,40 +54,6 @@ class ECDH final : public BaseObject {
   ncrypto::ECKeyPointer key_;
   const EC_GROUP* group_;
 };
-
-struct ECDHBitsConfig final : public MemoryRetainer {
-  int id_;
-  KeyObjectData private_;
-  KeyObjectData public_;
-
-  void MemoryInfo(MemoryTracker* tracker) const override;
-  SET_MEMORY_INFO_NAME(ECDHBitsConfig)
-  SET_SELF_SIZE(ECDHBitsConfig)
-};
-
-struct ECDHBitsTraits final {
-  using AdditionalParameters = ECDHBitsConfig;
-  static constexpr const char* JobName = "ECDHBitsJob";
-  static constexpr AsyncWrap::ProviderType Provider =
-      AsyncWrap::PROVIDER_DERIVEBITSREQUEST;
-
-  static v8::Maybe<void> AdditionalConfig(
-      CryptoJobMode mode,
-      const v8::FunctionCallbackInfo<v8::Value>& args,
-      unsigned int offset,
-      ECDHBitsConfig* params);
-
-  static bool DeriveBits(Environment* env,
-                         const ECDHBitsConfig& params,
-                         ByteSource* out_,
-                         CryptoJobMode mode);
-
-  static v8::MaybeLocal<v8::Value> EncodeOutput(Environment* env,
-                                                const ECDHBitsConfig& params,
-                                                ByteSource* out);
-};
-
-using ECDHBitsJob = DeriveBitsJob<ECDHBitsTraits>;
 
 struct EcKeyPairParams final : public MemoryRetainer {
   int curve_nid;
@@ -141,22 +106,21 @@ struct ECKeyExportTraits final {
 
 using ECKeyExportJob = KeyExportJob<ECKeyExportTraits>;
 
-v8::Maybe<void> ExportJWKEcKey(Environment* env,
-                               const KeyObjectData& key,
-                               v8::Local<v8::Object> target);
+bool ExportJWKEcKey(Environment* env,
+                    const KeyObjectData& key,
+                    v8::Local<v8::Object> target);
 
-v8::Maybe<void> ExportJWKEdKey(Environment* env,
-                               const KeyObjectData& key,
-                               v8::Local<v8::Object> target);
+bool ExportJWKEdKey(Environment* env,
+                    const KeyObjectData& key,
+                    v8::Local<v8::Object> target);
 
-KeyObjectData ImportJWKEcKey(Environment* env,
-                             v8::Local<v8::Object> jwk,
-                             const v8::FunctionCallbackInfo<v8::Value>& args,
-                             unsigned int offset);
+KeyObjectData ImportJWKEdKey(Environment* env, v8::Local<v8::Object> jwk);
 
-v8::Maybe<void> GetEcKeyDetail(Environment* env,
-                               const KeyObjectData& key,
-                               v8::Local<v8::Object> target);
+KeyObjectData ImportJWKEcKey(Environment* env, v8::Local<v8::Object> jwk);
+
+bool GetEcKeyDetail(Environment* env,
+                    const KeyObjectData& key,
+                    v8::Local<v8::Object> target);
 }  // namespace crypto
 }  // namespace node
 

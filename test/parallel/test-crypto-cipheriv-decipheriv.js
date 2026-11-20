@@ -62,6 +62,10 @@ function testCipher2(key, iv) {
 
 
 function testCipher3(key, iv) {
+  if (!crypto.getCiphers().includes('id-aes128-wrap')) {
+    common.printSkipMessage(`unsupported id-aes128-wrap test`);
+    return;
+  }
   // Test encryption and decryption with explicit key and iv.
   // AES Key Wrap test vector comes from RFC3394
   const plaintext = Buffer.from('00112233445566778899AABBCCDDEEFF', 'hex');
@@ -170,6 +174,14 @@ for (let n = 1; n < 256; n += 1) {
                                 Buffer.alloc(n)),
     errMessage);
 }
+
+// And so should undefined be (regardless of mode).
+assert.throws(
+  () => crypto.createCipheriv('aes-128-ecb', Buffer.alloc(16)),
+  { code: 'ERR_INVALID_ARG_TYPE' });
+assert.throws(
+  () => crypto.createCipheriv('aes-128-ecb', Buffer.alloc(16), undefined),
+  { code: 'ERR_INVALID_ARG_TYPE' });
 
 // Correctly sized IV should be accepted in CBC mode.
 crypto.createCipheriv('aes-128-cbc', Buffer.alloc(16), Buffer.alloc(16));

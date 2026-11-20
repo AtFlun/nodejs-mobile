@@ -69,7 +69,7 @@ async function runReplTests(socket, prompt, tests) {
 
         // Allow to match partial text if no newline was received, because
         // sending newlines from the REPL itself would be redundant
-        // (e.g. in the `... ` multiline prompt: The user already pressed
+        // (e.g. in the `| ` multiline prompt: The user already pressed
         // enter for that, so the REPL shouldn't do it again!).
         if (lineBuffer === expectedLine && !expectedLine.includes('\n'))
           lineBuffer += '\n';
@@ -154,7 +154,7 @@ const errorTests = [
   // Common syntax error is treated as multiline command
   {
     send: 'function test_func() {',
-    expect: '... '
+    expect: '| '
   },
   // You can recover with the .break command
   {
@@ -169,7 +169,7 @@ const errorTests = [
   // Can handle multiline template literals
   {
     send: '`io.js',
-    expect: '... '
+    expect: '| '
   },
   // Special REPL commands still available
   {
@@ -179,7 +179,7 @@ const errorTests = [
   // Template expressions
   {
     send: '`io.js ${"1.0"',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '+ ".2"}`',
@@ -187,7 +187,7 @@ const errorTests = [
   },
   {
     send: '`io.js ${',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '"1.0" + ".2"}`',
@@ -196,7 +196,7 @@ const errorTests = [
   // Dot prefix in multiline commands aren't treated as commands
   {
     send: '("a"',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '.charAt(0))',
@@ -330,7 +330,7 @@ const errorTests = [
   // Multiline object
   {
     send: '{}),({}',
-    expect: '... ',
+    expect: '| ',
   },
   {
     send: '}',
@@ -343,7 +343,7 @@ const errorTests = [
   },
   {
     send: '{ a: ',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '1 }',
@@ -352,7 +352,7 @@ const errorTests = [
   // Multiline string-keyed object (e.g. JSON)
   {
     send: '{ "a": ',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '1 }',
@@ -361,12 +361,12 @@ const errorTests = [
   // Multiline class with private member.
   {
     send: 'class Foo { #private = true ',
-    expect: '... '
+    expect: '| '
   },
   // Class field with bigint.
   {
     send: 'num = 123456789n',
-    expect: '... '
+    expect: '| '
   },
   // Static class features.
   {
@@ -376,15 +376,15 @@ const errorTests = [
   // Multiline anonymous function with comment
   {
     send: '(function() {',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '// blah',
-    expect: '... '
+    expect: '| '
   },
   {
     send: 'return 1n;',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '})()',
@@ -393,11 +393,11 @@ const errorTests = [
   // Multiline function call
   {
     send: 'function f(){}; f(f(1,',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '2)',
-    expect: '... '
+    expect: '| '
   },
   {
     send: ')',
@@ -418,16 +418,16 @@ const errorTests = [
   ...possibleTokensAfterIdentifierWithLineBreak.map((token) => (
     {
       send: `npm ${token}; undefined`,
-      expect: '... undefined'
+      expect: '| undefined'
     }
   )),
   {
     send: '(function() {\n\nreturn 1;\n})()',
-    expect: '... ... ... 1'
+    expect: '| | | 1'
   },
   {
     send: '{\n\na: 1\n}',
-    expect: '... ... ... { a: 1 }'
+    expect: '| | | { a: 1 }'
   },
   {
     send: 'url.format("http://google.com")',
@@ -462,7 +462,7 @@ const errorTests = [
   // Do not fail when a String is created with line continuation
   {
     send: '\'the\\\nfourth\\\neye\'',
-    expect: ['... ... \'thefourtheye\'']
+    expect: ['| | \'thefourtheye\'']
   },
   // Don't fail when a partial String is created and line continuation is used
   // with whitespace characters at the end of the string. We are to ignore it.
@@ -475,17 +475,17 @@ const errorTests = [
   // Multiline strings preserve whitespace characters in them
   {
     send: '\'the \\\n   fourth\t\t\\\n  eye  \'',
-    expect: '... ... \'the    fourth\\t\\t  eye  \''
+    expect: '| | \'the    fourth\\t\\t  eye  \''
   },
   // More than one multiline strings also should preserve whitespace chars
   {
     send: '\'the \\\n   fourth\' +  \'\t\t\\\n  eye  \'',
-    expect: '... ... \'the    fourth\\t\\t  eye  \''
+    expect: '| | \'the    fourth\\t\\t  eye  \''
   },
   // using REPL commands within a string literal should still work
   {
     send: '\'\\\n.break',
-    expect: '... ' + prompt_unix
+    expect: '| ' + prompt_unix
   },
   // Using REPL command "help" within a string literal should still work
   {
@@ -532,7 +532,7 @@ const errorTests = [
   // Empty lines in the string literals should not affect the string
   {
     send: '\'the\\\n\\\nfourtheye\'\n',
-    expect: '... ... \'thefourtheye\''
+    expect: '| | \'thefourtheye\''
   },
   // Regression test for https://github.com/nodejs/node/issues/597
   {
@@ -549,32 +549,32 @@ const errorTests = [
   // Regression tests for https://github.com/nodejs/node/issues/2749
   {
     send: 'function x() {\nreturn \'\\n\';\n }',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x() {\nreturn \'\\\\\';\n }',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   // Regression tests for https://github.com/nodejs/node/issues/3421
   {
     send: 'function x() {\n//\'\n }',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x() {\n//"\n }',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x() {//\'\n }',
-    expect: '... undefined'
+    expect: '| undefined'
   },
   {
     send: 'function x() {//"\n }',
-    expect: '... undefined'
+    expect: '| undefined'
   },
   {
     send: 'function x() {\nvar i = "\'";\n }',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x(/*optional*/) {}',
@@ -602,20 +602,21 @@ const errorTests = [
   },
   {
     send: '/* \'\n"\n\'"\'\n*/',
-    expect: '... ... ... undefined'
+    expect: '| | | undefined'
   },
   // REPL should get a normal require() function, not one that allows
   // access to internal modules without the --expose-internals flag.
   {
     // Shrink the stack trace to avoid having to update this test whenever the
-    // implementation of require() changes. It's set to 4 because somehow setting it
+    // implementation of require() changes. It's set to 5 because somehow setting it
     // to a lower value breaks the error formatting and the message becomes
     // "Uncaught [Error...", which is probably a bug(?).
-    send: 'Error.stackTraceLimit = 4; require("internal/repl")',
+    send: 'Error.stackTraceLimit = 5; require("internal/repl")',
     expect: [
       /^Uncaught Error: Cannot find module 'internal\/repl'/,
       /^Require stack:/,
       /^- <repl>/,  // This just tests MODULE_NOT_FOUND so let's skip the stack trace
+      /^ {4}at .*/, // Some stack frame that we have to capture otherwise error message is buggy.
       /^ {4}at .*/, // Some stack frame that we have to capture otherwise error message is buggy.
       /^ {4}at .*/, // Some stack frame that we have to capture otherwise error message is buggy.
       /^ {4}at .*/, // Some stack frame that we have to capture otherwise error message is buggy.
@@ -627,19 +628,19 @@ const errorTests = [
   // REPL should handle quotes within regexp literal in multiline mode
   {
     send: "function x(s) {\nreturn s.replace(/'/,'');\n}",
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: "function x(s) {\nreturn s.replace(/'/,'');\n}",
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x(s) {\nreturn s.replace(/"/,"");\n}',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: 'function x(s) {\nreturn s.replace(/.*/,"");\n}',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
   {
     send: '{ var x = 4; }',
@@ -710,17 +711,17 @@ const errorTests = [
   // https://github.com/nodejs/node/issues/9300
   {
     send: 'function foo() {\nvar bar = 1 / 1; // "/"\n}',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
 
   {
     send: '(function() {\nreturn /foo/ / /bar/;\n}())',
-    expect: '... ... NaN'
+    expect: '| | NaN'
   },
 
   {
     send: '(function() {\nif (false) {} /bar"/;\n}())',
-    expect: '... ... undefined'
+    expect: '| | undefined'
   },
 
   // https://github.com/nodejs/node/issues/16483
@@ -736,7 +737,7 @@ const errorTests = [
   // Newline within template string maintains whitespace.
   {
     send: '`foo \n`',
-    expect: '... \'foo \\n\''
+    expect: '| \'foo \\n\''
   },
   // Whitespace is not evaluated.
   {
@@ -770,7 +771,7 @@ const errorTests = [
   {
     send: 'x = {\nfield\n{',
     expect: [
-      '... ... {',
+      '| | {',
       kArrow,
       '',
       /^Uncaught SyntaxError: /,
@@ -787,11 +788,11 @@ const errorTests = [
   },
   {
     send: 'if (typeof process === "object"); {',
-    expect: '... '
+    expect: '| '
   },
   {
     send: 'console.log("process is defined");',
-    expect: '... '
+    expect: '| '
   },
   {
     send: '} else {',
@@ -1049,4 +1050,18 @@ function event(ee, expected) {
       resolve(...args);
     }));
   });
+}
+
+{
+  const server = repl.REPLServer();
+  common.expectWarning({
+    DeprecationWarning: {
+      DEP0185: 'Instantiating REPLServer without the \'new\' keyword has been deprecated.',
+      // For the 'url.format' test-case.
+      DEP0169:
+        '`url.parse()` behavior is not standardized and prone to errors that have security implications. ' +
+        'Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.',
+    }
+  });
+  server.emit('line', '.exit');
 }

@@ -139,13 +139,8 @@ struct PlainHashReader {
 /*
  *  Likely and unlikely macros.
  */
-#ifdef _MSC_VER
-#define _likely_(x) (x)
-#define _unlikely_(x) (x)
-#else
 #define _likely_(x) __builtin_expect(x, 1)
 #define _unlikely_(x) __builtin_expect(x, 0)
-#endif
 
 /*
  *  64*64 -> 128bit multiply function.

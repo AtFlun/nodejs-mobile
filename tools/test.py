@@ -602,12 +602,21 @@ class TestCase(object):
 
   def Run(self):
     try:
-      result = self.RunCommand(self.GetCommand(), {
+      run_configuration = self.GetRunConfiguration()
+      command = run_configuration['command']
+      envs = {}
+      if 'envs' in run_configuration:
+        envs.update(run_configuration['envs'])
+      envs.update({
         "TEST_SERIAL_ID": "%d" % self.serial_id,
         "TEST_THREAD_ID": "%d" % self.thread_id,
         "TEST_PARALLEL" : "%d" % self.parallel,
         "GITHUB_STEP_SUMMARY": "",
       })
+      result = self.RunCommand(
+        command,
+        envs
+      )
     finally:
       # Tests can leave the tty in non-blocking mode. If the test runner
       # tries to print to stdout/stderr after that and the tty buffer is
@@ -960,6 +969,7 @@ class Context(object):
     self.abort_on_timeout = abort_on_timeout
     self.v8_enable_inspector = True
     self.node_has_crypto = True
+    self.use_error_reporter = False
 
   def GetVm(self, arch, mode):
     if self.vm is not None:
@@ -1452,7 +1462,7 @@ def BuildOptions():
       help="Type of build (simple, fips, coverage)",
       default=None)
   result.add_argument("--error-reporter",
-      help="use error reporter",
+      help="use error reporter if the test uses node:test",
       default=True, action="store_true")
   return result
 
@@ -1586,6 +1596,7 @@ IGNORED_SUITES = [
   'benchmark',
   'doctool',
   'embedding',
+  'ffi',
   'internet',
   'js-native-api',
   'node-api',
@@ -1673,10 +1684,6 @@ def Main():
     options.node_args.append("--always-turbofan")
     options.progress = "deopts"
 
-  if options.error_reporter:
-    options.node_args.append('--test-reporter=./test/common/test-error-reporter.js')
-    options.node_args.append('--test-reporter-destination=stdout')
-
   if options.worker:
     run_worker = join(workspace, "tools", "run-worker.js")
     options.node_args.append(run_worker)
@@ -1702,6 +1709,9 @@ def Main():
       break
   else:
     context.default_mode = 'none'
+
+  if options.error_reporter:
+    context.use_error_reporter = True
 
   # Get status for tests
   sections = [ ]

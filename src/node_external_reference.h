@@ -5,6 +5,7 @@
 
 #include <cinttypes>
 #include <vector>
+#include "quic/guard.h"
 #include "v8-fast-api-calls.h"
 #include "v8.h"
 
@@ -66,9 +67,11 @@ class ExternalReferenceRegistry {
   V(buffer)                                                                    \
   V(builtins)                                                                  \
   V(cares_wrap)                                                                \
+  V(cjs_lexer)                                                                 \
   V(config)                                                                    \
   V(contextify)                                                                \
   V(credentials)                                                               \
+  V(diagnostics_channel)                                                       \
   V(encoding_binding)                                                          \
   V(env_var)                                                                   \
   V(errors)                                                                    \
@@ -79,6 +82,8 @@ class ExternalReferenceRegistry {
   V(heap_utils)                                                                \
   V(http_parser)                                                               \
   V(internal_only_v8)                                                          \
+  V(ipc_serdes)                                                                \
+  V(locks)                                                                     \
   V(messaging)                                                                 \
   V(mksnapshot)                                                                \
   V(module_wrap)                                                               \
@@ -96,6 +101,7 @@ class ExternalReferenceRegistry {
   V(tty_wrap)                                                                  \
   V(udp_wrap)                                                                  \
   V(url)                                                                       \
+  V(url_pattern)                                                               \
   V(util)                                                                      \
   V(pipe_wrap)                                                                 \
   V(sea)                                                                       \
@@ -133,7 +139,7 @@ class ExternalReferenceRegistry {
 #define EXTERNAL_REFERENCE_BINDING_LIST_CRYPTO(V)
 #endif  // HAVE_OPENSSL
 
-#if HAVE_OPENSSL && NODE_OPENSSL_HAS_QUIC
+#if HAVE_OPENSSL && OPENSSL_NO_QUIC != 1
 #define EXTERNAL_REFERENCE_BINDING_LIST_QUIC(V) V(quic)
 #else
 #define EXTERNAL_REFERENCE_BINDING_LIST_QUIC(V)

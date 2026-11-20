@@ -270,6 +270,11 @@ using Http2Header = NgHeader<Http2HeaderTraits>;
 class Http2Stream : public AsyncWrap,
                     public StreamBase {
  public:
+  enum InternalFields {
+    kInternalFieldCount = std::max<uint32_t>(AsyncWrap::kInternalFieldCount,
+                                             StreamBase::kInternalFieldCount),
+  };
+
   static Http2Stream* New(
       Http2Session* session,
       int32_t id,
@@ -694,9 +699,7 @@ class Http2Session : public AsyncWrap,
 
   bool has_pending_rststream(int32_t stream_id) {
     return pending_rst_streams_.end() !=
-        std::find(pending_rst_streams_.begin(),
-            pending_rst_streams_.end(),
-            stream_id);
+           std::ranges::find(pending_rst_streams_, stream_id);
   }
 
   // Handle reads/writes from the underlying network transport.

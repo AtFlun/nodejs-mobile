@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>DNS | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>DNS | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -112,7 +112,7 @@
     <div id="column1" data-id="dns" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -429,7 +429,7 @@
         <h2>DNS<span><a class="mark" href="#dns" id="dns">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/dns.js">lib/dns.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/dns.js">lib/dns.js</a></p>
 <p>The <code>node:dns</code> module enables name resolution. For example, use it to look up IP
 addresses of host names.</p>
 <p>Although named for the <a href="https://en.wikipedia.org/wiki/Domain_Name_System">Domain Name System (DNS)</a>, it does not always use the
@@ -597,19 +597,18 @@ The <code>rrtype</code> of resolution requests has no impact on the local addres
 <p>Returns an array of IP address strings, formatted according to <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a>,
 that are currently configured for DNS resolution. A string will include a port
 section if a custom port is used.</p>
-<!-- eslint-disable @stylistic/js/semi-->
-<pre><code class="language-js">[
-  <span class="hljs-string">'8.8.8.8'</span>,
-  <span class="hljs-string">'2001:4860:4860::8888'</span>,
-  <span class="hljs-string">'8.8.8.8:1053'</span>,
-  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
-]</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">[</span>
+  <span class="hljs-string">"8.8.8.8"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"2001:4860:4860::8888"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"8.8.8.8:1053"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"[2001:4860:4860::8888]:1053"</span><span class="hljs-punctuation">,</span>
+<span class="hljs-punctuation">]</span></code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>dns.lookup(hostname[, options], callback)</code><span><a class="mark" href="#dnslookuphostname-options-callback" id="dnslookuphostname-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_lookup_hostname_options_callback"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>verbatim</code> option is now deprecated in favor of the new <code>order</code> option.</p></td></tr>
 <tr><td>v18.4.0</td>
 <td><p>For compatibility with <code>node:net</code>, when passing an option object the <code>family</code> option can be the string <code>'IPv4'</code> or the string <code>'IPv6'</code>.</p></td></tr>
@@ -640,7 +639,7 @@ depending on the system's DNS resolver. <strong>Default:</strong> <code>0</code>
 flags may be passed by bitwise <code>OR</code>ing their values.</li>
 <li><code>all</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the callback returns all resolved addresses in
 an array. Otherwise, returns a single address. <strong>Default:</strong> <code>false</code>.</li>
-<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> When <code>verbatim</code>, the resolved addresses are return
+<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> When <code>verbatim</code>, the resolved addresses are returned
 unsorted. When <code>ipv4first</code>, the resolved addresses are sorted by placing
 IPv4 addresses before IPv6 addresses. When <code>ipv6first</code>, the resolved
 addresses are sorted by placing IPv6 addresses before IPv4 addresses.
@@ -660,10 +659,19 @@ configurable using <a href="#dnssetdefaultresultorderorder"><code>dns.setDefault
 <li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
 <ul>
 <li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
-<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A string representation of an IPv4 or IPv6 address.</li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A string representation of an IPv4 or IPv6 address.
+Not provided when <code>options.all</code> is <code>true</code>.</li>
 <li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> <code>4</code> or <code>6</code>, denoting the family of <code>address</code>, or <code>0</code> if
 the address is not an IPv4 or IPv6 address. <code>0</code> is a likely indicator of a
-bug in the name resolution service used by the operating system.</li>
+bug in the name resolution service used by the operating system.
+Not provided when <code>options.all</code> is <code>true</code>.</li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a> An array of address objects when <code>options.all</code> is
+<code>true</code>. Each object has the following properties:
+<ul>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A string representation of an IPv4 or IPv6 address.</li>
+<li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#number_type" class="type">&#x3C;integer></a> <code>4</code> or <code>6</code>, denoting the family of <code>address</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -929,7 +937,7 @@ with the TTL expressed in seconds.</li>
 </ul>
 </li>
 </ul>
-<p>Uses the DNS protocol to resolve a IPv4 addresses (<code>A</code> records) for the
+<p>Uses the DNS protocol to resolve an IPv4 addresses (<code>A</code> records) for the
 <code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function
 will contain an array of IPv4 addresses (e.g.
 <code>['74.125.79.104', '74.125.79.105', '74.125.79.106']</code>).</p>
@@ -1050,7 +1058,6 @@ will be present on the object:</p>
 
 <table><thead><tr><th>Type</th><th>Properties</th></tr></thead><tbody><tr><td><code>'A'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'AAAA'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'CAA'</code></td><td>Refer to <a href="#dnsresolvecaahostname-callback"><code>dns.resolveCaa()</code></a></td></tr><tr><td><code>'CNAME'</code></td><td><code>value</code></td></tr><tr><td><code>'MX'</code></td><td>Refer to <a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>Refer to <a href="#dnsresolvenaptrhostname-callback"><code>dns.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td><code>value</code></td></tr><tr><td><code>'PTR'</code></td><td><code>value</code></td></tr><tr><td><code>'SOA'</code></td><td>Refer to <a href="#dnsresolvesoahostname-callback"><code>dns.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>Refer to <a href="#dnsresolvesrvhostname-callback"><code>dns.resolveSrv()</code></a></td></tr><tr><td><code>'TLSA'</code></td><td>Refer to <a href="#dnsresolvetlsahostname-callback"><code>dns.resolveTlsa()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>This type of record contains an array property called <code>entries</code> which refers to <a href="#dnsresolvetxthostname-callback"><code>dns.resolveTxt()</code></a>, e.g. <code>{ entries: ['...'], type: 'TXT' }</code></td></tr></tbody></table>
 <p>Here is an example of the <code>ret</code> object passed to the callback:</p>
-<!-- eslint-disable @stylistic/js/semi -->
 <pre><code class="language-js">[ { <span class="hljs-attr">type</span>: <span class="hljs-string">'A'</span>, <span class="hljs-attr">address</span>: <span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-attr">ttl</span>: <span class="hljs-number">299</span> },
   { <span class="hljs-attr">type</span>: <span class="hljs-string">'CNAME'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'example.com'</span> },
   { <span class="hljs-attr">type</span>: <span class="hljs-string">'MX'</span>, <span class="hljs-attr">exchange</span>: <span class="hljs-string">'alt4.aspmx.l.example.com'</span>, <span class="hljs-attr">priority</span>: <span class="hljs-number">50</span> },
@@ -1063,7 +1070,7 @@ will be present on the object:</p>
     <span class="hljs-attr">refresh</span>: <span class="hljs-number">900</span>,
     <span class="hljs-attr">retry</span>: <span class="hljs-number">900</span>,
     <span class="hljs-attr">expire</span>: <span class="hljs-number">1800</span>,
-    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ]</code> <button class="copy-button">copy</button></pre>
+    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ];</code> <button class="copy-button">copy</button></pre>
 <p>DNS server operators may choose not to respond to <code>ANY</code>
 queries. It may be better to call individual methods like <a href="#dnsresolve4hostname-options-callback"><code>dns.resolve4()</code></a>,
 <a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx()</code></a>, and so on. For more details, see <a href="https://tools.ietf.org/html/rfc8482">RFC 8482</a>.</p>
@@ -1174,15 +1181,14 @@ function will contain an array of objects with the following properties:</p>
 <li><code>order</code></li>
 <li><code>preference</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">flags</span>: <span class="hljs-string">'s'</span>,
   <span class="hljs-attr">service</span>: <span class="hljs-string">'SIP+D2U'</span>,
   <span class="hljs-attr">regexp</span>: <span class="hljs-string">''</span>,
   <span class="hljs-attr">replacement</span>: <span class="hljs-string">'_sip._udp.example.com'</span>,
   <span class="hljs-attr">order</span>: <span class="hljs-number">30</span>,
-  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>dns.resolveNs(hostname, callback)</code><span><a class="mark" href="#dnsresolvenshostname-callback" id="dnsresolvenshostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvens_hostname_callback"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -1265,16 +1271,15 @@ be an object with the following properties:</p>
 <li><code>expire</code></li>
 <li><code>minttl</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns.example.com'</span>,
   <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'root.example.com'</span>,
   <span class="hljs-attr">serial</span>: <span class="hljs-number">2013101809</span>,
   <span class="hljs-attr">refresh</span>: <span class="hljs-number">10000</span>,
   <span class="hljs-attr">retry</span>: <span class="hljs-number">2400</span>,
   <span class="hljs-attr">expire</span>: <span class="hljs-number">604800</span>,
-  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>dns.resolveSrv(hostname, callback)</code><span><a class="mark" href="#dnsresolvesrvhostname-callback" id="dnsresolvesrvhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvesrv_hostname_callback"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -1305,16 +1310,15 @@ be an array of objects with the following properties:</p>
 <li><code>port</code></li>
 <li><code>name</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">priority</span>: <span class="hljs-number">10</span>,
   <span class="hljs-attr">weight</span>: <span class="hljs-number">5</span>,
   <span class="hljs-attr">port</span>: <span class="hljs-number">21223</span>,
-  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>dns.resolveTlsa(hostname, callback)</code><span><a class="mark" href="#dnsresolvetlsahostname-callback" id="dnsresolvetlsahostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvetlsa_hostname_callback"></a></h3>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.9.0, v22.15.0</span>
 </div>
 <!--lint disable no-undefined-references list-item-bullet-indent-->
 <ul>
@@ -1336,13 +1340,12 @@ array of objects with these properties:</p>
 <li><code>match</code></li>
 <li><code>data</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">certUsage</span>: <span class="hljs-number">3</span>,
   <span class="hljs-attr">selector</span>: <span class="hljs-number">1</span>,
   <span class="hljs-attr">match</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">data</span>: [<span class="hljs-title class_">ArrayBuffer</span>]
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">data</span>: [<span class="hljs-title class_">ArrayBuffer</span>],
+});</code> <button class="copy-button">copy</button></pre>
 </section><section><h3><code>dns.resolveTxt(hostname, callback)</code><span><a class="mark" href="#dnsresolvetxthostname-callback" id="dnsresolvetxthostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvetxt_hostname_callback"></a></h3>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
@@ -1392,7 +1395,7 @@ one of the <a href="#error-codes">DNS error codes</a>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p>Changed default value to <code>verbatim</code>.</p></td></tr>
@@ -1420,7 +1423,7 @@ dns orders in workers.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
 <tr><td>v20.1.0, v18.17.0</td>
 <td><p><span>Added in: v20.1.0, v18.17.0</span></p></td></tr>
@@ -1546,20 +1549,19 @@ promises will be rejected with an error with the code <code>ECANCELLED</code>.</
 <p>Returns an array of IP address strings, formatted according to <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a>,
 that are currently configured for DNS resolution. A string will include a port
 section if a custom port is used.</p>
-<!-- eslint-disable @stylistic/js/semi-->
-<pre><code class="language-js">[
-  <span class="hljs-string">'8.8.8.8'</span>,
-  <span class="hljs-string">'2001:4860:4860::8888'</span>,
-  <span class="hljs-string">'8.8.8.8:1053'</span>,
-  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
-]</code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">[</span>
+  <span class="hljs-string">"8.8.8.8"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"2001:4860:4860::8888"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"8.8.8.8:1053"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-string">"[2001:4860:4860::8888]:1053"</span>
+<span class="hljs-punctuation">]</span></code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.lookup(hostname[, options])</code><span><a class="mark" href="#dnspromiseslookuphostname-options" id="dnspromiseslookuphostname-options">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_lookup_hostname_options"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>verbatim</code> option is now deprecated in favor of the new <code>order</code> option.</p></td></tr>
 <tr><td>v10.6.0</td>
 <td><p><span>Added in: v10.6.0</span></p></td></tr>
@@ -1892,7 +1894,6 @@ present on the object:</p>
 
 <table><thead><tr><th>Type</th><th>Properties</th></tr></thead><tbody><tr><td><code>'A'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'AAAA'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'CAA'</code></td><td>Refer to <a href="#dnspromisesresolvecaahostname"><code>dnsPromises.resolveCaa()</code></a></td></tr><tr><td><code>'CNAME'</code></td><td><code>value</code></td></tr><tr><td><code>'MX'</code></td><td>Refer to <a href="#dnspromisesresolvemxhostname"><code>dnsPromises.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>Refer to <a href="#dnspromisesresolvenaptrhostname"><code>dnsPromises.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td><code>value</code></td></tr><tr><td><code>'PTR'</code></td><td><code>value</code></td></tr><tr><td><code>'SOA'</code></td><td>Refer to <a href="#dnspromisesresolvesoahostname"><code>dnsPromises.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>Refer to <a href="#dnspromisesresolvesrvhostname"><code>dnsPromises.resolveSrv()</code></a></td></tr><tr><td><code>'TLSA'</code></td><td>Refer to <a href="#dnspromisesresolvetlsahostname"><code>dnsPromises.resolveTlsa()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>This type of record contains an array property called <code>entries</code> which refers to <a href="#dnspromisesresolvetxthostname"><code>dnsPromises.resolveTxt()</code></a>, e.g. <code>{ entries: ['...'], type: 'TXT' }</code></td></tr></tbody></table>
 <p>Here is an example of the result object:</p>
-<!-- eslint-disable @stylistic/js/semi -->
 <pre><code class="language-js">[ { <span class="hljs-attr">type</span>: <span class="hljs-string">'A'</span>, <span class="hljs-attr">address</span>: <span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-attr">ttl</span>: <span class="hljs-number">299</span> },
   { <span class="hljs-attr">type</span>: <span class="hljs-string">'CNAME'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'example.com'</span> },
   { <span class="hljs-attr">type</span>: <span class="hljs-string">'MX'</span>, <span class="hljs-attr">exchange</span>: <span class="hljs-string">'alt4.aspmx.l.example.com'</span>, <span class="hljs-attr">priority</span>: <span class="hljs-number">50</span> },
@@ -1905,7 +1906,7 @@ present on the object:</p>
     <span class="hljs-attr">refresh</span>: <span class="hljs-number">900</span>,
     <span class="hljs-attr">retry</span>: <span class="hljs-number">900</span>,
     <span class="hljs-attr">expire</span>: <span class="hljs-number">1800</span>,
-    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ]</code> <button class="copy-button">copy</button></pre>
+    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ];</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.resolveCaa(hostname)</code><span><a class="mark" href="#dnspromisesresolvecaahostname" id="dnspromisesresolvecaahostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvecaa_hostname"></a></h4>
 <div class="api_metadata">
@@ -1960,15 +1961,14 @@ of objects with the following properties:</p>
 <li><code>order</code></li>
 <li><code>preference</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">flags</span>: <span class="hljs-string">'s'</span>,
   <span class="hljs-attr">service</span>: <span class="hljs-string">'SIP+D2U'</span>,
   <span class="hljs-attr">regexp</span>: <span class="hljs-string">''</span>,
   <span class="hljs-attr">replacement</span>: <span class="hljs-string">'_sip._udp.example.com'</span>,
   <span class="hljs-attr">order</span>: <span class="hljs-number">30</span>,
-  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.resolveNs(hostname)</code><span><a class="mark" href="#dnspromisesresolvenshostname" id="dnspromisesresolvenshostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvens_hostname"></a></h4>
 <div class="api_metadata">
@@ -2012,16 +2012,15 @@ following properties:</p>
 <li><code>expire</code></li>
 <li><code>minttl</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns.example.com'</span>,
   <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'root.example.com'</span>,
   <span class="hljs-attr">serial</span>: <span class="hljs-number">2013101809</span>,
   <span class="hljs-attr">refresh</span>: <span class="hljs-number">10000</span>,
   <span class="hljs-attr">retry</span>: <span class="hljs-number">2400</span>,
   <span class="hljs-attr">expire</span>: <span class="hljs-number">604800</span>,
-  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.resolveSrv(hostname)</code><span><a class="mark" href="#dnspromisesresolvesrvhostname" id="dnspromisesresolvesrvhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvesrv_hostname"></a></h4>
 <div class="api_metadata">
@@ -2039,17 +2038,16 @@ the following properties:</p>
 <li><code>port</code></li>
 <li><code>name</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">priority</span>: <span class="hljs-number">10</span>,
   <span class="hljs-attr">weight</span>: <span class="hljs-number">5</span>,
   <span class="hljs-attr">port</span>: <span class="hljs-number">21223</span>,
-  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>,
+});</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.resolveTlsa(hostname)</code><span><a class="mark" href="#dnspromisesresolvetlsahostname" id="dnspromisesresolvetlsahostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvetlsa_hostname"></a></h4>
 <div class="api_metadata">
-<span>Added in: v22.15.0</span>
+<span>Added in: v23.9.0, v22.15.0</span>
 </div>
 <ul>
 <li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a></li>
@@ -2063,13 +2061,12 @@ with these properties:</p>
 <li><code>match</code></li>
 <li><code>data</code></li>
 </ul>
-<!-- eslint-skip -->
-<pre><code class="language-js">{
+<pre><code class="language-js">({
   <span class="hljs-attr">certUsage</span>: <span class="hljs-number">3</span>,
   <span class="hljs-attr">selector</span>: <span class="hljs-number">1</span>,
   <span class="hljs-attr">match</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">data</span>: [<span class="hljs-title class_">ArrayBuffer</span>]
-}</code> <button class="copy-button">copy</button></pre>
+  <span class="hljs-attr">data</span>: [<span class="hljs-title class_">ArrayBuffer</span>],
+});</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>dnsPromises.resolveTxt(hostname)</code><span><a class="mark" href="#dnspromisesresolvetxthostname" id="dnspromisesresolvetxthostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvetxt_hostname"></a></h4>
 <div class="api_metadata">
@@ -2102,7 +2099,7 @@ is one of the <a href="#error-codes">DNS error codes</a>.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
 <tr><td>v17.0.0</td>
 <td><p>Changed default value to <code>verbatim</code>.</p></td></tr>

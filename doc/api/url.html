@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <meta name="nodejs.org:node-version" content="v22.23.2">
-  <title>URL | Node.js v22.23.2 Documentation</title>
+  <meta name="nodejs.org:node-version" content="v24.19.0">
+  <title>URL | Node.js v24.19.0 Documentation</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/hljs.css">
@@ -23,7 +23,7 @@
         document.documentElement.classList.add('dark-mode');
       }
   </script>
-  <style>@media(max-width:478px){.with-32-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:726px){.with-63-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:750px){.with-66-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:606px){.with-48-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:614px){.with-49-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+  <style>@media(max-width:478px){.with-32-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:726px){.with-63-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:750px){.with-66-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:606px){.with-48-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:614px){.with-49-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:510px){.with-36-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
 </head>
 <body class="alt apidoc" id="api-section-url">
   <a href="#apicontent" class="skip-to-content">Skip to content</a>
@@ -112,7 +112,7 @@
     <div id="column1" data-id="url" class="interior">
       <header class="header">
         <div class="header-container">
-          <h1>Node.js v22.23.2 documentation</h1>
+          <h1>Node.js v24.19.0 documentation</h1>
           <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
               <path fill="none" d="M0 0h24v24H0z" />
@@ -127,7 +127,7 @@
         </div>
         <div id="gtoc">
           <ul>
-            <li class="pinned-header">Node.js v22.23.2</li>
+            <li class="pinned-header">Node.js v24.19.0</li>
             
     <li class="picker-header">
       <a href="#toc-picker" aria-controls="toc-picker">
@@ -170,6 +170,15 @@
 <li><a href="#urlrevokeobjecturlid"><code>URL.revokeObjectURL(id)</code></a></li>
 <li><a href="#urlcanparseinput-base"><code>URL.canParse(input[, base])</code></a></li>
 <li><a href="#urlparseinput-base"><code>URL.parse(input[, base])</code></a></li>
+</ul>
+</li>
+<li><span class="stability_1"><a href="#class-urlpattern">Class: <code>URLPattern</code></a></span>
+<ul>
+<li><a href="#new-urlpattern"><code>new URLPattern()</code></a></li>
+<li><a href="#new-urlpatternstring-baseurl-options"><code>new URLPattern(string[, baseURL][, options])</code></a></li>
+<li><a href="#new-urlpatternobj-baseurl-options"><code>new URLPattern(obj[, baseURL][, options])</code></a></li>
+<li><a href="#urlpatternexecinput-baseurl"><code>urlPattern.exec(input[, baseURL])</code></a></li>
+<li><a href="#urlpatterntestinput-baseurl"><code>urlPattern.test(input[, baseURL])</code></a></li>
 </ul>
 </li>
 <li><a href="#class-urlsearchparams">Class: <code>URLSearchParams</code></a>
@@ -222,8 +231,9 @@
 </ul>
 </li>
 <li><a href="#urlformaturlobject"><code>url.format(urlObject)</code></a></li>
+<li><span class="stability_0"><a href="#urlformaturlstring"><code>url.format(urlString)</code></a></span></li>
 <li><span class="stability_0"><a href="#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse(urlString[, parseQueryString[, slashesDenoteHost]])</code></a></span></li>
-<li><a href="#urlresolvefrom-to"><code>url.resolve(from, to)</code></a></li>
+<li><span class="stability_0"><a href="#urlresolvefrom-to"><code>url.resolve(from, to)</code></a></span></li>
 </ul>
 </li>
 <li><a href="#percent-encoding-in-urls">Percent-encoding in URLs</a>
@@ -417,6 +427,15 @@
 <li><a href="#urlparseinput-base"><code>URL.parse(input[, base])</code></a></li>
 </ul>
 </li>
+<li><span class="stability_1"><a href="#class-urlpattern">Class: <code>URLPattern</code></a></span>
+<ul>
+<li><a href="#new-urlpattern"><code>new URLPattern()</code></a></li>
+<li><a href="#new-urlpatternstring-baseurl-options"><code>new URLPattern(string[, baseURL][, options])</code></a></li>
+<li><a href="#new-urlpatternobj-baseurl-options"><code>new URLPattern(obj[, baseURL][, options])</code></a></li>
+<li><a href="#urlpatternexecinput-baseurl"><code>urlPattern.exec(input[, baseURL])</code></a></li>
+<li><a href="#urlpatterntestinput-baseurl"><code>urlPattern.test(input[, baseURL])</code></a></li>
+</ul>
+</li>
 <li><a href="#class-urlsearchparams">Class: <code>URLSearchParams</code></a>
 <ul>
 <li><a href="#new-urlsearchparams"><code>new URLSearchParams()</code></a></li>
@@ -467,8 +486,9 @@
 </ul>
 </li>
 <li><a href="#urlformaturlobject"><code>url.format(urlObject)</code></a></li>
+<li><span class="stability_0"><a href="#urlformaturlstring"><code>url.format(urlString)</code></a></span></li>
 <li><span class="stability_0"><a href="#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse(urlString[, parseQueryString[, slashesDenoteHost]])</code></a></span></li>
-<li><a href="#urlresolvefrom-to"><code>url.resolve(from, to)</code></a></li>
+<li><span class="stability_0"><a href="#urlresolvefrom-to"><code>url.resolve(from, to)</code></a></span></li>
 </ul>
 </li>
 <li><a href="#percent-encoding-in-urls">Percent-encoding in URLs</a>
@@ -485,7 +505,7 @@
         <h2>URL<span><a class="mark" href="#url" id="url">#</a></span><a aria-hidden="true" class="legacy" id="url_url"></a></h2>
 
 <p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
-<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v22.23.2/lib/url.js">lib/url.js</a></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v24.19.0/lib/url.js">lib/url.js</a></p>
 <p>The <code>node:url</code> module provides utilities for URL resolution and parsing. It can
 be accessed using:</p>
 
@@ -999,7 +1019,7 @@ with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.7.0</td>
 <td><p><span>Added in: v16.7.0</span></p></td></tr>
@@ -1035,7 +1055,7 @@ to other workers or the main thread.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.17.0</td>
+<tr><td>v24.0.0</td>
 <td><p>Marking the API stable.</p></td></tr>
 <tr><td>v16.7.0</td>
 <td><p><span>Added in: v16.7.0</span></p></td></tr>
@@ -1081,6 +1101,106 @@ absolute. If <code>base</code> is not a string, it is <a href="https://tc39.es/e
 <p>Parses a string as a URL. If <code>base</code> is provided, it will be used as the base
 URL for the purpose of resolving non-absolute <code>input</code> URLs. Returns <code>null</code>
 if the parameters can't be resolved to a valid URL.</p>
+</div></div><div>
+<h4>Class: <code>URLPattern</code><span><a class="mark" href="#class-urlpattern" id="class-urlpattern">#</a></span><a aria-hidden="true" class="legacy" id="url_class_urlpattern"></a></h4>
+<div class="api_metadata">
+<span>Added in: v23.8.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p>The <code>URLPattern</code> API provides an interface to match URLs or parts of URLs
+against a pattern.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> myPattern = <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLPattern</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/*.html'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myPattern.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/dns.html'</span>));
+<span class="hljs-comment">// Prints:</span>
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//  "hash": { "groups": {  "0": "" },  "input": "" },</span>
+<span class="hljs-comment">//  "hostname": { "groups": {}, "input": "nodejs.org" },</span>
+<span class="hljs-comment">//  "inputs": [</span>
+<span class="hljs-comment">//    "https://nodejs.org/docs/latest/api/dns.html"</span>
+<span class="hljs-comment">//  ],</span>
+<span class="hljs-comment">//  "password": { "groups": { "0": "" }, "input": "" },</span>
+<span class="hljs-comment">//  "pathname": { "groups": { "0": "dns" }, "input": "/docs/latest/api/dns.html" },</span>
+<span class="hljs-comment">//  "port": { "groups": {}, "input": "" },</span>
+<span class="hljs-comment">//  "protocol": { "groups": {}, "input": "https" },</span>
+<span class="hljs-comment">//  "search": { "groups": { "0": "" }, "input": "" },</span>
+<span class="hljs-comment">//  "username": { "groups": { "0": "" }, "input": "" }</span>
+<span class="hljs-comment">// }</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myPattern.<span class="hljs-title function_">test</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/dns.html'</span>));
+<span class="hljs-comment">// Prints: true</span></code> <button class="copy-button">copy</button></pre>
+<div>
+<h5><code>new URLPattern()</code><span><a class="mark" href="#new-urlpattern" id="new-urlpattern">#</a></span><a aria-hidden="true" class="legacy" id="url_new_urlpattern"></a></h5>
+<p>Instantiate a new empty <code>URLPattern</code> object.</p>
+</div><div>
+<h5><code>new URLPattern(string[, baseURL][, options])</code><span><a class="mark" href="#new-urlpatternstring-baseurl-options" id="new-urlpatternstring-baseurl-options">#</a></span><a aria-hidden="true" class="legacy" id="url_new_urlpattern_string_baseurl_options"></a></h5>
+<ul>
+<li><code>string</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A URL string</li>
+<li><code>baseURL</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> A base URL string</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Options</li>
+</ul>
+<p>Parse the <code>string</code> as a URL, and use it to instantiate a new
+<code>URLPattern</code> object.</p>
+<p>If <code>baseURL</code> is not specified, it defaults to <code>undefined</code>.</p>
+<p>An option can have <code>ignoreCase</code> boolean attribute which enables
+case-insensitive matching if set to true.</p>
+<p>The constructor can throw a <code>TypeError</code> to indicate parsing failure.</p>
+</div><div>
+<h5><code>new URLPattern(obj[, baseURL][, options])</code><span><a class="mark" href="#new-urlpatternobj-baseurl-options" id="new-urlpatternobj-baseurl-options">#</a></span><a aria-hidden="true" class="legacy" id="url_new_urlpattern_obj_baseurl_options"></a></h5>
+<ul>
+<li><code>obj</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An input pattern</li>
+<li><code>baseURL</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> A base URL string</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Options</li>
+</ul>
+<p>Parse the <code>Object</code> as an input pattern, and use it to instantiate a new
+<code>URLPattern</code> object. The object members can be any of <code>protocol</code>, <code>username</code>,
+<code>password</code>, <code>hostname</code>, <code>port</code>, <code>pathname</code>, <code>search</code>, <code>hash</code> or <code>baseURL</code>.</p>
+<p>If <code>baseURL</code> is not specified, it defaults to <code>undefined</code>.</p>
+<p>An option can have <code>ignoreCase</code> boolean attribute which enables
+case-insensitive matching if set to true.</p>
+<p>The constructor can throw a <code>TypeError</code> to indicate parsing failure.</p>
+</div><div>
+<h5><code>urlPattern.exec(input[, baseURL])</code><span><a class="mark" href="#urlpatternexecinput-baseurl" id="urlpatternexecinput-baseurl">#</a></span><a aria-hidden="true" class="legacy" id="url_urlpattern_exec_input_baseurl"></a></h5>
+<ul>
+<li><code>input</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> A URL or URL parts</li>
+<li><code>baseURL</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> A base URL string</li>
+</ul>
+<p>Input can be a string or an object providing the individual URL parts. The
+object members can be any of <code>protocol</code>, <code>username</code>, <code>password</code>, <code>hostname</code>,
+<code>port</code>, <code>pathname</code>, <code>search</code>, <code>hash</code> or <code>baseURL</code>.</p>
+<p>If <code>baseURL</code> is not specified, it will default to <code>undefined</code>.</p>
+<p>Returns an object with an <code>inputs</code> key containing the array of arguments
+passed into the function and keys of the URL components which contains the
+matched input and matched groups.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> myPattern = <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLPattern</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/*.html'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myPattern.<span class="hljs-title function_">exec</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/dns.html'</span>));
+<span class="hljs-comment">// Prints:</span>
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//  "hash": { "groups": {  "0": "" },  "input": "" },</span>
+<span class="hljs-comment">//  "hostname": { "groups": {}, "input": "nodejs.org" },</span>
+<span class="hljs-comment">//  "inputs": [</span>
+<span class="hljs-comment">//    "https://nodejs.org/docs/latest/api/dns.html"</span>
+<span class="hljs-comment">//  ],</span>
+<span class="hljs-comment">//  "password": { "groups": { "0": "" }, "input": "" },</span>
+<span class="hljs-comment">//  "pathname": { "groups": { "0": "dns" }, "input": "/docs/latest/api/dns.html" },</span>
+<span class="hljs-comment">//  "port": { "groups": {}, "input": "" },</span>
+<span class="hljs-comment">//  "protocol": { "groups": {}, "input": "https" },</span>
+<span class="hljs-comment">//  "search": { "groups": { "0": "" }, "input": "" },</span>
+<span class="hljs-comment">//  "username": { "groups": { "0": "" }, "input": "" }</span>
+<span class="hljs-comment">// }</span></code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h5><code>urlPattern.test(input[, baseURL])</code><span><a class="mark" href="#urlpatterntestinput-baseurl" id="urlpatterntestinput-baseurl">#</a></span><a aria-hidden="true" class="legacy" id="url_urlpattern_test_input_baseurl"></a></h5>
+<ul>
+<li><code>input</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> A URL or URL parts</li>
+<li><code>baseURL</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#undefined_type" class="type">&#x3C;undefined></a> A base URL string</li>
+</ul>
+<p>Input can be a string or an object providing the individual URL parts. The
+object members can be any of <code>protocol</code>, <code>username</code>, <code>password</code>, <code>hostname</code>,
+<code>port</code>, <code>pathname</code>, <code>search</code>, <code>hash</code> or <code>baseURL</code>.</p>
+<p>If <code>baseURL</code> is not specified, it will default to <code>undefined</code>.</p>
+<p>Returns a boolean indicating if the input matches the current pattern.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> myPattern = <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLPattern</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/*.html'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(myPattern.<span class="hljs-title function_">test</span>(<span class="hljs-string">'https://nodejs.org/docs/latest/api/dns.html'</span>));
+<span class="hljs-comment">// Prints: true</span></code> <button class="copy-button">copy</button></pre>
 </div></div><div>
 <h4>Class: <code>URLSearchParams</code><span><a class="mark" href="#class-urlsearchparams" id="class-urlsearchparams">#</a></span><a aria-hidden="true" class="legacy" id="url_class_urlsearchparams"></a></h4>
 <div class="api_metadata">
@@ -1480,7 +1600,7 @@ domain, the empty string is returned.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>options</code> argument can now be used to determine how to parse the <code>path</code> argument.</p></td></tr>
 <tr><td>v10.12.0</td>
 <td><p><span>Added in: v10.12.0</span></p></td></tr>
@@ -1541,7 +1661,7 @@ before using it for file system operations.</p>
 </div><div>
 <h4><code>url.fileURLToPathBuffer(url[, options])</code><span><a class="mark" href="#urlfileurltopathbufferurl-options" id="urlfileurltopathbufferurl-options">#</a></span><a aria-hidden="true" class="legacy" id="url_url_fileurltopathbuffer_url_options"></a></h4>
 <!--
-added: v22.18.0
+added: v24.3.0
 -->
 <ul>
 <li><code>url</code> <a href="url.html#the-whatwg-url-api" class="type">&#x3C;URL></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The file URL string or URL object to convert to a path.</li>
@@ -1623,7 +1743,7 @@ of the output.</p>
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
-<tr><td>v22.1.0</td>
+<tr><td>v22.1.0, v20.13.0</td>
 <td><p>The <code>options</code> argument can now be used to determine how to return the <code>path</code> value.</p></td></tr>
 <tr><td>v10.12.0</td>
 <td><p><span>Added in: v10.12.0</span></p></td></tr>
@@ -1850,9 +1970,8 @@ forward-slash characters (<code>/</code>) are required following the colon in th
 </details>
 </div>
 <ul>
-<li><code>urlObject</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A URL object (as returned by <code>url.parse()</code> or
-constructed otherwise). If a string, it is converted to an object by passing
-it to <code>url.parse()</code>.</li>
+<li><code>urlObject</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> A URL object (as returned by <code>url.parse()</code> or
+constructed otherwise).</li>
 </ul>
 <p>The <code>url.format()</code> method returns a formatted URL string derived from
 <code>urlObject</code>.</p>
@@ -1940,6 +2059,43 @@ character, the literal string <code>#</code> is appended to <code>result</code>.
 string, an <a href="errors.html#class-error"><code>Error</code></a> is thrown.</li>
 <li><code>result</code> is returned.</li>
 </ul>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/node-url-to-whatwg-url">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/node-url-to-whatwg-url</code> <button class="copy-button">copy</button></pre>
+</div><div>
+<h4><code>url.format(urlString)</code><span><a class="mark" href="#urlformaturlstring" id="urlformaturlstring">#</a></span><a aria-hidden="true" class="legacy" id="url_url_format_urlstring"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>Application deprecation.</p></td></tr>
+<tr><td>v0.1.25</td>
+<td><p><span>Added in: v0.1.25</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use the WHATWG URL API instead.</div><p></p>
+<ul>
+<li><code>urlString</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> A string that will be passed to <code>url.parse()</code> and then
+formatted.</li>
+</ul>
+<p><code>url.format(urlString)</code> is shorthand for <code>url.format(url.parse(urlString))</code>.</p>
+<p>Because it invokes the deprecated <a href="#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a> internally, passing a string argument
+to <code>url.format()</code> is itself deprecated.</p>
+<p>Canonicalizing a URL string can be performed using the WHATWG URL API, by
+constructing a new URL object and calling <a href="#urltostring"><code>url.toString()</code></a>.</p>
+
+<pre class="with-36-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">URL</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:url'</span>;
+
+<span class="hljs-keyword">const</span> unformatted = <span class="hljs-string">'http://[fe80:0:0:0:0:0:0:1]:/a/b?a=b#abc'</span>;
+<span class="hljs-keyword">const</span> formatted = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(unformatted).<span class="hljs-title function_">toString</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(formatted); <span class="hljs-comment">// Prints: http://[fe80::1]/a/b?a=b#abc</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-variable constant_">URL</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:url'</span>);
+
+<span class="hljs-keyword">const</span> unformatted = <span class="hljs-string">'http://[fe80:0:0:0:0:0:0:1]:/a/b?a=b#abc'</span>;
+<span class="hljs-keyword">const</span> formatted = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(unformatted).<span class="hljs-title function_">toString</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(formatted); <span class="hljs-comment">// Prints: http://[fe80::1]/a/b?a=b#abc</span></code><button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>url.parse(urlString[, parseQueryString[, slashesDenoteHost]])</code><span><a class="mark" href="#urlparseurlstring-parsequerystring-slashesdenotehost" id="urlparseurlstring-parsequerystring-slashesdenotehost">#</a></span><a aria-hidden="true" class="legacy" id="url_url_parse_urlstring_parsequerystring_slashesdenotehost"></a></h4>
 <div class="api_metadata">
@@ -1998,12 +2154,16 @@ use the example below:</p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">getURL</span>(<span class="hljs-params">req</span>) {
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-string">`https://example.com<span class="hljs-subst">${req.url || <span class="hljs-string">'/'</span>}</span>`</span>);
 }</code> <button class="copy-button">copy</button></pre>
+<p>An automated migration is available (<a href="https://github.com/nodejs/userland-migrations/tree/main/recipes/node-url-to-whatwg-url">source</a>).</p>
+<pre><code class="language-bash">npx codemod@latest @nodejs/node-url-to-whatwg-url</code> <button class="copy-button">copy</button></pre>
 </div><div>
 <h4><code>url.resolve(from, to)</code><span><a class="mark" href="#urlresolvefrom-to" id="urlresolvefrom-to">#</a></span><a aria-hidden="true" class="legacy" id="url_url_resolve_from_to"></a></h4>
 <div class="api_metadata">
 <details class="changelog"><summary>History</summary>
 <table>
 <tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v24.0.0</td>
+<td><p>Deprecated again through DEP0169.</p></td></tr>
 <tr><td>v15.13.0, v14.17.0</td>
 <td><p>Deprecation revoked. Status changed to "Legacy".</p></td></tr>
 <tr><td>v11.0.0</td>
@@ -2019,6 +2179,7 @@ use the example below:</p>
 </tbody></table>
 </details>
 </div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use the WHATWG URL API instead.</div><p></p>
 <ul>
 <li><code>from</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The base URL to use if <code>to</code> is a relative URL.</li>
 <li><code>to</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type" class="type">&#x3C;string></a> The target URL to resolve.</li>
@@ -2029,6 +2190,7 @@ manner similar to that of a web browser resolving an anchor tag.</p>
 url.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'/one/two/three'</span>, <span class="hljs-string">'four'</span>);         <span class="hljs-comment">// '/one/two/four'</span>
 url.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'http://example.com/'</span>, <span class="hljs-string">'/one'</span>);    <span class="hljs-comment">// 'http://example.com/one'</span>
 url.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'http://example.com/one'</span>, <span class="hljs-string">'/two'</span>); <span class="hljs-comment">// 'http://example.com/two'</span></code> <button class="copy-button">copy</button></pre>
+<p>Because it invokes the deprecated <a href="#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a> internally, <code>url.resolve()</code> is itself deprecated.</p>
 <p>To achieve the same result using the WHATWG URL API:</p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">resolve</span>(<span class="hljs-params"><span class="hljs-keyword">from</span>, to</span>) {
   <span class="hljs-keyword">const</span> resolvedUrl = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(to, <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-keyword">from</span>, <span class="hljs-string">'resolve://'</span>));

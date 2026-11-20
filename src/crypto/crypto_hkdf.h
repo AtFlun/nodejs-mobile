@@ -14,8 +14,9 @@ namespace crypto {
 struct HKDFConfig final : public MemoryRetainer {
   CryptoJobMode mode;
   size_t length;
-  const EVP_MD* digest;
+  ncrypto::Digest digest;
   KeyObjectData key;
+  ByteSource key_data;
   ByteSource salt;
   ByteSource info;
 

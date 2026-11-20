@@ -435,7 +435,7 @@ writes to the returned array buffer is likely to result in a crash.
 ### `sea.getAssetKeys()`
 
 <!-- YAML
-added: v22.20.0
+added: v24.8.0
 -->
 
 * Returns {string\[]} An array containing all the keys of the assets
@@ -459,6 +459,8 @@ This also ensures a more deterministic dependency graph.
 
 However, if a file based `require()` is still needed, that can also be achieved:
 
+<!-- eslint-disable no-global-assign -->
+
 ```js
 const { createRequire } = require('node:module');
 require = createRequire(__filename);
@@ -473,6 +475,43 @@ are equal to [`process.execPath`][].
 
 The value of `__dirname` in the injected main script is equal to the directory
 name of [`process.execPath`][].
+
+### Using native addons in the injected main script
+
+Native addons can be bundled as assets into the single-executable application
+by specifying them in the `assets` field of the configuration file used to
+generate the single-executable application preparation blob.
+The addon can then be loaded in the injected main script by writing the asset
+to a temporary file and loading it with `process.dlopen()`.
+
+```json
+{
+  "main": "/path/to/bundled/script.js",
+  "output": "/path/to/write/the/generated/blob.blob",
+  "assets": {
+    "myaddon.node": "/path/to/myaddon/build/Release/myaddon.node"
+  }
+}
+```
+
+```js
+// script.js
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { getRawAsset } = require('node:sea');
+const addonPath = path.join(os.tmpdir(), 'myaddon.node');
+fs.writeFileSync(addonPath, new Uint8Array(getRawAsset('myaddon.node')));
+const myaddon = { exports: {} };
+process.dlopen(myaddon, addonPath);
+console.log(myaddon.exports);
+fs.rmSync(addonPath);
+```
+
+Known caveat: if the single-executable application is produced by postject running on a Linux arm64 docker container,
+[the produced ELF binary does not have the correct hash table to load the addons][postject-linux-arm64-issue] and
+will crash on `process.dlopen()`. Build the single-executable application on other platforms, or at least on
+a non-container Linux arm64 environment to work around this issue.
 
 ## Notes
 
@@ -497,7 +536,8 @@ Single-executable support is tested regularly on CI only on the following
 platforms:
 
 * Windows
-* macOS
+* macOS (arm64 only; x64 is not currently supported and is skipped in the
+  tests)
 * Linux (all distributions [supported by Node.js][] except Alpine and all
   architectures [supported by Node.js][] except s390x)
 
@@ -526,6 +566,7 @@ to help us document them.
 [documentation about startup snapshot support in Node.js]: cli.md#--build-snapshot
 [fuse]: https://www.electronjs.org/docs/latest/tutorial/fuses
 [postject]: https://github.com/nodejs/postject
+[postject-linux-arm64-issue]: https://github.com/nodejs/postject/issues/105
 [signtool]: https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool
 [single executable applications]: https://github.com/nodejs/single-executable
 [supported by Node.js]: https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list

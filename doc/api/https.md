@@ -72,11 +72,11 @@ to customize how TLS connections are established.
 <!-- YAML
 changes:
   - version:
-    - v22.21.0
+    - v24.5.0
     pr-url: https://github.com/nodejs/node/pull/58980
     description: Add support for `proxyEnv`.
   - version:
-    - v22.21.0
+    - v24.5.0
     pr-url: https://github.com/nodejs/node/pull/58980
     description: Add support for `defaultPort` and `protocol`.
   - version: v12.5.0
@@ -155,9 +155,11 @@ See [`server.close()`][] in the `node:http` module.
 
 <!-- YAML
 added: v20.4.0
+changes:
+ - version: v24.2.0
+   pr-url: https://github.com/nodejs/node/pull/58467
+   description: No longer experimental.
 -->
-
-> Stability: 1 - Experimental
 
 Calls [`server.close()`][httpsServerClose] and returns a promise that
 fulfills when the server has closed.
@@ -423,7 +425,9 @@ a `timeout` of 5 seconds.
 <!-- YAML
 added: v0.3.6
 changes:
-  - version: v22.4.0
+  - version:
+    - v22.4.0
+    - v20.16.0
     pr-url: https://github.com/nodejs/node/pull/53329
     description: The `clientCertEngine` option depends on custom engine
                  support in OpenSSL which is deprecated in OpenSSL 3.

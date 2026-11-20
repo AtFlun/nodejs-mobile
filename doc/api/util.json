@@ -8,7 +8,7 @@
       "introduced_in": "v0.10.0",
       "stability": 2,
       "stabilityText": "Stable",
-      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v22.23.2/lib/util.js\">lib/util.js</a></p>\n<p>The <code>node:util</code> module supports the needs of Node.js internal APIs. Many of the\nutilities are useful for application and module developers as well. To access\nit:</p>\n<pre><code class=\"language-mjs\">import util from 'node:util';\n</code></pre>\n<pre><code class=\"language-cjs\">const util = require('node:util');\n</code></pre>",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v24.19.0/lib/util.js\">lib/util.js</a></p>\n<p>The <code>node:util</code> module supports the needs of Node.js internal APIs. Many of the\nutilities are useful for application and module developers as well. To access\nit:</p>\n<pre><code class=\"language-mjs\">import util from 'node:util';\n</code></pre>\n<pre><code class=\"language-cjs\">const util = require('node:util');\n</code></pre>",
       "methods": [
         {
           "textRaw": "`util.callbackify(original)`",
@@ -38,7 +38,37 @@
               ]
             }
           ],
-          "desc": "<p>Takes an <code>async</code> function (or a function that returns a <code>Promise</code>) and returns a\nfunction following the error-first callback style, i.e. taking\nan <code>(err, value) => ...</code> callback as the last argument. In the callback, the\nfirst argument will be the rejection reason (or <code>null</code> if the <code>Promise</code>\nresolved), and the second argument will be the resolved value.</p>\n<pre><code class=\"language-mjs\">import { callbackify } from 'node:util';\n\nasync function fn() {\n  return 'hello world';\n}\nconst callbackFunction = callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  if (err) throw err;\n  console.log(ret);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { callbackify } = require('node:util');\n\nasync function fn() {\n  return 'hello world';\n}\nconst callbackFunction = callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  if (err) throw err;\n  console.log(ret);\n});\n</code></pre>\n<p>Will print:</p>\n<pre><code class=\"language-text\">hello world\n</code></pre>\n<p>The callback is executed asynchronously, and will have a limited stack trace.\nIf the callback throws, the process will emit an <a href=\"process.html#event-uncaughtexception\"><code>'uncaughtException'</code></a>\nevent, and if not handled will exit.</p>\n<p>Since <code>null</code> has a special meaning as the first argument to a callback, if a\nwrapped function rejects a <code>Promise</code> with a falsy value as a reason, the value\nis wrapped in an <code>Error</code> with the original value stored in a field named\n<code>reason</code>.</p>\n<pre><code class=\"language-js\">function fn() {\n  return Promise.reject(null);\n}\nconst callbackFunction = util.callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  // When the Promise was rejected with `null` it is wrapped with an Error and\n  // the original value is stored in `reason`.\n  err &#x26;&#x26; Object.hasOwn(err, 'reason') &#x26;&#x26; err.reason === null;  // true\n});\n</code></pre>"
+          "desc": "<p>Takes an <code>async</code> function (or a function that returns a <code>Promise</code>) and returns a\nfunction following the error-first callback style, i.e. taking\nan <code>(err, value) => ...</code> callback as the last argument. In the callback, the\nfirst argument will be the rejection reason (or <code>null</code> if the <code>Promise</code>\nresolved), and the second argument will be the resolved value.</p>\n<pre><code class=\"language-mjs\">import { callbackify } from 'node:util';\n\nasync function fn() {\n  return 'hello world';\n}\nconst callbackFunction = callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  if (err) throw err;\n  console.log(ret);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const { callbackify } = require('node:util');\n\nasync function fn() {\n  return 'hello world';\n}\nconst callbackFunction = callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  if (err) throw err;\n  console.log(ret);\n});\n</code></pre>\n<p>Will print:</p>\n<pre><code class=\"language-text\">hello world\n</code></pre>\n<p>The callback is executed asynchronously, and will have a limited stack trace.\nIf the callback throws, the process will emit an <a href=\"process.html#event-uncaughtexception\"><code>'uncaughtException'</code></a>\nevent, and if not handled will exit.</p>\n<p>Since <code>null</code> has a special meaning as the first argument to a callback, if a\nwrapped function rejects a <code>Promise</code> with a falsy value as a reason, the value\nis wrapped in an <code>Error</code> with the original value stored in a field named\n<code>reason</code>.</p>\n<pre><code class=\"language-mjs\">import util from 'node:util';\n\nfunction fn() {\n  return Promise.reject(null);\n}\nconst callbackFunction = util.callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  // When the Promise was rejected with `null` it is wrapped with an Error and\n  // the original value is stored in `reason`.\n  err &#x26;&#x26; Object.hasOwn(err, 'reason') &#x26;&#x26; err.reason === null;  // true\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const util = require('node:util');\n\nfunction fn() {\n  return Promise.reject(null);\n}\nconst callbackFunction = util.callbackify(fn);\n\ncallbackFunction((err, ret) => {\n  // When the Promise was rejected with `null` it is wrapped with an Error and\n  // the original value is stored in `reason`.\n  err &#x26;&#x26; Object.hasOwn(err, 'reason') &#x26;&#x26; err.reason === null;  // true\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`util.convertProcessSignalToExitCode(signal)`",
+          "type": "method",
+          "name": "convertProcessSignalToExitCode",
+          "meta": {
+            "added": [
+              "v24.14.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {number} The exit code corresponding to `signal`",
+                "name": "return",
+                "type": "number",
+                "desc": "The exit code corresponding to `signal`"
+              },
+              "params": [
+                {
+                  "textRaw": "`signal` {string} A signal name (e.g. `'SIGTERM'`)",
+                  "name": "signal",
+                  "type": "string",
+                  "desc": "A signal name (e.g. `'SIGTERM'`)"
+                }
+              ]
+            }
+          ],
+          "desc": "<p>The <code>util.convertProcessSignalToExitCode()</code> method converts a signal name to its\ncorresponding POSIX exit code. Following the POSIX standard, the exit code\nfor a process terminated by a signal is calculated as <code>128 + signal number</code>.</p>\n<p>If <code>signal</code> is not a valid signal name, then an error will be thrown. See\n<a href=\"https://man7.org/linux/man-pages/man7/signal.7.html\"><code>signal(7)</code></a> for a list of valid signals.</p>\n<pre><code class=\"language-mjs\">import { convertProcessSignalToExitCode } from 'node:util';\n\nconsole.log(convertProcessSignalToExitCode('SIGTERM')); // 143 (128 + 15)\nconsole.log(convertProcessSignalToExitCode('SIGKILL')); // 137 (128 + 9)\n</code></pre>\n<pre><code class=\"language-cjs\">const { convertProcessSignalToExitCode } = require('node:util');\n\nconsole.log(convertProcessSignalToExitCode('SIGTERM')); // 143 (128 + 15)\nconsole.log(convertProcessSignalToExitCode('SIGKILL')); // 137 (128 + 9)\n</code></pre>\n<p>This is particularly useful when working with processes to determine\nthe exit code based on the signal that terminated the process.</p>"
         },
         {
           "textRaw": "`util.debuglog(section[, callback])`",
@@ -109,7 +139,7 @@
           "desc": "<p>Alias for <code>util.debuglog</code>. Usage allows for readability of that doesn't imply\nlogging when only using <code>util.debuglog().enabled</code>.</p>"
         },
         {
-          "textRaw": "`util.deprecate(fn, msg[, code])`",
+          "textRaw": "`util.deprecate(fn, msg[, code[, options]])`",
           "type": "method",
           "name": "deprecate",
           "meta": {
@@ -117,6 +147,11 @@
               "v0.8.0"
             ],
             "changes": [
+              {
+                "version": "v24.12.0",
+                "pr-url": "https://github.com/nodejs/node/pull/59982",
+                "description": "Add options object with modifyPrototype to conditionally modify the prototype of the deprecated object."
+              },
               {
                 "version": "v10.0.0",
                 "pr-url": "https://github.com/nodejs/node/pull/16393",
@@ -150,6 +185,20 @@
                   "name": "code",
                   "type": "string",
                   "desc": "A deprecation code. See the [list of deprecated APIs][] for a list of codes."
+                },
+                {
+                  "textRaw": "`options` {Object}",
+                  "name": "options",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`modifyPrototype` {boolean} When false do not change the prototype of object while emitting the deprecation warning. **Default:** `true`.",
+                      "name": "modifyPrototype",
+                      "type": "boolean",
+                      "default": "`true`",
+                      "desc": "When false do not change the prototype of object while emitting the deprecation warning."
+                    }
+                  ]
                 }
               ]
             }
@@ -162,6 +211,7 @@
           "name": "diff",
           "meta": {
             "added": [
+              "v23.11.0",
               "v22.15.0"
             ],
             "changes": []
@@ -286,7 +336,7 @@
               ]
             }
           ],
-          "desc": "<p>The <code>util.format()</code> method returns a formatted string using the first argument\nas a <code>printf</code>-like format string which can contain zero or more format\nspecifiers. Each specifier is replaced with the converted value from the\ncorresponding argument. Supported specifiers are:</p>\n<ul>\n<li><code>%s</code>: <code>String</code> will be used to convert all values except <code>BigInt</code>, <code>Object</code>\nand <code>-0</code>. <code>BigInt</code> values will be represented with an <code>n</code> and Objects that\nhave neither a user defined <code>toString</code> function nor <code>Symbol.toPrimitive</code> function are inspected using <code>util.inspect()</code>\nwith options <code>{ depth: 0, colors: false, compact: 3 }</code>.</li>\n<li><code>%d</code>: <code>Number</code> will be used to convert all values except <code>BigInt</code> and\n<code>Symbol</code>.</li>\n<li><code>%i</code>: <code>parseInt(value, 10)</code> is used for all values except <code>BigInt</code> and\n<code>Symbol</code>.</li>\n<li><code>%f</code>: <code>parseFloat(value)</code> is used for all values expect <code>Symbol</code>.</li>\n<li><code>%j</code>: JSON. Replaced with the string <code>'[Circular]'</code> if the argument contains\ncircular references.</li>\n<li><code>%o</code>: <code>Object</code>. A string representation of an object with generic JavaScript\nobject formatting. Similar to <code>util.inspect()</code> with options\n<code>{ showHidden: true, showProxy: true }</code>. This will show the full object\nincluding non-enumerable properties and proxies.</li>\n<li><code>%O</code>: <code>Object</code>. A string representation of an object with generic JavaScript\nobject formatting. Similar to <code>util.inspect()</code> without options. This will show\nthe full object not including non-enumerable properties and proxies.</li>\n<li><code>%c</code>: <code>CSS</code>. This specifier is ignored and will skip any CSS passed in.</li>\n<li><code>%%</code>: single percent sign (<code>'%'</code>). This does not consume an argument.</li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The formatted string</li>\n</ul>\n<p>If a specifier does not have a corresponding argument, it is not replaced:</p>\n<pre><code class=\"language-js\">util.format('%s:%s', 'foo');\n// Returns: 'foo:%s'\n</code></pre>\n<p>Values that are not part of the format string are formatted using\n<code>util.inspect()</code> if their type is not <code>string</code>.</p>\n<p>If there are more arguments passed to the <code>util.format()</code> method than the\nnumber of specifiers, the extra arguments are concatenated to the returned\nstring, separated by spaces:</p>\n<pre><code class=\"language-js\">util.format('%s:%s', 'foo', 'bar', 'baz');\n// Returns: 'foo:bar baz'\n</code></pre>\n<p>If the first argument does not contain a valid format specifier, <code>util.format()</code>\nreturns a string that is the concatenation of all arguments separated by spaces:</p>\n<pre><code class=\"language-js\">util.format(1, 2, 3);\n// Returns: '1 2 3'\n</code></pre>\n<p>If only one argument is passed to <code>util.format()</code>, it is returned as it is\nwithout any formatting:</p>\n<pre><code class=\"language-js\">util.format('%% %s');\n// Returns: '%% %s'\n</code></pre>\n<p><code>util.format()</code> is a synchronous method that is intended as a debugging tool.\nSome input values can have a significant performance overhead that can block the\nevent loop. Use this function with care and never in a hot code path.</p>"
+          "desc": "<p>The <code>util.format()</code> method returns a formatted string using the first argument\nas a <code>printf</code>-like format string which can contain zero or more format\nspecifiers. Each specifier is replaced with the converted value from the\ncorresponding argument. Supported specifiers are:</p>\n<ul>\n<li><code>%s</code>: <code>String</code> will be used to convert all values except <code>BigInt</code>, <code>Object</code>\nand <code>-0</code>. <code>BigInt</code> values will be represented with an <code>n</code> and Objects that\nhave neither a user defined <code>toString</code> function nor <code>Symbol.toPrimitive</code> function are inspected using <code>util.inspect()</code>\nwith options <code>{ depth: 0, colors: false, compact: 3 }</code>.</li>\n<li><code>%d</code>: <code>Number</code> will be used to convert all values except <code>BigInt</code> and\n<code>Symbol</code>.</li>\n<li><code>%i</code>: <code>parseInt(value, 10)</code> is used for all values except <code>BigInt</code> and\n<code>Symbol</code>.</li>\n<li><code>%f</code>: <code>parseFloat(value)</code> is used for all values except <code>Symbol</code>.</li>\n<li><code>%j</code>: JSON. Replaced with the string <code>'[Circular]'</code> if the argument contains\ncircular references.</li>\n<li><code>%o</code>: <code>Object</code>. A string representation of an object with generic JavaScript\nobject formatting. Similar to <code>util.inspect()</code> with options\n<code>{ showHidden: true, showProxy: true }</code>. This will show the full object\nincluding non-enumerable properties and proxies.</li>\n<li><code>%O</code>: <code>Object</code>. A string representation of an object with generic JavaScript\nobject formatting. Similar to <code>util.inspect()</code> without options. This will show\nthe full object not including non-enumerable properties and proxies.</li>\n<li><code>%c</code>: <code>CSS</code>. This specifier is ignored and will skip any CSS passed in.</li>\n<li><code>%%</code>: single percent sign (<code>'%'</code>). This does not consume an argument.</li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#string_type\" class=\"type\">&lt;string&gt;</a> The formatted string</li>\n</ul>\n<p>If a specifier does not have a corresponding argument, it is not replaced:</p>\n<pre><code class=\"language-js\">util.format('%s:%s', 'foo');\n// Returns: 'foo:%s'\n</code></pre>\n<p>Values that are not part of the format string are formatted using\n<code>util.inspect()</code> if their type is not <code>string</code>.</p>\n<p>If there are more arguments passed to the <code>util.format()</code> method than the\nnumber of specifiers, the extra arguments are concatenated to the returned\nstring, separated by spaces:</p>\n<pre><code class=\"language-js\">util.format('%s:%s', 'foo', 'bar', 'baz');\n// Returns: 'foo:bar baz'\n</code></pre>\n<p>If the first argument does not contain a valid format specifier, <code>util.format()</code>\nreturns a string that is the concatenation of all arguments separated by spaces:</p>\n<pre><code class=\"language-js\">util.format(1, 2, 3);\n// Returns: '1 2 3'\n</code></pre>\n<p>If only one argument is passed to <code>util.format()</code>, it is returned as it is\nwithout any formatting:</p>\n<pre><code class=\"language-js\">util.format('%% %s');\n// Returns: '%% %s'\n</code></pre>\n<p><code>util.format()</code> is a synchronous method that is intended as a debugging tool.\nSome input values can have a significant performance overhead that can block the\nevent loop. Use this function with care and never in a hot code path.</p>"
         },
         {
           "textRaw": "`util.formatWithOptions(inspectOptions, format[, ...args])`",
@@ -326,17 +376,26 @@
             ],
             "changes": [
               {
-                "version": "v22.14.0",
+                "version": [
+                  "v23.7.0",
+                  "v22.14.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/56584",
                 "description": "Property `column` is deprecated in favor of `columnNumber`."
               },
               {
-                "version": "v22.14.0",
+                "version": [
+                  "v23.7.0",
+                  "v22.14.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/56551",
                 "description": "Property `CallSite.scriptId` is exposed."
               },
               {
-                "version": "v22.12.0",
+                "version": [
+                  "v23.3.0",
+                  "v22.12.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/55626",
                 "description": "The API is renamed from `util.getCallSite` to `util.getCallSites()`."
               }
@@ -386,9 +445,9 @@
               },
               "params": [
                 {
-                  "textRaw": "`frameCount` {number} Optional number of frames to capture as call site objects. **Default:** `10`. Allowable range is between 1 and 200.",
+                  "textRaw": "`frameCount` {integer} Optional number of frames to capture as call site objects. **Default:** `10`. Allowable range is between 1 and 200.",
                   "name": "frameCount",
-                  "type": "number",
+                  "type": "integer",
                   "default": "`10`. Allowable range is between 1 and 200",
                   "desc": "Optional number of frames to capture as call site objects."
                 },
@@ -468,6 +527,7 @@
           "name": "getSystemErrorMessage",
           "meta": {
             "added": [
+              "v23.1.0",
               "v22.12.0"
             ],
             "changes": []
@@ -496,7 +556,7 @@
           "name": "setTraceSigInt",
           "meta": {
             "added": [
-              "v22.19.0"
+              "v24.6.0"
             ],
             "changes": []
           },
@@ -1103,7 +1163,7 @@
                   }
                 ]
               },
-              "desc": "<p>In addition to being accessible through <code>util.inspect.custom</code>, this\nsymbol is <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for\">registered globally</a> and can be\naccessed in any environment as <code>Symbol.for('nodejs.util.inspect.custom')</code>.</p>\n<p>Using this allows code to be written in a portable fashion, so that the custom\ninspect function is used in an Node.js environment and ignored in the browser.\nThe <code>util.inspect()</code> function itself is passed as third argument to the custom\ninspect function to allow further portability.</p>\n<pre><code class=\"language-js\">const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');\n\nclass Password {\n  constructor(value) {\n    this.value = value;\n  }\n\n  toString() {\n    return 'xxxxxxxx';\n  }\n\n  [customInspectSymbol](depth, inspectOptions, inspect) {\n    return `Password &#x3C;${this.toString()}>`;\n  }\n}\n\nconst password = new Password('r0sebud');\nconsole.log(password);\n// Prints Password &#x3C;xxxxxxxx>\n</code></pre>\n<p>See <a href=\"#custom-inspection-functions-on-objects\">Custom inspection functions on Objects</a> for more details.</p>",
+              "desc": "<p>In addition to being accessible through <code>util.inspect.custom</code>, this\nsymbol is <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for\">registered globally</a> and can be\naccessed in any environment as <code>Symbol.for('nodejs.util.inspect.custom')</code>.</p>\n<p>Using this allows code to be written in a portable fashion, so that the custom\ninspect function is used in a Node.js environment and ignored in the browser.\nThe <code>util.inspect()</code> function itself is passed as third argument to the custom\ninspect function to allow further portability.</p>\n<pre><code class=\"language-js\">const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');\n\nclass Password {\n  constructor(value) {\n    this.value = value;\n  }\n\n  toString() {\n    return 'xxxxxxxx';\n  }\n\n  [customInspectSymbol](depth, inspectOptions, inspect) {\n    return `Password &#x3C;${this.toString()}>`;\n  }\n}\n\nconst password = new Password('r0sebud');\nconsole.log(password);\n// Prints Password &#x3C;xxxxxxxx>\n</code></pre>\n<p>See <a href=\"#custom-inspection-functions-on-objects\">Custom inspection functions on Objects</a> for more details.</p>",
               "shortDesc": "that can be used to declare custom inspect functions."
             },
             {
@@ -1120,14 +1180,20 @@
           ]
         },
         {
-          "textRaw": "`util.isDeepStrictEqual(val1, val2)`",
+          "textRaw": "`util.isDeepStrictEqual(val1, val2[, options])`",
           "type": "method",
           "name": "isDeepStrictEqual",
           "meta": {
             "added": [
               "v9.0.0"
             ],
-            "changes": []
+            "changes": [
+              {
+                "version": "v24.9.0",
+                "pr-url": "https://github.com/nodejs/node/pull/59762",
+                "description": "Added `options` parameter to allow skipping prototype comparison."
+              }
+            ]
           },
           "signatures": [
             {
@@ -1146,11 +1212,18 @@
                   "textRaw": "`val2` {any}",
                   "name": "val2",
                   "type": "any"
+                },
+                {
+                  "textRaw": "`skipPrototype` {boolean} If `true`, prototype and constructor comparison is skipped during deep strict equality check. **Default:** `false`.",
+                  "name": "skipPrototype",
+                  "type": "boolean",
+                  "default": "`false`",
+                  "desc": "If `true`, prototype and constructor comparison is skipped during deep strict equality check."
                 }
               ]
             }
           ],
-          "desc": "<p>Returns <code>true</code> if there is deep strict equality between <code>val1</code> and <code>val2</code>.\nOtherwise, returns <code>false</code>.</p>\n<p>See <a href=\"assert.html#assertdeepstrictequalactual-expected-message\"><code>assert.deepStrictEqual()</code></a> for more information about deep strict\nequality.</p>"
+          "desc": "<p>Returns <code>true</code> if there is deep strict equality between <code>val1</code> and <code>val2</code>.\nOtherwise, returns <code>false</code>.</p>\n<p>By default, deep strict equality includes comparison of object prototypes and\nconstructors. When <code>skipPrototype</code> is <code>true</code>, objects with\ndifferent prototypes or constructors can still be considered equal if their\nenumerable properties are deeply strictly equal.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nclass Foo {\n  constructor(a) {\n    this.a = a;\n  }\n}\n\nclass Bar {\n  constructor(a) {\n    this.a = a;\n  }\n}\n\nconst foo = new Foo(1);\nconst bar = new Bar(1);\n\n// Different constructors, same properties\nconsole.log(util.isDeepStrictEqual(foo, bar));\n// false\n\nconsole.log(util.isDeepStrictEqual(foo, bar, true));\n// true\n</code></pre>\n<p>See <a href=\"assert.html#assertdeepstrictequalactual-expected-message\"><code>assert.deepStrictEqual()</code></a> for more information about deep strict\nequality.</p>"
         },
         {
           "textRaw": "`util.parseArgs([config])`",
@@ -1163,7 +1236,10 @@
             ],
             "changes": [
               {
-                "version": "v22.4.0",
+                "version": [
+                  "v22.4.0",
+                  "v20.16.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/53107",
                 "description": "add support for allowing negative options in input `config`."
               },
@@ -1322,7 +1398,7 @@
             ],
             "changes": [
               {
-                "version": "v22.21.0",
+                "version": "v24.10.0",
                 "pr-url": "https://github.com/nodejs/node/pull/59925",
                 "description": "This API is no longer experimental."
               }
@@ -1447,12 +1523,20 @@
             ],
             "changes": [
               {
-                "version": "v22.17.0",
+                "version": "v24.16.0",
+                "pr-url": "https://github.com/nodejs/node/pull/61556",
+                "description": "Add support for hexadecimal colors."
+              },
+              {
+                "version": "v24.2.0",
                 "pr-url": "https://github.com/nodejs/node/pull/58437",
                 "description": "Added the `'none'` format as a non-op format."
               },
               {
-                "version": "v22.13.0",
+                "version": [
+                  "v23.5.0",
+                  "v22.13.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/56265",
                 "description": "styleText is now stable."
               },
@@ -1470,16 +1554,16 @@
             {
               "params": [
                 {
-                  "textRaw": "`format` {string | Array} A text format or an Array of text formats defined in `util.inspect.colors`.",
+                  "textRaw": "`format` {string | Array} A text format or an Array of text formats defined in `util.inspect.colors`, or a hex color in `#RGB` or `#RRGGBB` form.",
                   "name": "format",
                   "type": "string | Array",
-                  "desc": "A text format or an Array of text formats defined in `util.inspect.colors`."
+                  "desc": "A text format or an Array of text formats defined in `util.inspect.colors`, or a hex color in `#RGB` or `#RRGGBB` form."
                 },
                 {
-                  "textRaw": "`text` {string} The text to to be formatted.",
+                  "textRaw": "`text` {string} The text to be formatted.",
                   "name": "text",
                   "type": "string",
-                  "desc": "The text to to be formatted."
+                  "desc": "The text to be formatted."
                 },
                 {
                   "textRaw": "`options` {Object}",
@@ -1505,7 +1589,7 @@
               ]
             }
           ],
-          "desc": "<p>This function returns a formatted text considering the <code>format</code> passed\nfor printing in a terminal. It is aware of the terminal's capabilities\nand acts according to the configuration set via <code>NO_COLOR</code>,\n<code>NODE_DISABLE_COLORS</code> and <code>FORCE_COLOR</code> environment variables.</p>\n<pre><code class=\"language-mjs\">import { styleText } from 'node:util';\nimport { stderr } from 'node:process';\n\nconst successMessage = styleText('green', 'Success!');\nconsole.log(successMessage);\n\nconst errorMessage = styleText(\n  'red',\n  'Error! Error!',\n  // Validate if process.stderr has TTY\n  { stream: stderr },\n);\nconsole.error(errorMessage);\n</code></pre>\n<pre><code class=\"language-cjs\">const { styleText } = require('node:util');\nconst { stderr } = require('node:process');\n\nconst successMessage = styleText('green', 'Success!');\nconsole.log(successMessage);\n\nconst errorMessage = styleText(\n  'red',\n  'Error! Error!',\n  // Validate if process.stderr has TTY\n  { stream: stderr },\n);\nconsole.error(errorMessage);\n</code></pre>\n<p><code>util.inspect.colors</code> also provides text formats such as <code>italic</code>, and\n<code>underline</code> and you can combine both:</p>\n<pre><code class=\"language-cjs\">console.log(\n  util.styleText(['underline', 'italic'], 'My italic underlined message'),\n);\n</code></pre>\n<p>When passing an array of formats, the order of the format applied\nis left to right so the following style might overwrite the previous one.</p>\n<pre><code class=\"language-cjs\">console.log(\n  util.styleText(['red', 'green'], 'text'), // green\n);\n</code></pre>\n<p>The special format value <code>none</code> applies no additional styling to the text.</p>\n<p>The full list of formats can be found in <a href=\"#modifiers\">modifiers</a>.</p>"
+          "desc": "<p>This function returns a formatted text considering the <code>format</code> passed\nfor printing in a terminal. It is aware of the terminal's capabilities\nand acts according to the configuration set via <code>NO_COLOR</code>,\n<code>NODE_DISABLE_COLORS</code> and <code>FORCE_COLOR</code> environment variables.</p>\n<pre><code class=\"language-mjs\">import { styleText } from 'node:util';\nimport { stderr } from 'node:process';\n\nconst successMessage = styleText('green', 'Success!');\nconsole.log(successMessage);\n\nconst errorMessage = styleText(\n  'red',\n  'Error! Error!',\n  // Validate if process.stderr has TTY\n  { stream: stderr },\n);\nconsole.error(errorMessage);\n</code></pre>\n<pre><code class=\"language-cjs\">const { styleText } = require('node:util');\nconst { stderr } = require('node:process');\n\nconst successMessage = styleText('green', 'Success!');\nconsole.log(successMessage);\n\nconst errorMessage = styleText(\n  'red',\n  'Error! Error!',\n  // Validate if process.stderr has TTY\n  { stream: stderr },\n);\nconsole.error(errorMessage);\n</code></pre>\n<p><code>util.inspect.colors</code> also provides text formats such as <code>italic</code>, and\n<code>underline</code> and you can combine both:</p>\n<pre><code class=\"language-cjs\">console.log(\n  util.styleText(['underline', 'italic'], 'My italic underlined message'),\n);\n</code></pre>\n<p>When passing an array of formats, the order of the format applied\nis left to right so the following style might overwrite the previous one.</p>\n<pre><code class=\"language-cjs\">console.log(\n  util.styleText(['red', 'green'], 'text'), // green\n);\n</code></pre>\n<p>The special format value <code>none</code> applies no additional styling to the text.</p>\n<p>In addition to predefined color names, <code>util.styleText()</code> supports hex color\nstrings using ANSI TrueColor (24-bit) escape sequences. Hex colors can be\nspecified in either 3-digit (<code>#RGB</code>) or 6-digit (<code>#RRGGBB</code>) format:</p>\n<pre><code class=\"language-mjs\">import { styleText } from 'node:util';\n\n// 6-digit hex color\nconsole.log(styleText('#ff5733', 'Orange text'));\n\n// 3-digit hex color (shorthand)\nconsole.log(styleText('#f00', 'Red text'));\n</code></pre>\n<pre><code class=\"language-cjs\">const { styleText } = require('node:util');\n\n// 6-digit hex color\nconsole.log(styleText('#ff5733', 'Orange text'));\n\n// 3-digit hex color (shorthand)\nconsole.log(styleText('#f00', 'Red text'));\n</code></pre>\n<p>The full list of formats can be found in <a href=\"#modifiers\">modifiers</a>.</p>"
         },
         {
           "textRaw": "`util.toUSVString(string)`",
@@ -1541,7 +1625,10 @@
             ],
             "changes": [
               {
-                "version": "v22.15.0",
+                "version": [
+                  "v23.11.0",
+                  "v22.15.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/57510",
                 "description": "Marking the API stable."
               }
@@ -1564,7 +1651,10 @@
             ],
             "changes": [
               {
-                "version": "v22.15.0",
+                "version": [
+                  "v23.11.0",
+                  "v22.15.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/57510",
                 "description": "Marking the API stable."
               }
@@ -1599,7 +1689,7 @@
             ],
             "changes": [
               {
-                "version": "v22.16.0",
+                "version": "v24.0.0",
                 "pr-url": "https://github.com/nodejs/node/pull/57765",
                 "description": "Change stability index for this feature from Experimental to Stable."
               }
@@ -1642,7 +1732,10 @@
             ],
             "changes": [
               {
-                "version": "v22.15.0",
+                "version": [
+                  "v23.11.0",
+                  "v22.15.0"
+                ],
                 "pr-url": "https://github.com/nodejs/node/pull/57510",
                 "description": "Marking the API stable."
               }
@@ -2554,7 +2647,7 @@
               "name": "isFloat16Array",
               "meta": {
                 "added": [
-                  "v22.16.0"
+                  "v24.0.0"
                 ],
                 "changes": []
               },
@@ -2892,25 +2985,19 @@
                 "added": [
                   "v10.0.0"
                 ],
+                "deprecated": [
+                  "v24.2.0"
+                ],
                 "changes": []
               },
+              "stability": 0,
+              "stabilityText": "Deprecated: Use [`Error.isError`][] instead.",
               "signatures": [
                 {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`value` {any}",
-                      "name": "value",
-                      "type": "any"
-                    }
-                  ]
+                  "params": []
                 }
               ],
-              "desc": "<p>Returns <code>true</code> if the value was returned by the constructor of a\n<a href=\"https://tc39.es/ecma262/#sec-error-objects\">built-in <code>Error</code> type</a>.</p>\n<pre><code class=\"language-js\">console.log(util.types.isNativeError(new Error()));  // true\nconsole.log(util.types.isNativeError(new TypeError()));  // true\nconsole.log(util.types.isNativeError(new RangeError()));  // true\n</code></pre>\n<p>Subclasses of the native error types are also native errors:</p>\n<pre><code class=\"language-js\">class MyError extends Error {}\nconsole.log(util.types.isNativeError(new MyError()));  // true\n</code></pre>\n<p>A value being <code>instanceof</code> a native error class is not equivalent to <code>isNativeError()</code>\nreturning <code>true</code> for that value. <code>isNativeError()</code> returns <code>true</code> for errors\nwhich come from a different <a href=\"https://tc39.es/ecma262/#realm\">realm</a> while <code>instanceof Error</code> returns <code>false</code>\nfor these errors:</p>\n<pre><code class=\"language-mjs\">import { createContext, runInContext } from 'node:vm';\nimport { types } from 'node:util';\n\nconst context = createContext({});\nconst myError = runInContext('new Error()', context);\nconsole.log(types.isNativeError(myError)); // true\nconsole.log(myError instanceof Error); // false\n</code></pre>\n<pre><code class=\"language-cjs\">const { createContext, runInContext } = require('node:vm');\nconst { types } = require('node:util');\n\nconst context = createContext({});\nconst myError = runInContext('new Error()', context);\nconsole.log(types.isNativeError(myError)); // true\nconsole.log(myError instanceof Error); // false\n</code></pre>\n<p>Conversely, <code>isNativeError()</code> returns <code>false</code> for all objects which were not\nreturned by the constructor of a native error. That includes values\nwhich are <code>instanceof</code> native errors:</p>\n<pre><code class=\"language-js\">const myError = { __proto__: Error.prototype };\nconsole.log(util.types.isNativeError(myError)); // false\nconsole.log(myError instanceof Error); // true\n</code></pre>"
+              "desc": "<p><strong>Note:</strong> As of Node.js 24, <code>Error.isError()</code> is currently slower than <code>util.types.isNativeError()</code>.\nIf performance is critical, consider benchmarking both in your environment.</p>\n<ul>\n<li><code>value</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types\" class=\"type\">&lt;any&gt;</a></li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#boolean_type\" class=\"type\">&lt;boolean&gt;</a></li>\n</ul>\n<p>Returns <code>true</code> if the value was returned by the constructor of a\n<a href=\"https://tc39.es/ecma262/#sec-error-objects\">built-in <code>Error</code> type</a>.</p>\n<pre><code class=\"language-js\">console.log(util.types.isNativeError(new Error()));  // true\nconsole.log(util.types.isNativeError(new TypeError()));  // true\nconsole.log(util.types.isNativeError(new RangeError()));  // true\n</code></pre>\n<p>Subclasses of the native error types are also native errors:</p>\n<pre><code class=\"language-js\">class MyError extends Error {}\nconsole.log(util.types.isNativeError(new MyError()));  // true\n</code></pre>\n<p>A value being <code>instanceof</code> a native error class is not equivalent to <code>isNativeError()</code>\nreturning <code>true</code> for that value. <code>isNativeError()</code> returns <code>true</code> for errors\nwhich come from a different <a href=\"https://tc39.es/ecma262/#realm\">realm</a> while <code>instanceof Error</code> returns <code>false</code>\nfor these errors:</p>\n<pre><code class=\"language-mjs\">import { createContext, runInContext } from 'node:vm';\nimport { types } from 'node:util';\n\nconst context = createContext({});\nconst myError = runInContext('new Error()', context);\nconsole.log(types.isNativeError(myError)); // true\nconsole.log(myError instanceof Error); // false\n</code></pre>\n<pre><code class=\"language-cjs\">const { createContext, runInContext } = require('node:vm');\nconst { types } = require('node:util');\n\nconst context = createContext({});\nconst myError = runInContext('new Error()', context);\nconsole.log(types.isNativeError(myError)); // true\nconsole.log(myError instanceof Error); // false\n</code></pre>\n<p>Conversely, <code>isNativeError()</code> returns <code>false</code> for all objects which were not\nreturned by the constructor of a native error. That includes values\nwhich are <code>instanceof</code> native errors:</p>\n<pre><code class=\"language-js\">const myError = { __proto__: Error.prototype };\nconsole.log(util.types.isNativeError(myError)); // false\nconsole.log(myError instanceof Error); // true\n</code></pre>"
             },
             {
               "textRaw": "`util.types.isNumberObject(value)`",
@@ -3400,7 +3487,7 @@
                   ]
                 }
               ],
-              "desc": "<p>The <code>util._extend()</code> method was never intended to be used outside of internal\nNode.js modules. The community found and used it anyway.</p>\n<p>It is deprecated and should not be used in new code. JavaScript comes with very\nsimilar built-in functionality through <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign\"><code>Object.assign()</code></a>.</p>"
+              "desc": "<p>The <code>util._extend()</code> method was never intended to be used outside of internal\nNode.js modules. The community found and used it anyway.</p>\n<p>It is deprecated and should not be used in new code. JavaScript comes with very\nsimilar built-in functionality through <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign\"><code>Object.assign()</code></a>.</p>\n<p>An automated migration is available (<a href=\"https://github.com/nodejs/userland-migrations/tree/main/recipes/util-extend-to-object-assign\">source</a>):</p>\n<pre><code class=\"language-bash\">npx codemod@latest @nodejs/util-extend-to-object-assign\n</code></pre>"
             },
             {
               "textRaw": "`util.isArray(object)`",
@@ -3433,497 +3520,7 @@
                   ]
                 }
               ],
-              "desc": "<p>Alias for <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray\"><code>Array.isArray()</code></a>.</p>\n<p>Returns <code>true</code> if the given <code>object</code> is an <code>Array</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isArray([]);\n// Returns: true\nutil.isArray(new Array());\n// Returns: true\nutil.isArray({});\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isBoolean(object)`",
-              "type": "method",
-              "name": "isBoolean",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `typeof value === 'boolean'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Boolean</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isBoolean(1);\n// Returns: false\nutil.isBoolean(0);\n// Returns: false\nutil.isBoolean(false);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isBuffer(object)`",
-              "type": "method",
-              "name": "isBuffer",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use [`Buffer.isBuffer()`][] instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Buffer</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isBuffer({ length: 0 });\n// Returns: false\nutil.isBuffer([]);\n// Returns: false\nutil.isBuffer(Buffer.from('hello world'));\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isDate(object)`",
-              "type": "method",
-              "name": "isDate",
-              "meta": {
-                "added": [
-                  "v0.6.0"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use [`util.types.isDate()`][] instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Date</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isDate(new Date());\n// Returns: true\nutil.isDate(Date());\n// false (without 'new' returns a String)\nutil.isDate({});\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isError(object)`",
-              "type": "method",
-              "name": "isError",
-              "meta": {
-                "added": [
-                  "v0.6.0"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use [`util.types.isNativeError()`][] instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is an <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error\" class=\"type\">&lt;Error&gt;</a>. Otherwise, returns\n<code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isError(new Error());\n// Returns: true\nutil.isError(new TypeError());\n// Returns: true\nutil.isError({ name: 'Error', message: 'an error occurred' });\n// Returns: false\n</code></pre>\n<p>This method relies on <code>Object.prototype.toString()</code> behavior. It is\npossible to obtain an incorrect result when the <code>object</code> argument manipulates\n<code>@@toStringTag</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\nconst obj = { name: 'Error', message: 'an error occurred' };\n\nutil.isError(obj);\n// Returns: false\nobj[Symbol.toStringTag] = 'Error';\nutil.isError(obj);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isFunction(object)`",
-              "type": "method",
-              "name": "isFunction",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `typeof value === 'function'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Function</code>. Otherwise, returns\n<code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nfunction Foo() {}\nconst Bar = () => {};\n\nutil.isFunction({});\n// Returns: false\nutil.isFunction(Foo);\n// Returns: true\nutil.isFunction(Bar);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isNull(object)`",
-              "type": "method",
-              "name": "isNull",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `value === null` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is strictly <code>null</code>. Otherwise, returns\n<code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isNull(0);\n// Returns: false\nutil.isNull(undefined);\n// Returns: false\nutil.isNull(null);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isNullOrUndefined(object)`",
-              "type": "method",
-              "name": "isNullOrUndefined",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `value === undefined || value === null` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is <code>null</code> or <code>undefined</code>. Otherwise,\nreturns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isNullOrUndefined(0);\n// Returns: false\nutil.isNullOrUndefined(undefined);\n// Returns: true\nutil.isNullOrUndefined(null);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isNumber(object)`",
-              "type": "method",
-              "name": "isNumber",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `typeof value === 'number'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Number</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isNumber(false);\n// Returns: false\nutil.isNumber(Infinity);\n// Returns: true\nutil.isNumber(0);\n// Returns: true\nutil.isNumber(NaN);\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isObject(object)`",
-              "type": "method",
-              "name": "isObject",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `value !== null && typeof value === 'object'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is strictly an <code>Object</code> <strong>and</strong> not a\n<code>Function</code> (even though functions are objects in JavaScript).\nOtherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isObject(5);\n// Returns: false\nutil.isObject(null);\n// Returns: false\nutil.isObject({});\n// Returns: true\nutil.isObject(() => {});\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isPrimitive(object)`",
-              "type": "method",
-              "name": "isPrimitive",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `(typeof value !== 'object' && typeof value !== 'function') || value === null` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a primitive type. Otherwise, returns\n<code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isPrimitive(5);\n// Returns: true\nutil.isPrimitive('foo');\n// Returns: true\nutil.isPrimitive(false);\n// Returns: true\nutil.isPrimitive(null);\n// Returns: true\nutil.isPrimitive(undefined);\n// Returns: true\nutil.isPrimitive({});\n// Returns: false\nutil.isPrimitive(() => {});\n// Returns: false\nutil.isPrimitive(/^$/);\n// Returns: false\nutil.isPrimitive(new Date());\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isRegExp(object)`",
-              "type": "method",
-              "name": "isRegExp",
-              "meta": {
-                "added": [
-                  "v0.6.0"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>RegExp</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isRegExp(/some regexp/);\n// Returns: true\nutil.isRegExp(new RegExp('another regexp'));\n// Returns: true\nutil.isRegExp({});\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isString(object)`",
-              "type": "method",
-              "name": "isString",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `typeof value === 'string'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>string</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isString('');\n// Returns: true\nutil.isString('foo');\n// Returns: true\nutil.isString(String('foo'));\n// Returns: true\nutil.isString(5);\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isSymbol(object)`",
-              "type": "method",
-              "name": "isSymbol",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `typeof value === 'symbol'` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is a <code>Symbol</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isSymbol(5);\n// Returns: false\nutil.isSymbol('foo');\n// Returns: false\nutil.isSymbol(Symbol('foo'));\n// Returns: true\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.isUndefined(object)`",
-              "type": "method",
-              "name": "isUndefined",
-              "meta": {
-                "added": [
-                  "v0.11.5"
-                ],
-                "deprecated": [
-                  "v4.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use `value === undefined` instead.",
-              "signatures": [
-                {
-                  "return": {
-                    "textRaw": "Returns: {boolean}",
-                    "name": "return",
-                    "type": "boolean"
-                  },
-                  "params": [
-                    {
-                      "textRaw": "`object` {any}",
-                      "name": "object",
-                      "type": "any"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>Returns <code>true</code> if the given <code>object</code> is <code>undefined</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nconst foo = undefined;\nutil.isUndefined(5);\n// Returns: false\nutil.isUndefined(foo);\n// Returns: true\nutil.isUndefined(null);\n// Returns: false\n</code></pre>"
-            },
-            {
-              "textRaw": "`util.log(string)`",
-              "type": "method",
-              "name": "log",
-              "meta": {
-                "added": [
-                  "v0.3.0"
-                ],
-                "deprecated": [
-                  "v6.0.0"
-                ],
-                "changes": []
-              },
-              "stability": 0,
-              "stabilityText": "Deprecated: Use a third party module instead.",
-              "signatures": [
-                {
-                  "params": [
-                    {
-                      "textRaw": "`string` {string}",
-                      "name": "string",
-                      "type": "string"
-                    }
-                  ]
-                }
-              ],
-              "desc": "<p>The <code>util.log()</code> method prints the given <code>string</code> to <code>stdout</code> with an included\ntimestamp.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.log('Timestamped message.');\n</code></pre>"
+              "desc": "<p>Alias for <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray\"><code>Array.isArray()</code></a>.</p>\n<p>Returns <code>true</code> if the given <code>object</code> is an <code>Array</code>. Otherwise, returns <code>false</code>.</p>\n<pre><code class=\"language-js\">const util = require('node:util');\n\nutil.isArray([]);\n// Returns: true\nutil.isArray(new Array());\n// Returns: true\nutil.isArray({});\n// Returns: false\n</code></pre>\n<p>An automated migration is available (<a href=\"https://github.com/nodejs/userland-migrations/tree/main/recipes/util-is\">source</a>):</p>\n<pre><code class=\"language-bash\">npx codemod@latest @nodejs/util-is\n</code></pre>"
             }
           ],
           "type": "module",

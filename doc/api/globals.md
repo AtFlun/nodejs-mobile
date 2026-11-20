@@ -21,6 +21,14 @@ The objects listed here are specific to Node.js. There are [built-in objects][]
 that are part of the JavaScript language itself, which are also globally
 accessible.
 
+## `__dirname`
+
+This variable may appear to be global but is not. See [`__dirname`][].
+
+## `__filename`
+
+This variable may appear to be global but is not. See [`__filename`][].
+
 ## Class: `AbortController`
 
 <!-- YAML
@@ -77,7 +85,7 @@ added:
 
 * Type: {AbortSignal}
 
-### Class: `AbortSignal`
+## Class: `AbortSignal`
 
 <!-- YAML
 added:
@@ -90,7 +98,7 @@ added:
 The `AbortSignal` is used to notify observers when the
 `abortController.abort()` method is called.
 
-#### Static method: `AbortSignal.abort([reason])`
+### Static method: `AbortSignal.abort([reason])`
 
 <!-- YAML
 added:
@@ -109,7 +117,7 @@ changes:
 
 Returns a new already aborted `AbortSignal`.
 
-#### Static method: `AbortSignal.timeout(delay)`
+### Static method: `AbortSignal.timeout(delay)`
 
 <!-- YAML
 added:
@@ -122,7 +130,7 @@ added:
 
 Returns a new `AbortSignal` which will be aborted in `delay` milliseconds.
 
-#### Static method: `AbortSignal.any(signals)`
+### Static method: `AbortSignal.any(signals)`
 
 <!-- YAML
 added:
@@ -136,7 +144,7 @@ Returns a new `AbortSignal` which will be aborted if any of the provided
 signals are aborted. Its [`abortSignal.reason`][] will be set to whichever
 one of the `signals` caused it to be aborted.
 
-#### Event: `'abort'`
+### Event: `'abort'`
 
 <!-- YAML
 added:
@@ -173,7 +181,7 @@ listener, use the `once()` method) to ensure that the event listener is
 removed as soon as the `'abort'` event is handled. Failure to do so may
 result in memory leaks.
 
-#### `abortSignal.aborted`
+### `abortSignal.aborted`
 
 <!-- YAML
 added:
@@ -181,9 +189,11 @@ added:
   - v14.17.0
 -->
 
-* Type: {boolean} True after the `AbortController` has been aborted.
+* Type: {boolean}
 
-#### `abortSignal.onabort`
+True after the `AbortController` has been aborted.
+
+### `abortSignal.onabort`
 
 <!-- YAML
 added:
@@ -196,7 +206,7 @@ added:
 An optional callback function that may be set by user code to be notified
 when the `abortController.abort()` function has been called.
 
-#### `abortSignal.reason`
+### `abortSignal.reason`
 
 <!-- YAML
 added:
@@ -214,7 +224,7 @@ ac.abort(new Error('boom!'));
 console.log(ac.signal.reason);  // Error: boom!
 ```
 
-#### `abortSignal.throwIfAborted()`
+### `abortSignal.throwIfAborted()`
 
 <!-- YAML
 added:
@@ -223,44 +233,6 @@ added:
 -->
 
 If `abortSignal.aborted` is `true`, throws `abortSignal.reason`.
-
-## Class: `Blob`
-
-<!-- YAML
-added: v18.0.0
--->
-
-See {Blob}.
-
-## Class: `Buffer`
-
-<!-- YAML
-added: v0.1.103
--->
-
-* Type: {Function}
-
-Used to handle binary data. See the [buffer section][].
-
-## Class: `ByteLengthQueuingStrategy`
-
-<!-- YAML
-added: v18.0.0
-changes:
- - version: v22.15.0
-   pr-url: https://github.com/nodejs/node/pull/57510
-   description: Marking the API stable.
--->
-
-A browser-compatible implementation of [`ByteLengthQueuingStrategy`][].
-
-## `__dirname`
-
-This variable may appear to be global but is not. See [`__dirname`][].
-
-## `__filename`
-
-This variable may appear to be global but is not. See [`__filename`][].
 
 ## `atob(data)`
 
@@ -271,6 +243,20 @@ added: v16.0.0
 > Stability: 3 - Legacy. Use `Buffer.from(data, 'base64')` instead.
 
 Global alias for [`buffer.atob()`][].
+
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa)):
+
+```bash
+npx codemod@latest @nodejs/buffer-atob-btoa
+```
+
+## Class: `Blob`
+
+<!-- YAML
+added: v18.0.0
+-->
+
+See {Blob}.
 
 ## Class: `BroadcastChannel`
 
@@ -289,6 +275,36 @@ added: v16.0.0
 > Stability: 3 - Legacy. Use `buf.toString('base64')` instead.
 
 Global alias for [`buffer.btoa()`][].
+
+An automated migration is available ([source](https://github.com/nodejs/userland-migrations/tree/main/recipes/buffer-atob-btoa)):
+
+```bash
+npx codemod@latest @nodejs/buffer-atob-btoa
+```
+
+## Class: `Buffer`
+
+<!-- YAML
+added: v0.1.103
+-->
+
+* Type: {Function}
+
+Used to handle binary data. See the [buffer section][].
+
+## Class: `ByteLengthQueuingStrategy`
+
+<!-- YAML
+added: v18.0.0
+changes:
+ - version:
+    - v23.11.0
+    - v22.15.0
+   pr-url: https://github.com/nodejs/node/pull/57510
+   description: Marking the API stable.
+-->
+
+A browser-compatible implementation of [`ByteLengthQueuingStrategy`][].
 
 ## `clearImmediate(immediateObject)`
 
@@ -314,15 +330,26 @@ added: v0.0.1
 
 [`clearTimeout`][] is described in the [timers][] section.
 
+## Class: `CloseEvent`
+
+<!-- YAML
+added: v23.0.0
+-->
+
+A browser-compatible implementation of {CloseEvent}. Disable this API
+with the [`--no-experimental-websocket`][] CLI flag.
+
 ## Class: `CompressionStream`
 
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.20.0
+ - version: v24.7.0
    pr-url: https://github.com/nodejs/node/pull/59464
    description: format now accepts `brotli` value.
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -344,7 +371,9 @@ Used to print to stdout and stderr. See the [`console`][] section.
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -358,13 +387,13 @@ added:
   - v17.6.0
   - v16.15.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/52564
+    description: No longer experimental.
   - version: v19.0.0
     pr-url: https://github.com/nodejs/node/pull/42083
     description: No longer behind `--experimental-global-webcrypto` CLI flag.
 -->
-
-> Stability: 1 - Experimental. Disable this API with the
-> [`--no-experimental-global-webcrypto`][] CLI flag.
 
 A browser-compatible implementation of {Crypto}. This global is available
 only if the Node.js binary was compiled with including support for the
@@ -377,13 +406,13 @@ added:
   - v17.6.0
   - v16.15.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/52564
+    description: No longer experimental.
   - version: v19.0.0
     pr-url: https://github.com/nodejs/node/pull/42083
     description: No longer behind `--experimental-global-webcrypto` CLI flag.
 -->
-
-> Stability: 1 - Experimental. Disable this API with the
-> [`--no-experimental-global-webcrypto`][] CLI flag.
 
 A browser-compatible implementation of the [Web Crypto API][].
 
@@ -394,13 +423,13 @@ added:
   - v17.6.0
   - v16.15.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/52564
+    description: No longer experimental.
   - version: v19.0.0
     pr-url: https://github.com/nodejs/node/pull/42083
     description: No longer behind `--experimental-global-webcrypto` CLI flag.
 -->
-
-> Stability: 1 - Experimental. Disable this API with the
-> [`--no-experimental-global-webcrypto`][] CLI flag.
 
 A browser-compatible implementation of {CryptoKey}. This global is available
 only if the Node.js binary was compiled with including support for the
@@ -413,6 +442,9 @@ added:
   - v18.7.0
   - v16.17.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/52723
+    description: No longer experimental.
   - version:
     - v22.1.0
     - v20.13.0
@@ -430,15 +462,25 @@ A browser-compatible implementation of {CustomEvent}.
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.20.0
+ - version: v24.7.0
    pr-url: https://github.com/nodejs/node/pull/59464
    description: format now accepts `brotli` value.
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
 
 A browser-compatible implementation of [`DecompressionStream`][].
+
+## Class: `DOMException`
+
+<!-- YAML
+added: v17.0.0
+-->
+
+The WHATWG {DOMException} class.
 
 ## Class: `Event`
 
@@ -456,7 +498,9 @@ A browser-compatible implementation of the `Event` class. See
 ## Class: `EventSource`
 
 <!-- YAML
-added: v22.3.0
+added:
+  - v22.3.0
+  - v20.18.0
 -->
 
 > Stability: 1 - Experimental. Enable this API with the [`--experimental-eventsource`][]
@@ -534,10 +578,10 @@ setGlobalDispatcher(new MyAgent());
 
 The following globals are available to use with `fetch`:
 
-* [`FormData`](https://nodejs.org/api/globals.html#class-formdata)
-* [`Headers`](https://nodejs.org/api/globals.html#class-headers)
-* [`Request`](https://nodejs.org/api/globals.html#request)
-* [`Response`](https://nodejs.org/api/globals.html#response).
+* [`FormData`][]
+* [`Headers`][]
+* [`Request`][]
+* [`Response`][]
 
 ## Class: `File`
 
@@ -707,7 +751,7 @@ console.log(`The preferred language of the Node.js instance has the tag '${navig
 added: v21.2.0
 -->
 
-* Type: {Array<string>}
+* Type: {string\[]}
 
 The `navigator.languages` read-only property returns an array of strings
 representing the preferred languages of the Node.js instance.
@@ -720,6 +764,55 @@ The fallback value on builds without ICU is `['en-US']`.
 ```js
 console.log(`The preferred languages are '${navigator.languages}'`);
 ```
+
+### `navigator.locks`
+
+<!-- YAML
+added: v24.5.0
+-->
+
+> Stability: 1 - Experimental
+
+The `navigator.locks` read-only property returns a [`LockManager`][] instance that
+can be used to coordinate access to resources that may be shared across multiple
+threads within the same process. This global implementation matches the semantics
+of the [browser `LockManager`][] API.
+
+```mjs
+// Request an exclusive lock
+await navigator.locks.request('my_resource', async (lock) => {
+  // The lock has been acquired.
+  console.log(`Lock acquired: ${lock.name}`);
+  // Lock is automatically released when the function returns
+});
+
+// Request a shared lock
+await navigator.locks.request('shared_resource', { mode: 'shared' }, async (lock) => {
+  // Multiple shared locks can be held simultaneously
+  console.log(`Shared lock acquired: ${lock.name}`);
+});
+```
+
+```cjs
+// Request an exclusive lock
+navigator.locks.request('my_resource', async (lock) => {
+  // The lock has been acquired.
+  console.log(`Lock acquired: ${lock.name}`);
+  // Lock is automatically released when the function returns
+}).then(() => {
+  console.log('Lock released');
+});
+
+// Request a shared lock
+navigator.locks.request('shared_resource', { mode: 'shared' }, async (lock) => {
+  // Multiple shared locks can be held simultaneously
+  console.log(`Shared lock acquired: ${lock.name}`);
+}).then(() => {
+  console.log('Shared lock released');
+});
+```
+
+See [`worker_threads.locks`][] for detailed API documentation.
 
 ### `navigator.platform`
 
@@ -750,6 +843,14 @@ consisting of the runtime name and major version number.
 ```js
 console.log(`The user-agent is ${navigator.userAgent}`); // Prints "Node.js/21"
 ```
+
+## `performance`
+
+<!-- YAML
+added: v16.0.0
+-->
+
+The [`perf_hooks.performance`][] object.
 
 ## Class: `PerformanceEntry`
 
@@ -800,14 +901,6 @@ added: v19.0.0
 
 The `PerformanceResourceTiming` class. See [`PerformanceResourceTiming`][] for
 more details.
-
-## `performance`
-
-<!-- YAML
-added: v16.0.0
--->
-
-The [`perf_hooks.performance`][] object.
 
 ## `process`
 
@@ -862,7 +955,9 @@ DataHandler.prototype.load = async function load(key) {
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -874,7 +969,9 @@ A browser-compatible implementation of [`ReadableByteStreamController`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -886,9 +983,11 @@ A browser-compatible implementation of [`ReadableStream`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
-   pr-url: https://github.com/nodejs/node/pull/57510
-   description: Marking the API stable.
+- version:
+  - v23.11.0
+  - v22.15.0
+  pr-url: https://github.com/nodejs/node/pull/57510
+  description: Marking the API stable.
 -->
 
 A browser-compatible implementation of [`ReadableStreamBYOBReader`][].
@@ -898,7 +997,9 @@ A browser-compatible implementation of [`ReadableStreamBYOBReader`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -910,7 +1011,9 @@ A browser-compatible implementation of [`ReadableStreamBYOBRequest`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -922,12 +1025,32 @@ A browser-compatible implementation of [`ReadableStreamDefaultController`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
 
 A browser-compatible implementation of [`ReadableStreamDefaultReader`][].
+
+## Class: `Request`
+
+<!-- YAML
+added:
+  - v17.5.0
+  - v16.15.0
+changes:
+  - version:
+    - v21.0.0
+    pr-url: https://github.com/nodejs/node/pull/45684
+    description: No longer experimental.
+  - version: v18.0.0
+    pr-url: https://github.com/nodejs/node/pull/41811
+    description: No longer behind `--experimental-fetch` CLI flag.
+-->
+
+A browser-compatible implementation of {Request}.
 
 ## `require()`
 
@@ -950,24 +1073,6 @@ changes:
 -->
 
 A browser-compatible implementation of {Response}.
-
-## Class: `Request`
-
-<!-- YAML
-added:
-  - v17.5.0
-  - v16.15.0
-changes:
-  - version:
-    - v21.0.0
-    pr-url: https://github.com/nodejs/node/pull/45684
-    description: No longer experimental.
-  - version: v18.0.0
-    pr-url: https://github.com/nodejs/node/pull/41811
-    description: No longer behind `--experimental-fetch` CLI flag.
--->
-
-A browser-compatible implementation of {Request}.
 
 ## `sessionStorage`
 
@@ -1039,20 +1144,9 @@ changes:
     description: No longer behind `--experimental-global-webcrypto` CLI flag.
 -->
 
-> Stability: 1 - Experimental. Disable this API with the
-> [`--no-experimental-global-webcrypto`][] CLI flag.
-
 A browser-compatible implementation of {SubtleCrypto}. This global is available
 only if the Node.js binary was compiled with including support for the
 `node:crypto` module.
-
-## Class: `DOMException`
-
-<!-- YAML
-added: v17.0.0
--->
-
-The WHATWG {DOMException} class.
 
 ## Class: `TextDecoder`
 
@@ -1067,7 +1161,9 @@ The WHATWG `TextDecoder` class. See the [`TextDecoder`][] section.
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1087,7 +1183,9 @@ The WHATWG `TextEncoder` class. See the [`TextEncoder`][] section.
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1099,7 +1197,9 @@ A browser-compatible implementation of [`TextEncoderStream`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1111,7 +1211,9 @@ A browser-compatible implementation of [`TransformStream`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1125,6 +1227,16 @@ added: v10.0.0
 -->
 
 The WHATWG `URL` class. See the [`URL`][] section.
+
+## Class: `URLPattern`
+
+<!-- YAML
+added: v24.0.0
+-->
+
+> Stability: 1 - Experimental
+
+The WHATWG `URLPattern` class. See the [`URLPattern`][] section.
 
 ## Class: `URLSearchParams`
 
@@ -1169,7 +1281,9 @@ with the [`--no-experimental-websocket`][] CLI flag.
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1181,7 +1295,9 @@ A browser-compatible implementation of [`WritableStream`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1193,7 +1309,9 @@ A browser-compatible implementation of [`WritableStreamDefaultController`][].
 <!-- YAML
 added: v18.0.0
 changes:
- - version: v22.15.0
+ - version:
+    - v23.11.0
+    - v22.15.0
    pr-url: https://github.com/nodejs/node/pull/57510
    description: Marking the API stable.
 -->
@@ -1210,13 +1328,15 @@ A browser-compatible implementation of [`WritableStreamDefaultWriter`][].
 [`--experimental-webstorage`]: cli.md#--experimental-webstorage
 [`--localstorage-file`]: cli.md#--localstorage-filefile
 [`--no-experimental-global-navigator`]: cli.md#--no-experimental-global-navigator
-[`--no-experimental-global-webcrypto`]: cli.md#--no-experimental-global-webcrypto
 [`--no-experimental-websocket`]: cli.md#--no-experimental-websocket
 [`ByteLengthQueuingStrategy`]: webstreams.md#class-bytelengthqueuingstrategy
 [`CompressionStream`]: webstreams.md#class-compressionstream
 [`CountQueuingStrategy`]: webstreams.md#class-countqueuingstrategy
 [`DecompressionStream`]: webstreams.md#class-decompressionstream
 [`EventTarget` and `Event` API]: events.md#eventtarget-and-event-api
+[`FormData`]: #class-formdata
+[`Headers`]: #class-headers
+[`LockManager`]: worker_threads.md#class-lockmanager
 [`MessageChannel`]: worker_threads.md#class-messagechannel
 [`MessagePort`]: worker_threads.md#class-messageport
 [`PerformanceEntry`]: perf_hooks.md#class-performanceentry
@@ -1231,12 +1351,15 @@ A browser-compatible implementation of [`WritableStreamDefaultWriter`][].
 [`ReadableStreamDefaultController`]: webstreams.md#class-readablestreamdefaultcontroller
 [`ReadableStreamDefaultReader`]: webstreams.md#class-readablestreamdefaultreader
 [`ReadableStream`]: webstreams.md#class-readablestream
+[`Request`]: #class-request
+[`Response`]: #class-response
 [`TextDecoderStream`]: webstreams.md#class-textdecoderstream
 [`TextDecoder`]: util.md#class-utiltextdecoder
 [`TextEncoderStream`]: webstreams.md#class-textencoderstream
 [`TextEncoder`]: util.md#class-utiltextencoder
 [`TransformStreamDefaultController`]: webstreams.md#class-transformstreamdefaultcontroller
 [`TransformStream`]: webstreams.md#class-transformstream
+[`URLPattern`]: url.md#class-urlpattern
 [`URLSearchParams`]: url.md#class-urlsearchparams
 [`URL`]: url.md#class-url
 [`WritableStreamDefaultController`]: webstreams.md#class-writablestreamdefaultcontroller
@@ -1266,6 +1389,8 @@ A browser-compatible implementation of [`WritableStreamDefaultWriter`][].
 [`setTimeout`]: timers.md#settimeoutcallback-delay-args
 [`structuredClone`]: https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone
 [`window.navigator`]: https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
+[`worker_threads.locks`]: worker_threads.md#worker_threadslocks
+[browser `LockManager`]: https://developer.mozilla.org/en-US/docs/Web/API/LockManager
 [buffer section]: buffer.md
 [built-in objects]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 [timers]: timers.md

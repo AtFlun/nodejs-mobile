@@ -57,7 +57,7 @@ function runAndWait(cmds, repl) {
 }
 
 async function tests(options) {
-  const repl = REPLServer({
+  const repl = new REPLServer({
     prompt: PROMPT,
     stream: new REPLStream(),
     ignoreUndefined: true,
@@ -201,10 +201,10 @@ async function tests(options) {
     ],
   }, {
     input: '{[Symbol.for("{")]: 0 }',
-    noPreview: '{ [\x1B[32mSymbol({)\x1B[39m]: \x1B[33m0\x1B[39m }',
+    noPreview: '{ \x1B[32mSymbol({)\x1B[39m: \x1B[33m0\x1B[39m }',
     preview: [
       '{[Symbol.for("{")]: 0 }\r',
-      '{ [\x1B[32mSymbol({)\x1B[39m]: \x1B[33m0\x1B[39m }',
+      '{ \x1B[32mSymbol({)\x1B[39m: \x1B[33m0\x1B[39m }',
     ],
   }, {
     input: '{},{}',

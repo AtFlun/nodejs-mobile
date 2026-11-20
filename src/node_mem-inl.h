@@ -55,19 +55,19 @@ void* NgLibMemoryManager<Class, T>::ReallocImpl(void* ptr,
   if (mem != nullptr) {
     // Adjust the memory info counter.
     // TODO(addaleax): Avoid the double bookkeeping we do with
-    // current_nghttp2_memory_ + AdjustAmountOfExternalAllocatedMemory
+    // current_nghttp2_memory_ + ExternalMemoryAccounter
     // and provide versions of our memory allocation utilities that take an
     // Environment*/Isolate* parameter and call the V8 method transparently.
     const int64_t new_size = size - previous_size;
     manager->IncreaseAllocatedSize(new_size);
-    manager->env()->isolate()->AdjustAmountOfExternalAllocatedMemory(
-        new_size);
+    manager->env()->external_memory_accounter()->Update(
+        manager->env()->isolate(), new_size);
     *reinterpret_cast<size_t*>(mem) = size;
     mem += kReserveSizeAndAlign;
   } else if (size == 0) {
     manager->DecreaseAllocatedSize(previous_size);
-    manager->env()->isolate()->AdjustAmountOfExternalAllocatedMemory(
-        -static_cast<int64_t>(previous_size));
+    manager->env()->external_memory_accounter()->Decrease(
+        manager->env()->isolate(), previous_size);
   }
   return mem;
 }
@@ -100,8 +100,8 @@ void NgLibMemoryManager<Class, T>::StopTrackingMemory(void* ptr) {
       reinterpret_cast<size_t*>(static_cast<char*>(ptr) - kReserveSizeAndAlign);
   Class* manager = static_cast<Class*>(this);
   manager->DecreaseAllocatedSize(*original_ptr);
-  manager->env()->isolate()->AdjustAmountOfExternalAllocatedMemory(
-      -static_cast<int64_t>(*original_ptr));
+  manager->env()->external_memory_accounter()->Decrease(
+      manager->env()->isolate(), *original_ptr);
   *original_ptr = 0;
 }
 

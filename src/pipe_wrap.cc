@@ -72,7 +72,7 @@ void PipeWrap::Initialize(Local<Object> target,
   Isolate* isolate = env->isolate();
 
   Local<FunctionTemplate> t = NewFunctionTemplate(isolate, New);
-  t->InstanceTemplate()->SetInternalFieldCount(StreamBase::kInternalFieldCount);
+  t->InstanceTemplate()->SetInternalFieldCount(PipeWrap::kInternalFieldCount);
 
   t->Inherit(LibuvStreamWrap::GetConstructorTemplate(env));
 
@@ -91,8 +91,7 @@ void PipeWrap::Initialize(Local<Object> target,
   env->set_pipe_constructor_template(t);
 
   // Create FunctionTemplate for PipeConnectWrap.
-  auto cwt = BaseObject::MakeLazilyInitializedJSTemplate(env);
-  cwt->Inherit(AsyncWrap::GetConstructorTemplate(env));
+  auto cwt = AsyncWrap::MakeLazilyInitializedJSTemplate(env);
   SetConstructorFunction(context, target, "PipeConnectWrap", cwt);
 
   // Define constants
@@ -164,7 +163,8 @@ void PipeWrap::Bind(const FunctionCallbackInfo<Value>& args) {
   PipeWrap* wrap;
   ASSIGN_OR_RETURN_UNWRAP(&wrap, args.This());
   node::Utf8Value name(args.GetIsolate(), args[0]);
-  int err = uv_pipe_bind2(&wrap->handle_, *name, name.length(), 0);
+  int err =
+      uv_pipe_bind2(&wrap->handle_, *name, name.length(), UV_PIPE_NO_TRUNCATE);
   args.GetReturnValue().Set(err);
 }
 
@@ -227,8 +227,12 @@ void PipeWrap::Connect(const FunctionCallbackInfo<Value>& args) {
 
   ConnectWrap* req_wrap =
       new ConnectWrap(env, req_wrap_obj, AsyncWrap::PROVIDER_PIPECONNECTWRAP);
-  int err = req_wrap->Dispatch(
-      uv_pipe_connect2, &wrap->handle_, *name, name.length(), 0, AfterConnect);
+  int err = req_wrap->Dispatch(uv_pipe_connect2,
+                               &wrap->handle_,
+                               *name,
+                               name.length(),
+                               UV_PIPE_NO_TRUNCATE,
+                               AfterConnect);
   if (err) {
     delete req_wrap;
   } else {
