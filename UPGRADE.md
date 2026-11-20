@@ -49,8 +49,9 @@
 │   │   └── node                       # 编译产物软链接
 │   ├── out_android/                   # 最终产物目录
 │   │   └── libnode.zip                # ★ 唯一发布物(完整包:bin + include,约 88M)
-│   └── ... (其他官方源码)
+│   └── ... (其它官方源码)
 └── nodejs-mobile-v22/                  # v22 及更早版本的源码与产物备份
+<!-- 目录结构中node-v24.19.0相关及后续node版本略,请以实际内容为准 -->
 ```
 
 ### 1.2 你的测试项目端(以使用 `@flun/node-mobile-app`包为例)
@@ -217,7 +218,7 @@ sed -i "$P$T" android_configure.py
 
 #### 4.6.1 背景与问题现象
 
-`nodejs-mobile` 的默认构建配置使用 `--with-intl=none`,不包含完整的 ICU(International Components for Unicode)数据;这会导致 
+`nodejs-mobile` 的默认构建配置使用 `--with-intl=none`,不包含完整的 ICU(International Components for Unicode)数据;这会导致
 V8 引擎在解析含 **Unicode 属性转义**(`\p{...}`)的正则表达式时直接抛出语法错误:
 
 ```js
@@ -237,7 +238,7 @@ Invalid regular expression: /^[$_\p{ID_Start}]$/u: Invalid property name in char
 - `@flun/mailer`
 - 其他大量使用 Unicode 感知校验的包
 
-在 `--with-intl=none` 环境下,这些包一旦被 `require`/`import`,就会因为 V8 无法解析正则而失败,进而导致整个 Node.js 
+在 `--with-intl=none` 环境下,这些包一旦被 `require`/`import`,就会因为 V8 无法解析正则而失败,进而导致整个 Node.js
 入口脚本(如 `server.js`)加载失败;
 
 #### 4.6.2 修改 `android_configure.py`
@@ -259,11 +260,11 @@ grep -n "with-intl" android_configure.py
 
 #### 4.6.3 三种 ICU 配置对比
 
-| 配置        | 含义               | 体积            | `\p{...}` 支持         |
-| ----------- | ------------------ | --------------- | ---------------------- |
-| `none`      | 不含 ICU(原默认) | 最小            | ❌ 完全不支持           |
-| `small-icu` | 仅英文区域数据     | 中等            | ⚠️ 部分支持(可能失败) |
-| `full-icu`  | 完整 ICU 数据      | 最大(约 +30M) | ✅ 完全支持             |
+| 配置        | 含义             | 体积          | `\p{...}` 支持       |
+| ----------- | ---------------- | ------------- | -------------------- |
+| `none`      | 不含 ICU(原默认) | 最小          | ❌ 完全不支持         |
+| `small-icu` | 仅英文区域数据   | 中等          | ⚠️ 部分支持(可能失败) |
+| `full-icu`  | 完整 ICU 数据    | 最大(约 +30M) | ✅ 完全支持           |
 
 **推荐直接使用 `full-icu`**;编译一次通常需要 30 分钟至 2 小时,使用 `small-icu` 一旦发现不够用就得重新编译,代价太高;
 
@@ -294,7 +295,7 @@ deps/icu-small  deps/icu-tmp
 - `icu_small: false` → 表示使用的是 `full-icu`(若为 `true` 则是 `small-icu`)
 - `icudt78l.dat` 存在且约 32M → 完整的 ICU 数据文件已就位
 
-**注意**:`full-icu` 在 configure 阶段会从网络下载 ICU 数据(几百 MB 的源码包,最终生成约 32M 的 `.dat` 文件);确保 WSL 
+**注意**:`full-icu` 在 configure 阶段会从网络下载 ICU 数据(几百 MB 的源码包,最终生成约 32M 的 `.dat` 文件);确保 WSL
 能访问外网;若下载失败,可手动下载后放入 `deps/icu-tmp/`;
 
 ### 4.7 复制 NDK CPU 特性源文件
@@ -367,17 +368,17 @@ echo -e '\nextern "C" bool v8_internal_simulator_ProbeMemory(uintptr_t, uintptr_
 - 链接绑定不再暴露给 `require()`,只能通过 `process._linkedBinding('rn_bridge')` 访问;
 - 直接 `process._linkedBinding('rn_bridge')` 返回的**仅是原生绑定对象**(只有 `sendMessage`、`registerChannel`、
   `getDataDir` 三个方法),**没有 `channel` 属性**;
-- 用户业务代码(`main.js`)依赖 `rn_bridge.channel.send(...)`,此 API 由 JS 包装文件 `builtin_modules/rn-bridge/` 
+- 用户业务代码(`main.js`)依赖 `rn_bridge.channel.send(...)`,此 API 由 JS 包装文件 `builtin_modules/rn-bridge/`
   目录下的入口提供(由该目录 `package.json` 的 `main` 字段决定);
-- 该 JS 包装文件由 `@flun/nodejs-mobile-react-native` 的 Java 层通过 
-  `copyAssetFolder("builtin_modules", builtinModulesPath)` 复制到设备目录,并在启动时通过 
+- 该 JS 包装文件由 `@flun/nodejs-mobile-react-native` 的 Java 层通过
+  `copyAssetFolder("builtin_modules", builtinModulesPath)` 复制到设备目录,并在启动时通过
   `setenv("NODE_PATH", modulesPath, 1)` 将该目录加入 `NODE_PATH`;
 
 因此,正确的修复方式不是让 `require('rn-bridge')` 返回原生绑定,而是让它**加载 JS 包装文件**;
 
 #### 4.13.2 修改 `lib/internal/modules/cjs/loader.js`
 
-**说明**:补丁只负责定位 `rn-bridge` 目录,入口文件名交给该目录 `package.json` 的 `main` 字段解析;这样无论入口是 `.js` / 
+**说明**:补丁只负责定位 `rn-bridge` 目录,入口文件名交给该目录 `package.json` 的 `main` 字段解析;这样无论入口是 `.js` /
 `.cjs` / `.mjs` 还是未来任何扩展名,都能正确加载,也不再受 `type: module` 改造影响;
 
 **修改位置**:`Module._load` 函数开头(约第 1193 行)
@@ -419,7 +420,7 @@ NODE_MODULE_LINKED(rn_bridge, Init);
   ```
   /data/data/<package>/files/nodejs-builtin_modules/rn-bridge/
   ```
-- **作用**:定义 `EventChannel`、`SystemChannel`、`MessageCodec` 等类,导出 `{ app, channel }`;内部通过 
+- **作用**:定义 `EventChannel`、`SystemChannel`、`MessageCodec` 等类,导出 `{ app, channel }`;内部通过
   `process._linkedBinding('rn_bridge')` 获取原生绑定;
 
 **核心代码片段**:
@@ -608,11 +609,11 @@ grep -n 'TryHandleSignal\|g_is_trap_handler_enabled = \|#include <signal.h>' \
 
 **4.19.4 v24 相对 v22 的其它实测差异**
 
-| 项目 | v22 | v24 |
-| --- | --- | --- |
+| 项目                            | v22             | v24                                            |
+| ------------------------------- | --------------- | ---------------------------------------------- |
 | `trap-handler.h` Android 关闭段 | 需手动替换(4.9) | 源码已内置 `#if V8_OS_ANDROID` 段,4.9 只需核对 |
-| `NODE_MODULE_VERSION` | 127 | 137,原生模块必须重编 |
-| 原生模块编译标准 | C++17 | 需 C++20,`binding.gyp` 加 `-std=c++20` |
+| `NODE_MODULE_VERSION`           | 127             | 137,原生模块必须重编                           |
+| 原生模块编译标准                | C++17           | 需 C++20,`binding.gyp` 加 `-std=c++20`         |
 
 **4.19.5 判定**
 
@@ -641,7 +642,7 @@ grep -n 'TryHandleSignal\|g_is_trap_handler_enabled = \|#include <signal.h>' \
    ```
    这是架构级不兼容,不是简单补丁能修复的;
 
-3. **实际意义有限**:Android 从 2019 年起要求新应用提供 64 位版本,现代设备几乎全部支持 arm64-v8a;Node.js v22 
+3. **实际意义有限**:Android 从 2019 年起要求新应用提供 64 位版本,现代设备几乎全部支持 arm64-v8a;Node.js v22
    的运行时体量已远超 2015 年前的老设备能力,arm32 兼容意义不大;
 
 **结论**:arm64-v8a + x86_64 已覆盖全部主流 Android 设备,无需 arm32;
@@ -909,19 +910,19 @@ I NODEJS-MOBILE: === ICU check: \p{ID_Start} OK
 
 ### 9.12 运行时 `TypeError: Cannot read properties of undefined (reading 'send')`
 **原因**:`require('rn-bridge')` 返回的是原生绑定,而不是 JS 包装文件导出的 `{ app, channel }` 对象;
-**解决**:确认 4.13 节的 `loader.js` 补丁已正确应用,并重新编译 `libnode.so`;不要将 `rn-bridge.cpp` 的注册宏改为 
+**解决**:确认 4.13 节的 `loader.js` 补丁已正确应用,并重新编译 `libnode.so`;不要将 `rn-bridge.cpp` 的注册宏改为
 `NODE_MODULE_CONTEXT_AWARE`;
 
 ### 9.13 运行时 `TypeError: number 116 is not a function`(纯 ESM 加载失败)
-**原因**:`path-to-regexp@8`(Express 5 的 `router` 依赖它)是纯 ESM 包,`router/lib/layer.js` 用 `require('path-to-regexp')` 
+**原因**:`path-to-regexp@8`(Express 5 的 `router` 依赖它)是纯 ESM 包,`router/lib/layer.js` 用 `require('path-to-regexp')`
 加载它时,若环境中的 `require(esm)` 未生效或包缺少 `default` 导出条件,会返回非对象值;
 
 **排查步骤**:
 
 1. 检查 `require(esm)` 是否支持(在 `main.js` 顶部加一行 `console.log(process.features.require_module)`),预期输出 `true`;
-2. 若为 `true` 但仍失败,检查报错包的 `package.json` 中 `exports` 是否有 `default` 条件;若只有 `import`,需要补上 
+2. 若为 `true` 但仍失败,检查报错包的 `package.json` 中 `exports` 是否有 `default` 条件;若只有 `import`,需要补上
    `"default": "./dist/index.js"`;
-3. 若补上 `default` 后报 `Invalid regular expression: /^[$_\p{ID_Start}]$/u: Invalid property name`,说明 `libnode.so` 
+3. 若补上 `default` 后报 `Invalid regular expression: /^[$_\p{ID_Start}]$/u: Invalid property name`,说明 `libnode.so`
    未启用 ICU(见 4.6);
 
 **根治方案**:启用 `--with-intl=full-icu` 重新编译 `libnode.so`(见 4.6);
@@ -939,7 +940,7 @@ I NODEJS-MOBILE: === ICU check: \p{ID_Start} OK
 
 跑 `npx node-mobile-app test` 时自动处理,无需手动改 `build.gradle`;
 
-**仅当**你不用 CLI、直接跑 `react-native run-android` 时,才需要参考本仓库 `install.js` 的 `patchNodejsMobilePlugin` 
+**仅当**你不用 CLI、直接跑 `react-native run-android` 时,才需要参考本仓库 `install.js` 的 `patchNodejsMobilePlugin`
 逻辑手动 patch;
 
 ### 9.16 armeabi-v7a 链接失败
@@ -1027,7 +1028,7 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
   - 修改阶段:替换 libnode 后
   - 谁做:**CLI 自动**(`install.js`)
 
-> 采用整目录替换(`libnode.zip`)时,**不再需要对插件头文件(`v8-exception.h`、`v8-persistent-handle.h`)做补丁**,因为官方 v22 
+> 采用整目录替换(`libnode.zip`)时,**不再需要对插件头文件(`v8-exception.h`、`v8-persistent-handle.h`)做补丁**,因为官方 v22
   headers 本身就是正确的 ABI;
 
 ### 10.3 每次升级 Node.js 大版本的标准流程
@@ -1060,7 +1061,7 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
    - 若 Node.js 官方重构了 CJS loader,需重新定位 `Module._load` 并插入补丁;
    - 若 Node.js 官方已支持链接绑定被 `require()` 解析,可移除本补丁;
 
-2. **`@flun/nodejs-mobile-react-native` 的 `builtin_modules/rn-bridge/` 目录** 是否仍通过 
+2. **`@flun/nodejs-mobile-react-native` 的 `builtin_modules/rn-bridge/` 目录** 是否仍通过
    `process._linkedBinding('rn_bridge')` 获取原生绑定?
 
 3. **`NODE_PATH` 机制**是否仍由 `native-lib.cpp` 的 `setenv("NODE_PATH", ...)` 设置?
@@ -1117,7 +1118,7 @@ git apply patches/nodejs-mobile-v22-rn-bridge.patch
 
 ---
 
-**文档版本**:17.0(9.15 + 9.16 合并为一条"CLI 已自动"提示;10.2 表格新增"谁做"列,标注 `rn-bridge.cpp` / `build.gradle` 为 
+**文档版本**:17.0(9.15 + 9.16 合并为一条"CLI 已自动"提示;10.2 表格新增"谁做"列,标注 `rn-bridge.cpp` / `build.gradle` 为
 CLI 自动)
 v24 增补:4.19、10.2/10.4/11 章对应条目;备份目录改为 `nodejs-mobile-v22/`;
 **最后更新**:2026-11-20
