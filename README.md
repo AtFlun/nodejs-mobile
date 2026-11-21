@@ -9,12 +9,12 @@ Node.js 运行时针对 Android 平台的移植版本;
 ## 仓库与下载
 
 ### 主仓库(GitHub)
-- **源码仓库**:[https://github.com/OpenFlun/nodejs-mobile](https://github.com/OpenFlun/nodejs-mobile)
-- **Release 页面**:[https://github.com/OpenFlun/nodejs-mobile/releases](https://github.com/OpenFlun/nodejs-mobile/releases)
+- **源码仓库**:[https://github.com/AtFlun/nodejs-mobile](https://github.com/AtFlun/nodejs-mobile)
+- **Release 页面**:[https://github.com/AtFlun/nodejs-mobile/releases](https://github.com/AtFlun/nodejs-mobile/releases)
 
 ### 国内镜像(Gitee)
-- **源码镜像**:[https://gitee.com/OpenFlun/nodejs-mobile](https://gitee.com/OpenFlun/nodejs-mobile)
-- **Release 页面**:[https://gitee.com/OpenFlun/nodejs-mobile/releases](https://gitee.com/OpenFlun/nodejs-mobile/releases)
+- **源码镜像**:[https://gitee.com/AtFlun/nodejs-mobile](https://gitee.com/AtFlun/nodejs-mobile)
+- **Release 页面**:[https://gitee.com/AtFlun/nodejs-mobile/releases](https://gitee.com/AtFlun/nodejs-mobile/releases)
 
 ---
 
@@ -22,8 +22,8 @@ Node.js 运行时针对 Android 平台的移植版本;
 
 - `android-libnode.zip`
   - 说明:完整包(约 88 MB,含 `bin/` + `include/`,解压后直接替换插件目录)
-  - GitHub 下载:[下载](https://github.com/OpenFlun/nodejs-mobile/releases/download/v22.23.2/android-libnode.zip)
-  - Gitee 下载:[下载](https://gitee.com/OpenFlun/nodejs-mobile/releases/download/v22.23.2/android-libnode.zip)
+  - GitHub 下载:[下载](https://github.com/AtFlun/nodejs-mobile/releases/download/v22.23.2/android-libnode.zip)
+  - Gitee 下载:[下载](https://gitee.com/AtFlun/nodejs-mobile/releases/download/v22.23.2/android-libnode.zip)
 
 > 当前最新版本:**v22.23.2**
 
@@ -61,7 +61,7 @@ libnode/
 
 ### 1. 下载并替换插件目录
 
-从 [Release 页面](https://gitee.com/OpenFlun/nodejs-mobile/releases/latest) 下载 `android-libnode.zip`,
+从 [Release 页面](https://gitee.com/AtFlun/nodejs-mobile/releases/latest) 下载 `android-libnode.zip`,
 解压后**直接替换** `@flun/nodejs-mobile-react-native` 插件的 `android/libnode/` 整个目录:
 
 ```bash
@@ -81,7 +81,7 @@ mv /tmp/libnode ./libnode
 
 ```bash
 # 克隆仓库(国内推荐使用 Gitee)
-git clone https://gitee.com/OpenFlun/nodejs-mobile.git
+git clone https://gitee.com/AtFlun/nodejs-mobile.git
 cd nodejs-mobile
 
 # 配置(请将 /path/to/android-ndk 替换为实际 NDK 路径)
@@ -115,7 +115,7 @@ make -j$(nproc)
 
 ## 集成到 Android 项目
 
-本项目主要面向 [@flun/nodejs-mobile-react-native](https://github.com/OpenFlun/@flun/nodejs-mobile-react-native) 插件集成:
+本项目主要面向 [@flun/nodejs-mobile-react-native](https://github.com/AtFlun/@flun/nodejs-mobile-react-native) 插件集成:
 
 1. 下载 `android-libnode.zip` 并解压;
 2. 替换插件 `node_modules/@flun/nodejs-mobile-react-native/android/libnode/` 整个目录;
