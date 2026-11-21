@@ -143,4 +143,4 @@ make -j$(nproc)
 
 ## 致谢
 
-感谢 Node.js 官方团队和 nodejs-mobile 原作者的贡献;
+感谢 Node.js 官方团队和 nodejs-mobile 原作者的贡献;更改
